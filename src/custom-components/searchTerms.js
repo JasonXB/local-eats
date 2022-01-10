@@ -51,6 +51,3 @@ const restaurantType = [
   "Sweet Shops",
   "Wine Bars",
 ];
-// ——————————————————————————————————————————————————————
-
-const northAmerica
