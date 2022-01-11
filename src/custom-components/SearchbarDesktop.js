@@ -64,7 +64,7 @@ export default function SearchbarDesktop() {
       <SearchIcon />
       <InputBase
         sx={{ ml: 1, flex: 1 }}
-        placeholder="Search for a restaurant, cuisine, or dish..."
+        placeholder="Restaurant, cuisine, or dish..."
       />
     </Search>
   );
@@ -113,5 +113,3 @@ const styles = {
     pt: 2,
   },
 };
-
-//~ Use past 900px, so md breakpoint and onwards
