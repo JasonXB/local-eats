@@ -13,9 +13,11 @@ export default function SearchbarDesktop() {
     <Box component="section">
       <Search>
         <LocationOnIcon />
-        <Typography variant="p">Location</Typography>
-        <ArrowDropDownIcon />
-        <Divider orientation="vertical" flexItem />
+        <Typography variant="p" sx={styles.location}>
+          Location
+        </Typography>
+        <ArrowDropDownIcon/>
+        <Divider orientation="vertical" flexItem sx={{mx:1}}/>
         <SearchIcon />
         <InputBase
           sx={{ ml: 1, flex: 1 }}
@@ -47,3 +49,11 @@ const Search = styled("div")(({ theme }) => ({
   },
 }));
 
+const styles = {
+  location: {
+      width: "11.25rem",
+      ml: 1,
+  },
+};
+
+//~ Use past 900px, so md breakpoint and onwards

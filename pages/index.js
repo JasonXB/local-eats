@@ -13,21 +13,23 @@ export default function Home() {
       <Typography variant="h3" color="common.white" align="center">
         Discover the best food in your area
       </Typography>
-      <SearchbarDesktop/>
+      <SearchbarDesktop />
     </Box>
   );
 }
 
 const styles = {
-  cuisineIMG: {
-    height: "31.25rem",
-    backgroundColor: "gray",
-    background: `linear-gradient(
-    rgba(0, 0, 0, 0.5),
-    rgba(0, 0, 0, 0.5) ),
-    url('/images/b.jpg') no-repeat`,
-    backgroundPosition: "100% 10%",
-    backgroundSize: "cover",
-    position: "relative",
+  cuisineIMG: (theme) => {
+    return {
+      height: "31.25rem",
+      backgroundColor: "gray",
+      background: `linear-gradient(
+      rgba(0, 0, 0, 0.5),
+      rgba(0, 0, 0, 0.5) ),
+      url('/images/b.jpg') no-repeat`,
+      backgroundPosition: "100% 10%",
+      backgroundSize: "cover",
+      position: "relative",
+    };
   },
 };
