@@ -1,14 +1,11 @@
+const red = "#ef4f5f";
+const dark = "#1c1c1c";
 
+const grayStar = "#9c9c9c";
+const yellowStar = "#e9b501";
+const greenStar = "#24963f";
 
-
-const red= "#ef4f5f"
-const dark= "#1c1c1c"
-
-const grayStar="#9c9c9c"
-const yellowStar="#e9b501"
-const greenStar="#24963f"
-
-const beigeBackground= "#fffbf7"
+const beigeBackground = "#fffbf7";
 
 // FIND PLACES OPEN AND NEARBY:
 
@@ -22,7 +19,9 @@ const beigeBackground= "#fffbf7"
 
 // POPULAR RESTAURANT TYPES NEAR ME
 const restaurantType = [
-  "Bakery", "Desserts", "Donuts",
+  "Bakery",
+  "Desserts",
+  "Donuts",
   "Bars",
   "Beer Gardens", // cringe
   "Beverage Shops",
@@ -51,7 +50,6 @@ const restaurantType = [
   "Grill",
   "Burgers", // change to burger joint as display
   "Sushi",
-
 ];
 // POPULAR CUISINES NEAR ME
 const cuisines = [
@@ -66,10 +64,8 @@ const cuisines = [
   "Japanese",
   "Middle Eastern",
   "Thai",
-  "Sri Lankan" // https://api.yelp.com/v3/businesses/search?latitude=43.853043&longitude=-79.432933&radius=20000&term=sri lanka
+  "Sri Lankan", // https://api.yelp.com/v3/businesses/search?latitude=43.853043&longitude=-79.432933&radius=20000&term=sri lanka
 ];
 // filter using categories[0].title and categories[1].title
 
-const insufficientResults =[
-  "Polish"
-]
+const insufficientResults = ["Polish"];

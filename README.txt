@@ -23,3 +23,5 @@ GET CITY NAME BASED ON GEOLOCATION
 // https://www.javascripttutorial.net/web-apis/javascript-geolocation/
 
 
+REFACTOR FILES IN 
+MissionStatement.js in 

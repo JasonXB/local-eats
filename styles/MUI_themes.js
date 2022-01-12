@@ -11,8 +11,8 @@ export const customThemes = {
       MuiButtonBase: disableRipple,
     },
     palette: {
-      // primary: { main: "#3f51b5" }, // dark color
-      primary: { main: "#00897b" }, // dark color
+      primary: { main: "#1f3c50" }, // dark color
+      // primary: { main: "#00897b" }, // green color
       secondary: { main: "#ef4f5f" }, // orangey red
     },
     breakpoints: {

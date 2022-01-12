@@ -1,6 +1,4 @@
 import React, { useState, useRef } from "react";
-import Head from "next/head";
-import Image from "next/image";
 //  prettier-ignore
 import { Typography, Button, Box, Divider, TextField, InputBase, Menu, MenuItem } from "@mui/material";
 import { styled, alpha } from "@mui/material/styles";
@@ -18,10 +16,10 @@ export default function SearchbarDesktop() {
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget.closest("div"));
-    setArrowIcon(<ArrowDropUpIcon />);
+    setArrowIcon(<ArrowDropUpIcon fontSize="large" />);
   }; // set <Search> as our anchor
   const handleClose = () => {
-    setArrowIcon(<ArrowDropDownIcon />);
+    setArrowIcon(<ArrowDropDownIcon fontSize="large" />);
     setAnchorEl(null);
     return;
   };
@@ -49,8 +47,8 @@ export default function SearchbarDesktop() {
         </MenuItem>
         <Box>
           <Divider sx={{ mb: 3 }} />
-          <Typography variant="p" sx={{ fontSize: "1.125rem", ml: 2 }}>
-            Most Recent Location
+          <Typography variant="h6" component="p" sx={{ ml: 2 }}>
+            Most recent location
           </Typography>
           <MenuItem sx={styles.locationItem}>
             <HistoryIcon sx={{ mr: 1 }} />
@@ -65,7 +63,7 @@ export default function SearchbarDesktop() {
       <SearchIcon />
       <InputBase
         sx={{ ml: 1, flex: 1 }}
-        placeholder="Restaurant, cuisine, or dish..."
+        placeholder="Restaurant, cuisine, or dish"
       />
     </Search>
   );
@@ -114,5 +112,3 @@ const styles = {
     pt: 2,
   },
 };
-
-

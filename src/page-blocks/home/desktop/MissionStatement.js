@@ -1,27 +1,33 @@
 import { Typography, Box } from "@mui/material";
 import SearchbarDesktop from "../../../../src/custom-components/SearchbarDesktop";
-
+import MobileMissionStatement from "../mobile/MissionStatement"
 export default function Home() {
   return (
-    <Box component="section" sx={styles.cuisineIMG}>
-      <Typography
-        variant="h1"
-        color="common.white"
-        align="center"
-        sx={styles.title}
-      >
-        Local Eats
-      </Typography>
-      <Typography
-        variant="h3"
-        color="common.white"
-        align="center"
-        sx={styles.tagline}
-      >
-        Discover the best restaurant, cafés,<br/> and bars in your area
-      </Typography>
-      <SearchbarDesktop />
-    </Box>
+    <>
+      {/* THE FOLLOWING IS ONLY VISIBLE ON SCREENS BEFORE THE sm BREAKPOINT */}
+      <MobileMissionStatement/>
+      {/* THE FOLLOWING IS ONLY VISIBLE ON SCREENS PAST THE sm BREAKPOINT */}
+      <Box component="section" sx={styles.cuisineIMG}>
+        <Typography
+          variant="h1"
+          color="common.white"
+          align="center"
+          sx={styles.title}
+        >
+          Local Eats
+        </Typography>
+        <Typography
+          variant="h3"
+          color="common.white"
+          align="center"
+          sx={styles.tagline}
+        >
+          Discover the best restaurant, cafés,
+          <br /> and bars in your area
+        </Typography>
+        <SearchbarDesktop />
+      </Box>
+    </>
   );
 }
 
@@ -45,7 +51,7 @@ const styles = {
       },
       // Make it so its only visible on screen sizes past the sm breakpoint
       [theme.breakpoints.down("sm")]: {
-        display:"none",
+        display: "none",
       },
     };
   },
