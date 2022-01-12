@@ -16,4 +16,10 @@ responseObj.total= integer
 If that number is over 30, introduce pagination 
 
 
+GET CITY NAME BASED ON GEOLOCATION
+// Finding city name using Geolocation
+// https://ipinfo.io/
+
+// https://www.javascripttutorial.net/web-apis/javascript-geolocation/
+
 

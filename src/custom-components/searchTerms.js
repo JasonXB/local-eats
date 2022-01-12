@@ -1,38 +1,37 @@
-const cuisines = [
-  "American",
-  "Asian",
-  "Bakery",
-  "Bar food",
-  "Beverage-oriented",
-  "Burgers",
-  "Cafe",
-  "Canadian",
-  "Chinese",
-  "Desserts",
-  "Donuts",
-  "Grill",
-  "Indian",
-  "Italian",
-  "Peruvian",
-  "Japanese",
-  "Middle Eastern",
-  "Pizza",
-  "Sandwhiches",
-  "Sushi",
-  "Thai",
-];
 
+
+
+const red= "#ef4f5f"
+const dark= "#1c1c1c"
+
+const grayStar="#9c9c9c"
+const yellowStar="#e9b501"
+const greenStar="#24963f"
+
+const beigeBackground= "#fffbf7"
+
+// FIND PLACES OPEN AND NEARBY:
+
+// Get a quick bite
+// View the most affordable options around
+// https://api.yelp.com/v3/businesses/search?limit=50&latitude=43.853043&longitude=-79.432933&price=1,2
+
+// Dine lavishly
+// Explore your local higher-end restaurants
+// https://api.yelp.com/v3/businesses/search?limit=50&latitude=43.853043&longitude=-79.432933&radius=10000&price=3,4
+
+// POPULAR RESTAURANT TYPES NEAR ME
 const restaurantType = [
-  "Bakeries",
+  "Bakery", "Desserts", "Donuts",
   "Bars",
-  "Beer Gardens",
+  "Beer Gardens", // cringe
   "Beverage Shops",
   "Bistros",
   "Cafés",
   "Casual Dining",
   "Clubs",
-  "Cocktail Bars",
-  "Coffee Shops",
+  "Cocktail Bars", // cocktail
+  "Coffee Shops", // coffee
   "Dessert Parlors",
   "Fast Food",
   "Fine Dining",
@@ -43,19 +42,34 @@ const restaurantType = [
   "Juice Bar",
   "Lounges",
   "Noodle Shops",
-  "Pizzerias",
+  "Pizzerias", // change to pizza
   "Pubs",
-  "Quick Bites",
-  "Sandwich Shops",
-  "Steakhouse",
+  "Sandwich Shops", // sandwich or however you spell it
+  "Steakhouse", // change to steak possibly
   "Sweet Shops",
-  "Wine Bars",
+  "Wine Bars", // change to wine
+  "Grill",
+  "Burgers", // change to burger joint as display
+  "Sushi",
+
 ];
-const red= "#ef4f5f"
-const dark= "#1c1c1c"
+// POPULAR CUISINES NEAR ME
+const cuisines = [
+  "American",
+  "Canadian",
+  "Chinese",
+  "Japanese",
+  "Vietnamese",
+  "Indian",
+  "Italian",
+  "Peruvian",
+  "Japanese",
+  "Middle Eastern",
+  "Thai",
+  "Sri Lankan" // https://api.yelp.com/v3/businesses/search?latitude=43.853043&longitude=-79.432933&radius=20000&term=sri lanka
+];
+// filter using categories[0].title and categories[1].title
 
-const grayStar="#9c9c9c"
-const yellowStar="#e9b501"
-const greenStar="#24963f"
-
-const beigeBackground= "#fffbf7"
+const insufficientResults =[
+  "Polish"
+]

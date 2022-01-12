@@ -12,6 +12,7 @@ import HistoryIcon from "@mui/icons-material/History";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 
 export default function SearchbarDesktop() {
+  // ----------------
   const [arrowIcon, setArrowIcon] = useState(<ArrowDropDownIcon />);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -113,3 +114,5 @@ const styles = {
     pt: 2,
   },
 };
+
+
