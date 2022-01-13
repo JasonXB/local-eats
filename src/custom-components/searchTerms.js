@@ -1,12 +1,3 @@
-const red = "#ef4f5f";
-const dark = "#1c1c1c";
-
-const grayStar = "#9c9c9c";
-const yellowStar = "#e9b501";
-const greenStar = "#24963f";
-
-const beigeBackground = "#fffbf7";
-
 // FIND PLACES OPEN AND NEARBY:
 
 // Get a quick bite

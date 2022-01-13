@@ -1,11 +1,11 @@
 import { Typography, Box } from "@mui/material";
 import SearchbarDesktop from "../../../../src/custom-components/SearchbarDesktop";
-import MobileMissionStatement from "../mobile/MissionStatement"
+import MobileMissionStatement from "../mobile/MissionStatement";
 export default function Home() {
   return (
     <>
       {/* THE FOLLOWING IS ONLY VISIBLE ON SCREENS BEFORE THE sm BREAKPOINT */}
-      <MobileMissionStatement/>
+      <MobileMissionStatement />
       {/* THE FOLLOWING IS ONLY VISIBLE ON SCREENS PAST THE sm BREAKPOINT */}
       <Box component="section" sx={styles.cuisineIMG}>
         <Typography
@@ -39,7 +39,7 @@ const styles = {
       background: `linear-gradient(
       rgba(0, 0, 0, 0.5),
       rgba(0, 0, 0, 0.5) ),
-      url('/images/b.jpg') no-repeat`,
+      url('/images/backdropA.jpg') no-repeat`,
       backgroundPosition: "100% 10%",
       backgroundSize: "cover",
       position: "relative",
