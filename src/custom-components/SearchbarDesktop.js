@@ -62,7 +62,10 @@ export default function SearchbarDesktop() {
       <Divider orientation="vertical" flexItem sx={{ mx: 1 }} />
       <SearchIcon />
       <InputBase
-        sx={{ ml: 1, flex: 1 }}
+        sx={{
+          ml: 1,
+          flex: 1,
+        }}
         placeholder="Restaurant, cuisine, or dish"
       />
     </Search>

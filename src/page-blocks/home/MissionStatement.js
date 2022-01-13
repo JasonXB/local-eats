@@ -11,7 +11,8 @@ export default function Home() {
       {/* THE FOLLOWING IS ONLY VISIBLE ON SCREENS BEFORE THE sm BREAKPOINT */}
       <Stack sx={mobileStyles.stackContainer}>
         <Typography
-          variant="h1"
+          variant="h2"
+          component="h1"
           color="primary"
           align="center"
           sx={mobileStyles.title}
@@ -22,20 +23,36 @@ export default function Home() {
           <Button sx={mobileStyles.locationBtn}>
             <GpsFixedIcon fontSize="large" color="secondary" sx={{ mr: 1.5 }} />
             <Stack sx={{ mr: 1.5 }}>
-              <Typography color="secondary" variant="h6" component="p">
+              <Typography
+                color="secondary"
+                variant="h6"
+                sx={{ fontSize: "1rem" }}
+                component="p"
+              >
                 Get current location
               </Typography>
-              <Typography color="secondary" align="left">
-                using GPS
+              <Typography
+                color="secondary"
+                sx={{ fontSize: "0.875rem" }}
+                align="left"
+              >
+                via GPS
               </Typography>
             </Stack>
           </Button>
           <Box sx={{ ...mix.flexRow }}>
             <Stack sx={{ mr: 1 }}>
-              <Typography variant="h6" component="p" color="primary">
-                Most recent location:
+              <Typography
+                variant="h6"
+                sx={{ fontSize: "1rem" }}
+                component="p"
+                color="primary"
+              >
+                Most recent location
               </Typography>
-              <Typography color="primary">Richmond Hill</Typography>
+              <Typography color="primary" sx={{ fontSize: "0.875rem" }}>
+                Richmond Hill
+              </Typography>
             </Stack>
           </Box>
         </Box>
@@ -59,6 +76,7 @@ export default function Home() {
         </Typography>
         <Typography
           variant="h3"
+          component="h2"
           color="common.white"
           align="center"
           sx={desktopStyles.tagline}
@@ -86,7 +104,6 @@ const mobileStyles = {
     fontFamily: `'KoHo', sans-serif`,
     fontWeight: 900,
     fontStyle: "italic",
-    fontSize: "2.25rem",
     ...mix.regMargin("mt"),
   },
   boxParent: {
@@ -149,19 +166,11 @@ const desktopStyles = {
       fontFamily: `'KoHo', sans-serif`,
       fontWeight: 900,
       fontStyle: "italic",
-      mb: 5,
-      [theme.breakpoints.down("lg")]: {
-        fontSize: "4rem",
-      },
     };
   },
   tagline: (theme) => {
     return {
       mb: 3,
-      fontSize: "2rem",
-      [theme.breakpoints.down("lg")]: {
-        fontSize: "1.5rem",
-      },
     };
   },
 };

@@ -5,6 +5,7 @@ const disableRipple = {
 };
 
 export const customThemes = {
+  
   //^ STANDARD LIGHT THEME
   light: createTheme({
     components: {
@@ -24,49 +25,59 @@ export const customThemes = {
         xl: 1636,
       },
     },
+    //^ CHANGE THE HEADER FONT SIZES
+    typography: {
+      // regular fontSize will stay at 14px
+      // Use for the big title on the Homepage
+      h1: {
+        fontFamily: `"Roboto, "Helvetica, "Arial", sans-serif`,
+        fontSize: "3.75rem", // 60px
+        fontWeight: 300,
+        lineHeight: 2.267,
+        letterSpacing: "-0.01562em",
+      },
+      // Use for section headers on the homepage
+      h2: {
+        fontFamily: `"Roboto, "Helvetica, "Arial", sans-serif`,
+        fontSize: "2.25rem", // 36px
+        fontWeight: 400,
+        lineHeight: 1.2,
+        letterSpacing: "-0em",
+      },
+      // Use for new webpage section headers
+      h3: {
+        fontFamily: `"Roboto, "Helvetica, "Arial", sans-serif`,
+        fontSize: "1.875rem", // 30px
+        fontWeight: 400,
+        lineHeight: 1.167,
+        letterSpacing: "-0em",
+      },
+      h4: {
+        fontFamily: `"Roboto, "Helvetica, "Arial", sans-serif`,
+        fontSize: "1.5rem", // 24px
+        fontWeight: 400,
+        lineHeight: 1.235,
+        letterSpacing: "0.00735em",
+      },
+      // Use for the homepage's expensive/cheap cards
+      h5: {
+        fontFamily: `"Roboto, "Helvetica, "Arial", sans-serif`,
+        fontSize: "1.25rem", // 20px
+        fontWeight: 400,
+        lineHeight: 1.334,
+        letterSpacing: "0em",
+      },
+      // Use for descriptions underneath new section headers
+      h6: {
+        fontFamily: `"Roboto, "Helvetica, "Arial", sans-serif`,
+        fontSize: "1.125rem", // 18px
+        fontWeight: 500,
+        lineHeight: 1.6,
+        letterSpacing: "0.0075em",
+      },
+    },
   }),
-  typography: {
-    // regular fontSize will stay at 14px
-    // Use for the big title on the Homepage
-    h1: {
-      fontSize: "3.75rem",
-      fontWeight: 300,
-      lineHeight: 2.267,
-      letterSpacing: "-0.01562em",
-    },
-    // Use for the tagline beneath the title on the homepage
-    h2: {
-      fontSize: "2.25rem",
-      fontWeight: 300,
-      lineHeight: 1.2,
-      letterSpacing: "-0.00833em",
-    },
-    // Use for new webpage section headers
-    h3: {
-      fontSize: "1.875rem",
-      fontWeight: 400,
-      lineHeight: 1.167,
-      letterSpacing: "-0em",
-    },
-    h4: {
-      fontWeight: 400,
-      lineHeight: 1.235,
-      letterSpacing: "0.00735em",
-    },
-    h5: {
-      fontSize:"1.25rem",
-      fontWeight: 400,
-      lineHeight: 1.334,
-      letterSpacing: "0em",
-    },
-    // Use for descriptions underneath new section headers
-    h6: {
-      fontSize: "1.125rem",
-      fontWeight: 500,
-      lineHeight: 1.6,
-      letterSpacing: "0.0075em",
-    },
-  },
+
 };
 
 const red = "#ef4f5f";
