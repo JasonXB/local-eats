@@ -2,7 +2,6 @@ import React from "react";
 import Card from "@mui/material/Card";
 import { CardActions, CardContent, CardMedia } from "@mui/material";
 import { Button, Typography, Container } from "@mui/material";
-import mobileVersion from "../mobile/PremadeSearches1";
 
 export default function searchOptions1() {
   return (
@@ -11,8 +10,8 @@ export default function searchOptions1() {
         sx={{
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
-          p: 3,
           gap: "1rem",
+          p: 0,
         }}
       >
         <Card sx={{ width: "100%", maxWidth: "100%" }}>
@@ -26,7 +25,7 @@ export default function searchOptions1() {
               Get a Quick Bite
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              View the most affordable options around
+              View the most affordable options around with minimal waiting times
             </Typography>
           </CardContent>
         </Card>
@@ -41,11 +40,13 @@ export default function searchOptions1() {
               Dine Lavishly
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Explore local higher-end restaurants
+              Explore higher-end local restaurants whose menu items cost a bit
+              more
             </Typography>
           </CardContent>
         </Card>
       </Container>
+      <Container></Container>
     </>
   );
 }

@@ -76,7 +76,7 @@ const mobileStyles = {
   stackContainer: (theme) => {
     return {
       m: 0,
-      bgcolor: "#F5F5F5",
+      background: "#F5F5F5", // apply gray background for mobile onlinr
       [theme.breakpoints.up("sm")]: {
         display: "none",
       },
@@ -131,6 +131,7 @@ const desktopStyles = {
       backgroundPosition: "100% 10%",
       backgroundSize: "cover",
       position: "relative",
+
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
