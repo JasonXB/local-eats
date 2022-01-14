@@ -33,11 +33,18 @@ export default function Cuisines() {
       {/* LIST OF CUISINE CARDS */}
       <Box
         sx={{
+          width:"100%",
+          maxWidth: "1300px",
+          margin:"auto",
           ["@media (min-width: 500px)"]: {
             display: "grid",
-            gridTemplateColumns: "1fr 1fr 1fr",
+            gridTemplateColumns: "1fr 1fr",
             gap: "1rem",
             px: 2,
+          },
+          ["@media (min-width: 900px)"]: {
+            gridTemplateColumns: "1fr 1fr 1fr",
+            px:0,
           },
         }}
       >
