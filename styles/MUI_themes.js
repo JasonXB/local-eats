@@ -5,7 +5,6 @@ const disableRipple = {
 };
 
 export const customThemes = {
-  
   //^ STANDARD LIGHT THEME
   light: createTheme({
     components: {
@@ -77,7 +76,6 @@ export const customThemes = {
       },
     },
   }),
-
 };
 
 const red = "#ef4f5f";

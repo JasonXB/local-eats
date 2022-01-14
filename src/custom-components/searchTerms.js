@@ -11,6 +11,7 @@
 // POPULAR RESTAURANT TYPES NEAR ME
 const restaurantType = [
   "Bakery",
+
   "Desserts",
   "Donuts",
   "Bars",
@@ -42,21 +43,5 @@ const restaurantType = [
   "Burgers", // change to burger joint as display
   "Sushi",
 ];
-// POPULAR CUISINES NEAR ME
-const cuisines = [
-  "American",
-  "Canadian",
-  "Chinese",
-  "Japanese",
-  "Vietnamese",
-  "Indian",
-  "Italian",
-  "Peruvian",
-  "Japanese",
-  "Middle Eastern",
-  "Thai",
-  "Sri Lankan", // https://api.yelp.com/v3/businesses/search?latitude=43.853043&longitude=-79.432933&radius=20000&term=sri lanka
-];
-// filter using categories[0].title and categories[1].title
 
-const insufficientResults = ["Polish"];
+

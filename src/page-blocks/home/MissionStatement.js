@@ -81,8 +81,8 @@ export default function Home() {
           align="center"
           sx={desktopStyles.tagline}
         >
-          Discover the best restaurant, cafés,
-          <br /> and bars in your area
+          Discover the best restaurants, cafés, and bars
+          {/* <br /> and bars in your area */}
         </Typography>
         <SearchbarDesktop />
       </Box>
