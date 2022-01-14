@@ -2,17 +2,20 @@ import React from "react";
 import Card from "@mui/material/Card";
 import { CardContent, CardMedia } from "@mui/material";
 import { Typography, Container } from "@mui/material";
-
+import LayoutContainer from "../../custom-components/LayoutContainer";
 export default function searchOptions1() {
   return (
     <>
       <Container
         sx={{
+          p: 0,
+          maxWidth: "1300px",
           ["@media (min-width: 570px)"]: {
             display: "grid",
             gridTemplateColumns: "1fr 1fr",
             gap: "1rem",
             p: 0,
+            
           },
         }}
       >

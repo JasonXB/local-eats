@@ -28,7 +28,7 @@ export default function Cuisines() {
   return (
     <>
       <LayoutContainer>
-        <Typography variant="h2">Popular cuisines around your area</Typography>
+        <Typography variant="h2">Popular cuisines:</Typography>
       </LayoutContainer>
       {/* LIST OF CUISINE CARDS */}
       <Box
@@ -44,7 +44,6 @@ export default function Cuisines() {
           },
           ["@media (min-width: 900px)"]: {
             gridTemplateColumns: "1fr 1fr 1fr",
-            px:0,
           },
         }}
       >

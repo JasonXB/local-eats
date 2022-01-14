@@ -9,15 +9,19 @@ function LayoutContainer(props) {
       sx={{
         width: "100vw",
         background: props.bg || "white",
-        marginTop: props.marginAbove || "0px",
       }}
     >
-      <Container
-        maxWidth="1132px"
-        sx={{ width: "100%", paddingInline: "16px" }}
+      <Box
+        sx={{
+          width: "100%",
+          maxWidth: "1300px",
+          margin: "auto",
+          marginTop: props.marginAbove || "0px",
+          px: 2,
+        }}
       >
         {props.children}
-      </Container>
+      </Box>
     </Box>
   );
 }
