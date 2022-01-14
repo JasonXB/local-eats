@@ -8,6 +8,13 @@ export const mix = {
     flexDirection: "column",
     alignItems: "center",
   },
+  // Controls the homepage website layout
+  responsiveLayout: {
+    width: "100%",
+    maxWidth: "1232px",
+    margin: "auto",
+    paddingInline: "1rem",
+  },
   // We're using a consistent margin size for distancing our components
   regMargin: (side) => {
     const marginMagnitude = "1.0rem";

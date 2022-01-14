@@ -2,27 +2,26 @@ import React from "react";
 import Card from "@mui/material/Card";
 import { CardContent, CardMedia } from "@mui/material";
 import { Typography, Container } from "@mui/material";
-import LayoutContainer from "../../custom-components/LayoutContainer";
-export default function searchOptions1() {
+import { mix } from "../../../styles/styleMixins";
+
+export default function SearchOptions1() {
   return (
     <>
       <Container
         sx={{
-          p: 0,
-          maxWidth: "1300px",
+          ...mix.responsiveLayout,
           ["@media (min-width: 570px)"]: {
             display: "grid",
             gridTemplateColumns: "1fr 1fr",
             gap: "1rem",
-            p: 0,
-            
+            px:2,
           },
         }}
       >
         <Card
           sx={{
-            width: "100%",
-            maxWidth: "100%",
+            // width: "100%",
+            // maxWidth: "100%",
             [`@media (max-width: 570px)`]: { borderRadius: 0 },
           }}
         >
@@ -46,8 +45,8 @@ export default function searchOptions1() {
         </Card>
         <Card
           sx={{
-            width: "100%",
-            maxWidth: "100%",
+            // width: "100%",
+            // maxWidth: "100%",
             [`@media (max-width: 570px)`]: { borderRadius: 0 },
           }}
         >

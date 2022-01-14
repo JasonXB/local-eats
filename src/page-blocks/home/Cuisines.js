@@ -6,7 +6,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import LayoutContainer from "../../custom-components/LayoutContainer";
 //  prettier-ignore
 import { Ca, Cn, Fr, Gr, In, It, Jp, Mx, Pe, Es, Lk, Sy, Th, Us, Vn} from "react-flags-select";
-console.log(Ca);
+
 const cuisineList = {
   Canadian: Ca, // these are functions that produce SVG's
   American: Us,
@@ -24,18 +24,17 @@ const cuisineList = {
   Greek: Gr,
   French: Fr,
 };
+
 export default function Cuisines() {
   return (
     <>
-      <LayoutContainer>
-        <Typography variant="h2">Popular cuisines:</Typography>
-      </LayoutContainer>
+      <Box sx={{ ...mix.responsiveLayout }}>
+        <Typography variant="h2">Popular Cuisines:</Typography>
+      </Box>
       {/* LIST OF CUISINE CARDS */}
       <Box
         sx={{
-          width:"100%",
-          maxWidth: "1300px",
-          margin:"auto",
+          ...mix.responsiveLayout,
           ["@media (min-width: 500px)"]: {
             display: "grid",
             gridTemplateColumns: "1fr 1fr",
@@ -56,7 +55,7 @@ export default function Cuisines() {
               sx={{
                 display: "grid",
                 gridTemplateColumns: "auto 1fr auto",
-                width:"100%",
+                width: "100%",
                 border: "1px solid rgb(232,232,232)",
                 padding: "1.25rem 1.5rem",
                 "&:hover": {
@@ -81,8 +80,3 @@ export default function Cuisines() {
     </>
   );
 }
-
-/*
-
-
-*/

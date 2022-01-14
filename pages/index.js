@@ -10,11 +10,12 @@ export default function index() {
   return (
     <>
       <MissionStatement />
-      <LayoutContainer marginAbove="36px">
+      <LayoutContainer marginAbove="2.25rem">
         <SearchOptionsRow1 />
       </LayoutContainer>
-      <Cuisines/>
-
+      <LayoutContainer marginAbove="4.5rem">
+        <Cuisines />
+      </LayoutContainer>
     </>
   );
 }

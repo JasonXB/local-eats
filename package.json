@@ -19,7 +19,6 @@
     "react-flags-select": "^2.1.2"
   },
   "devDependencies": {
-    "@svgr/webpack": "^6.2.0",
     "eslint": "8.6.0",
     "eslint-config-next": "12.0.7"
   }

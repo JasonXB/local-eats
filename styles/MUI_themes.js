@@ -42,6 +42,7 @@ export const customThemes = {
         fontWeight: 400,
         lineHeight: 1.2,
         letterSpacing: "-0em",
+        marginBottom: "1.875rem",
       },
       // Use for new webpage section headers
       h3: {
