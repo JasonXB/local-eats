@@ -35,6 +35,8 @@ export default function Cuisines() {
           <ButtonBase
             key={index}
             sx={{
+              display: "grid",
+              gridTemplateColumns: "auto 1fr auto",
               border: "1px solid rgb(232,232,232)",
               padding: "1.25rem 1.5rem",
               width: "18rem",
@@ -43,12 +45,10 @@ export default function Cuisines() {
               },
             }}
           >
-            <Box sx={{ ...mix.flexRow }}>
-              {nationSVG}
-              <Typography variant="h5" component="p" sx={{ ml: 2, mt: 0.6 }}>
-                {key}
-              </Typography>
-            </Box>
+            {nationSVG}
+            <Typography variant="h5" align="left" component="p" sx={{ ml: 2, mt: 0.6 }}>
+              {key}
+            </Typography>
             <ChevronRightIcon sx={{ ml: 2, mt: 0.6 }} />
           </ButtonBase>
         );
