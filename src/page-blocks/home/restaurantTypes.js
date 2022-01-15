@@ -3,19 +3,23 @@ import React from "react";
 import { Typography, ButtonBase, Button ,Box, CardContent, CardMedia , Container, Card} from '@mui/material';
 import LayoutContainer from "../../custom-components/LayoutContainer";
 import { mix } from "../../../styles/styleMixins";
-
 export default function RestaurantTypes() {
   return (
     <>
-      <Typography variant="h2">Food Moods:</Typography>
+      <Typography variant="h2" sx={{ pl: 2 }}>
+        Food Moods:
+      </Typography>
       <Container
         sx={{
           ...mix.responsiveLayout,
-          ["@media (min-width: 570px)"]: {
+          ["@media (min-width: 1000px)"]: {
             display: "grid",
             gridTemplateColumns: "1fr 1fr",
             gap: "1rem",
             px: 2,
+          },
+          ["@media (min-width: 1300px)"]: {
+            gridTemplateColumns: "1fr 1fr 1fr",
           },
         }}
       >
@@ -32,19 +36,22 @@ export default function RestaurantTypes() {
                 image="/images/fast_food.jpg"
               />
               {/* -------------------------------------------------- */}
-              <Typography variant="h4" sx={{ mb: 2, mx: 1.5 }}>
+              <Typography sx={{ p: 2, pb: 0 }} variant="h4">
                 {category}
               </Typography>
-              {Object.keys(types[category]).map((shopType, index) => {
-                return (
-                  <Button
-                    variant="outlined"
-                    sx={{ mx: 1.5, my: 1, fontSize: "1rem" }}
-                  >
-                    {shopType}
-                  </Button>
-                );
-              })}
+              <Box sx={{ p: 2 }}>
+                {Object.keys(types[category]).map((shopType, index) => {
+                  return (
+                    <Button
+                      variant="outlined"
+                      sx={{ fontSize: "1rem", borderRadius: 0 }}
+                    >
+                      {shopType}
+                    </Button>
+                  );
+                })}
+              </Box>
+
               {/* -------------------------------------------------- */}
             </Card>
           );
@@ -60,17 +67,17 @@ const types = {
     "Fast food": "fast food",
     "Food courts": "food court",
     "Food trucks": "food truck",
-    "Sandwich shops": "sandwich", // sandwich or however you spell it
-    Sushi: "sushi",
-    "Noodle shops": "ramen",
-    Pizzerias: "pizza", // change to pizza
+    Sandwiches: "sandwich", // sandwich or however you spell it
+    // Sushi: "sushi",
+    Ramen: "ramen",
+    Pizza: "pizza", // change to pizza
   },
 
   Breakfast: {
     Bistros: "bistro",
     Diners: "diner",
     Cafés: "café",
-    "Coffee shops": "coffee",
+    Coffee: "coffee",
   },
 
   Alcohol: {
@@ -83,11 +90,12 @@ const types = {
     Izakaya: "izakaya",
   },
 
-  "Meat-based": {
+  "Meat-centric": {
     Grill: "grill",
     BBQ: "BBQ",
-    "Burger joints": "burgers", // change to burger joint as display
-    Steakhouses: "steak", // change to steak possibly
+    Burgers: "burgers", // change to burger joint as display
+    Steak: "steak", // change to steak possibly
+    Wings: "chicken wings",
   },
 
   "Plant-based": {
@@ -95,20 +103,49 @@ const types = {
     Vegan: "vegan",
   },
 
-  "Drink-centered": {
+  "Drink-centric": {
     "Juice bars": "juice",
-    "Tea places": "tea",
+    Tea: "tea",
     "Beverage shops": "beverages",
   },
 
   Sweets: {
     Bakeries: "bakery",
-    "Dessert places": "dessert",
-    "Donut shops": "donut",
-    "Ice cream parlours": "ice cream",
-    "Candy stores": "candy",
+    Dessert: "dessert",
+    Donuts: "donut",
+    Candy: "candy",
+    "Ice cream": "ice cream",
   },
 };
+function pickImage(key) {
+  let img;
+  switch (key) {
+    case key == "Casual":
+      img = <img src="../../../public/images/casual.jpg" />;
+      break;
+    case key == "Breakfast":
+      img = <img src="../../../public/images/breakfast.jpg" />;
+      break;
+    case key == "Alcohol":
+      img = <img src="../../../public/images/alcohol.jpg" />;
+      break;
+    case key == "Meat-centric":
+      img = <img src="../../../public/images/meat-centric.jpg" />;
+      break;
+    case key == "Plant-based":
+      img = <img src="../../../public/images/plant-based.jpg" />;
+      break;
+    case key == "Drink-centric":
+      img = <img src="../../../public/images/drink-centric.jpg" />;
+      break;
+    case key == "Sweets":
+      img = <img src="../../../public/images/sweets.jpg" />;
+      break;
+    default:
+      break;
+  }
+  return img;
+}
 /* 
 API APPROACH 
 Make an API call regularly, get back the results
