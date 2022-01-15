@@ -4,15 +4,24 @@ import { mix } from "../../../styles/styleMixins";
 import { Typography, Box } from '@mui/material';
 import LayoutContainer from "../../custom-components/LayoutContainer";
 
-export default function restaurantTypes() {
+export default function RestaurantTypes() {
   return (
     <>
-      <Typography variant="h2">Popular Restaurant Types:</Typography>
+      <LayoutContainer>
+        <Typography variant="h2">Popular Restaurant Types:</Typography>
+        {Object.keys(types).map((key) => {
+          return (
+            <Box component="a" href={types[key]}>
+              {key} near me
+            </Box>
+          );
+        })}
+      </LayoutContainer>
     </>
   );
 }
 
-const restaurantType = {
+const types = {
   // Restaurant type : searchTerm for Yelp API
 
   breakfast: {

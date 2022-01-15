@@ -5,6 +5,7 @@ import SearchOptionsRow1 from "../src/page-blocks/home/PremadeSearches1";
 import { Box, Container } from "@mui/material";
 import LayoutContainer from "../src/custom-components/LayoutContainer";
 import Cuisines from "../src/page-blocks/home/Cuisines";
+import RestaurantTypes from "../src/page-blocks/home/RestaurantTypes";
 
 export default function index() {
   return (
@@ -16,6 +17,7 @@ export default function index() {
       <LayoutContainer marginAbove="4.5rem">
         <Cuisines />
       </LayoutContainer>
+      <RestaurantTypes/>
     </>
   );
 }
