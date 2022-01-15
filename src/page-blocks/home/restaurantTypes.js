@@ -12,6 +12,10 @@ export default function RestaurantTypes() {
       <Container
         sx={{
           ...mix.responsiveLayout,
+          borderRadius: 0,
+          "& .MuiPaper-root": {
+            borderRadius: 0,
+          },
           ["@media (min-width: 1000px)"]: {
             display: "grid",
             gridTemplateColumns: "1fr 1fr",
@@ -32,8 +36,8 @@ export default function RestaurantTypes() {
             >
               <CardMedia
                 component="img"
-                height="140"
-                image="/images/fast_food.jpg"
+                height="160"
+                image={pickImage(category)}
               />
               {/* -------------------------------------------------- */}
               <Typography sx={{ p: 2, pb: 0 }} variant="h4">
@@ -44,14 +48,13 @@ export default function RestaurantTypes() {
                   return (
                     <Button
                       variant="outlined"
-                      sx={{ fontSize: "1rem", borderRadius: 0 }}
+                      sx={{ fontSize: "1rem", borderRadius: 0, mr: 1, mb: 1 }}
                     >
                       {shopType}
                     </Button>
                   );
                 })}
               </Box>
-
               {/* -------------------------------------------------- */}
             </Card>
           );
@@ -118,33 +121,13 @@ const types = {
   },
 };
 function pickImage(key) {
-  let img;
-  switch (key) {
-    case key == "Casual":
-      img = <img src="../../../public/images/casual.jpg" />;
-      break;
-    case key == "Breakfast":
-      img = <img src="../../../public/images/breakfast.jpg" />;
-      break;
-    case key == "Alcohol":
-      img = <img src="../../../public/images/alcohol.jpg" />;
-      break;
-    case key == "Meat-centric":
-      img = <img src="../../../public/images/meat-centric.jpg" />;
-      break;
-    case key == "Plant-based":
-      img = <img src="../../../public/images/plant-based.jpg" />;
-      break;
-    case key == "Drink-centric":
-      img = <img src="../../../public/images/drink-centric.jpg" />;
-      break;
-    case key == "Sweets":
-      img = <img src="../../../public/images/sweets.jpg" />;
-      break;
-    default:
-      break;
-  }
-  return img;
+  if (key == "Casual") return "/images/casual.jpg";
+  if (key == "Breakfast") return "/images/breakfast.jpg";
+  if (key == "Alcohol") return "/images/alcohol.jpg";
+  if (key == "Meat-centric") return "/images/meat-centric.jpg";
+  if (key == "Plant-based") return "/images/plant-based.jpg";
+  if (key == "Drink-centric") return "/images/drink-centric.jpg";
+  if (key == "Sweets") return "/images/sweets.jpg";
 }
 /* 
 API APPROACH 
