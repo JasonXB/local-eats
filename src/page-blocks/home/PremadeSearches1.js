@@ -45,8 +45,6 @@ export default function SearchOptions1() {
         </Card>
         <Card
           sx={{
-            // width: "100%",
-            // maxWidth: "100%",
             [`@media (max-width: 570px)`]: { borderRadius: 0 },
           }}
         >
@@ -54,6 +52,7 @@ export default function SearchOptions1() {
             component="img"
             height="140"
             image="/images/fineDining.jpg"
+            
           />
           <CardContent>
             <Typography gutterBottom variant="h5" component="p">

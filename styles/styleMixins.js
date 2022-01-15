@@ -38,4 +38,9 @@ export const mix = {
       };
     }
   },
+  hoverShadow: {
+    "&:hover": {
+      boxShadow: `rgba(28, 28, 28, 0.08) 0px 4px 8px`,
+    },
+  }
 };

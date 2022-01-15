@@ -1,49 +1,44 @@
 import React from "react";
 import { mix } from "../../../styles/styleMixins";
 //  prettier-ignore
-import { Typography, Box } from '@mui/material';
+import { Typography, ButtonBase, Button ,Box, CardContent, CardMedia } from '@mui/material';
 import LayoutContainer from "../../custom-components/LayoutContainer";
+import { mix } from "../../../styles/styleMixins";
 
 export default function RestaurantTypes() {
   return (
     <>
-      <LayoutContainer>
+      <Box sx={{ mx: 2 }}>
         <Typography variant="h2">Popular Restaurant Types:</Typography>
-        {Object.keys(types).map((key) => {
+        {Object.keys(types).map((category) => {
           return (
-            <Box component="a" href={types[key]}>
-              {key} near me
+            <Box sx={{ mb: 2 }}>
+              {/* -------------------------------------------------- */}
+              <Typography variant="h4" sx={{ mb: 2, mx: 1.5 }}>
+                {category}
+              </Typography>
+              {Object.keys(types[category]).map((shopType, index) => {
+                return (
+                  <Button
+                    variant="outlined"
+                    sx={{ mx: 1.5, my:1, fontSize: "1rem" }}
+                  >
+                    {shopType}
+                  </Button>
+                );
+              })}
+              {/* -------------------------------------------------- */}
             </Box>
           );
         })}
-      </LayoutContainer>
+      </Box>
     </>
   );
 }
 
 const types = {
   // Restaurant type : searchTerm for Yelp API
-
-  breakfast: {
-    Bistros: "bistro",
-    "Coffee shops": "coffee",
-    Diners: "diner",
-    Café: "café",
-  },
-
-  meat: {
-    Grill: "grill",
-    BBQ: "BBQ",
-    Burgers: "burgers", // change to burger joint as display
-    Steakhouse: "steak", // change to steak possibly
-  },
-
-  misc: {
-    Vegeterian: "vegetarian",
-    Vegan: "vegan",
-  },
-
-  casual: {
+  Casual: {
     "Fast food": "fast food",
     "Food courts": "food court",
     "Food trucks": "food truck",
@@ -53,12 +48,14 @@ const types = {
     Pizzerias: "pizza", // change to pizza
   },
 
-  drinks: {
-    "Beverage shops": "beverages",
-    "Juice bar": "juice",
+  Breakfast: {
+    Bistros: "bistro",
+    Diners: "diner",
+    Cafés: "café",
+    "Coffee shops": "coffee",
   },
 
-  alcohol: {
+  Alcohol: {
     Bars: "bar",
     "Cocktail bars": "cocktail",
     Clubs: "club",
@@ -68,12 +65,30 @@ const types = {
     Izakaya: "izakaya",
   },
 
-  sweets: {
+  "Meat-based": {
+    Grill: "grill",
+    BBQ: "BBQ",
+    "Burger joints": "burgers", // change to burger joint as display
+    Steakhouses: "steak", // change to steak possibly
+  },
+
+  "Plant-based": {
+    Vegeterian: "vegetarian",
+    Vegan: "vegan",
+  },
+
+  "Drink-centered": {
+    "Juice bars": "juice",
+    "Tea places": "tea",
+    "Beverage shops": "beverages",
+  },
+
+  Sweets: {
     Bakeries: "bakery",
-    Desserts: "dessert",
-    Donuts: "donut",
-    "Ice cream": "ice cream",
-    "Candy shops": "candy",
+    "Dessert places": "dessert",
+    "Donut shops": "donut",
+    "Ice cream parlours": "ice cream",
+    "Candy stores": "candy",
   },
 };
 /* 

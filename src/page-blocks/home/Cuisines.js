@@ -58,9 +58,7 @@ export default function Cuisines() {
                 width: "100%",
                 border: "1px solid rgb(232,232,232)",
                 padding: "1.25rem 1.5rem",
-                "&:hover": {
-                  boxShadow: `rgba(28, 28, 28, 0.08) 0px 4px 8px`,
-                },
+                ...mix.hoverShadow,
               }}
             >
               {nationSVG}

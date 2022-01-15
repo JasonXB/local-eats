@@ -17,7 +17,9 @@ export default function index() {
       <LayoutContainer marginAbove="4.5rem">
         <Cuisines />
       </LayoutContainer>
-      <RestaurantTypes/>
+      <LayoutContainer marginAbove="4.5rem">
+        <RestaurantTypes />
+      </LayoutContainer>
     </>
   );
 }
