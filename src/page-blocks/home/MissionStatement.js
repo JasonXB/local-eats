@@ -101,14 +101,15 @@ const mobileStyles = {
     };
   },
   title: {
-    fontFamily: `'KoHo', sans-serif`,
-    fontWeight: 900,
+    fontFamily: "'Righteous', cursive",
+    fontWeight: 800,
     fontStyle: "italic",
     ...mix.regMargin("mt"),
   },
   boxParent: {
     ...mix.flexRow,
     ...mix.regMargin("!bottom"),
+    marginTop: 0,
     justifyContent: "space-between",
     borderRadius: "10px",
   },
