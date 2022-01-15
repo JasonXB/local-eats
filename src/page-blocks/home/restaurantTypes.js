@@ -1,18 +1,36 @@
 import React from "react";
-import { mix } from "../../../styles/styleMixins";
 //  prettier-ignore
-import { Typography, ButtonBase, Button ,Box, CardContent, CardMedia } from '@mui/material';
+import { Typography, ButtonBase, Button ,Box, CardContent, CardMedia , Container, Card} from '@mui/material';
 import LayoutContainer from "../../custom-components/LayoutContainer";
 import { mix } from "../../../styles/styleMixins";
 
 export default function RestaurantTypes() {
   return (
     <>
-      <Box sx={{ mx: 2 }}>
-        <Typography variant="h2">Popular Restaurant Types:</Typography>
+      <Typography variant="h2">Food Moods:</Typography>
+      <Container
+        sx={{
+          ...mix.responsiveLayout,
+          ["@media (min-width: 570px)"]: {
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "1rem",
+            px: 2,
+          },
+        }}
+      >
         {Object.keys(types).map((category) => {
           return (
-            <Box sx={{ mb: 2 }}>
+            <Card
+              sx={{
+                [`@media (max-width: 570px)`]: { borderRadius: 0 },
+              }}
+            >
+              <CardMedia
+                component="img"
+                height="140"
+                image="/images/fast_food.jpg"
+              />
               {/* -------------------------------------------------- */}
               <Typography variant="h4" sx={{ mb: 2, mx: 1.5 }}>
                 {category}
@@ -21,17 +39,17 @@ export default function RestaurantTypes() {
                 return (
                   <Button
                     variant="outlined"
-                    sx={{ mx: 1.5, my:1, fontSize: "1rem" }}
+                    sx={{ mx: 1.5, my: 1, fontSize: "1rem" }}
                   >
                     {shopType}
                   </Button>
                 );
               })}
               {/* -------------------------------------------------- */}
-            </Box>
+            </Card>
           );
         })}
-      </Box>
+      </Container>
     </>
   );
 }
