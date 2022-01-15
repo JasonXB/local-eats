@@ -80,3 +80,13 @@ export default function Cuisines() {
     </>
   );
 }
+// FIND PLACES OPEN AND NEARBY:
+/*
+Get a quick bite
+View the most affordable options around
+https://api.yelp.com/v3/businesses/search?limit=50&radius=10000&latitude=43.853043&longitude=-79.432933&price=1,2
+
+Dine lavishly
+Explore your local higher-end restaurants
+https://api.yelp.com/v3/businesses/search?limit=50&latitude=43.853043&longitude=-79.432933&radius=10000&price=3,4
+*/
