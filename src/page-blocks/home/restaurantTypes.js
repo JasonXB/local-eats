@@ -27,9 +27,10 @@ export default function RestaurantTypes() {
           },
         }}
       >
-        {Object.keys(types).map((category) => {
+        {Object.keys(types).map((category, ind) => {
           return (
             <Card
+              key={ind}
               sx={{
                 [`@media (max-width: 570px)`]: { borderRadius: 0 },
               }}
@@ -44,9 +45,10 @@ export default function RestaurantTypes() {
                 {category}
               </Typography>
               <Box sx={{ p: 2 }}>
-                {Object.keys(types[category]).map((shopType, index) => {
+                {Object.keys(types[category]).map((shopType, ind) => {
                   return (
                     <Button
+                      key={ind}
                       variant="outlined"
                       sx={{ fontSize: "1rem", borderRadius: 0, mr: 1, mb: 1 }}
                     >

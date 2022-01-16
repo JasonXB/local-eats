@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Box } from "@mui/material";
-import {mix} from "../../styles/styleMixins"
+import { mix } from "../../styles/styleMixins";
 
 function LayoutContainer(props) {
   // This will have 16px inline padding on mobile screens

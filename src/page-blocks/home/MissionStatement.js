@@ -94,16 +94,14 @@ const mobileStyles = {
   stackContainer: (theme) => {
     return {
       m: 0,
-      background: "#F5F5F5", // apply gray background for mobile onlinr
+      background: theme.palette.grayBackground.main, // apply gray background for mobile onlinr
       [theme.breakpoints.up("sm")]: {
         display: "none",
       },
     };
   },
   title: {
-    fontFamily: "'Righteous', cursive",
-    fontWeight: 800,
-    fontStyle: "italic",
+    ...mix.titleFont,
     ...mix.regMargin("mt"),
   },
   boxParent: {

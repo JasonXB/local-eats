@@ -1,19 +1,23 @@
 import { createTheme } from "@mui/material/styles";
 
-const disableRipple = {
-  defaultProps: { disableRipple: true },
-};
-
 export const customThemes = {
   //^ STANDARD LIGHT THEME
   light: createTheme({
     components: {
-      MuiButtonBase: disableRipple,
+      // Disable button ripple- which is controlled as a default prop
+      MuiButtonBase: {
+        defaultProps: { disableRipple: true },
+      },
+      // Remove Container's default padding
+      MuiContainer: {
+        defaultProps: { disableGutters: true },
+      },
     },
     palette: {
       primary: { main: "#1f3c50" }, // dark color
       // primary: { main: "#00897b" }, // green color
       secondary: { main: "#ef4f5f" }, // orangey red
+      grayBackground: { main: "#F5F5F5" },
     },
     breakpoints: {
       values: {

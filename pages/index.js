@@ -2,10 +2,10 @@ import React from "react";
 // Component building block imports
 import MissionStatement from "../src/page-blocks/home/MissionStatement";
 import SearchOptionsRow1 from "../src/page-blocks/home/PremadeSearches1";
-import { Box, Container } from "@mui/material";
 import LayoutContainer from "../src/custom-components/LayoutContainer";
 import Cuisines from "../src/page-blocks/home/Cuisines";
 import RestaurantTypes from "../src/page-blocks/home/RestaurantTypes";
+import Footer from "../src/custom-components/Footer";
 
 export default function index() {
   return (
@@ -19,6 +19,9 @@ export default function index() {
       </LayoutContainer>
       <LayoutContainer marginAbove="4.5rem">
         <RestaurantTypes />
+      </LayoutContainer>
+      <LayoutContainer marginAbove="4.5rem" bg="#F5F5F5">
+        <Footer />
       </LayoutContainer>
     </>
   );

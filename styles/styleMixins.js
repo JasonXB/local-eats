@@ -11,7 +11,7 @@ export const mix = {
   // Controls the homepage website layout
   responsiveLayout: {
     width: "100%",
-    maxWidth: "1232px",
+    maxWidth: "1232px", // 1200 after padding
     margin: "auto",
     paddingInline: "1rem",
   },
@@ -42,5 +42,14 @@ export const mix = {
     "&:hover": {
       boxShadow: `rgba(28, 28, 28, 0.08) 0px 4px 8px`,
     },
+  },
+  titleFont: {
+    fontFamily: "'Righteous', cursive",
+    fontWeight: 800,
+    fontStyle: "italic",
+  },
+  anchorStyling: {
+    cursor: "pointer",
+    "&:hover":{ textDecoration: "underline", }
   }
 };
