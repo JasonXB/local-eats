@@ -16,7 +16,7 @@ export const customThemes = {
     palette: {
       primary: { main: "#1f3c50" }, // dark color
       // primary: { main: "#00897b" }, // green color
-      secondary: { main: "#ef4f5f" }, // orangey red
+      secondary: { main: "#c54949" }, // orangey red
       grayBackground: { main: "#F5F5F5" },
     },
     breakpoints: {
