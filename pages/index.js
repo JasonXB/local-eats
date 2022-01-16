@@ -20,7 +20,7 @@ export default function index() {
       <LayoutContainer marginAbove="4.5rem">
         <RestaurantTypes />
       </LayoutContainer>
-      <LayoutContainer marginAbove="4.5rem" bg="#F5F5F5">
+      <LayoutContainer marginAbove="4.5rem" bg="#fffbf7">
         <Footer />
       </LayoutContainer>
     </>

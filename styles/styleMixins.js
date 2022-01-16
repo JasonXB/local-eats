@@ -1,3 +1,4 @@
+
 export const mix = {
   flexRow: {
     display: "flex",
@@ -50,6 +51,10 @@ export const mix = {
   },
   anchorStyling: {
     cursor: "pointer",
-    "&:hover":{ textDecoration: "underline", }
-  }
+    textDecorationLine: "none",
+    fontSize: "0.875rem",
+    color: "#1f3c50",
+    textAlign:"center",
+    "&:hover": { textDecoration: "underline" },
+  },
 };

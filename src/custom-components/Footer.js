@@ -1,52 +1,61 @@
 import React from "react";
-import { Typography, Box, Stack, Container } from "@mui/material";
+import { Typography, Box, Stack, Divider } from "@mui/material";
 import { mix } from "../../styles/styleMixins";
-import { useRouter } from "next/router";
 
 export default function Footer() {
-  const router = useRouter();
-  const relocate = (e) => {
-    // router.push(e.target.dataset.url);
-    window.location.href= e.target.dataset.url
-  };
-
   return (
-    <Box sx={{ px: 2, pt: 6 }}>
+    <Box
+      sx={(theme) => {
+        return {
+          px: 2,
+          pt: 6,
+          [theme.breakpoints.down("sm")]: {
+            display: "none",
+          },
+        };
+      }}
+    >
       <Typography
         variant="h2"
         sx={{
           mb: "2.5rem",
-          fontFamily: "'Righteous', cursive",
-          fontWeight: 800,
+          fontWeight: 600,
+          textAlign: "center",
         }}
       >
-        Information provided by Yelp's Fusion API
+        Search data provided by Yelp Fusion™️
       </Typography>
       <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr" }}>
         {Object.keys(footerAnchors).map((headerText, index) => {
           console.log(0);
           return (
             <Stack key={index}>
-              <Typography variant="h6" sx={{ mb: "0.75rem" }}>
+              <Typography
+                variant="h6"
+                sx={{ mb: "0.75rem", textAlign: "center" }}
+              >
                 {headerText}
               </Typography>
               {Object.keys(footerAnchors[headerText]).map((anchorText, i) => {
                 // Store the destination URL using data attributes (reference them in the relocate function)
                 return (
-                  <Typography
+                  <Box
+                    component="a"
                     key={i}
-                    data-url={footerAnchors[headerText][anchorText]}
-                    onClick={relocate}
+                    href={footerAnchors[headerText][anchorText]}
+                    // onClick={relocate}
                     sx={{ mb: 0.8, ...mix.anchorStyling }}
                   >
                     {anchorText}
-                  </Typography>
+                  </Box>
                 );
               })}
             </Stack>
           );
         })}
       </Box>
+      <Divider sx={{mt:4, mb:4}}/>
+      <Typography sx={{pb:4, textAlign:"center"}}>Copyright © 2004–2022 Yelp Incorporated.</Typography>
     </Box>
   );
 }

@@ -94,7 +94,7 @@ const mobileStyles = {
   stackContainer: (theme) => {
     return {
       m: 0,
-      background: theme.palette.grayBackground.main, // apply gray background for mobile onlinr
+      background: "#fffbf7", // apply gray background for mobile onlinr
       [theme.breakpoints.up("sm")]: {
         display: "none",
       },
