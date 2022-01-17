@@ -8,8 +8,10 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import GpsFixedIcon from "@mui/icons-material/GpsFixed";
 import HistoryIcon from "@mui/icons-material/History";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
+import { checkLocation } from "../utility-functions/geolocate";
 
 export default function SearchbarDesktop() {
+
   // ----------------
   const [arrowIcon, setArrowIcon] = useState(<ArrowDropDownIcon />);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -17,6 +19,7 @@ export default function SearchbarDesktop() {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget.closest("div"));
     setArrowIcon(<ArrowDropUpIcon fontSize="large" />);
+    checkLocation()
   }; // set <Search> as our anchor
   const handleClose = () => {
     setArrowIcon(<ArrowDropDownIcon fontSize="large" />);

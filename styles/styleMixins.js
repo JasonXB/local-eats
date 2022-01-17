@@ -57,4 +57,5 @@ export const mix = {
     textAlign:"center",
     "&:hover": { textDecoration: "underline" },
   },
+  
 };
