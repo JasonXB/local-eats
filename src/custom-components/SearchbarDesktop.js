@@ -8,7 +8,6 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import GpsFixedIcon from "@mui/icons-material/GpsFixed";
 import HistoryIcon from "@mui/icons-material/History";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
-import { checkLocation } from "../utility-functions/geolocate";
 
 export default function SearchbarDesktop() {
 

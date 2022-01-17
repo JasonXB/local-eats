@@ -3,7 +3,6 @@ import { styled, Box } from "@mui/system";
 //  prettier-ignore
 import { Typography, Divider, TextField, Autocomplete, Button } from "@mui/material";
 import { mix } from "../../../styles/styleMixins";
-import Modal from "@mui/material/Modal";
 import { countries } from "./countryData";
 
 const StyledModal = styled("div")`
@@ -17,13 +16,11 @@ const StyledModal = styled("div")`
   align-items: center;
   justify-content: center;
   text-align: center;
-  border: 0;
 `;
 
-export default function LocationModal() {
-  
-  const [open, setOpen] = React.useState(false);
-//! Make something change the following to "true"
+export default function LocationModal(props) {
+  const [open, setOpen] = React.useState(props.showModal);
+  //! Make something change the following to "true"
   const openHandler = () => setOpen(true);
   const cancelHandler = (e) => {
     setOpen(false);
@@ -37,10 +34,16 @@ export default function LocationModal() {
   return (
     <Box
       sx={{
+        display: open===true ? "block" : "none",
+        position: "fixed",
+        zIndex: 1299,
+        right: 0,
+        bottom: 0,
+        top: 0,
+        left: 0,
+        bgcolor: "rgb(0, 0, 0, 0.4)",
         width: "100vw",
         height: "100vh",
-        bgcolor: "rgb(0, 0, 0, 0.5)",
-        display: !open ? "none" : "block",
       }}
     >
       <StyledModal>
