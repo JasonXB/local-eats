@@ -22,10 +22,16 @@ export default function index() {
         return;
       }
       // If geolocation is supported, find our current position and save it to Global Context
-      const onSuccess = function (builtInParam) {
-        const latitude = builtInParam.coords.latitude;
-        const longitude = builtInParam.coords.longitude;
+      const onSuccess = async function (builtInParam) {
+        const latitude = await builtInParam.coords.latitude;
+        const longitude = await builtInParam.coords.longitude;
+        const locatonObject={
+          latitude,
+          longitude,
+          town: "", //! Get from an API
+        }
         console.log(latitude, longitude);
+        //@ Save to Context API with setPrevLocation
       };
       const onError = function (builtInParam) {
         console.error(builtInParam); //! fix
