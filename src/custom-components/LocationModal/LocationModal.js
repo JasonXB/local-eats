@@ -18,23 +18,19 @@ const StyledModal = styled("div")`
   text-align: center;
 `;
 
-export default function LocationModal(props) {
-  const [open, setOpen] = React.useState(props.showModal);
+export default function LocationModal({ showModal, revealModal, hideModal }) {
   //! Make something change the following to "true"
-  const openHandler = () => setOpen(true);
-  const cancelHandler = (e) => {
-    setOpen(false);
-  };
+
   const submitHandler = (e) => {
     //! Get capital city from Rest Countries API
     //! Use that to form a search string for the the Yelp API
-    setOpen(false);
+    hideModal();
   };
 
   return (
     <Box
       sx={{
-        display: open===true ? "block" : "none",
+        display: showModal === true ? "block" : "none",
         position: "fixed",
         zIndex: 1299,
         right: 0,
@@ -113,7 +109,7 @@ export default function LocationModal(props) {
             )}
           />
           <Box sx={{ ...mix.flexRow, justifyContent: "end", mt: 5 }}>
-            <Button variant="outlined" size="medium" onClick={cancelHandler}>
+            <Button variant="outlined" size="medium" onClick={hideModal}>
               Cancel
             </Button>
             <Button
