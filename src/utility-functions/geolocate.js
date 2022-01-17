@@ -11,9 +11,9 @@ export const summation = async function () {
 export const checkLocation = async function () {
   // Make sure the visitor's browser supports Geolocation
   if (!navigator.geolocation) {
-    const errorMessage = `Your browser doesn't support Geolocation, which is required for this website`;
-    //! MAKE MODAL APPEAR
-    alert(errorMessage);
+    // If geolocation is denied or not supported, make an error modal appear
+    // It'll give the user options that allow them to use the app without it enabled
+    
     return;
   }
   // If geolocation is supported, find our current position and save it to Global Context

@@ -1,0 +1,11 @@
+We leave red text in files that have issues we need to address
+src/custom-components/LocationModal/LocationModal.js
+
+
+
+
+FINAL FIX:
+Refactor all your MUI styling so most of it isn't inline
+
+FINAL CHECK
+Search for //! across your entire project using the VSCode magnifier

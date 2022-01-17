@@ -1,2 +1,0 @@
-PACKAGES INSTALLED
-Axios, MUI, MUI icons
