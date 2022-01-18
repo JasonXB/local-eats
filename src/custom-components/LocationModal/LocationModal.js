@@ -46,12 +46,12 @@ export default function LocationModal({ showModal, revealModal, hideModal }) {
         <Box sx={style}>
           <Box sx={{ ...mix.flexRow, justifyContent: "center", mb: 2 }}>
             <Typography color="secondary" variant="h3" sx={{ fontWeight: 600 }}>
-              Permission to Access
+              Location not found
               <Box
                 component="br"
                 sx={{ ["@media (min-width: 800px)"]: { display: "none" } }}
               />{" "}
-              Location Denied
+              Or tracking permissions denied
             </Typography>
           </Box>
           <Typography variant="h6" component="p">

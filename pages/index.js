@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useGlobalContext } from "../src/state-management/globalContext";
 // Component building block imports
 import MissionStatement from "../src/page-blocks/home/MissionStatement";
 import SearchOptionsRow1 from "../src/page-blocks/home/PremadeSearches1";
@@ -7,12 +8,14 @@ import Cuisines from "../src/page-blocks/home/Cuisines";
 import RestaurantTypes from "../src/page-blocks/home/RestaurantTypes";
 import Footer from "../src/custom-components/Footer";
 import LocationModal from "../src/custom-components/LocationModal/LocationModal";
-import { Typography, Box } from "@mui/material";
+
 export default function index() {
+  const { establishNewLocation } = useGlobalContext();
   // Use this variable to decide whether the error modal should be visible or not
   const [showModal, setShowModal] = useState(false); //! may belong in Context API
   const revealModal = () => setShowModal(true);
   const hideModal = () => setShowModal(false);
+
   //^ On startup, find the user's location
   useEffect(() => {
     const checkLocation = async function () {
@@ -21,21 +24,29 @@ export default function index() {
         revealModal(); // if it doesn't, show the error Modal
         return;
       }
+      // If geolocation returns an error, render the error modal
+      const onError = function (builtInParam) {
+        revealModal();
+      };
       // If geolocation is supported, find our current position and save it to Global Context
       const onSuccess = async function (builtInParam) {
-        const latitude = await builtInParam.coords.latitude;
-        const longitude = await builtInParam.coords.longitude;
-        const locatonObject={
-          latitude,
-          longitude,
-          town: "", //! Get from an API
+        try {
+          // Extract lat and loongitude from Geolocation API
+          const latitude = await builtInParam.coords.latitude;
+          const longitude = await builtInParam.coords.longitude;
+          // Request API route that will give us the location name for the coordinates we supply
+          const apiRouteResponse = await axios.get("/api/mapquest", {
+            latitude, // send it lat and long (will be required to make a request to mapquest's API)
+            longitude,
+          });
+          console.log(apiRouteResponse); //! log for now
+          // Use in this ContextAPI function that saves it to localStorage and to the project's state
+          // establishNewLocation(apiRouteResponse);
+        } catch (err) {
+          revealModal(); // Render the location error modal
         }
-        console.log(latitude, longitude);
-        //@ Save to Context API with setPrevLocation
       };
-      const onError = function (builtInParam) {
-        console.error(builtInParam); //! fix
-      };
+
       navigator.geolocation.getCurrentPosition(onSuccess, onError);
     };
   }, []);
@@ -62,11 +73,3 @@ export default function index() {
     </>
   );
 }
-
-export const summation = async function () {
-  //^ Find current location
-  checkLocation();
-  //^ Save location to the global context
-  //^ Check if a saved location exists
-  //^ Override it with our new location
-};
