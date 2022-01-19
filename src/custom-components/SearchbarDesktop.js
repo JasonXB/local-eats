@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import { useLocationContext } from "../state-management/locationContext";
 //  prettier-ignore
 import { Typography, Button, Box, Divider, TextField, InputBase, Menu, MenuItem } from "@mui/material";
 import { styled, alpha } from "@mui/material/styles";
@@ -10,27 +11,31 @@ import HistoryIcon from "@mui/icons-material/History";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 
 export default function SearchbarDesktop() {
+  // Import location data found at startup, and a detect location function fr/ Context API
+  const { detectLocation, locationObj } = useLocationContext();
 
-  // ----------------
+  // BELOW JS AFFECTS STYLING ONLY ▼
   const [arrowIcon, setArrowIcon] = useState(<ArrowDropDownIcon />);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget.closest("div"));
     setArrowIcon(<ArrowDropUpIcon fontSize="large" />);
-    checkLocation()
+    detectLocation();
   }; // set <Search> as our anchor
   const handleClose = () => {
     setArrowIcon(<ArrowDropDownIcon fontSize="large" />);
     setAnchorEl(null);
     return;
   };
+
   return (
     <Search>
       <Button sx={styles.menuButton} color="secondary" onClick={handleClick}>
         <LocationOnIcon />
         <Typography variant="p" sx={styles.location} align="left">
-          Location
+          {/* {locationObj ? locationObj.locationString : "Find location"} */}
+          Locationnnn?
         </Typography>
         {arrowIcon}
       </Button>

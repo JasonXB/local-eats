@@ -1,5 +1,6 @@
 import React from "react";
 import { styled, Box } from "@mui/system";
+import { useLocationContext } from "../../state-management/locationContext";
 //  prettier-ignore
 import { Typography, Divider, TextField, Autocomplete, Button } from "@mui/material";
 import { mix } from "../../../styles/styleMixins";
@@ -18,7 +19,8 @@ const StyledModal = styled("div")`
   text-align: center;
 `;
 
-export default function LocationModal({ showModal, revealModal, hideModal }) {
+export default function LocationModal() {
+  const { showModal, revealModal, hideModal } = useLocationContext();
   //! Make something change the following to "true"
 
   const submitHandler = (e) => {
@@ -46,12 +48,7 @@ export default function LocationModal({ showModal, revealModal, hideModal }) {
         <Box sx={style}>
           <Box sx={{ ...mix.flexRow, justifyContent: "center", mb: 2 }}>
             <Typography color="secondary" variant="h3" sx={{ fontWeight: 600 }}>
-              Location not found
-              <Box
-                component="br"
-                sx={{ ["@media (min-width: 800px)"]: { display: "none" } }}
-              />{" "}
-              Or tracking permissions denied
+              Location not found,<br/>or permissions denied
             </Typography>
           </Box>
           <Typography variant="h6" component="p">
@@ -74,7 +71,7 @@ export default function LocationModal({ showModal, revealModal, hideModal }) {
             (We understand you may want to keep your location a secret)
           </Typography>
           <Autocomplete
-            id={String(Math.random())} // prevents old choices being saved
+            // id={String(Math.random())} // prevents old choices being saved
             sx={{ maxWidth: 350, mx: "auto", mt: 2, mb: 1 }}
             options={countries}
             autoHighlight
