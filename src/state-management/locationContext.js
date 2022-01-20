@@ -18,7 +18,7 @@ export default function LocationContextProvider(props) {
   }, []);
 
   //^ Use this function to get your current location
-  const detectLocation = async function () {
+  const detectLocation = async function (findNew) {
     // Check the visitor's browser supports Geolocation
     if (!navigator.geolocation) {
       alert(
@@ -27,6 +27,10 @@ export default function LocationContextProvider(props) {
       //! create a no-support error screen or modal
       return;
     }
+    //^ Check if the user already has a saved location (if so, cut this off)
+    // We can still use this FN to re-geolocate, if this FN recieves a parameter
+    if (locationObj && !findNew) return;
+
     // Made a promisified Geolocation API function, so we can chain actions after it with then()
     const getPosition = function () {
       // If geolocation returns an error or gets refused permissions by the user when prompted
@@ -44,13 +48,13 @@ export default function LocationContextProvider(props) {
         navigator.geolocation.getCurrentPosition(onSuccess, onReject);
       });
     };
-    // Chain actions after we get the
+    // Use the coordinates to get the area name via Mapquest API
     getPosition()
       .then((pos) => {
-        // Organize data
+        // Organize request body data
         const latitude = pos.coords.latitude;
         const longitude = pos.coords.longitude;
-        // Make an API Route call to mapquest.js
+        // Make an API Route call that sends a GET to mapquest.js
         return fetch("/api/mapquest", {
           method: "POST",
           body: JSON.stringify({ latitude, longitude }),
@@ -78,9 +82,13 @@ export default function LocationContextProvider(props) {
     setLocationObj(null);
     localStorage.removeItem("savedLocation");
   }}>Delete saved location //! </button>
-
+  //! keep this
+  const clearSavedLocationData = function () {
+    setLocationObj(null);
+    localStorage.removeItem("savedLocation");
+  };
   // ——————————————————————————————————————————————————————
-  const locationRelated = { detectLocation, locationObj, devButton };
+  const locationRelated = { detectLocation, locationObj, devButton, clearSavedLocationData };
   const modalRelated = { showModal, revealModal, hideModal };
   const distribution = { ...locationRelated, ...modalRelated };
   return <AAA.Provider value={distribution}>{props.children}</AAA.Provider>;

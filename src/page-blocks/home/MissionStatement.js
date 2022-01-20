@@ -3,14 +3,15 @@ import { Typography, Box, Stack, Button, InputBase, Menu, MenuItem,} from "@mui/
 import SearchIcon from "@mui/icons-material/Search";
 import GpsFixedIcon from "@mui/icons-material/GpsFixed";
 import { mix } from "../../../styles/styleMixins";
-import SearchbarDesktop from "../../../src/custom-components/SearchbarDesktop";
+import SearchbarDesktop from "../../custom-components/Searchbar/SearchbarDesktop";
 import { useLocationContext } from "../../state-management/locationContext";
 export default function Home() {
-  const { locationObj } = useLocationContext();
-  console.group("MissionStatement.js");
-  console.log("LocalStorage says current location is:")
-  console.log(locationObj)
-  console.groupEnd("");
+  const { locationObj, detectLocation } = useLocationContext();
+  // Decide on what message to show on the searchbar based on saved location data on LocalStorage
+  let mobileSearchbarMSG;
+  if(!locationObj) mobileSearchbarMSG= "none yet"
+  else mobileSearchbarMSG= locationObj.locationString
+
   return (
     <>
       {/* THE FOLLOWING IS ONLY VISIBLE ON SCREENS BEFORE THE sm BREAKPOINT */}
@@ -24,8 +25,8 @@ export default function Home() {
         >
           Local Eats
         </Typography>
-        <Box sx={mobileStyles.boxParent}>
-          <Button sx={mobileStyles.locationBtn}>
+        {/* <Box sx={mobileStyles.boxParent}>
+          <Button sx={mobileStyles.locationBtn} onClick={detectLocation}>
             <GpsFixedIcon fontSize="large" color="secondary" sx={{ mr: 1.5 }} />
             <Stack sx={{ mr: 1.5 }}>
               <Typography
@@ -56,9 +57,7 @@ export default function Home() {
                 Most recent location
               </Typography>
               <Typography color="primary" sx={{ fontSize: "0.875rem" }}>
-                {!locationObj
-                  ? "None yet"
-                  : locationObj.locationString + ";) //!"}
+                {mobileSearchbarMSG}
               </Typography>
             </Stack>
           </Box>
@@ -69,7 +68,7 @@ export default function Home() {
             sx={{ ml: 1, flex: 1, p: 0.5 }}
             placeholder="Restaurant, cuisine, or dish"
           />
-        </Box>
+        </Box> */}
       </Stack>
       {/* THE FOLLOWING IS ONLY VISIBLE ON SCREENS PAST THE sm BREAKPOINT */}
       <Box component="section" sx={desktopStyles.cuisineIMG}>

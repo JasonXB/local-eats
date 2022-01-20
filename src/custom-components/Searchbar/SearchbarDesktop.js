@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { useLocationContext } from "../state-management/locationContext";
+import { useLocationContext } from "../../state-management/locationContext";
 //  prettier-ignore
 import { Typography, Button, Box, Divider, TextField, InputBase, Menu, MenuItem } from "@mui/material";
 import { styled, alpha } from "@mui/material/styles";
@@ -7,12 +7,25 @@ import SearchIcon from "@mui/icons-material/Search";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import GpsFixedIcon from "@mui/icons-material/GpsFixed";
-import HistoryIcon from "@mui/icons-material/History";
+import IconButton from "@mui/material/IconButton";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
+import PublicIcon from "@mui/icons-material/Public";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export default function SearchbarDesktop() {
   // Import location data found at startup, and a detect location function fr/ Context API
   const { detectLocation, locationObj } = useLocationContext();
+  //! Decide on what message to show on the searchbar based on saved location data on LocalStorage
+  
+  const [desktopMSG, setDesktopMSG]= useState("Pick a location")
+  const getNewLocation = async function (event) {
+    // Use Search as an achor element for any menus that spawn underneath (alert: may have removed it permanently)
+    setAnchorEl(event.currentTarget.closest("div"));
+    setArrowIcon(<ArrowDropUpIcon fontSize="large" />);
+
+    // const coordinates = await detectLocation();
+    // console.log(coordinates);
+  };
 
   // BELOW JS AFFECTS STYLING ONLY ▼
   const [arrowIcon, setArrowIcon] = useState(<ArrowDropDownIcon />);
@@ -25,52 +38,60 @@ export default function SearchbarDesktop() {
     return;
   };
 
-  const getNewLocation = async function (event) {
-    // Use Search as an achor element for any menus that spawn underneath (alert: may have removed it permanently)
-    setAnchorEl(event.currentTarget.closest("div")); 
-    setArrowIcon(<ArrowDropUpIcon fontSize="large" />);
-
-    const coordinates = await detectLocation();
-    console.log(coordinates);
-  };
-
   return (
     <Search>
       <Button sx={styles.menuButton} color="secondary" onClick={getNewLocation}>
-        {/* <LocationOnIcon /> */}
-        <GpsFixedIcon color="secondary" />
+        <LocationOnIcon />
         <Typography variant="p" sx={styles.location} align="left">
-          Detect your location
+          {desktopMSG}
         </Typography>
-        {/* {arrowIcon} */}
+        {arrowIcon}
       </Button>
-      {/* <Menu
+
+      <Menu
         id="basic-menu"
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
         sx={styles.menu}
       >
-        <MenuItem sx={{ display: "flex", p: 2 }}>
+        <MenuItem sx={{ display: "flex", p: 1.75 }}>
           <GpsFixedIcon color="secondary" />
-          <Typography color="secondary" onClick={getNewLocation} align="left" sx={{ ml: 1 }}>
+          <Typography
+            color="secondary"
+            onClick={getNewLocation}
+            align="left"
+            sx={{ ml: 1 }}
+          >
             Detect current location
           </Typography>
         </MenuItem>
-        <Box>
+        <MenuItem sx={{ display: "flex", p: 1.75 }}>
+          <PublicIcon color="secondary" sx={{ mt: "-4px" }} />
+          <Typography
+            color="secondary"
+            onClick={getNewLocation}
+            align="left"
+            sx={{ ml: 1 }}
+          >
+            Pick any country
+          </Typography>
+        </MenuItem>
+        {/* <Box>
           <Divider sx={{ mb: 3 }} />
           <Typography variant="h6" component="p" sx={{ ml: 2 }}>
-            Most recent location
+            Currently selected location:
           </Typography>
-          <MenuItem sx={styles.locationItem}>
-            <HistoryIcon sx={{ mr: 1 }} />
-            <Box component="p" sx={{ m: 0 }}>
-              Richmond Hill
+          <Typography sx={styles.locationItem}>
+            <IconButton aria-label="delete" sx={{ mt: "-5px", p:0 }}>
+              <DeleteIcon />
+            </IconButton>
+            <Box component="p" sx={{ m: 0, ml: 1 }}>
+              {locationObj ? locationObj.locationString : "none yet"}
             </Box>
-          </MenuItem>
-          
-        </Box>
-      </Menu> */}
+          </Typography>
+        </Box> */}
+      </Menu>
 
       <Divider orientation="vertical" flexItem sx={{ mx: 1 }} />
       <SearchIcon />
@@ -108,7 +129,7 @@ const styles = {
   location: {
     width: "12.25rem",
     ml: 1,
-    mt:"4px"
+    mt: "4px",
   },
   // The location button that triggers the drop down list to appear
   menuButton: {
