@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocationContext } from "../../state-management/locationContext";
 //  prettier-ignore
 import { Typography, Button, Box, Divider, TextField, InputBase, Menu, MenuItem } from "@mui/material";
@@ -7,24 +7,37 @@ import SearchIcon from "@mui/icons-material/Search";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import GpsFixedIcon from "@mui/icons-material/GpsFixed";
-import IconButton from "@mui/material/IconButton";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import PublicIcon from "@mui/icons-material/Public";
-import DeleteIcon from "@mui/icons-material/Delete";
 
 export default function SearchbarDesktop() {
-  // Import location data found at startup, and a detect location function fr/ Context API
-  const { detectLocation, locationObj } = useLocationContext();
-  //! Decide on what message to show on the searchbar based on saved location data on LocalStorage
-  
-  const [desktopMSG, setDesktopMSG]= useState("Pick a location")
-  const getNewLocation = async function (event) {
-    // Use Search as an achor element for any menus that spawn underneath (alert: may have removed it permanently)
+  const openMenu = function (event) {
     setAnchorEl(event.currentTarget.closest("div.anchor_point"));
     setArrowIcon(<ArrowDropUpIcon fontSize="large" />);
+  }; // Use Search as an achor element for any menus that spawn underneath
+  const closeMenu = function () {
+    setArrowIcon(<ArrowDropDownIcon fontSize="large" />);
+    setAnchorEl(null);
+    return;
+  };
 
-    // const coordinates = await detectLocation();
-    // console.log(coordinates);
+  // Import location data found at startup, and a detect location function fr/ Context API
+  const { detectLocation, locationObj } = useLocationContext();
+  // Decide on what message to show on the searchbar based on saved location data on LocalStorage
+  const [desktopMSG, setDesktopMSG] = useState("Pick a location");
+  useEffect(() => {
+    if (!locationObj) setDesktopMSG("Pick a location");
+    else setDesktopMSG(locationObj.locationString);
+  }, [locationObj]); // change it whenever locationObj is altered
+
+  
+  const getNewLocation = async function (event) {
+    closeMenu();
+    await detectLocation();
+  };
+  const pickAnyCountry = async function (event) {
+    closeMenu();
+    //! code actions for a nation selector
   };
 
   // BELOW JS AFFECTS STYLING ONLY ▼
@@ -32,15 +45,9 @@ export default function SearchbarDesktop() {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
-  const handleClose = () => {
-    setArrowIcon(<ArrowDropDownIcon fontSize="large" />);
-    setAnchorEl(null);
-    return;
-  };
-
   return (
     <Search className="anchor_point">
-      <Button sx={styles.menuButton} color="secondary" onClick={getNewLocation}>
+      <Button sx={styles.menuButton} color="secondary" onClick={openMenu}>
         <LocationOnIcon />
         <Typography variant="p" sx={styles.location} align="left">
           {desktopMSG}
@@ -52,28 +59,18 @@ export default function SearchbarDesktop() {
         id="basic-menu"
         anchorEl={anchorEl}
         open={open}
-        onClose={handleClose}
+        onClose={closeMenu}
         sx={styles.menu}
       >
-        <MenuItem sx={{ display: "flex", p: 1.75 }}>
-          <GpsFixedIcon color="secondary" />
-          <Button
-            color="secondary"
-            onClick={getNewLocation}
-            align="left"
-            sx={{ ml: 1 }}
-          >
+        <MenuItem sx={{ display: "flex", px: 1.5 }}>
+          <GpsFixedIcon color="secondary" sx={{ mt: "-4px" }} />
+          <Button color="secondary" onClick={getNewLocation} align="left">
             Detect current location
           </Button>
         </MenuItem>
-        <MenuItem sx={{ display: "flex", p: 1.75 }}>
+        <MenuItem sx={{ display: "flex", px: 1.5 }}>
           <PublicIcon color="secondary" sx={{ mt: "-4px" }} />
-          <Button
-            color="secondary"
-            onClick={getNewLocation}
-            align="left"
-            sx={{ ml: 1 }}
-          >
+          <Button color="secondary" align="left" onClick={pickAnyCountry}>
             Pick any country
           </Button>
         </MenuItem>

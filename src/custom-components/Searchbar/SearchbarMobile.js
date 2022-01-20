@@ -2,15 +2,9 @@ import React, { useState, useRef } from "react";
 import { useLocationContext } from "../../state-management/locationContext";
 //  prettier-ignore
 import { Typography, Button, Box, Stack, InputBase, Menu, MenuItem } from "@mui/material";
-import { styled, alpha } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import GpsFixedIcon from "@mui/icons-material/GpsFixed";
-import IconButton from "@mui/material/IconButton";
-import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
-import PublicIcon from "@mui/icons-material/Public";
-import DeleteIcon from "@mui/icons-material/Delete";
+
 import { mix } from "../../../styles/styleMixins";
 export default function SearchbarMobile() {
   const { detectLocation, locationObj } = useLocationContext();
