@@ -20,7 +20,7 @@ export default function SearchbarDesktop() {
   const [desktopMSG, setDesktopMSG]= useState("Pick a location")
   const getNewLocation = async function (event) {
     // Use Search as an achor element for any menus that spawn underneath (alert: may have removed it permanently)
-    setAnchorEl(event.currentTarget.closest("div"));
+    setAnchorEl(event.currentTarget.closest("div.anchor_point"));
     setArrowIcon(<ArrowDropUpIcon fontSize="large" />);
 
     // const coordinates = await detectLocation();
@@ -39,7 +39,7 @@ export default function SearchbarDesktop() {
   };
 
   return (
-    <Search>
+    <Search className="anchor_point">
       <Button sx={styles.menuButton} color="secondary" onClick={getNewLocation}>
         <LocationOnIcon />
         <Typography variant="p" sx={styles.location} align="left">
@@ -57,25 +57,25 @@ export default function SearchbarDesktop() {
       >
         <MenuItem sx={{ display: "flex", p: 1.75 }}>
           <GpsFixedIcon color="secondary" />
-          <Typography
+          <Button
             color="secondary"
             onClick={getNewLocation}
             align="left"
             sx={{ ml: 1 }}
           >
             Detect current location
-          </Typography>
+          </Button>
         </MenuItem>
         <MenuItem sx={{ display: "flex", p: 1.75 }}>
           <PublicIcon color="secondary" sx={{ mt: "-4px" }} />
-          <Typography
+          <Button
             color="secondary"
             onClick={getNewLocation}
             align="left"
             sx={{ ml: 1 }}
           >
             Pick any country
-          </Typography>
+          </Button>
         </MenuItem>
         {/* <Box>
           <Divider sx={{ mb: 3 }} />

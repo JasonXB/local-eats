@@ -1,16 +1,12 @@
+import SearchbarMobile from "../../custom-components/Searchbar/SearchbarMobile";
 //  prettier-ignore
 import { Typography, Box, Stack, Button, InputBase, Menu, MenuItem,} from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
-import GpsFixedIcon from "@mui/icons-material/GpsFixed";
 import { mix } from "../../../styles/styleMixins";
 import SearchbarDesktop from "../../custom-components/Searchbar/SearchbarDesktop";
 import { useLocationContext } from "../../state-management/locationContext";
+
 export default function Home() {
   const { locationObj, detectLocation } = useLocationContext();
-  // Decide on what message to show on the searchbar based on saved location data on LocalStorage
-  let mobileSearchbarMSG;
-  if(!locationObj) mobileSearchbarMSG= "none yet"
-  else mobileSearchbarMSG= locationObj.locationString
 
   return (
     <>
@@ -25,50 +21,7 @@ export default function Home() {
         >
           Local Eats
         </Typography>
-        {/* <Box sx={mobileStyles.boxParent}>
-          <Button sx={mobileStyles.locationBtn} onClick={detectLocation}>
-            <GpsFixedIcon fontSize="large" color="secondary" sx={{ mr: 1.5 }} />
-            <Stack sx={{ mr: 1.5 }}>
-              <Typography
-                color="secondary"
-                variant="h6"
-                sx={{ fontSize: "1rem" }}
-                component="p"
-              >
-                Get current location
-              </Typography>
-              <Typography
-                color="secondary"
-                sx={{ fontSize: "0.875rem" }}
-                align="left"
-              >
-                via GPS
-              </Typography>
-            </Stack>
-          </Button>
-          <Box sx={{ ...mix.flexRow }}>
-            <Stack sx={{ mr: 1 }}>
-              <Typography
-                variant="h6"
-                sx={{ fontSize: "1rem" }}
-                component="p"
-                color="primary"
-              >
-                Most recent location
-              </Typography>
-              <Typography color="primary" sx={{ fontSize: "0.875rem" }}>
-                {mobileSearchbarMSG}
-              </Typography>
-            </Stack>
-          </Box>
-        </Box>
-        <Box sx={mobileStyles.searchbar}>
-          <SearchIcon sx={{ mx: 1.25 }} color="secondary" />
-          <InputBase
-            sx={{ ml: 1, flex: 1, p: 0.5 }}
-            placeholder="Restaurant, cuisine, or dish"
-          />
-        </Box> */}
+        <SearchbarMobile/>
       </Stack>
       {/* THE FOLLOWING IS ONLY VISIBLE ON SCREENS PAST THE sm BREAKPOINT */}
       <Box component="section" sx={desktopStyles.cuisineIMG}>
@@ -88,7 +41,6 @@ export default function Home() {
           sx={desktopStyles.tagline}
         >
           Discover the best restaurants, cafés, and bars
-          {/* <br /> and bars in your area */}
         </Typography>
         <SearchbarDesktop />
       </Box>
@@ -106,40 +58,7 @@ const mobileStyles = {
       },
     };
   },
-  title: {
-    ...mix.titleFont,
-    ...mix.regMargin("mt"),
-  },
-  boxParent: {
-    ...mix.flexRow,
-    ...mix.regMargin("!bottom"),
-    marginTop: 0,
-    justifyContent: "space-between",
-    borderRadius: "10px",
-  },
-  locationBtn: {
-    ...mix.flexRow,
-    m: 0,
-    textTransform: "none", // disables all caps in button
-    "&:hover": {
-      cursor: "pointer",
-    },
-    "& .MuiTypography-root": {
-      textAlign: "start",
-    },
-  },
-  searchbar: {
-    display: "flex",
-    bgcolor: "white",
-    alignItems: "center",
-    border: "1px solid #D6CFC7",
-    borderRadius: "10px",
-    boxShadow: "0 0 1px 1px #D6CFC7",
-    mt: 0,
-    ...mix.regMargin("m"),
-    "& .MuiInputBase-root": { ml: 0 },
-  },
-};
+}
 
 const desktopStyles = {
   cuisineIMG: (theme) => {
