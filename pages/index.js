@@ -10,12 +10,8 @@ import Footer from "../src/custom-components/Footer";
 import LocationModal from "../src/custom-components/LocationModal/LocationModal";
 
 export default function index() {
-  const { detectLocation } = useLocationContext();
-  
-  //! delete later once testing ends
-  const temporaryHandler = function () {
-    localStorage.removeItem("savedLocation");
-  };
+  const { detectLocation, devButton } = useLocationContext();
+
   return (
     <>
       <MissionStatement />
@@ -32,7 +28,7 @@ export default function index() {
         <Footer />
       </LayoutContainer>
       <LocationModal />
-      <button>Delete saved location</button>
+      {devButton}
     </>
   );
 }

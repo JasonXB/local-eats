@@ -7,9 +7,10 @@ import SearchbarDesktop from "../../../src/custom-components/SearchbarDesktop";
 import { useLocationContext } from "../../state-management/locationContext";
 export default function Home() {
   const { locationObj } = useLocationContext();
-  // console.group("MissionStatement.js");
-  // console.log("LocalStorage says current location is: " + locationObj);
-  // console.groupEnd("");
+  console.group("MissionStatement.js");
+  console.log("LocalStorage says current location is:")
+  console.log(locationObj)
+  console.groupEnd("");
   return (
     <>
       {/* THE FOLLOWING IS ONLY VISIBLE ON SCREENS BEFORE THE sm BREAKPOINT */}

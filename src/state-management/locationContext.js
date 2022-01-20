@@ -72,8 +72,15 @@ export default function LocationContextProvider(props) {
         // revealModal();
       });
   };
+  //! Delete once development ends (and anywhere we use it)
+  //  prettier-ignore
+  const devButton = <button onClick={()=>{
+    setLocationObj(null);
+    localStorage.removeItem("savedLocation");
+  }}>Delete saved location //! </button>
+
   // ——————————————————————————————————————————————————————
-  const locationRelated = { detectLocation, locationObj };
+  const locationRelated = { detectLocation, locationObj, devButton };
   const modalRelated = { showModal, revealModal, hideModal };
   const distribution = { ...locationRelated, ...modalRelated };
   return <AAA.Provider value={distribution}>{props.children}</AAA.Provider>;
