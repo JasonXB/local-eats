@@ -58,6 +58,10 @@ const mobileStyles = {
       },
     };
   },
+  title: {
+    ...mix.titleFont,
+    ...mix.regMargin("mt"),
+  },
 }
 
 const desktopStyles = {

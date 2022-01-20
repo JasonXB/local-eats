@@ -30,7 +30,6 @@ export default function SearchbarDesktop() {
     else setDesktopMSG(locationObj.locationString);
   }, [locationObj]); // change it whenever locationObj is altered
 
-  
   const getNewLocation = async function (event) {
     closeMenu();
     await detectLocation();
@@ -62,32 +61,18 @@ export default function SearchbarDesktop() {
         onClose={closeMenu}
         sx={styles.menu}
       >
-        <MenuItem sx={{ display: "flex", px: 1.5 }}>
+        <MenuItem sx={{ display: "flex", px: 1.5 }} onClick={getNewLocation}>
           <GpsFixedIcon color="secondary" sx={{ mt: "-4px" }} />
-          <Button color="secondary" onClick={getNewLocation} align="left">
+          <Button color="secondary" align="left">
             Detect current location
           </Button>
         </MenuItem>
-        <MenuItem sx={{ display: "flex", px: 1.5 }}>
+        <MenuItem sx={{ display: "flex", px: 1.5 }} onClick={pickAnyCountry}>
           <PublicIcon color="secondary" sx={{ mt: "-4px" }} />
-          <Button color="secondary" align="left" onClick={pickAnyCountry}>
+          <Button color="secondary" align="left">
             Pick any country
           </Button>
         </MenuItem>
-        {/* <Box>
-          <Divider sx={{ mb: 3 }} />
-          <Typography variant="h6" component="p" sx={{ ml: 2 }}>
-            Currently selected location:
-          </Typography>
-          <Typography sx={styles.locationItem}>
-            <IconButton aria-label="delete" sx={{ mt: "-5px", p:0 }}>
-              <DeleteIcon />
-            </IconButton>
-            <Box component="p" sx={{ m: 0, ml: 1 }}>
-              {locationObj ? locationObj.locationString : "none yet"}
-            </Box>
-          </Typography>
-        </Box> */}
       </Menu>
 
       <Divider orientation="vertical" flexItem sx={{ mx: 1 }} />

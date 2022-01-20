@@ -4,7 +4,6 @@ export default async function handler(req, res) {
   // Gather required data for your request to the Mapqiuest API
   const lat = req.body.latitude;
   const long = req.body.longitude;
-  console.log(lat, long, process.env.MAPQUEST_API_KEY);
   const requestURL = `http://www.mapquestapi.com/geocoding/v1/reverse?key=${process.env.MAPQUEST_API_KEY}&location=${lat},${long}`;
   const requestData = await fetchLocationData(lat, long, requestURL);
   if (requestData !== null) {

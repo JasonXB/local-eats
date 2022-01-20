@@ -71,10 +71,7 @@ const mobileStyles = {
       },
     };
   },
-  title: {
-    ...mix.titleFont,
-    ...mix.regMargin("mt"),
-  },
+  
   boxParent: {
     ...mix.flexRow,
     ...mix.regMargin("!bottom"),

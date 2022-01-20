@@ -29,7 +29,7 @@ export default function Cuisines() {
   return (
     <>
       <Box sx={{ ...mix.responsiveLayout }}>
-        <Typography variant="h2">Popular Cuisines:</Typography>
+        <Typography variant="h2">Popular Local Cuisines:</Typography>
       </Box>
       {/* LIST OF CUISINE CARDS */}
       <Box
