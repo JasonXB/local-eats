@@ -14,56 +14,64 @@ export default function LocationContextProvider(props) {
   // On startup, check LocalStorage for any saved location objects
   // If one exists, set the state variable equal to it
   useEffect(() => {
-    const stringObject = localStorage.getItem("savedLocation");
-    setLocationObj(JSON.parse(stringObject));
+    setLocationObj(JSON.parse(localStorage.getItem("savedLocation")));
   }, []);
 
   //^ Use this function to get your current location
   const detectLocation = async function () {
-    let latitude;
-    let longitude;
     // Check the visitor's browser supports Geolocation
     if (!navigator.geolocation) {
-      revealModal(); // if it doesn't, show the error Modal
+      alert(
+        "A required API is not supported by your browser. Please download a modern one in order to use this site"
+      );
+      //! create a no-support error screen or modal
       return;
     }
-    // If geolocation returns an error, render the error modal
-    const onError = function (builtInParam) {
-      alert("Geolocation API failed: Source= locationContext.js");
-      return;
+    // Made a promisified Geolocation API function, so we can chain actions after it with then()
+    const getPosition = function () {
+      // If geolocation returns an error or gets refused permissions by the user when prompted
+      const onReject = function (builtInParam) {
+        alert("Geolocation has either failed or been denied access");
+        revealModal();
+        return;
+      };
+      // If geolocation is supported, find our current position
+      const onSuccess = function (builtInParam) {
+        pos.latitude = builtInParam.coords.latitude;
+        pos.longitude = builtInParam.coords.longitude;
+      };
+      return new Promise(function (onSuccess, onReject) {
+        navigator.geolocation.getCurrentPosition(onSuccess, onReject);
+      });
     };
-    // If geolocation is supported, find our current position and save it to Global Context
-    const onSuccess = async function (builtInParam) {
-      latitude = await builtInParam.coords.latitude;
-      longitude = await builtInParam.coords.longitude;
-      console.log(latitude, longitude)
-    };
-    const coordinates = await navigator.geolocation.getCurrentPosition(
-      onSuccess,
-      onError
-    );
-    return [latitude, longitude];
-  };
-  /*
-try {
-        
-        // Request API route that will give us the location name for the coordinates we supply
-        //! error thrown in this API call
-        const apiRouteResponse = await fetch("/api/mapquest", {
-          method: "GET",
+    // Chain actions after we get the
+    getPosition()
+      .then((pos) => {
+        // Organize data
+        const latitude = pos.coords.latitude;
+        const longitude = pos.coords.longitude;
+        // Make an API Route call to mapquest.js
+        return fetch("/api/mapquest", {
+          method: "POST",
           body: JSON.stringify({ latitude, longitude }),
           headers: { "Content-Type": "application/json" },
         });
-        //! does not make it out
-        console.log("successful API route call")
-        console.log(apiRouteResponse); //! log for now
-        // Replace the previous location in Local Storage, and update the state here
-        // localStorage.setItem("savedLocation", JSON.stringify(locationObj));
-        // setLocationObj(locationObj);
-      } catch (err) {
-        revealModal(); // Render the location error modal
-      }
-*/
+      })
+      .then((res) => res.json())
+      .then((r) => {
+        // Extract data from the successful API call
+        const requestData = r.requestData;
+        // Save details to localStorage and project state
+        localStorage.setItem("savedLocation", JSON.stringify(requestData));
+        // Save it to the current project's state
+        setLocationObj(requestData);
+      })
+      .catch((error) => {
+        alert("Failure in API call involving mapquest");
+        //! create modal for failed Mapquest
+        // revealModal();
+      });
+  };
   // ——————————————————————————————————————————————————————
   const locationRelated = { detectLocation, locationObj };
   const modalRelated = { showModal, revealModal, hideModal };

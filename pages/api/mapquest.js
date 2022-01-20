@@ -1,30 +1,37 @@
+const axios = require("axios");
 
 export default async function handler(req, res) {
+  // Gather required data for your request to the Mapqiuest API
   const lat = req.body.latitude;
   const long = req.body.longitude;
+  console.log(lat, long, process.env.MAPQUEST_API_KEY);
   const requestURL = `http://www.mapquestapi.com/geocoding/v1/reverse?key=${process.env.MAPQUEST_API_KEY}&location=${lat},${long}`;
-  try {
-    // Request data from mapquest then organize it
-    const mapquestResponse = await axios.get(requestURL); // autoparsed to JS
-    const data = {
-      city: mapquestResponse.results.adminArea5,
-      nation: mapquestResponse.results.adminArea1,
-      //  prettier-ignore  "Ex. Toronto, Canada"
-      locationString:
-        mapquestResponse.results.adminArea5 +
-        ", " +
-        mapquestResponse.results.adminArea1,
-    };
-    // Return a json object back to the client side
-    res.status(200).json({ message: "Data fetched successfully", data });
-  } catch (error) {
-    // Return an error if anything goes wrong in the try block (axios will take care of throwing errors for you)
-    res.status(404).json({ message: "Fetch operation failure" });
+  const requestData = await fetchLocationData(lat, long, requestURL);
+  if (requestData !== null) {
+    //  prettier-ignore
+    res.status(200).json({ message: "Data fetched successfully", requestData });
+  } else {
+    res.status(404).json({ message: "MapquestAPI error" });
   }
 }
 
-
-// export default async function handler(req, res) {
-//   res.status(200).json({ message: "Data fetched successfully"});
-// }
-
+//  prettier-ignore
+export const fetchLocationData = async function (latitude, longitude, requestURL) {
+  try {
+    // Request data from mapquest then organize it
+    const mapquestResponse = await axios.get(requestURL); // autoparsed to JS
+    const city = mapquestResponse.data.results[0].locations[0].adminArea5;
+    const nation = mapquestResponse.data.results[0].locations[0].adminArea1;
+    const data = {
+      city,
+      nation,
+      locationString: `${city}, ${nation}`,
+      latitude,
+      longitude,
+    };
+    return data;
+  } catch (error) {
+    // Axios will auto-throw an error if the request gets rejected or returns an error code
+    return null;
+  }
+};
