@@ -18,28 +18,33 @@ export default function SearchbarDesktop() {
   const [arrowIcon, setArrowIcon] = useState(<ArrowDropDownIcon />);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget.closest("div"));
-    setArrowIcon(<ArrowDropUpIcon fontSize="large" />);
-    detectLocation();
-  }; // set <Search> as our anchor
+
   const handleClose = () => {
     setArrowIcon(<ArrowDropDownIcon fontSize="large" />);
     setAnchorEl(null);
     return;
   };
 
+  const getNewLocation = async function (event) {
+    // Use Search as an achor element for any menus that spawn underneath (alert: may have removed it permanently)
+    setAnchorEl(event.currentTarget.closest("div")); 
+    setArrowIcon(<ArrowDropUpIcon fontSize="large" />);
+
+    const coordinates = await detectLocation();
+    console.log(coordinates);
+  };
+
   return (
     <Search>
-      <Button sx={styles.menuButton} color="secondary" onClick={handleClick}>
-        <LocationOnIcon />
+      <Button sx={styles.menuButton} color="secondary" onClick={getNewLocation}>
+        {/* <LocationOnIcon /> */}
+        <GpsFixedIcon color="secondary" />
         <Typography variant="p" sx={styles.location} align="left">
-          {/* {locationObj ? locationObj.locationString : "Find location"} */}
-          Locationnnn?
+          Detect your location
         </Typography>
-        {arrowIcon}
+        {/* {arrowIcon} */}
       </Button>
-      <Menu
+      {/* <Menu
         id="basic-menu"
         anchorEl={anchorEl}
         open={open}
@@ -48,7 +53,7 @@ export default function SearchbarDesktop() {
       >
         <MenuItem sx={{ display: "flex", p: 2 }}>
           <GpsFixedIcon color="secondary" />
-          <Typography variant="p" color="secondary" align="left" sx={{ ml: 1 }}>
+          <Typography color="secondary" onClick={getNewLocation} align="left" sx={{ ml: 1 }}>
             Detect current location
           </Typography>
         </MenuItem>
@@ -63,8 +68,9 @@ export default function SearchbarDesktop() {
               Richmond Hill
             </Box>
           </MenuItem>
+          
         </Box>
-      </Menu>
+      </Menu> */}
 
       <Divider orientation="vertical" flexItem sx={{ mx: 1 }} />
       <SearchIcon />
@@ -100,8 +106,9 @@ const Search = styled("div")(({ theme }) => ({
 const styles = {
   // Styles the Button text telling us where we currently are
   location: {
-    width: "11.25rem",
+    width: "12.25rem",
     ml: 1,
+    mt:"4px"
   },
   // The location button that triggers the drop down list to appear
   menuButton: {

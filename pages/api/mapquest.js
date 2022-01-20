@@ -1,10 +1,5 @@
-/*
-export default async function handler(req, res) {
-  // Return an error for any non GET requests to this route
-  //  prettier-ignore
-  if (req.method !== "GET") res.status(404).json({message: 'No coded actions for that request type!'});
 
-  // If the request type is GET, run the following
+export default async function handler(req, res) {
   const lat = req.body.latitude;
   const long = req.body.longitude;
   const requestURL = `http://www.mapquestapi.com/geocoding/v1/reverse?key=${process.env.MAPQUEST_API_KEY}&location=${lat},${long}`;
@@ -27,9 +22,9 @@ export default async function handler(req, res) {
     res.status(404).json({ message: "Fetch operation failure" });
   }
 }
-*/
 
-export default async function handler(req, res) {
-  res.status(200).json({ message: "Data fetched successfully"});
-}
+
+// export default async function handler(req, res) {
+//   res.status(200).json({ message: "Data fetched successfully"});
+// }
 

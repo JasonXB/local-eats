@@ -4,8 +4,12 @@ import SearchIcon from "@mui/icons-material/Search";
 import GpsFixedIcon from "@mui/icons-material/GpsFixed";
 import { mix } from "../../../styles/styleMixins";
 import SearchbarDesktop from "../../../src/custom-components/SearchbarDesktop";
-
+import { useLocationContext } from "../../state-management/locationContext";
 export default function Home() {
+  const { locationObj } = useLocationContext();
+  console.group("MissionStatement.js");
+  console.log("LocalStorage says current location is: " + locationObj);
+  console.groupEnd("");
   return (
     <>
       {/* THE FOLLOWING IS ONLY VISIBLE ON SCREENS BEFORE THE sm BREAKPOINT */}
@@ -51,7 +55,9 @@ export default function Home() {
                 Most recent location
               </Typography>
               <Typography color="primary" sx={{ fontSize: "0.875rem" }}>
-                Richmond Hill
+                {!locationObj
+                  ? "None yet"
+                  : locationObj.locationString + ";) //!"}
               </Typography>
             </Stack>
           </Box>

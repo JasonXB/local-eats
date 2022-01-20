@@ -20,6 +20,8 @@ export default function LocationContextProvider(props) {
 
   //^ Use this function to get your current location
   const detectLocation = async function () {
+    let latitude;
+    let longitude;
     // Check the visitor's browser supports Geolocation
     if (!navigator.geolocation) {
       revealModal(); // if it doesn't, show the error Modal
@@ -27,15 +29,24 @@ export default function LocationContextProvider(props) {
     }
     // If geolocation returns an error, render the error modal
     const onError = function (builtInParam) {
-      revealModal();
+      alert("Geolocation API failed: Source= locationContext.js");
+      return;
     };
     // If geolocation is supported, find our current position and save it to Global Context
     const onSuccess = async function (builtInParam) {
-      try {
-        // Extract lat and loongitude from Geolocation API
-        const latitude = await builtInParam.coords.latitude;
-        const longitude = await builtInParam.coords.longitude;
-        console.log("L3", latitude, longitude);
+      latitude = await builtInParam.coords.latitude;
+      longitude = await builtInParam.coords.longitude;
+      console.log(latitude, longitude)
+    };
+    const coordinates = await navigator.geolocation.getCurrentPosition(
+      onSuccess,
+      onError
+    );
+    return [latitude, longitude];
+  };
+  /*
+try {
+        
         // Request API route that will give us the location name for the coordinates we supply
         //! error thrown in this API call
         const apiRouteResponse = await fetch("/api/mapquest", {
@@ -52,10 +63,7 @@ export default function LocationContextProvider(props) {
       } catch (err) {
         revealModal(); // Render the location error modal
       }
-    };
-    navigator.geolocation.getCurrentPosition(onSuccess, onError);
-  };
-
+*/
   // ——————————————————————————————————————————————————————
   const locationRelated = { detectLocation, locationObj };
   const modalRelated = { showModal, revealModal, hideModal };

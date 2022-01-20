@@ -1,11 +1,13 @@
-We leave red text in files that have issues we need to address
-src/custom-components/LocationModal/LocationModal.js
 
 
 
 
-FINAL FIX:
+
+
+FINAL CHECKS
+1) Search for //! across your entire project using the VSCode magnifier
+2) Check for alert( across your project- I've used them to skip over error handling in certain areas
+Replace with legitimate error communications
+
+REFACTOR STYLING:
 Refactor all your MUI styling so most of it isn't inline
-
-FINAL CHECK
-Search for //! across your entire project using the VSCode magnifier
