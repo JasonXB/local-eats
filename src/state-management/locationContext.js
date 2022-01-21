@@ -1,4 +1,5 @@
 //  prettier-ignore
+import axios from "axios";
 import { useState, createContext, useContext, useEffect } from "react"; // import useContext
 const AAA = createContext();
 export const useLocationContext = () => useContext(AAA); // export custom hook
@@ -14,7 +15,8 @@ export default function LocationContextProvider(props) {
   // On startup, check LocalStorage for any saved location objects
   // If one exists, set the state variable equal to it
   useEffect(() => {
-    setLocationObj(JSON.parse(localStorage.getItem("savedLocation")));
+    if (!locationObj) return;
+    else setLocationObj(JSON.parse(localStorage.getItem("savedLocation")));
   }, []);
 
   //^ Use this function to get your current location
@@ -42,18 +44,15 @@ export default function LocationContextProvider(props) {
     const actionsAfterCoordinates = async function () {
       try {
         const locationInfo = await getPosition();
-        // Organize data from Geolocation API request
-        const latitude = locationInfo.coords.latitude;
-        const longitude = locationInfo.coords.longitude;
         // Make an API Route call (it sends a GET request to Mapquest's API to get an area name for those coords)
-        const apiRouteCall = await fetch("/api/mapquest", {
-          method: "POST",
-          body: JSON.stringify({ latitude, longitude }),
-          headers: { "Content-Type": "application/json" },
+        const apiRouteCall = await axios.post("/api/mapquest", {
+          // Body payload in JS form- send lat and long
+          latitude: locationInfo.coords.latitude,
+          longitude: locationInfo.coords.longitude,
         });
-        const parsed = await apiRouteCall.json();
+        console.log(apiRouteCall);
         // Extract data from the successful API call (axios auto-throws an error if it goes wrong)
-        const requestData = parsed.requestData;
+        const requestData = apiRouteCall.data.requestData;
         // Save details to localStorage and project state
         localStorage.setItem("savedLocation", JSON.stringify(requestData));
         setLocationObj(requestData);
@@ -88,3 +87,5 @@ export default function LocationContextProvider(props) {
   const distribution = { ...locationRelated, ...modalRelated };
   return <AAA.Provider value={distribution}>{props.children}</AAA.Provider>;
 }
+
+

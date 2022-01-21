@@ -7,7 +7,7 @@ export default function GlobalContextAPIProvider(props) {
 
   useEffect(() => {
     // Check local storage for any pre-selected theme from the user
-    setThemeString(localStorage.getItem("preselectedTheme"));
+    setThemeString(localStorage.getItem("preselectedTheme")); // can = null
   }, []);
 
   //  prettier-ignore

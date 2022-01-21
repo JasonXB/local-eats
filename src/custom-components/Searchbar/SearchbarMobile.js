@@ -9,21 +9,18 @@ import { mix } from "../../../styles/styleMixins";
 export default function SearchbarMobile() {
   const { detectLocation, locationObj } = useLocationContext();
 
-  // let mobileSearchbarMSG;
-  // if (!locationObj) mobileSearchbarMSG = "none yet";
-  // else mobileSearchbarMSG = locationObj.locationString;
-
   // Decide on what message to show on the searchbar based on saved location data on LocalStorage
   const [mobileMSG, setMobileMSG] = useState("None yet");
   useEffect(() => {
-    if (!locationObj) setMobileMSG("Pick a location");
+    if (!locationObj) setMobileMSG("None yet");
     else setMobileMSG(locationObj.locationString);
   }, [locationObj]); // change it whenever locationObj is altered
 
+  // search for a new location, and override any saved ones in localStorage
   const getNewLocation = function () {
-    // search for a new location, and override any saved ones in localStorage
-    detectLocation(true);
+    detectLocation(true); // boolean required for override
   };
+  
   return (
     <>
       <Box sx={mobileStyles.boxParent}>
