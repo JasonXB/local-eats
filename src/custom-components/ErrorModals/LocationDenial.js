@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useRef } from "react";
 import { styled, Box } from "@mui/system";
 import { useLocationContext } from "../../state-management/locationContext";
 //  prettier-ignore
 import { Typography, Divider, TextField, Autocomplete, Button } from "@mui/material";
 import { mix } from "../../../styles/styleMixins";
 import { countries } from "./countryData";
+import axios from "axios";
 
 const StyledModal = styled("div")`
   position: fixed;
@@ -20,12 +21,31 @@ const StyledModal = styled("div")`
 `;
 
 export default function LocationModal(props) {
-
   const { hideModal } = useLocationContext();
-  const submitHandler = (e) => {
-    //! Get capital city from Rest Countries API
+  // Reference the value of the currently selected nation
+  const nationRef = useRef();
+
+  const submitHandler = async function (params) {
+    // Get the country value currently selected (must dig deep thanks to MUI)
+    const inputValue = nationRef.current.firstChild.firstChild.value;
+    // Length MUST be over 0 to warrant an API call
+    // The input is set to only accept pre-defined answers, so anything different counts as an empty string (thanks, MUI <3)
+    if (inputValue == 0) return alert("Improper selection"); //! replace with input text later
+
+    try {
+      // Make an API request that gets us the capital city name of the country we chose
+      const apiRouteRequest = await axios.post("/api/getCapital", {
+        countryName: inputValue,
+      });
+      console.log(apiRouteRequest);
+
+      // const capital = apiRouteRequest.data.payload;
+    } catch (err) {
+      alert("Something went wrong");
+    }
+
     //! Use that to form a search string for the the Yelp API
-    hideModal();
+    // hideModal();
   };
 
   return (
@@ -90,6 +110,7 @@ export default function LocationModal(props) {
               <TextField
                 {...params}
                 placeholder="Enter a country..."
+                ref={nationRef}
                 inputProps={{
                   ...params.inputProps,
                   autoComplete: "new-password", // disable autocomplete and autofill
@@ -105,8 +126,9 @@ export default function LocationModal(props) {
             OPTION 2:
           </Typography>
           <Typography variant="h6" component="p">
-            Allow site to access your location.<br/> Reload the page, hit the "detect location"
-            button again, and answer "yes" on the prompt you receive
+            Allow site to access your location.
+            <br /> Reload the page, hit the "detect location" button again, and
+            answer "yes" on the prompt you receive
           </Typography>
           <Box sx={{ ...mix.flexRow, justifyContent: "end", mt: 5 }}>
             <Button variant="outlined" size="medium" onClick={hideModal}>

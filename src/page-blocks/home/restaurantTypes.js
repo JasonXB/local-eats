@@ -95,7 +95,7 @@ const types = {
     Izakaya: "izakaya",
   },
 
-  "Meat-centric": {
+  "Meat-oriented": {
     Grill: "grill",
     BBQ: "BBQ",
     Burgers: "burgers", // change to burger joint as display

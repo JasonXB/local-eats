@@ -39,7 +39,7 @@ export default function SearchOptions1() {
               color="text.secondary"
               sx={{ fontSize: "1rem" }}
             >
-              View the most affordable options around with minimal waiting times
+              View the most affordable options around with minimal wait times
             </Typography>
           </CardContent>
         </Card>

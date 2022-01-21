@@ -45,13 +45,12 @@ export default function LocationContextProvider(props) {
     const actionsAfterCoordinates = async function () {
       try {
         const locationInfo = await getPosition();
-        // Make an API Route call (it sends a GET request to Mapquest's API to get an area name for those coords)
-        const apiRouteCall = await axios.post("/api/mapquest", {
+        // API Route call (it sends a GET request to Mapquest's API to get an area name for those coords)
+        const apiRouteCall = await axios.post("/api/getAreaName", {
           // Body payload in JS form- send lat and long
           latitude: locationInfo.coords.latitude,
           longitude: locationInfo.coords.longitude,
         });
-        console.log(apiRouteCall);
         // Extract data from the successful API call (axios auto-throws an error if it goes wrong)
         const requestData = apiRouteCall.data.requestData;
         // Save details to localStorage and project state
