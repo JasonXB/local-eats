@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocationContext } from "../../state-management/locationContext";
 //  prettier-ignore
 import { Typography, Button, Box, Stack, InputBase, Menu, MenuItem } from "@mui/material";
@@ -8,13 +8,26 @@ import GpsFixedIcon from "@mui/icons-material/GpsFixed";
 import { mix } from "../../../styles/styleMixins";
 export default function SearchbarMobile() {
   const { detectLocation, locationObj } = useLocationContext();
-  let mobileSearchbarMSG;
-  if (!locationObj) mobileSearchbarMSG = "none yet";
-  else mobileSearchbarMSG = locationObj.locationString;
+
+  // let mobileSearchbarMSG;
+  // if (!locationObj) mobileSearchbarMSG = "none yet";
+  // else mobileSearchbarMSG = locationObj.locationString;
+
+  // Decide on what message to show on the searchbar based on saved location data on LocalStorage
+  const [mobileMSG, setMobileMSG] = useState("None yet");
+  useEffect(() => {
+    if (!locationObj) setMobileMSG("Pick a location");
+    else setMobileMSG(locationObj.locationString);
+  }, [locationObj]); // change it whenever locationObj is altered
+
+  const getNewLocation = function () {
+    // search for a new location, and override any saved ones in localStorage
+    detectLocation(true);
+  };
   return (
     <>
       <Box sx={mobileStyles.boxParent}>
-        <Button sx={mobileStyles.locationBtn} onClick={detectLocation}>
+        <Button sx={mobileStyles.locationBtn} onClick={getNewLocation}>
           <GpsFixedIcon fontSize="large" color="secondary" sx={{ mr: 1.5 }} />
           <Stack sx={{ mr: 1.5 }}>
             <Typography
@@ -45,7 +58,7 @@ export default function SearchbarMobile() {
               Most recent location
             </Typography>
             <Typography color="primary" sx={{ fontSize: "0.875rem" }}>
-              {mobileSearchbarMSG}
+              {mobileMSG}
             </Typography>
           </Stack>
         </Box>
@@ -71,7 +84,7 @@ const mobileStyles = {
       },
     };
   },
-  
+
   boxParent: {
     ...mix.flexRow,
     ...mix.regMargin("!bottom"),

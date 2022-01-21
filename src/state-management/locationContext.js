@@ -30,31 +30,21 @@ export default function LocationContextProvider(props) {
     //^ Check if the user already has a saved location (if so, cut this off)
     // We can still use this FN to re-geolocate, if this FN recieves a parameter
     if (locationObj && !findNew) return;
-    /*
-    const onReject2 = function (builtInParam) {
-      alert("Geolocation has either failed or been denied access");
-      return;
-    };
-    // If geolocation is supported, find our current position
-    const onSuccess2 = function (pos) {
-      pos.latitude = pos.coords.latitude;
-      pos.longitude = pos.coords.longitude;
-    };
-    */
+
     // Made a promisified Geolocation API function, so we can chain actions after it with then()
     const getPosition = function () {
       return new Promise(function (onSuccess, onReject) {
-
         navigator.geolocation.getCurrentPosition(onSuccess, onReject);
       });
     };
-    // Use the coordinates to get the area name via Mapquest API
+    //~ Feel free to code any actions requiring coordinates here (1 of 2)
+    // Use the coordinates to get the current area name via Mapquest API
     getPosition()
       .then((pos) => {
         // Organize request body data
         const latitude = pos.coords.latitude;
         const longitude = pos.coords.longitude;
-        // Make an API Route call that sends a GET to mapquest.js
+        // Make an API Route call that sends a GET request to mapquest.js
         return fetch("/api/mapquest", {
           method: "POST",
           body: JSON.stringify({ latitude, longitude }),
@@ -71,7 +61,7 @@ export default function LocationContextProvider(props) {
         setLocationObj(requestData);
       })
       .catch((error) => {
-        alert("Failure in API call involving mapquest");
+        alert("Geolocation denied, or something went wrong in this chain");
         //! create modal for failed Mapquest
         // revealModal();
       });
@@ -98,3 +88,5 @@ export default function LocationContextProvider(props) {
   const distribution = { ...locationRelated, ...modalRelated };
   return <AAA.Provider value={distribution}>{props.children}</AAA.Provider>;
 }
+
+

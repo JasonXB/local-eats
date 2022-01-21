@@ -20,7 +20,7 @@ export default function SearchbarDesktop() {
     setAnchorEl(null);
     return;
   };
-
+  
   // Import location data found at startup, and a detect location function fr/ Context API
   const { detectLocation, locationObj } = useLocationContext();
   // Decide on what message to show on the searchbar based on saved location data on LocalStorage
@@ -32,7 +32,8 @@ export default function SearchbarDesktop() {
 
   const getNewLocation = async function (event) {
     closeMenu();
-    await detectLocation();
+    // search for a new location, and override any saved ones in localStorage
+    await detectLocation(true);
   };
   const pickAnyCountry = async function (event) {
     closeMenu();
