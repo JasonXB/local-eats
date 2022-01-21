@@ -4,7 +4,7 @@ export const useGlobalContext = () => useContext(AAA); // export custom hook
 
 export default function GlobalContextAPIProvider(props) {
   const [themeString, setThemeString] = useState(null); // null, "light", or "dark"
-
+    
   useEffect(() => {
     // Check local storage for any pre-selected theme from the user
     setThemeString(localStorage.getItem("preselectedTheme")); // can = null

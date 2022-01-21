@@ -7,11 +7,13 @@ import LayoutContainer from "../src/custom-components/LayoutContainer";
 import Cuisines from "../src/page-blocks/home/Cuisines";
 import RestaurantTypes from "../src/page-blocks/home/RestaurantTypes";
 import Footer from "../src/custom-components/Footer";
-import LocationModal from "../src/custom-components/LocationModal/LocationModal";
+import LocationDenial from "../src/custom-components/ErrorModals/LocationDenial";
+import GeoUnsupported from "../src/custom-components/ErrorModals/GeoUnsupported";
 
 export default function index() {
   const { detectLocation, devButton } = useLocationContext();
-
+  // Decide which error module to render when something goes wrong
+  
   return (
     <>
       <MissionStatement />
@@ -27,7 +29,7 @@ export default function index() {
       <LayoutContainer marginAbove="4.5rem" bg="#fffbf7">
         <Footer />
       </LayoutContainer>
-      <LocationModal />
+      <LocationDenial />
       {devButton}
     </>
   );

@@ -19,9 +19,9 @@ const StyledModal = styled("div")`
   text-align: center;
 `;
 
-export default function LocationModal() {
+export default function LocationModal(props) {
+  // Use state + ContextAPI to decide when this should be visible
   const { showModal, revealModal, hideModal } = useLocationContext();
-  //! Make something change the following to "true"
 
   const submitHandler = (e) => {
     //! Get capital city from Rest Countries API
@@ -48,28 +48,23 @@ export default function LocationModal() {
         <Box sx={style}>
           <Box sx={{ ...mix.flexRow, justifyContent: "center", mb: 2 }}>
             <Typography color="secondary" variant="h3" sx={{ fontWeight: 600 }}>
-              Location not found,<br/>or permissions denied
+              {props.errorMessage}
             </Typography>
           </Box>
           <Typography variant="h6" component="p">
             This site requires a location to operate
           </Typography>
           <Divider sx={{ my: 2 }} />
-          <Typography variant="h5" component="p" sx={{ fontWeight: "600" }}>
-            OPTION 1:
-          </Typography>
-          <Typography variant="h6" component="p">
-            Allow site to access your location
-          </Typography>
           <Divider sx={{ my: 2 }} />
           <Typography variant="h5" component="p" sx={{ fontWeight: "600" }}>
-            OPTION 2:
+            OPTION 1:
           </Typography>
           <Typography variant="h6" component="p">
             Search for restaurants in any nation of your choosing
             <br />
             (We understand you may want to keep your location a secret)
           </Typography>
+          
           <Autocomplete
             // id={String(Math.random())} // prevents old choices being saved
             sx={{ maxWidth: 350, mx: "auto", mt: 2, mb: 1 }}
@@ -105,6 +100,12 @@ export default function LocationModal() {
               />
             )}
           />
+          <Typography variant="h5" component="p" sx={{ fontWeight: "600" }}>
+            OPTION 2:
+          </Typography>
+          <Typography variant="h6" component="p">
+            Allow site to access your location
+          </Typography>
           <Box sx={{ ...mix.flexRow, justifyContent: "end", mt: 5 }}>
             <Button variant="outlined" size="medium" onClick={hideModal}>
               Cancel
