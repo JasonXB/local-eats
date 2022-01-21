@@ -75,9 +75,10 @@ export default function LocationContextProvider(props) {
   const locationRelated = {
     detectLocation, // use as a handler for buttons that trigger geolocation tracking
     locationObj, // use to check what our current location is (Saved to state and localStorage)
+    // setLocationObj, // use for the GetLocation utility function only!
     devButton, //! for development only
   };
-  const modalRelated = { modalVisible, showModal1, showModal2, hideModal };
+  const modalRelated = { modalVisible, hideModal, showModal1, showModal2 };
   const distribution = { ...locationRelated, ...modalRelated };
   return <AAA.Provider value={distribution}>{props.children}</AAA.Provider>;
 }

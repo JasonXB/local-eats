@@ -46,13 +46,12 @@ export default function LocationModal(props) {
         <Box sx={style}>
           <Box sx={{ ...mix.flexRow, justifyContent: "center", mb: 2 }}>
             <Typography color="secondary" variant="h3" sx={{ fontWeight: 600 }}>
-              {props.errorMessage}
+              Location Permissions Denied
             </Typography>
           </Box>
           <Typography variant="h6" component="p">
             This site requires a location to operate
           </Typography>
-          <Divider sx={{ my: 2 }} />
           <Divider sx={{ my: 2 }} />
           <Typography variant="h5" component="p" sx={{ fontWeight: "600" }}>
             OPTION 1:
@@ -62,7 +61,7 @@ export default function LocationModal(props) {
             <br />
             (We understand you may want to keep your location a secret)
           </Typography>
-          
+
           <Autocomplete
             // id={String(Math.random())} // prevents old choices being saved
             sx={{ maxWidth: 350, mx: "auto", mt: 2, mb: 1 }}
@@ -98,11 +97,16 @@ export default function LocationModal(props) {
               />
             )}
           />
-          <Typography variant="h5" component="p" sx={{ fontWeight: "600" }}>
+          <Typography
+            variant="h5"
+            component="p"
+            sx={{ fontWeight: "600", mt: 2 }}
+          >
             OPTION 2:
           </Typography>
           <Typography variant="h6" component="p">
-            Allow site to access your location
+            Allow site to access your location.<br/> Reload the page, hit the "detect location"
+            button again, and answer "yes" on the prompt you receive
           </Typography>
           <Box sx={{ ...mix.flexRow, justifyContent: "end", mt: 5 }}>
             <Button variant="outlined" size="medium" onClick={hideModal}>
