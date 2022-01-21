@@ -39,33 +39,33 @@ export default function LocationContextProvider(props) {
     };
     //~ Feel free to code any actions requiring coordinates here (1 of 2)
     // Use the coordinates to get the current area name via Mapquest API
-    getPosition()
-      .then((pos) => {
-        // Organize request body data
-        const latitude = pos.coords.latitude;
-        const longitude = pos.coords.longitude;
-        // Make an API Route call that sends a GET request to mapquest.js
-        return fetch("/api/mapquest", {
+    const actionsAfterCoordinates = async function () {
+      try {
+        const locationInfo = await getPosition();
+        // Organize data from Geolocation API request
+        const latitude = locationInfo.coords.latitude;
+        const longitude = locationInfo.coords.longitude;
+        // Make an API Route call (it sends a GET request to Mapquest's API to get an area name for those coords)
+        const apiRouteCall = await fetch("/api/mapquest", {
           method: "POST",
           body: JSON.stringify({ latitude, longitude }),
           headers: { "Content-Type": "application/json" },
         });
-      })
-      .then((res) => res.json())
-      .then((r) => {
-        // Extract data from the successful API call
-        const requestData = r.requestData;
+        const parsed = await apiRouteCall.json();
+        // Extract data from the successful API call (axios auto-throws an error if it goes wrong)
+        const requestData = parsed.requestData;
         // Save details to localStorage and project state
         localStorage.setItem("savedLocation", JSON.stringify(requestData));
-        // Save it to the current project's state
         setLocationObj(requestData);
-      })
-      .catch((error) => {
+      } catch (err) {
         alert("Geolocation denied, or something went wrong in this chain");
         //! create modal for failed Mapquest
         // revealModal();
-      });
+      }
+    };
+    actionsAfterCoordinates();
   };
+
   //! Delete once development ends (and anywhere we use it)
   //  prettier-ignore
   const devButton = <button onClick={()=>{
@@ -88,5 +88,3 @@ export default function LocationContextProvider(props) {
   const distribution = { ...locationRelated, ...modalRelated };
   return <AAA.Provider value={distribution}>{props.children}</AAA.Provider>;
 }
-
-
