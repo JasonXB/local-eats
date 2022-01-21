@@ -20,9 +20,8 @@ const StyledModal = styled("div")`
 `;
 
 export default function LocationModal(props) {
-  // Use state + ContextAPI to decide when this should be visible
-  const { showModal, revealModal, hideModal } = useLocationContext();
 
+  const { hideModal } = useLocationContext();
   const submitHandler = (e) => {
     //! Get capital city from Rest Countries API
     //! Use that to form a search string for the the Yelp API
@@ -32,7 +31,6 @@ export default function LocationModal(props) {
   return (
     <Box
       sx={{
-        display: showModal === true ? "block" : "none",
         position: "fixed",
         zIndex: 1299,
         right: 0,
