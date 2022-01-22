@@ -1,4 +1,8 @@
-
+FIND OUT WHICH 32countries Yelp is good in. 
+1) Eliminate rest from the options in our Autocomplete
+2) Hardcode the locations for Yelp to Search in those other 32 countries
+They only have data for certain areas, and there's no guarantees its for their capitals (Rework plan)
+https://www.yelp.com/locations
 
 NON FATAL BUGS
 Check console logs on Firefox browser

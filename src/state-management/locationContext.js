@@ -13,19 +13,51 @@ export default function LocationContextProvider(props) {
     else setLocationObj(JSON.parse(localStorage.getItem("savedLocation")));
   }, []); // we set the state variable equal to our findings, or null if none exist
 
-  //@ Use this state variable to decide when an error modal should be visible
+  // Use this state variable to decide when an error modal should be visible
   const [modalVisible, setModalVisible] = useState(false); // when equal to false, its hidden
-  //renders custom-components/ErrorModals/GeoUnsupported.js
+  // renders custom-components/ErrorModals/GeoUnsupported.js
   const showModal1 = () => {
     setModalVisible("case1");
   };
-  //renders custom-components/ErrorModals/LocationDenial.js
+  // renders custom-components/ErrorModals/LocationDenial.js
   const showModal2 = () => {
     setModalVisible("case2");
   };
   const hideModal = () => setModalVisible(false); // hides modal, regardless of which
   // modal1 : Used for when geolocation is not supported by the browser
   // modal2: Used for when the user explicitly declines location permisssions
+
+  // Use this function to save an object to localStorage and locationObj states
+  const saveNewLocationObj = function (inputObj) {
+    //  prettier-ignore
+    // Check to see if the object you submit has all required keys
+    const requiredKeys = ["locationString", "city", "countryCode", "latitude", "longitude"]
+    const arr = [];
+    requiredKeys.forEach((key) => {
+      if (inputObj.hasOwnProperty(key)) arr.push(true);
+      else arr.push(false);
+    });
+    if (arr.includes(false)) return alert("insufficient keys"); // may leave permanently
+    // Save them to state and localStorage if they have all required keys
+    setLocationObj(inputObj);
+    localStotage.setItem("savedLocation", JSON.stringify(inputObj));
+  };
+
+  // Use this function to save an object to localStorage and locationObj states
+  const saveNewLocationObj = function (inputObj) {
+    //  prettier-ignore
+    // Check to see if the object you submit has all required keys
+    const requiredKeys = ["locationString", "city", "countryCode", "latitude", "longitude"]
+    const arr = [];
+    requiredKeys.forEach((key) => {
+      if (inputObj.hasOwnProperty(key)) arr.push(true);
+      else arr.push(false);
+    });
+    if (arr.includes(false)) return alert("insufficient keys") // may leave permanently
+    // Save them to state and localStorage if they have all required keys
+    setLocationObj(inputObj)
+    localStotage.setItem("savedLocation", JSON.stringify(inputObj))
+  };
 
   //^ Use this function to get your current location
   const detectLocation = async function (findNew) {
@@ -76,6 +108,7 @@ export default function LocationContextProvider(props) {
     locationObj, // use to check what our current location is (Saved to state and localStorage)
     // setLocationObj, // use for the GetLocation utility function only!
     devButton, //! for development only
+    saveNewLocationObj, // use to save locationObjects, specifically when we use the Countries Selector
   };
   const modalRelated = { modalVisible, hideModal, showModal1, showModal2 };
   const distribution = { ...locationRelated, ...modalRelated };

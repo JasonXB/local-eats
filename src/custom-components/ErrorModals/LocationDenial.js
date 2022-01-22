@@ -37,9 +37,11 @@ export default function LocationModal(props) {
       const apiRouteRequest = await axios.post("/api/getCapital", {
         countryName: inputValue,
       });
-      console.log(apiRouteRequest);
+      // Data contains { city, nation, locationString , latitude, longitude }
+      const capitalCityData = apiRouteRequest.data.payload;
+      console.log(capitalCityData);
+      // Save it to the project state and localStorage (this is your new current Location)
 
-      // const capital = apiRouteRequest.data.payload;
     } catch (err) {
       alert("Something went wrong");
     }
@@ -77,7 +79,7 @@ export default function LocationModal(props) {
             OPTION 1:
           </Typography>
           <Typography variant="h6" component="p">
-            Search for restaurants in any nation of your choosing
+            Search for restaurants in 1 of 32 countries
             <br />
             (We understand you may want to keep your location a secret)
           </Typography>

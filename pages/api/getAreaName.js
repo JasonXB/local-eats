@@ -20,10 +20,10 @@ export const fetchLocationData = async function (latitude, longitude, requestURL
     // Request data from mapquest then organize it
     const mapquestResponse = await axios.get(requestURL); // autoparsed to JS
     const city = mapquestResponse.data.results[0].locations[0].adminArea5;
-    const nation = mapquestResponse.data.results[0].locations[0].adminArea1;
+    const countryCode = mapquestResponse.data.results[0].locations[0].adminArea1;
     const data = {
       city,
-      nation,
+      countryCode,
       locationString: `${city}, ${nation}`,
       latitude,
       longitude,
