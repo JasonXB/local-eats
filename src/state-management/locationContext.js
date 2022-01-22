@@ -43,22 +43,6 @@ export default function LocationContextProvider(props) {
     localStotage.setItem("savedLocation", JSON.stringify(inputObj));
   };
 
-  // Use this function to save an object to localStorage and locationObj states
-  const saveNewLocationObj = function (inputObj) {
-    //  prettier-ignore
-    // Check to see if the object you submit has all required keys
-    const requiredKeys = ["locationString", "city", "countryCode", "latitude", "longitude"]
-    const arr = [];
-    requiredKeys.forEach((key) => {
-      if (inputObj.hasOwnProperty(key)) arr.push(true);
-      else arr.push(false);
-    });
-    if (arr.includes(false)) return alert("insufficient keys") // may leave permanently
-    // Save them to state and localStorage if they have all required keys
-    setLocationObj(inputObj)
-    localStotage.setItem("savedLocation", JSON.stringify(inputObj))
-  };
-
   //^ Use this function to get your current location
   const detectLocation = async function (findNew) {
     // Check the visitor's browser supports Geolocation
