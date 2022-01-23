@@ -35,7 +35,7 @@ export default function SearchbarDesktop() {
     // search for a new location, and override any saved ones in localStorage
     await detectLocation(true);
   };
-  const pickAnyCountry = async function (event) {
+  const pickPredetermined = async function (event) {
     closeMenu();
     //! code actions for a nation selector
   };
@@ -68,10 +68,10 @@ export default function SearchbarDesktop() {
             Detect current location
           </Button>
         </MenuItem>
-        <MenuItem sx={{ display: "flex", px: 1.5 }} onClick={pickAnyCountry}>
+        <MenuItem sx={{ display: "flex", px: 1.5 }} onClick={pickPredetermined}>
           <PublicIcon color="secondary" sx={{ mt: "-4px" }} />
           <Button color="secondary" align="left">
-            Pick any country
+            Pick from pre-determined locations
           </Button>
         </MenuItem>
       </Menu>

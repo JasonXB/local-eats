@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { styled, Box } from "@mui/system";
 import { useLocationContext } from "../../state-management/locationContext";
 //  prettier-ignore
@@ -22,9 +22,16 @@ const StyledModal = styled("div")`
 
 export default function LocationModal(props) {
   const { hideModal } = useLocationContext();
-  // Reference the value of the currently selected nation
-  const nationRef = useRef();
+  const nationRef = useRef(); // currently selected nation
 
+  // When the user selects a country, generate a list of areas Yelp has data for
+  const [areaList, setAreaList] = useState(null);
+  const nationChangeHandler = async function (e) {
+    console.log("woop");
+    //@ Render a list of options for that country, right beneath option 1
+  };
+
+  /*
   const submitHandler = async function (params) {
     // Get the country value currently selected (must dig deep thanks to MUI)
     const inputValue = nationRef.current.firstChild.firstChild.value;
@@ -41,7 +48,6 @@ export default function LocationModal(props) {
       const capitalCityData = apiRouteRequest.data.payload;
       console.log(capitalCityData);
       // Save it to the project state and localStorage (this is your new current Location)
-
     } catch (err) {
       alert("Something went wrong");
     }
@@ -49,6 +55,7 @@ export default function LocationModal(props) {
     //! Use that to form a search string for the the Yelp API
     // hideModal();
   };
+  */
 
   return (
     <Box
@@ -73,6 +80,8 @@ export default function LocationModal(props) {
           </Box>
           <Typography variant="h6" component="p">
             This site requires a location to operate
+            <br />
+            (But we understand you may want to keep your location a secret)
           </Typography>
           <Divider sx={{ my: 2 }} />
           <Typography variant="h5" component="p" sx={{ fontWeight: "600" }}>
@@ -80,13 +89,12 @@ export default function LocationModal(props) {
           </Typography>
           <Typography variant="h6" component="p">
             Search for restaurants in 1 of 32 countries
-            <br />
-            (We understand you may want to keep your location a secret)
           </Typography>
 
           <Autocomplete
             // id={String(Math.random())} // prevents old choices being saved
             sx={{ maxWidth: 350, mx: "auto", mt: 2, mb: 1 }}
+            onChange={nationChangeHandler}
             options={countries}
             autoHighlight
             getOptionLabel={(option) => option.label}
@@ -138,7 +146,7 @@ export default function LocationModal(props) {
             </Button>
             <Button
               variant="outlined"
-              onClick={submitHandler}
+              // onClick={submitHandler}
               size="medium"
               sx={{ ml: 2 }}
             >
