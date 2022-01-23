@@ -15,11 +15,11 @@ export default function LocationContextProvider(props) {
 
   // Use this state variable to decide when an error modal should be visible
   const [modalVisible, setModalVisible] = useState(false); // when equal to false, its hidden
-  // renders custom-components/ErrorModals/GeoUnsupported.js
+  // renders custom-components/Modals/GeoUnsupported.js
   const showModal1 = () => {
     setModalVisible("case1");
   };
-  // renders custom-components/ErrorModals/LocationDenial.js
+  // renders custom-components/Modals/LocationDenial.js
   const showModal2 = () => {
     setModalVisible("case2");
   };

@@ -71,7 +71,7 @@ export default function SearchbarDesktop() {
         <MenuItem sx={{ display: "flex", px: 1.5 }} onClick={pickPredetermined}>
           <PublicIcon color="secondary" sx={{ mt: "-4px" }} />
           <Button color="secondary" align="left">
-            Pick from pre-determined locations
+            Pick predetermined location
           </Button>
         </MenuItem>
       </Menu>

@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { styled, Box } from "@mui/system";
-import { useLocationContext } from "../../state-management/locationContext";
+import { useLocationContext } from "../../../state-management/locationContext";
 //  prettier-ignore
 import { Typography, Divider, TextField, Autocomplete, Button } from "@mui/material";
-import { mix } from "../../../styles/styleMixins";
-import { countries } from "./countryData";
+import { mix } from "../../../../styles/styleMixins";
+import { countries } from "../countryData";
 import axios from "axios";
 
 const StyledModal = styled("div")`
@@ -27,7 +27,8 @@ export default function LocationModal(props) {
   // When the user selects a country, generate a list of areas Yelp has data for
   const [areaList, setAreaList] = useState(null);
   const nationChangeHandler = async function (e) {
-    console.log("woop");
+    const selectedNation = nationRef.current.firstChild.firstChild.value;
+    console.log(selectedNation);
     //@ Render a list of options for that country, right beneath option 1
   };
 
@@ -88,7 +89,7 @@ export default function LocationModal(props) {
             OPTION 1:
           </Typography>
           <Typography variant="h6" component="p">
-            Search for restaurants in 1 of 32 countries
+            Search for restaurants in predetermined locations
           </Typography>
 
           <Autocomplete
@@ -128,6 +129,7 @@ export default function LocationModal(props) {
               />
             )}
           />
+
           <Typography
             variant="h5"
             component="p"

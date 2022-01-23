@@ -7,16 +7,15 @@ import LayoutContainer from "../src/custom-components/LayoutContainer";
 import Cuisines from "../src/page-blocks/home/Cuisines";
 import RestaurantTypes from "../src/page-blocks/home/RestaurantTypes";
 import Footer from "../src/custom-components/Footer";
-import LocationDenial from "../src/custom-components/ErrorModals/LocationDenial";
-import GeoUnsupported from "../src/custom-components/ErrorModals/GeoUnsupported";
+import LocationDenial from "../src/custom-components/Modals/LocationDenial/whole";
 
 export default function index() {
   const { modalVisible, devButton } = useLocationContext();
   // Decide which error module to render when something goes wrong
-  let modalToShow = undefined; // render nothing by default
-  if (modalVisible === "case1") modalToShow = <GeoUnsupported />;
-  else if (modalVisible === "case2") modalToShow = <LocationDenial />;
-  else modalToShow = undefined; // render nothing
+  // let modalToShow = undefined; // render nothing by default
+  // if (modalVisible === "case1") modalToShow = <GeoUnsupported />;
+  // else if (modalVisible === "case2") modalToShow = <LocationDenial />;
+  // else modalToShow = undefined; // render nothing
   return (
     <>
       <MissionStatement />
@@ -32,7 +31,7 @@ export default function index() {
       <LayoutContainer marginAbove="4.5rem" bg="#fffbf7">
         <Footer />
       </LayoutContainer>
-      {modalToShow}
+      {/* {modalToShow} */}
       {devButton}
     </>
   );
