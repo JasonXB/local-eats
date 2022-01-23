@@ -6,7 +6,7 @@ import { TextField, Autocomplete } from "@mui/material";
 
 // Changing the Menu 1 value (USA state) will change the cities listed in menu 2
 // If a proper state is not selected in menu 1, menu 2 will revert to its dummy disabled state
-// We're not actually re-disabling it. 
+// We're not actually re-disabling it.
 // We render a new version that is disabled by default
 // We then replace it with a legitimate one when a proper state is selected
 

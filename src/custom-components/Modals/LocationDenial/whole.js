@@ -1,11 +1,18 @@
+//  prettier-ignore
 import React, { useEffect, useRef, useState } from "react";
 import { styled, Box } from "@mui/system";
 import { useLocationContext } from "../../../state-management/locationContext";
 //  prettier-ignore
 import { Typography, Divider, TextField, Autocomplete, Button } from "@mui/material";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
+import AmericanSelect from "./AmericanSelect"
+import CanadianSelect from "./CanadianSelect"
 import { mix } from "../../../../styles/styleMixins";
 import { countries } from "../countryData";
-import axios from "axios";
 
 const StyledModal = styled("div")`
   position: fixed;
@@ -22,42 +29,17 @@ const StyledModal = styled("div")`
 
 export default function LocationModal(props) {
   const { hideModal } = useLocationContext();
-  const nationRef = useRef(); // currently selected nation
-
-  // When the user selects a country, generate a list of areas Yelp has data for
-  const [areaList, setAreaList] = useState(null);
-  const nationChangeHandler = async function (e) {
-    const selectedNation = nationRef.current.firstChild.firstChild.value;
-    console.log(selectedNation);
-    //@ Render a list of options for that country, right beneath option 1
+  const [conditionalMenu, setConditionalMenu] = useState(null);
+  // If Canada is selected, render <CanadianSelect/>
+  const clickedCanada = (e) => {
+    console.log("Canada selected?", e.target.checked);
+    setConditionalMenu(<CanadianSelect/>)
   };
-
-  /*
-  const submitHandler = async function (params) {
-    // Get the country value currently selected (must dig deep thanks to MUI)
-    const inputValue = nationRef.current.firstChild.firstChild.value;
-    // Length MUST be over 0 to warrant an API call
-    // The input is set to only accept pre-defined answers, so anything different counts as an empty string (thanks, MUI <3)
-    if (inputValue == 0) return alert("Improper selection"); //! replace with input text later
-
-    try {
-      // Make an API request that gets us the capital city name of the country we chose
-      const apiRouteRequest = await axios.post("/api/getCapital", {
-        countryName: inputValue,
-      });
-      // Data contains { city, nation, locationString , latitude, longitude }
-      const capitalCityData = apiRouteRequest.data.payload;
-      console.log(capitalCityData);
-      // Save it to the project state and localStorage (this is your new current Location)
-    } catch (err) {
-      alert("Something went wrong");
-    }
-
-    //! Use that to form a search string for the the Yelp API
-    // hideModal();
+  // If Canada is selected, render <AmericanSelect/>
+  const clickedAmerica = (e) => {
+    console.log("America selected?", e.target.checked);
+    setConditionalMenu(<AmericanSelect/>)
   };
-  */
-
   return (
     <Box
       sx={{
@@ -92,44 +74,27 @@ export default function LocationModal(props) {
             Search for restaurants in predetermined locations
           </Typography>
 
-          <Autocomplete
-            // id={String(Math.random())} // prevents old choices being saved
-            sx={{ maxWidth: 350, mx: "auto", mt: 2, mb: 1 }}
-            onChange={nationChangeHandler}
-            options={countries}
-            autoHighlight
-            getOptionLabel={(option) => option.label}
-            clearOnEscape
-            disablePortal
-            renderOption={(props, option) => (
-              <Box
-                component="li"
-                sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
-                {...props}
-              >
-                <img
-                  loading="lazy"
-                  width="20"
-                  src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
-                  srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
-                  alt=""
-                />
-                {option.label}
-              </Box>
-            )}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                placeholder="Enter a country..."
-                ref={nationRef}
-                inputProps={{
-                  ...params.inputProps,
-                  autoComplete: "new-password", // disable autocomplete and autofill
-                }}
+          <FormControl>
+            <RadioGroup
+              row
+              aria-labelledby="demo-row-radio-buttons-group-label"
+              name="row-radio-buttons-group"
+            >
+              <FormControlLabel
+                value="Canada"
+                control={<Radio />}
+                label="Canada"
+                onClick={clickedCanada}
               />
-            )}
-          />
-
+              <FormControlLabel
+                value="United States"
+                control={<Radio />}
+                label="United States"
+                onClick={clickedAmerica}
+              />
+            </RadioGroup>
+          </FormControl>
+          {conditionalMenu}
           <Typography
             variant="h5"
             component="p"
