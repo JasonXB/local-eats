@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocationContext } from "../src/state-management/locationContext";
+import { useLocationContext } from "../state-management/locationContext";
 // Component building block imports
 import MissionStatement from "../src/page-blocks/home/MissionStatement";
 import SearchOptionsRow1 from "../src/page-blocks/home/PremadeSearches1";

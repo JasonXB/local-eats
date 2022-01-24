@@ -3,7 +3,7 @@ import SearchbarMobile from "../../custom-components/Searchbar/SearchbarMobile";
 import { Typography, Box, Stack, Button, InputBase, Menu, MenuItem,} from "@mui/material";
 import { mix } from "../../../styles/styleMixins";
 import SearchbarDesktop from "../../custom-components/Searchbar/SearchbarDesktop";
-import { useLocationContext } from "../../state-management/locationContext";
+import { useLocationContext } from "../../../state-management/locationContext";
 
 export default function Home() {
   const { locationObj, detectLocation } = useLocationContext();

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocationContext } from "../../state-management/locationContext";
+import { useLocationContext } from "../../../state-management/locationContext";
 //  prettier-ignore
 import { Typography, Button, Box, Stack, InputBase, Menu, MenuItem } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
