@@ -1,5 +1,5 @@
 //  prettier-ignore
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useReducer } from "react";
 import { styled, Box } from "@mui/system";
 import { useLocationContext } from "../../../state-management/locationContext";
 //  prettier-ignore
@@ -28,7 +28,17 @@ const StyledModal = styled("div")`
 `;
 
 export default function LocationModal(props) {
+  // const [selection, dispatch]= useReducer(reducer,{
+  //   selectedCountry: null,
+  //   selectedState: null, // will still be null if we go with Canada
+    
+  // })
   const { hideModal } = useLocationContext();
+
+
+
+
+  // Use this state variable to decide which selection menu to render (USA or CAD)
   const [conditionalMenu, setConditionalMenu] = useState(null);
   // If Canada is selected, render <CanadianSelect/>
   const clickedCanada = (e) => {
@@ -40,6 +50,11 @@ export default function LocationModal(props) {
     console.log("America selected?", e.target.checked);
     setConditionalMenu(<AmericanSelect/>)
   };
+  const submitHandler = function(){
+    // If conditionalMe
+  }
+
+  // const [selectionState, dispatch]
   return (
     <Box
       sx={{
@@ -113,7 +128,7 @@ export default function LocationModal(props) {
             </Button>
             <Button
               variant="outlined"
-              // onClick={submitHandler}
+              onClick={submitHandler}
               size="medium"
               sx={{ ml: 2 }}
             >

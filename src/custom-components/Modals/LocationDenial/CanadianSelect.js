@@ -11,7 +11,7 @@ const yelpCoverageCanada = [
   "Vancouver",
 ];
 
-export default function testError() {
+export default function TestError() {
   return (
     <Autocomplete
       disablePortal
