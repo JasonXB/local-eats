@@ -5,15 +5,18 @@ import { useLocationContext } from "../../../../state-management/locationContext
 //  prettier-ignore
 import { Typography, Divider, TextField, Autocomplete, Button } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
+import {
+  yelpCitiesUS,
+  yelpStates,
+} from "../../../../state-management/store/yelpData";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
-import AmericanSelect from "./AmericanSelect"
-import CanadianSelect from "./CanadianSelect"
+import AmericanSelect from "./AmericanSelect";
+import CanadianSelect from "./CanadianSelect";
 import { mix } from "../../../../styles/styleMixins";
-import { countries } from "../countryData";
 
 const StyledModal = styled("div")`
   position: fixed;
@@ -29,33 +32,41 @@ const StyledModal = styled("div")`
 `;
 
 export default function LocationModal(props) {
-  // const [selection, dispatch]= useReducer(reducer,{
-  //   selectedCountry: null,
-  //   selectedState: null, // will still be null if we go with Canada
-    
-  // })
-  const { hideModal } = useLocationContext();
+  // Decide which selection menu to render <CanadianSelect/> or <AmericanSelect/>
+  const [selectedCountry, setSelectedCountry] = useState(null);
+  const clickedCanada = (e) => setSelectedCountry("Canada");
+  const clickedAmerica = (e) => setSelectedCountry("United States");
+  let inputs;
+  if (selectedCountry === "Canada") inputs = <CanadianSelect />;
+  if (selectedCountry === "United States") inputs = <AmericanSelect />;
 
+  // Check the Redux store for the currently selected city in <CanadianSelect/> and <AmericanSelect/>
+  const chosenCityUSA = useSelector(
+    (state) => state.locationDenialUSA.chosenCity
+  );
+  const chosenStateUSA = useSelector(
+    (state) => state.locationDenialUSA.chosenState
+  );
+  // const chosenCityCA = useSelector((state)=> state.locationDenialCA.chosenCity)
 
-
-
-  // Use this state variable to decide which selection menu to render (USA or CAD)
-  const [conditionalMenu, setConditionalMenu] = useState(null);
-  // If Canada is selected, render <CanadianSelect/>
-  const clickedCanada = (e) => {
-    console.log("Canada selected?", e.target.checked);
-    setConditionalMenu(<CanadianSelect/>)
+  const submitHandler = function () { 
+    if (selectedCountry === "United States") {
+      // Check if the currently selected city is in the currently selected American state
+      //  prettier-ignore
+      const validCityStateCombo = yelpCitiesUS[chosenStateUSA].includes(chosenCityUSA);
+      //  prettier-ignore
+      if (!validCityStateCombo) 
+        return alert( `${chosenCityUSA} is not in ${chosenStateUSA}. Change the town input`);
+      
+      console.log("SUCCESS FOR USA");
+      return;
+    }
+    if (selectedCountry === "Canada") {
+      console.log("SUCCESS FOR CANADA");
+      return;
+    }
   };
-  // If Canada is selected, render <AmericanSelect/>
-  const clickedAmerica = (e) => {
-    console.log("America selected?", e.target.checked);
-    setConditionalMenu(<AmericanSelect/>)
-  };
-  const submitHandler = function(){
-    // If conditionalMe
-  }
 
-  // const [selectionState, dispatch]
   return (
     <Box
       sx={{
@@ -110,7 +121,7 @@ export default function LocationModal(props) {
               />
             </RadioGroup>
           </FormControl>
-          {conditionalMenu}
+          {inputs}
           <Typography
             variant="h5"
             component="p"
@@ -124,7 +135,7 @@ export default function LocationModal(props) {
             answer "yes" on the prompt you receive
           </Typography>
           <Box sx={{ ...mix.flexRow, justifyContent: "end", mt: 5 }}>
-            <Button variant="outlined" size="medium" onClick={hideModal}>
+            <Button variant="outlined" size="medium">
               Cancel
             </Button>
             <Button

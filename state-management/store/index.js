@@ -1,13 +1,15 @@
-import { createStore, combineReducers } from "redux";
+import { createSlice, configureStore } from "@reduxjs/toolkit";
 // Import all reducers
-import { usaSelection } from "./homepage/locationDenialUSA";
-import { canadaSelection } from "./homepage/locationDenialCA";
+import locationDenialUSA_reducer from "./homepage/locationDenialUSA"
+import locationDenialCA_reducer from "./homepage/locationDenialCA"
 
-// Place all the reducers you want to combine in here
-const rootReducer = combineReducers({
-  usaSelection: usaSelection,
-  canadaSelection: canadaSelection,
+// Create a store with the configureStore method (multiple slices)
+const store = configureStore({
+  reducer: {
+    locationDenialUSA: locationDenialUSA_reducer,
+    locationDenialCA: locationDenialCA_reducer,
+  },
 });
 
-const store = createStore(rootReducer);
+// Default export the Redux store
 export default store;

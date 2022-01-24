@@ -1,10 +1,18 @@
-const stateObj = {
+import { createSlice } from "@reduxjs/toolkit";
+
+const initialState = {
   chosenCity: undefined,
 };
-export function canadaSelection(state = stateObj, action) {
-  switch (action.type) {
-    case "CHOOSE_CITY_CANADA":
-      return { chosenCity: action.chosenCity };
-  }
-  return state;
-}
+
+const canadaDenialSlice = createSlice({
+  name: "locationDenialUS", // expected built-in KVP
+  initialState,
+  reducers: {
+    selectCity: (state, action) => {
+      state.chosenCity = action.chosenCity;
+    },
+  },
+});
+export const canadaDenialActions = canadaDenialSlice.actions;
+export default canadaDenialSlice.reducer;
+
