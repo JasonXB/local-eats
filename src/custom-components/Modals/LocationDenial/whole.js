@@ -6,6 +6,7 @@ import { useLocationContext } from "../../../../state-management/locationContext
 import { Typography, Divider, TextField, Autocomplete, Button } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import {
+  yelpCitiesCA,
   yelpCitiesUS,
   yelpStates,
 } from "../../../../state-management/store/yelpData";
@@ -39,30 +40,39 @@ export default function LocationModal(props) {
   let inputs;
   if (selectedCountry === "Canada") inputs = <CanadianSelect />;
   if (selectedCountry === "United States") inputs = <AmericanSelect />;
+  //@ Inspect the state values inside the Redux store
+  //  prettier-ignore
+  const chosenCityUSA = useSelector((state) => state.locationDenialUSA.chosenCity);
+  //  prettier-ignore
+  const chosenStateUSA = useSelector((state) => state.locationDenialUSA.chosenState);
+  //  prettier-ignore
+  const chosenCityCA = useSelector((state) => state.locationDenialCA.chosenCity);
 
-  // Check the Redux store for the currently selected city in <CanadianSelect/> and <AmericanSelect/>
-  const chosenCityUSA = useSelector(
-    (state) => state.locationDenialUSA.chosenCity
-  );
-  const chosenStateUSA = useSelector(
-    (state) => state.locationDenialUSA.chosenState
-  );
-  // const chosenCityCA = useSelector((state)=> state.locationDenialCA.chosenCity)
+  const submitHandler = function () {
+    // Check the Redux store for the currently selected city in <CanadianSelect/> and <AmericanSelect/>
 
-  const submitHandler = function () { 
-    if (selectedCountry === "United States") {
-      // Check if the currently selected city is in the currently selected American state
-      //  prettier-ignore
-      const validCityStateCombo = yelpCitiesUS[chosenStateUSA].includes(chosenCityUSA);
-      //  prettier-ignore
-      if (!validCityStateCombo) 
-        return alert( `${chosenCityUSA} is not in ${chosenStateUSA}. Change the town input`);
-      
-      console.log("SUCCESS FOR USA");
-      return;
-    }
     if (selectedCountry === "Canada") {
-      console.log("SUCCESS FOR CANADA");
+      // Check if the chosen Canadian city is part of the Yelp list
+      if (yelpCitiesCA.includes(chosenCityCA))
+        return console.log("SUCCESS FOR CANADA");
+      else {
+        console.log(chosenCityCA.length);
+        if (chosenCityCA.length === 0) return alert("CITY IS A REQUIRED FIELD");
+        return alert("INVALID CITY CHOICE");
+      }
+    }
+    if (selectedCountry === "United States") {
+      // Check if Menu1's value is part of the Yelp List
+      const validStateName = yelpStates.includes(chosenStateUSA); // should be true
+      if (!validStateName) return alert("STATE IS A REQUIRED FIELD");
+      // Check if the selected city is inside the list of cities inside the selected state
+      const validCityStateCombo =
+        yelpCitiesUS[chosenStateUSA].includes(chosenCityCA); // should be true
+      if (!validCityStateCombo)
+        if(chosenCityUSA.length===0) return alert("CITY IS A REQUIRED FIELD")
+        return alert(`${chosenCityUSA} is not in ${chosenStateUSA}`);
+      // If these conditions are all met, proceed with setting the locationObj to localStorage and project state
+      console.log("SUCCESS FOR USA");
       return;
     }
   };

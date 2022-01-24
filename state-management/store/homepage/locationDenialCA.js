@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  chosenCity: undefined,
+  chosenCity: "",
 };
 
 const canadaDenialSlice = createSlice({
@@ -9,7 +9,8 @@ const canadaDenialSlice = createSlice({
   initialState,
   reducers: {
     selectCity: (state, action) => {
-      state.chosenCity = action.chosenCity;
+      console.log(action)
+      state.chosenCity = action.payload;
     },
   },
 });

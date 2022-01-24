@@ -10,10 +10,14 @@ import { usaDenialActions } from "../../../../state-management/store/homepage/lo
 export default function AmericanInputs() {
   const cityRef = useRef();
   //@ Grab redux values from store/homepage/LocationDenialUSA
+  const chosenState = useSelector(
+    (state) => state.locationDenialUSA.chosenState
+  );
   const cityList = useSelector((state) => state.locationDenialUSA.cityList);
   const menu2Disabled = useSelector(
     (state) => state.locationDenialUSA.menu2Disabled
   );
+
   //@ Set up reusable dispatch functions
   const dispatch = useDispatch();
   //  prettier-ignore
@@ -23,14 +27,16 @@ export default function AmericanInputs() {
 
   const changeStateHandler = function (event, inputValue) {
     // If we have a valid input, enable menu 2 and update its city selection list items
-    if (yelpStates.includes(inputValue)) chooseState(inputValue);
+    chooseState(inputValue);
+    //! if (yelpStates[inputValue].includes(inputValue)) 
     // If we have an invalid input, disable menu 2
-    else disableMenu();
+    // else disableMenu();
   };
 
   const changeCityHandler = function (event, inputValue) {
     // If we have a valid input, update the Redux chosenCity variable
-    if (yelpCitiesUS.includes(inputValue)) chooseCity(inputValue);
+    chooseCity(inputValue);
+    //! if (yelpCitiesUS[inputValue].includes(inputValue)) 
   };
 
   return (

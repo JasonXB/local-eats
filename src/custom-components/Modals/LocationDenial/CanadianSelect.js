@@ -7,11 +7,10 @@ import { yelpCitiesCA } from "../../../../state-management/store/yelpData";
 export default function CanadianInputs() {
   //@ Grab redux values from store/homepage/LocationDenial/AmericanSelect
   const dispatch = useDispatch();
-  const chooseCity = (inp) =>
-    dispatch(canadaDenialActions.selectCity(inp));
+  const chooseCity = (inp) => dispatch(canadaDenialActions.selectCity(inp));
 
   const changeCityHandler = function (event, inputValue) {
-    chooseCity(inputValue);
+    chooseCity(inputValue); // save city input val to redux store
   };
 
   return (

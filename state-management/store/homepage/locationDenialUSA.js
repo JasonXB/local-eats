@@ -2,8 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import { yelpCitiesUS } from "../yelpData";
 
 const initialState = {
-  chosenState: undefined,
-  chosenCity: undefined,
+  chosenState: "",
+  chosenCity: "",
   cityList: yelpCitiesUS["Arizona"],
   counter: 0,
   menu2Disabled: true,
@@ -15,8 +15,8 @@ const usaDenialSlice = createSlice({
   reducers: {
     // Enables menu 2, updates menu 2's cityList, updates chosenState variable
     selectState: (state, action) => {
-      state.chosenState = action.chosenState;
-      state.cityList = yelpCitiesUS[action.chosenState];
+      state.chosenState = action.payload;
+      state.cityList = yelpCitiesUS[action.payload];
       state.menu2Disabled = false;
     },
     // Disables menu 2, sets cityList inconsequentially to satisfy one of MUI's required props
@@ -26,7 +26,8 @@ const usaDenialSlice = createSlice({
     },
     // Updates chosenCity variable using what was selected in Menu2
     selectCity: (state, action) => {
-      state.chosenCity = action.chosenCity;
+      console.log(action)
+      state.chosenCity = action.payload;
     },
   },
 });
