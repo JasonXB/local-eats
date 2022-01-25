@@ -4,12 +4,13 @@ import { styled, Box } from "@mui/system";
 import { useLocationContext } from "../../../../state-management/locationContext";
 //  prettier-ignore
 import { Typography, Divider, TextField, Autocomplete, Button } from "@mui/material";
+// Redux imports
 import { useSelector, useDispatch } from "react-redux";
-import {
-  yelpCitiesCA,
-  yelpCitiesUS,
-  yelpStates,
-} from "../../../../state-management/store/yelpData";
+import { canadaDenialActions } from "../../../../state-management/store/homepage/locationDenialCA";
+import { usaDenialActions } from "../../../../state-management/store/homepage/locationDenialUSA";
+//  prettier-ignore
+import { yelpCitiesCA, yelpCitiesUS, yelpStates } from "../../../../state-management/store/yelpData";
+// MUI imports
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -33,44 +34,55 @@ const StyledModal = styled("div")`
 `;
 
 export default function LocationModal(props) {
-  // Decide which selection menu to render <CanadianSelect/> or <AmericanSelect/>
+  //@ Decide which selection menu to render <CanadianSelect/> or <AmericanSelect/>
   const [selectedCountry, setSelectedCountry] = useState(null);
   const clickedCanada = (e) => setSelectedCountry("Canada");
   const clickedAmerica = (e) => setSelectedCountry("United States");
   let inputs;
   if (selectedCountry === "Canada") inputs = <CanadianSelect />;
   if (selectedCountry === "United States") inputs = <AmericanSelect />;
+
   //@ Inspect the state values inside the Redux store
-  //  prettier-ignore
-  const chosenCityUSA = useSelector((state) => state.locationDenialUSA.chosenCity);
-  //  prettier-ignore
-  const chosenStateUSA = useSelector((state) => state.locationDenialUSA.chosenState);
-  //  prettier-ignore
-  const chosenCityCA = useSelector((state) => state.locationDenialCA.chosenCity);
+  const chosenCityUSA = useSelector((state) => state.locationDenialUSA.chosenCity); //  prettier-ignore
+  const chosenStateUSA = useSelector((state) => state.locationDenialUSA.chosenState); //  prettier-ignore
+  const chosenCityCA = useSelector((state) => state.locationDenialCA.chosenCity); //  prettier-ignore
+
+  //@ Render/remove error visuals using dispatch functions
+  const dispatch = useDispatch();
+  const renderErrorCA = (errorMSG) => dispatch(canadaDenialActions.yesError(errorMSG)); //  prettier-ignore
+  const removeErrorCA = () => dispatch(canadaDenialActions.noError()); //  prettier-ignore
+  const renderErrorUS_M1 = (errorMSG) => dispatch(usaDenialActions.yesErrorM1(errorMSG)); //  prettier-ignore
+  const removeErrorUS_M1 = () => dispatch(usaDenialActions.noErrorM1()); // removes error visuals
+  const renderErrorUS_M2 = (errorMSG) => dispatch(usaDenialActions.yesErrorM2(errorMSG)); //  prettier-ignore
+  const removeErrorUS_M2 = () => dispatch(usaDenialActions.noErrorM2()); // removes error visuals
 
   const submitHandler = function () {
     // Check the Redux store for the currently selected city in <CanadianSelect/> and <AmericanSelect/>
-
     if (selectedCountry === "Canada") {
-      // Check if the chosen Canadian city is part of the Yelp list
-      if (yelpCitiesCA.includes(chosenCityCA))
-        return console.log("SUCCESS FOR CANADA");
-      else {
-        console.log(chosenCityCA.length);
-        if (chosenCityCA.length === 0) return alert("CITY IS A REQUIRED FIELD");
-        return alert("INVALID CITY CHOICE");
+      // Make sure the field is filled in
+      if (!chosenCityCA) return renderErrorCA("City is a required field");
+      // If the selected Canadian city isn't part of the list, render an error
+      if (!yelpCitiesCA.includes(chosenCityCA)) return renderErrorCA("Invalid city choice"); //  prettier-ignore
+      //! If the selected Canadian city is part of the list, remove error visuals and save the data
+      if (yelpCitiesCA.includes(chosenCityCA)) {
+        removeErrorCA();
+        console.log("SUCCESS CANADA");
+        //! save to localStorage and ContextAPI
       }
     }
+
     if (selectedCountry === "United States") {
       // Check if Menu1's value is part of the Yelp List
       const validStateName = yelpStates.includes(chosenStateUSA); // should be true
       if (!validStateName) return alert("STATE IS A REQUIRED FIELD");
       // Check if the selected city is inside the list of cities inside the selected state
-      const validCityStateCombo =
-        yelpCitiesUS[chosenStateUSA].includes(chosenCityCA); // should be true
-      if (!validCityStateCombo)
-        if(chosenCityUSA.length===0) return alert("CITY IS A REQUIRED FIELD")
+      //  prettier-ignore
+      const validCityStateCombo = yelpCitiesUS[chosenStateUSA].includes(chosenCityCA); // should be true
+      if (!validCityStateCombo) {
+        //  prettier-ignore
+        if (chosenCityUSA.length === 0) return alert("CITY IS A REQUIRED FIELD");
         return alert(`${chosenCityUSA} is not in ${chosenStateUSA}`);
+      }
       // If these conditions are all met, proceed with setting the locationObj to localStorage and project state
       console.log("SUCCESS FOR USA");
       return;

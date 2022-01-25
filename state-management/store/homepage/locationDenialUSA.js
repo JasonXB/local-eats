@@ -5,8 +5,11 @@ const initialState = {
   chosenState: "",
   chosenCity: "",
   cityList: yelpCitiesUS["Arizona"],
-  counter: 0,
   menu2Disabled: true,
+  errorMessageM1: "",
+  errorStylingM1: false,
+  errorMessageM2: "",
+  errorStylingM2: false,
 };
 
 const usaDenialSlice = createSlice({
@@ -26,8 +29,27 @@ const usaDenialSlice = createSlice({
     },
     // Updates chosenCity variable using what was selected in Menu2
     selectCity: (state, action) => {
-      console.log(action)
       state.chosenCity = action.payload;
+    },
+    // Places error text onto an input field and changes the color to red
+    yesErrorM1: (state, action) => {
+      state.errorStylingM1 = true;
+      state.errorMessageM1 = action.payload;
+    },
+    // Removes error styling on an input field
+    noErrorM1: (state, action) => {
+      state.errorStylingM1 = false;
+      state.errorMessageM1 = "";
+    },
+    // Places error text onto an input field and changes the color to red
+    yesErrorM2: (state, action) => {
+      state.errorStylingM2 = true;
+      state.errorMessageM2 = action.payload;
+    },
+    // Removes error styling on an input field
+    noErrorM2: (state, action) => {
+      state.errorStylingM2 = false;
+      state.errorMessageM2 = "";
     },
   },
 });
