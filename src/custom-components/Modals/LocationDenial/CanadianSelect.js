@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { canadaDenialActions } from "../../../../state-management/store/homepage/locationDenialCA";
 import { TextField, Autocomplete } from "@mui/material";
+import { mix } from "../../../../styles/styleMixins";
 import { yelpCitiesCA } from "../../../../state-management/store/yelpData";
 
 export default function CanadianInputs() {
@@ -24,7 +25,8 @@ export default function CanadianInputs() {
       onChange={changeCityHandler}
       id="combo-box-demo"
       options={yelpCitiesCA}
-      sx={{ maxWidth: 350, mx: "auto", mt: 2, mb: 1 }}
+      // prettier-ignore
+      sx={{ maxWidth: 350, mx: "auto", mt: 2, mb: 1, ...mix.autoCompleteHeight }}
       renderInput={(params) => (
         <TextField
           {...params}

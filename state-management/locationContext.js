@@ -8,21 +8,16 @@ export default function LocationContextProvider(props) {
   // This state variable holds objects filled with location data per each user (saved in LocalStorage)
   const [locationObj, setLocationObj] = useState(null);
   useEffect(() => {
-    // On startup, check LocalStorage for any saved location objects.'
+    // On startup, check LocalStorage for any saved location objects
     if (!locationObj) return;
+    //! looks incorrect since we start off like this
     else setLocationObj(JSON.parse(localStorage.getItem("savedLocation")));
   }, []); // we set the state variable equal to our findings, or null if none exist
 
   // Use this state variable to decide when an error modal should be visible
   const [modalVisible, setModalVisible] = useState(false); // when equal to false, its hidden
-  // renders custom-components/Modals/GeoUnsupported.js
-  const showModal1 = () => {
-    setModalVisible("case1");
-  };
-  // renders custom-components/Modals/LocationDenial.js
-  const showModal2 = () => {
-    setModalVisible("case2");
-  };
+  const showModal1 = () => setModalVisible("case1"); // renders custom-components/Modals/GeoUnsupported.js
+  const showModal2 = () => setModalVisible("case2"); // renders custom-components/Modals/LocationDenial.js
   const hideModal = () => setModalVisible(false); // hides modal, regardless of which
   // modal1 : Used for when geolocation is not supported by the browser
   // modal2: Used for when the user explicitly declines location permisssions

@@ -1,4 +1,3 @@
-
 export const mix = {
   flexRow: {
     display: "flex",
@@ -54,8 +53,25 @@ export const mix = {
     textDecorationLine: "none",
     fontSize: "0.875rem",
     color: "#1f3c50",
-    textAlign:"center",
+    textAlign: "center",
     "&:hover": { textDecoration: "underline" },
   },
-  
+  autoCompleteHeight: {
+    height: "65px",
+  },
+  hideAfter: (breakpoint) => {
+    return {
+      [`@media (min-width: ${breakpoint}px)`]: {
+        display: "none",
+      },
+    };
+  },
+  hideBefore: (breakpoint) => {
+    return {
+      display: "none",
+      [`@media (min-width: ${breakpoint}px)`]: {
+        display: "block",
+      },
+    };
+  },
 };

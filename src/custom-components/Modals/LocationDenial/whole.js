@@ -4,6 +4,11 @@ import { styled, Box } from "@mui/system";
 import { useLocationContext } from "../../../../state-management/locationContext";
 //  prettier-ignore
 import { Typography, Divider, TextField, Autocomplete, Button } from "@mui/material";
+import { mix } from "../../../../styles/styleMixins";
+import {
+  breakBefore,
+  breakAfter,
+} from "../../../custom-components/ConditionalBreak";
 // Redux imports
 import { useSelector, useDispatch } from "react-redux";
 import { canadaDenialActions } from "../../../../state-management/store/homepage/locationDenialCA";
@@ -18,7 +23,6 @@ import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import AmericanSelect from "./AmericanSelect";
 import CanadianSelect from "./CanadianSelect";
-import { mix } from "../../../../styles/styleMixins";
 
 const StyledModal = styled("div")`
   position: fixed;
@@ -55,6 +59,8 @@ export default function LocationModal(props) {
   const removeErrorUS_M1 = () => dispatch(usaDenialActions.noErrorM1()); // removes error visuals
   const renderErrorUS_M2 = (errorMSG) => dispatch(usaDenialActions.yesErrorM2(errorMSG)); //  prettier-ignore
   const removeErrorUS_M2 = () => dispatch(usaDenialActions.noErrorM2()); // removes error visuals
+  const resetUS = () => dispatch(usaDenialActions.resetState()); // removes error visuals
+  const resetCA = () => dispatch(canadaDenialActions.resetState()); // removes error visuals
 
   const submitHandler = function () {
     // Check the Redux store for the currently selected city in <CanadianSelect/> and <AmericanSelect/>
@@ -92,6 +98,12 @@ export default function LocationModal(props) {
     }
   };
 
+  const cancelHandler = function () {
+    // Reset the slices for USA and Canada
+    resetCA();
+    resetUS();
+  };
+
   return (
     <Box
       sx={{
@@ -116,14 +128,15 @@ export default function LocationModal(props) {
           <Typography variant="h6" component="p">
             This site requires a location to operate
             <br />
-            (But we understand you may want to keep your location a secret)
+            But we understand you may want to{breakBefore(590)} keep your
+            location a secret
           </Typography>
           <Divider sx={{ my: 2 }} />
           <Typography variant="h5" component="p" sx={{ fontWeight: "600" }}>
             OPTION 1:
           </Typography>
           <Typography variant="h6" component="p">
-            Search for restaurants in predetermined locations
+            Search for restaurants in{breakBefore(490)} predetermined locations
           </Typography>
 
           <FormControl>
@@ -156,11 +169,10 @@ export default function LocationModal(props) {
           </Typography>
           <Typography variant="h6" component="p">
             Allow site to access your location.
-            <br /> Reload the page, hit the "detect location" button again, and
-            answer "yes" on the prompt you receive
+            <br /> Reload the page, then hit the "detect location" button
           </Typography>
           <Box sx={{ ...mix.flexRow, justifyContent: "end", mt: 5 }}>
-            <Button variant="outlined" size="medium">
+            <Button variant="outlined" size="medium" onClick={cancelHandler}>
               Cancel
             </Button>
             <Button
@@ -187,4 +199,12 @@ const style = {
   p: 2,
   px: 4,
   pb: 3,
+};
+
+const stylesObj = {
+  breakBefore490: {
+    ["@media (min-width: 490px)"]: {
+      display: "none",
+    },
+  },
 };
