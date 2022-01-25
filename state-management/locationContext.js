@@ -5,40 +5,39 @@ const AAA = createContext();
 export const useLocationContext = () => useContext(AAA); // export custom hook
 
 export default function LocationContextProvider(props) {
-  // This state variable holds objects filled with location data per each user (saved in LocalStorage)
+  //@ This state variable holds objects filled with location data per each user (saved in LocalStorage)
   const [locationObj, setLocationObj] = useState(null);
   useEffect(() => {
     // On startup, check LocalStorage for any saved location objects
-    if (!locationObj) return;
-    //! looks incorrect since we start off like this
+    if (!localStorage.getItem("savedLocation")) return;
     else setLocationObj(JSON.parse(localStorage.getItem("savedLocation")));
   }, []); // we set the state variable equal to our findings, or null if none exist
 
-  // Use this state variable to decide when an error modal should be visible
+  //@ Use this state variable to decide when an error modal should be visible
   const [modalVisible, setModalVisible] = useState(false); // when equal to false, its hidden
   const showModal1 = () => setModalVisible("case1"); // renders custom-components/Modals/GeoUnsupported.js
   const showModal2 = () => setModalVisible("case2"); // renders custom-components/Modals/LocationDenial.js
   const hideModal = () => setModalVisible(false); // hides modal, regardless of which
-  // modal1 : Used for when geolocation is not supported by the browser
-  // modal2: Used for when the user explicitly declines location permisssions
+  
 
-  // Use this function to save an object to localStorage and locationObj states
+  //@ Use this function to manually save an object to localStorage and locationObj states
   const saveNewLocationObj = function (inputObj) {
-    //  prettier-ignore
+    /*
     // Check to see if the object you submit has all required keys
-    const requiredKeys = ["locationString", "city", "countryCode", "latitude", "longitude"]
+    const requiredKeys = ["locationString", "city", "countryCode", "latitude", "longitude"] //  prettier-ignore
     const arr = [];
     requiredKeys.forEach((key) => {
       if (inputObj.hasOwnProperty(key)) arr.push(true);
       else arr.push(false);
     });
     if (arr.includes(false)) return alert("insufficient keys"); // may leave permanently
+    */
     // Save them to state and localStorage if they have all required keys
     setLocationObj(inputObj);
-    localStotage.setItem("savedLocation", JSON.stringify(inputObj));
+    localStorage.setItem("savedLocation", JSON.stringify(inputObj));
   };
 
-  //^ Use this function to get your current location
+  //@ Use this function to get your current location
   const detectLocation = async function (findNew) {
     // Check the visitor's browser supports Geolocation
     if (!navigator.geolocation) {
@@ -46,7 +45,7 @@ export default function LocationContextProvider(props) {
       return;
     }
 
-    // Made a promisified Geolocation API function, so we can chain actions after it with then()
+    // Made a promisified Geolocation API function, so we can chain actions after it with async/await
     const getPosition = function () {
       return new Promise(function (onSuccess, onReject) {
         navigator.geolocation.getCurrentPosition(onSuccess, onReject);
@@ -64,14 +63,16 @@ export default function LocationContextProvider(props) {
         });
         // Extract data from the successful API call (axios auto-throws an error if it goes wrong)
         const requestData = apiRouteCall.data.requestData;
+        console.log('locationContext requestData return', requestData)
         // Save details to localStorage and project state
         localStorage.setItem("savedLocation", JSON.stringify(requestData));
         setLocationObj(requestData);
       } catch (err) {
+        console.error(err)
         showModal2();
       }
     };
-    actionsAfterCoordinates();
+    actionsAfterCoordinates(); // invoke aabove f() immediately
   };
 
   //! Delete once development ends (and anywhere we use it)
@@ -85,7 +86,7 @@ export default function LocationContextProvider(props) {
   const locationRelated = {
     detectLocation, // use as a handler for buttons that trigger geolocation tracking
     locationObj, // use to check what our current location is (Saved to state and localStorage)
-    // setLocationObj, // use for the GetLocation utility function only!
+    // setLocationObj, // use for the GeoLocation utility function only!
     devButton, //! for development only
     saveNewLocationObj, // use to save locationObjects, specifically when we use the Countries Selector
   };
