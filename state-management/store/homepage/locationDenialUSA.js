@@ -53,14 +53,14 @@ const usaDenialSlice = createSlice({
     },
     // Reset the state back to how it was initially
     resetState: (state, action) => {
-      chosenState = "";
-      chosenCity = "";
-      cityList = yelpCitiesUS["Arizona"];
-      menu2Disabled = true;
-      errorMessageM1 = "";
-      errorStylingM1 = false;
-      errorMessageM2 = "";
-      errorStylingM2 = false;
+      state.chosenState = "";
+      state.chosenCity = "";
+      state.cityList = yelpCitiesUS["Arizona"];
+      state.menu2Disabled = true;
+      state.errorMessageM1 = "";
+      state.errorStylingM1 = false;
+      state.errorMessageM2 = "";
+      state.errorStylingM2 = false;
     },
   },
 });

@@ -63,16 +63,15 @@ export default function LocationContextProvider(props) {
         });
         // Extract data from the successful API call (axios auto-throws an error if it goes wrong)
         const requestData = apiRouteCall.data.requestData;
-        console.log('locationContext requestData return', requestData)
         // Save details to localStorage and project state
         localStorage.setItem("savedLocation", JSON.stringify(requestData));
         setLocationObj(requestData);
       } catch (err) {
         console.error(err)
-        showModal2();
+        showModal2(); // render a modal giving the user the choice to use predetermined locations
       }
     };
-    actionsAfterCoordinates(); // invoke aabove f() immediately
+    actionsAfterCoordinates(); // invoke above f() immediately
   };
 
   //! Delete once development ends (and anywhere we use it)

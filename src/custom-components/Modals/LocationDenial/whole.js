@@ -1,9 +1,14 @@
-//  prettier-ignore
-import React, { useEffect, useRef, useState, useReducer } from "react";
+import React, { useEffect, useRef, useState, useReducer } from "react"; //  prettier-ignore
 import { styled, Box } from "@mui/system";
-import { useLocationContext } from "../../../../state-management/locationContext";
-//  prettier-ignore
-import { Typography, Divider, TextField, Autocomplete, Button } from "@mui/material";
+import { useLocationContext } from "../../../../state-management/locationContext"; //  prettier-ignore
+
+import {
+  Typography,
+  Divider,
+  TextField,
+  Autocomplete,
+  Button,
+} from "@mui/material";
 import { mix } from "../../../../styles/styleMixins";
 import {
   breakBefore,
@@ -38,6 +43,7 @@ const StyledModal = styled("div")`
 `;
 
 export default function LocationModal(props) {
+  const { showModal1, showModal2, hideModal } = useLocationContext();
   //@ Decide which selection menu to render <CanadianSelect/> or <AmericanSelect/>
   const [selectedCountry, setSelectedCountry] = useState(null);
   const clickedCanada = (e) => setSelectedCountry("Canada");
@@ -102,6 +108,7 @@ export default function LocationModal(props) {
     // Reset the slices for USA and Canada
     resetCA();
     resetUS();
+    hideModal(); // Hide the modal
   };
 
   return (

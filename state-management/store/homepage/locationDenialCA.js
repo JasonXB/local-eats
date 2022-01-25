@@ -26,9 +26,9 @@ const canadaDenialSlice = createSlice({
     },
     // Reset the state back to how it was initially
     resetState: (state, action) => {
-      chosenCity = "";
-      errorStyling = false;
-      errorMessage = "";
+      state.chosenCity = "";
+      state.errorStyling = false;
+      state.errorMessage = "";
     },
   },
 });

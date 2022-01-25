@@ -1,16 +1,13 @@
-FIND OUT WHICH 32countries Yelp is good in. 
-1) Eliminate rest from the options in our Autocomplete
-2) Hardcode the locations for Yelp to Search in those other 32 countries
-They only have data for certain areas, and there's no guarantees its for their capitals (Rework plan)
-https://www.yelp.com/locations
 
-NON FATAL BUGS
-Check console logs on Firefox browser
-
+——————————————————————— AFTER COMPLETED  ———————————————————————————————
 FINAL CHECKS
 1) Search for //! across your entire project using the VSCode magnifier
 2) Check for alert( across your project- I've used them to skip over error handling in certain areas
 Replace with legitimate error communications
+3) Delete every console.log( 
+
+NON FATAL BUGS
+Check console logs on Firefox browser
 
 REFACTOR STYLING:
 Refactor all your MUI styling so most of it isn't inline
