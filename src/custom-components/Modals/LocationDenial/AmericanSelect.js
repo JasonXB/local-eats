@@ -19,15 +19,20 @@ export default function AmericanInputs() {
   const chooseState = (inp) => dispatch(usaDenialActions.selectState(inp)); //  prettier-ignore
   const disableMenu = () => dispatch(usaDenialActions.disableMenu());
   const chooseCity = (inp) => dispatch(usaDenialActions.selectCity(inp));
+  const removeErrorM1 = () => dispatch(usaDenialActions.noErrorM1());
+  const removeErrorM2 = () => dispatch(usaDenialActions.noErrorM2());
 
   const changeStateHandler = function (event, inputValue) {
     // If we have a valid input, enable menu 2 and update its city selection list items
     chooseState(inputValue);
+    removeErrorM1();
+    return;
   };
 
   const changeCityHandler = function (event, inputValue) {
     // If we have a valid input, update the Redux chosenCity variable
     chooseCity(inputValue);
+    removeErrorM2();
     return;
   };
 

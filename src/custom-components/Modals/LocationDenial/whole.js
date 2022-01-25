@@ -67,23 +67,26 @@ export default function LocationModal(props) {
       if (yelpCitiesCA.includes(chosenCityCA)) {
         removeErrorCA();
         console.log("SUCCESS CANADA");
-        //! save to localStorage and ContextAPI
+        //! save to localStorage and ContextAPI, then reset the state
       }
     }
 
     if (selectedCountry === "United States") {
-      // Check if Menu1's value is part of the Yelp List
-      const validStateName = yelpStates.includes(chosenStateUSA); // should be true
-      if (!validStateName) return alert("STATE IS A REQUIRED FIELD");
+      // Make sure the fields are filled in
+      if (!chosenStateUSA) return renderErrorUS_M1("State is required");
+      if (!chosenCityUSA) return renderErrorUS_M2("City is required");
+      // Check if Menu1's value is part of the Yelp List of states
+      if (!yelpStates.includes(chosenStateUSA)) return renderErrorUS_M1("Invalid state name"); // prettier-ignore
       // Check if the selected city is inside the list of cities inside the selected state
       //  prettier-ignore
-      const validCityStateCombo = yelpCitiesUS[chosenStateUSA].includes(chosenCityCA); // should be true
+      const validCityStateCombo = yelpCitiesUS[chosenStateUSA].includes(chosenCityCA); // true/false
       if (!validCityStateCombo) {
-        //  prettier-ignore
-        if (chosenCityUSA.length === 0) return alert("CITY IS A REQUIRED FIELD");
-        return alert(`${chosenCityUSA} is not in ${chosenStateUSA}`);
+        return renderErrorUS_M2(`${chosenCityUSA} is not in ${chosenStateUSA}`);
       }
-      // If these conditions are all met, proceed with setting the locationObj to localStorage and project state
+      // Past this point, the entries for Menu1 and Menu2 should be valid
+      removeErrorUS_M1();
+      removeErrorUS_M2();
+      //! Save to localStorage and ContextAPI, then reset the state
       console.log("SUCCESS FOR USA");
       return;
     }
