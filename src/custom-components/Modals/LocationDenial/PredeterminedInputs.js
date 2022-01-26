@@ -47,6 +47,7 @@ export default function Predetermined() {
           control={<Radio />}
           label="Canada"
           onClick={clickedCanada}
+          checked={chosenCountry === "Canada" ? true : false}
           sx={{ mx: "auto" }}
         />
         <FormControlLabel
@@ -54,6 +55,7 @@ export default function Predetermined() {
           control={<Radio />}
           label="United States"
           onClick={clickedAmerica}
+          checked={chosenCountry === "United States" ? true : false}
           sx={{ mx: "auto" }}
         />
       </RadioGroup>
