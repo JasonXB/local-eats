@@ -84,7 +84,7 @@ export default function LocationDenialModal(props) {
       if (!yelpStates.includes(chosenStateUSA)) return renderErrorUS_M1("Invalid state name"); // prettier-ignore
       // Check if the selected city is inside the list of cities inside the selected state
       //  prettier-ignore
-      const validCityStateCombo = yelpCitiesUS[chosenStateUSA].includes(chosenCityCA); // true/false
+      const validCityStateCombo = yelpCitiesUS[chosenStateUSA].includes(chosenCityUSA); // true/false
       if (!validCityStateCombo) {
         return renderErrorUS_M2(`${chosenCityUSA} is not in ${chosenStateUSA}`);
       }
@@ -127,6 +127,7 @@ export default function LocationDenialModal(props) {
               Location Permissions Denied
             </Typography>
           </Box>
+          {/* ================== */}
           <Typography variant="h6" component="p">
             This site requires a location to operate
           </Typography>
@@ -164,6 +165,7 @@ export default function LocationDenialModal(props) {
               Submit
             </Button>
           </Box>
+           {/* ================== */}
         </Box>
       </StyledModal>
     </Box>
@@ -181,10 +183,3 @@ const style = {
   pb: 3,
 };
 
-const stylesObj = {
-  breakBefore490: {
-    ["@media (min-width: 490px)"]: {
-      display: "none",
-    },
-  },
-};
