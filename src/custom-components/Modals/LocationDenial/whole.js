@@ -18,6 +18,7 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { canadaDenialActions } from "../../../../state-management/store/homepage/locationDenialCA";
 import { usaDenialActions } from "../../../../state-management/store/homepage/locationDenialUSA";
+import { homepageModalActions } from "../../../../state-management/store/homepage/ModalVisibility";
 //  prettier-ignore
 import { yelpCitiesCA, yelpCitiesUS, yelpStates } from "../../../../state-management/store/yelpData";
 // MUI imports
@@ -42,15 +43,10 @@ const StyledModal = styled("div")`
   text-align: center;
 `;
 
-export default function LocationModal(props) {
-  const { showModal1, showModal2, hideModal } = useLocationContext();
-  //@ Decide which selection menu to render <CanadianSelect/> or <AmericanSelect/>
-  const [selectedCountry, setSelectedCountry] = useState(null);
-  const clickedCanada = (e) => setSelectedCountry("Canada");
-  const clickedAmerica = (e) => setSelectedCountry("United States");
-  let inputs;
-  if (selectedCountry === "Canada") inputs = <CanadianSelect />;
-  if (selectedCountry === "United States") inputs = <AmericanSelect />;
+export default function LocationDenialModal(props) {
+  //@ Import redux variables that determine the visibility of our entire component
+  const permissionsDenied= useSelector((state) => state.homepageModals.showLocationDenial); // prettier-ignore
+  const closeModal = () => dispatch(homepageModalActions.closeAllModals()); // reusable f()
 
   //@ Inspect the state values inside the Redux store
   const chosenCityUSA = useSelector((state) => state.locationDenialUSA.chosenCity); //  prettier-ignore
@@ -68,6 +64,20 @@ export default function LocationModal(props) {
   const resetUS = () => dispatch(usaDenialActions.resetState()); // removes error visuals
   const resetCA = () => dispatch(canadaDenialActions.resetState()); // removes error visuals
 
+  //^ Decide which selection menu to render <CanadianSelect/> or <AmericanSelect/>
+  const [selectedCountry, setSelectedCountry] = useState(null);
+  const clickedCanada = (e) => {
+    setSelectedCountry("Canada");
+    resetUS(); // remove error styling and reset state if you were playig with US inputs earlier
+  };
+  const clickedAmerica = (e) => {
+    setSelectedCountry("United States");
+    resetCA(); // remove error styling and reset state if you were playig with CA inputs earlier
+  };
+  let inputs;
+  if (selectedCountry === "Canada") inputs = <CanadianSelect />;
+  if (selectedCountry === "United States") inputs = <AmericanSelect />;
+
   const submitHandler = function () {
     // Check the Redux store for the currently selected city in <CanadianSelect/> and <AmericanSelect/>
     if (selectedCountry === "Canada") {
@@ -75,11 +85,12 @@ export default function LocationModal(props) {
       if (!chosenCityCA) return renderErrorCA("City is a required field");
       // If the selected Canadian city isn't part of the list, render an error
       if (!yelpCitiesCA.includes(chosenCityCA)) return renderErrorCA("Invalid city choice"); //  prettier-ignore
-      //! If the selected Canadian city is part of the list, remove error visuals and save the data
       if (yelpCitiesCA.includes(chosenCityCA)) {
         removeErrorCA();
         console.log("SUCCESS CANADA");
         //! save to localStorage and ContextAPI, then reset the state
+        closeModal();
+        return;
       }
     }
 
@@ -96,21 +107,23 @@ export default function LocationModal(props) {
         return renderErrorUS_M2(`${chosenCityUSA} is not in ${chosenStateUSA}`);
       }
       // Past this point, the entries for Menu1 and Menu2 should be valid
-      removeErrorUS_M1();
+      removeErrorUS_M1(); // remove red error text if any
       removeErrorUS_M2();
       //! Save to localStorage and ContextAPI, then reset the state
       console.log("SUCCESS FOR USA");
+      closeModal();
       return;
     }
   };
 
   const cancelHandler = function () {
-    // Reset the slices for USA and Canada
-    resetCA();
+    resetCA(); // Reset the redux states for USA and Canada
     resetUS();
-    hideModal(); // Hide the modal
+    closeModal(); // Make it so modal is not longer rendered
+    setSelectedCountry(null); // reset the state value for selectedCountry (so modal opens without 1 chosen yet)
   };
 
+  if (!permissionsDenied) return ""; // if falsy, don't render this component
   return (
     <Box
       sx={{
@@ -134,9 +147,6 @@ export default function LocationModal(props) {
           </Box>
           <Typography variant="h6" component="p">
             This site requires a location to operate
-            <br />
-            But we understand you may want to{breakBefore(590)} keep your
-            location a secret
           </Typography>
           <Divider sx={{ my: 2 }} />
           <Typography variant="h5" component="p" sx={{ fontWeight: "600" }}>
@@ -144,6 +154,8 @@ export default function LocationModal(props) {
           </Typography>
           <Typography variant="h6" component="p">
             Search for restaurants in{breakBefore(490)} predetermined locations
+            <br />
+            (keeps your real location a secret)
           </Typography>
 
           <FormControl>

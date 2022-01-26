@@ -10,15 +10,6 @@ import Footer from "../src/custom-components/Footer";
 import LocationDenial from "../src/custom-components/Modals/LocationDenial/whole";
 
 export default function index() {
-  const { modalVisible, devButton } = useLocationContext();
-  // Decide which error module to render when something goes wrong
-  let modalToShow = undefined; // render nothing by default
-
-  useEffect(() => {
-    if (modalVisible === "case1") modalToShow = <GeoUnsupported />;
-    else if (modalVisible === "case2") modalToShow = <LocationDenial />;
-    else modalToShow = undefined; // render nothing
-  }, [modalVisible]);
   return (
     <>
       <MissionStatement />
@@ -34,7 +25,8 @@ export default function index() {
       <LayoutContainer marginAbove="4.5rem" bg="#fffbf7">
         <Footer />
       </LayoutContainer>
-      {modalToShow}
+      <LocationDenial/>
+      
     </>
   );
 }

@@ -11,15 +11,15 @@ import store from "../state-management/store/index"; // import the store from st
 function MyApp({ Component, pageProps }) {
   return (
     <GlobalContextAPIProvider>
-      <LocationContextProvider>
-        <Provider store={store}>
+      <Provider store={store}>
+        <LocationContextProvider>
           <ThemeProvider theme={customThemes.light}>
             <CssBaseline>
               <Component {...pageProps} />
             </CssBaseline>
           </ThemeProvider>
-        </Provider>
-      </LocationContextProvider>
+        </LocationContextProvider>
+      </Provider>
     </GlobalContextAPIProvider>
   );
 }

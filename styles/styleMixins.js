@@ -57,7 +57,7 @@ export const mix = {
     "&:hover": { textDecoration: "underline" },
   },
   autoCompleteHeight: {
-    height: "65px",
+    height: "75px",
   },
   hideAfter: (breakpoint) => {
     return {

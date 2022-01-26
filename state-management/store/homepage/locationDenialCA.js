@@ -7,7 +7,7 @@ const initialState = {
 };
 
 const canadaDenialSlice = createSlice({
-  name: "locationDenialUS", // expected built-in KVP
+  name: "locationDenialCA", // expected built-in KVP
   initialState,
   reducers: {
     selectCity: (state, action) => {
@@ -15,7 +15,6 @@ const canadaDenialSlice = createSlice({
     },
     // Places error text onto an input field and changes the color to red
     yesError: (state, action) => {
-      console.log(action);
       state.errorStyling = true;
       state.errorMessage = action.payload;
     },

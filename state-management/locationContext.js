@@ -1,38 +1,36 @@
 //  prettier-ignore
 import axios from "axios";
+import { homepageModalActions } from "../state-management/store/homepage/ModalVisibility";
+import { useSelector, useDispatch } from "react-redux";
 import { useState, createContext, useContext, useEffect } from "react"; // import useContext
 const AAA = createContext();
 export const useLocationContext = () => useContext(AAA); // export custom hook
 
 export default function LocationContextProvider(props) {
   //@ This state variable holds objects filled with location data per each user (saved in LocalStorage)
+  // On startup, check LocalStorage for any saved location objects
   const [locationObj, setLocationObj] = useState(null);
   useEffect(() => {
-    // On startup, check LocalStorage for any saved location objects
     if (!localStorage.getItem("savedLocation")) return;
     else setLocationObj(JSON.parse(localStorage.getItem("savedLocation")));
   }, []); // we set the state variable equal to our findings, or null if none exist
 
-  //@ Use this state variable to decide when an error modal should be visible
-  const [modalVisible, setModalVisible] = useState(false); // when equal to false, its hidden
-  const showModal1 = () => setModalVisible("case1"); // renders custom-components/Modals/GeoUnsupported.js
-  const showModal2 = () => setModalVisible("case2"); // renders custom-components/Modals/LocationDenial.js
-  const hideModal = () => setModalVisible(false); // hides modal, regardless of which
-  
+  //@ Use redux to create dispatch functions that render modals conditionally based on state values
+  const dispatch = useDispatch();
+  const renderLocationDenialModal = () => dispatch(homepageModalActions.permissionsDenied()); //  prettier-ignore
+  const renderGeoUnsupportedModal = () => dispatch(homepageModalActions.geolocationUnsupported()); //  prettier-ignore
 
   //@ Use this function to manually save an object to localStorage and locationObj states
-  const saveNewLocationObj = function (inputObj) {
-    /*
+  const createLocationManually = function (inputObj) {
     // Check to see if the object you submit has all required keys
-    const requiredKeys = ["locationString", "city", "countryCode", "latitude", "longitude"] //  prettier-ignore
+    const requiredKeys = ["locationString", "city", "countryCode","apiString","stateProvinceCode", "latitude", "longitude"] //  prettier-ignore
     const arr = [];
     requiredKeys.forEach((key) => {
       if (inputObj.hasOwnProperty(key)) arr.push(true);
       else arr.push(false);
     });
-    if (arr.includes(false)) return alert("insufficient keys"); // may leave permanently
-    */
-    // Save them to state and localStorage if they have all required keys
+    if (arr.includes(false)) return alert("invalid keys"); // will leave up permanently
+    // Save them to project state and localStorage if they have all required keys
     setLocationObj(inputObj);
     localStorage.setItem("savedLocation", JSON.stringify(inputObj));
   };
@@ -41,7 +39,7 @@ export default function LocationContextProvider(props) {
   const detectLocation = async function (findNew) {
     // Check the visitor's browser supports Geolocation
     if (!navigator.geolocation) {
-      showModal1(); // renders a modal telling users their browser is incompatible, and gives alt options
+      renderGeoUnsupportedModal();
       return;
     }
 
@@ -67,8 +65,9 @@ export default function LocationContextProvider(props) {
         localStorage.setItem("savedLocation", JSON.stringify(requestData));
         setLocationObj(requestData);
       } catch (err) {
-        console.error(err)
-        showModal2(); // render a modal giving the user the choice to use predetermined locations
+        console.error(err);
+        //% render a modal giving the user the choice to use predetermined locations
+        renderLocationDenialModal();
       }
     };
     actionsAfterCoordinates(); // invoke above f() immediately
@@ -87,9 +86,19 @@ export default function LocationContextProvider(props) {
     locationObj, // use to check what our current location is (Saved to state and localStorage)
     // setLocationObj, // use for the GeoLocation utility function only!
     devButton, //! for development only
-    saveNewLocationObj, // use to save locationObjects, specifically when we use the Countries Selector
+    createLocationManually, // use to save locationObjects, specifically when we use the Countries Selector
   };
-  const modalRelated = { modalVisible, hideModal, showModal1, showModal2 };
-  const distribution = { ...locationRelated, ...modalRelated };
+  const distribution = { ...locationRelated };
   return <AAA.Provider value={distribution}>{props.children}</AAA.Provider>;
 }
+
+/*
+denialModal (Boolean)
+decides whether the LocationDenial modal should be visible or not
+
+geoUnsupportedModal(Boolean)
+decides whether the GeoUnsupported modal should be visible or not
+
+locationObj
+Project state variable for your current location (auto-set to whatever saved in LocalStorage on startup)
+*/
