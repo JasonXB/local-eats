@@ -94,6 +94,10 @@ const types = {
     "Wine bars": "wine",
     Izakaya: "izakaya",
   },
+  "Plant-based": {
+    Vegeterian: "vegetarian",
+    Vegan: "vegan",
+  },
 
   "Meat-oriented": {
     Grill: "grill",
@@ -103,33 +107,31 @@ const types = {
     Wings: "chicken wings",
   },
 
-  "Plant-based": {
-    Vegeterian: "vegetarian",
-    Vegan: "vegan",
-  },
-
   "Drink-centric": {
     "Juice bars": "juice",
     Tea: "tea",
     "Beverage shops": "beverages",
   },
 
-  Sweets: {
-    Bakeries: "bakery",
-    Dessert: "dessert",
-    Donuts: "donut",
-    Candy: "candy",
-    "Ice cream": "ice cream",
-  },
+  // Sweets: {
+  //   Bakeries: "bakery",
+  //   Dessert: "dessert",
+  //   Donuts: "donut",
+  //   Candy: "candy",
+  //   "Ice cream": "ice cream",
+  // },
 };
 function pickImage(key) {
-  if (key == "Casual") return "/images/casual.jpg";
-  if (key == "Breakfast") return "/images/breakfast.jpg";
-  if (key == "Alcohol") return "/images/alcohol.jpg";
-  if (key == "Meat-centric") return "/images/meat-centric.jpg";
-  if (key == "Plant-based") return "/images/plant-based.jpg";
-  if (key == "Drink-centric") return "/images/drink-centric.jpg";
-  if (key == "Sweets") return "/images/sweets.jpg";
+  const imgs = {
+    Casual: "/images/casual.jpg",
+    Breakfast: "/images/breakfast.jpg",
+    Alcohol: "/images/alcohol.jpg",
+    "Meat-oriented": "/images/meat.jpg",
+    "Plant-based": "/images/plant-based.jpg",
+    "Drink-centric": "/images/drink-centric.jpg",
+    Sweets: "/images/sweets.jpg",
+  };
+  return imgs[key]; // return the src url
 }
 /* 
 API APPROACH 
