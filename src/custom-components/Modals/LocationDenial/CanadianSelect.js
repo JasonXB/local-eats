@@ -26,7 +26,7 @@ export default function CanadianInputs() {
       id="combo-box-demo"
       options={yelpCitiesCA}
       // prettier-ignore
-      sx={{ maxWidth: 350, mx: "auto", mt: 2, mb: 1, ...mix.autoCompleteHeight }}
+      sx={{ width: "100%", mx: "auto", mt: 2, mb: 1, ...mix.autoCompleteHeight }}
       renderInput={(params) => (
         <TextField
           {...params}

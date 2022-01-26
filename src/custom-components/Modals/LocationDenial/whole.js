@@ -163,22 +163,26 @@ export default function LocationDenialModal(props) {
               row
               aria-labelledby="demo-row-radio-buttons-group-label"
               name="row-radio-buttons-group"
+              sx={{width: "18rem"}}
             >
               <FormControlLabel
                 value="Canada"
                 control={<Radio />}
                 label="Canada"
                 onClick={clickedCanada}
+                sx={{mx:"auto"}}
               />
               <FormControlLabel
                 value="United States"
                 control={<Radio />}
                 label="United States"
                 onClick={clickedAmerica}
+                sx={{mx:"auto"}}
               />
             </RadioGroup>
+            {inputs}
           </FormControl>
-          {inputs}
+          
           <Typography
             variant="h5"
             component="p"
