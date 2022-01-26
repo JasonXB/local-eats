@@ -24,7 +24,7 @@ async function fetchLocationData(latitude, longitude, requestURL) {
     const city = response.data.results[0].locations[0].adminArea5;
     if (countryCode == "US") {
       return {
-        countryCode,
+        country: "United States",
         stateProvinceCode,
         city,
         locationString: `${city}, ${stateProvinceCode}`,
@@ -35,7 +35,7 @@ async function fetchLocationData(latitude, longitude, requestURL) {
     }
     if (countryCode == "CA") {
       return {
-        countryCode,
+        country: "Canada",
         stateProvinceCode,
         city,
         locationString: `${city}, ${stateProvinceCode}`,

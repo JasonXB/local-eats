@@ -23,7 +23,7 @@ export default function LocationContextProvider(props) {
   //@ Use this function to manually save an object to localStorage and locationObj states
   const createLocationManually = function (inputObj) {
     // Check to see if the object you submit has all required keys
-    const requiredKeys = ["locationString", "city", "countryCode","apiString","stateProvinceCode", "latitude", "longitude"] //  prettier-ignore
+    const requiredKeys = ["locationString", "city", "country","apiString","stateProvinceCode", "latitude", "longitude"] //  prettier-ignore
     const arr = [];
     requiredKeys.forEach((key) => {
       if (inputObj.hasOwnProperty(key)) arr.push(true);
