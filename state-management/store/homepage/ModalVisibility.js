@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  selectedCountry: undefined,
   showLocationDenial: false,
   showGeoUnsupported: false,
 };
@@ -9,6 +10,9 @@ const homeModalSlice = createSlice({
   name: "ModalVisibility", // expected built-in KVP
   initialState,
   reducers: {
+    selectCountry : (state, action) => {
+      state.selectedCountry = action.payload;
+    },
     permissionsDenied: (state, action) => {
       state.showLocationDenial = true;
       state.showGeoUnsupported = false;

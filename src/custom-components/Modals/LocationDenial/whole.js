@@ -21,14 +21,7 @@ import { usaDenialActions } from "../../../../state-management/store/homepage/lo
 import { homepageModalActions } from "../../../../state-management/store/homepage/ModalVisibility";
 //  prettier-ignore
 import { yelpCitiesCA, yelpCitiesUS, yelpStates } from "../../../../state-management/store/yelpData";
-// MUI imports
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
-import AmericanSelect from "./AmericanSelect";
-import CanadianSelect from "./CanadianSelect";
+import Predetermined from "./Predetermined";
 
 const StyledModal = styled("div")`
   position: fixed;
@@ -48,10 +41,13 @@ export default function LocationDenialModal(props) {
   const permissionsDenied= useSelector((state) => state.homepageModals.showLocationDenial); // prettier-ignore
   const closeModal = () => dispatch(homepageModalActions.closeAllModals()); // reusable f()
 
+  //@ Create a dispatch function that selects a country and saves it to state
+  const chosenCountry = useSelector((state) => state.homepageModals.selectedCountry); // prettier-ignore
+  const selectCountry= (inp) => dispatch(homepageModalActions.selectCountry(inp)); // prettier-ignore
   //@ Inspect the state values inside the Redux store
-  const chosenCityUSA = useSelector((state) => state.locationDenialUSA.chosenCity); //  prettier-ignore
-  const chosenStateUSA = useSelector((state) => state.locationDenialUSA.chosenState); //  prettier-ignore
-  const chosenCityCA = useSelector((state) => state.locationDenialCA.chosenCity); //  prettier-ignore
+  const chosenCityCA = useSelector((state) => state.locationDenialCA.chosenCity); // prettier-ignore
+  const chosenCityUSA = useSelector((state) => state.locationDenialUSA.chosenCity); // prettier-ignore
+  const chosenStateUSA = useSelector((state) => state.locationDenialUSA.chosenState); // prettier-ignore
 
   //@ Render/remove error visuals using dispatch functions
   const dispatch = useDispatch();
@@ -64,23 +60,9 @@ export default function LocationDenialModal(props) {
   const resetUS = () => dispatch(usaDenialActions.resetState()); // removes error visuals
   const resetCA = () => dispatch(canadaDenialActions.resetState()); // removes error visuals
 
-  //^ Decide which selection menu to render <CanadianSelect/> or <AmericanSelect/>
-  const [selectedCountry, setSelectedCountry] = useState(null);
-  const clickedCanada = (e) => {
-    setSelectedCountry("Canada");
-    resetUS(); // remove error styling and reset state if you were playig with US inputs earlier
-  };
-  const clickedAmerica = (e) => {
-    setSelectedCountry("United States");
-    resetCA(); // remove error styling and reset state if you were playig with CA inputs earlier
-  };
-  let inputs;
-  if (selectedCountry === "Canada") inputs = <CanadianSelect />;
-  if (selectedCountry === "United States") inputs = <AmericanSelect />;
-
   const submitHandler = function () {
     // Check the Redux store for the currently selected city in <CanadianSelect/> and <AmericanSelect/>
-    if (selectedCountry === "Canada") {
+    if (chosenCountry === "Canada") {
       // Make sure the field is filled in
       if (!chosenCityCA) return renderErrorCA("City is a required field");
       // If the selected Canadian city isn't part of the list, render an error
@@ -94,7 +76,7 @@ export default function LocationDenialModal(props) {
       }
     }
 
-    if (selectedCountry === "United States") {
+    if (chosenCountry === "United States") {
       // Make sure the fields are filled in
       if (!chosenStateUSA) return renderErrorUS_M1("State is required");
       if (!chosenCityUSA) return renderErrorUS_M2("City is required");
@@ -120,7 +102,7 @@ export default function LocationDenialModal(props) {
     resetCA(); // Reset the redux states for USA and Canada
     resetUS();
     closeModal(); // Make it so modal is not longer rendered
-    setSelectedCountry(null); // reset the state value for selectedCountry (so modal opens without 1 chosen yet)
+    selectCountry(null); // reset the state value so modal can reopen without 1 chosen yet
   };
 
   if (!permissionsDenied) return ""; // if falsy, don't render this component
@@ -157,32 +139,7 @@ export default function LocationDenialModal(props) {
             <br />
             (keeps your real location a secret)
           </Typography>
-
-          <FormControl>
-            <RadioGroup
-              row
-              aria-labelledby="demo-row-radio-buttons-group-label"
-              name="row-radio-buttons-group"
-              sx={{width: "18rem"}}
-            >
-              <FormControlLabel
-                value="Canada"
-                control={<Radio />}
-                label="Canada"
-                onClick={clickedCanada}
-                sx={{mx:"auto"}}
-              />
-              <FormControlLabel
-                value="United States"
-                control={<Radio />}
-                label="United States"
-                onClick={clickedAmerica}
-                sx={{mx:"auto"}}
-              />
-            </RadioGroup>
-            {inputs}
-          </FormControl>
-          
+          <Predetermined />
           <Typography
             variant="h5"
             component="p"
