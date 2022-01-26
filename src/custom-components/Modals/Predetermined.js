@@ -3,18 +3,22 @@ import { Typography, Box, Button, Divider } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { mix } from "../../../styles/styleMixins";
 import ModalWrapper from "./ModalWrapper";
-import PredeterminedInputs from "./LocationDenial/PredeterminedInputs";
+import InputField from "./LocationDenial/InputField";
 
-export default function PredeterminedLocations() {
+export default function PredeterminedLocations(props) {
   return (
-    <ModalWrapper headerText="Pick from Predetermined Locations">
+    <ModalWrapper
+      headerText="Pick from Predetermined Locations"
+      cancelHandler={cancelHandler}
+      submitHandler={submitHandler}
+    >
       <Typography variant="h6">
         Search for restaurants across Canada and the United States
         <br />
         (while keeping your location anonymous)
       </Typography>
       <Divider sx={{ my: 2 }} />
-      <PredeterminedInputs />
+      <InputField />
     </ModalWrapper>
   );
 }

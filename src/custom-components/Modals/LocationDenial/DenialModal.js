@@ -13,7 +13,7 @@ import { mix } from "../../../../styles/styleMixins";
 import {
   breakBefore,
   breakAfter,
-} from "../../../custom-components/ConditionalBreak";
+} from "../../ConditionalBreak";
 // Redux imports
 import { useSelector, useDispatch } from "react-redux";
 import { canadaDenialActions } from "../../../../state-management/store/homepage/locationDenialCA";
@@ -21,7 +21,7 @@ import { usaDenialActions } from "../../../../state-management/store/homepage/lo
 import { homepageModalActions } from "../../../../state-management/store/homepage/ModalVisibility";
 //  prettier-ignore
 import { yelpCitiesCA, yelpCitiesUS, yelpStates } from "../../../../state-management/store/yelpData";
-import PredeterminedInputs from "./PredeterminedInputs";
+import InputField from "./InputField";
 import ModalWrapper from "../ModalWrapper";
 
 const StyledModal = styled("div")`
@@ -125,7 +125,7 @@ export default function LocationDenialModal(props) {
         <br />
         (keeps your real location a secret)
       </Typography>
-      <PredeterminedInputs />
+      <InputField />
       <Typography variant="h5" component="p" sx={{ fontWeight: "600", mt: 1 }}>
         OPTION 2:
       </Typography>

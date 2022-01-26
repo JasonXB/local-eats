@@ -7,7 +7,7 @@ import LayoutContainer from "../src/custom-components/LayoutContainer";
 import Cuisines from "../src/page-blocks/home/Cuisines";
 import RestaurantTypes from "../src/page-blocks/home/RestaurantTypes";
 import Footer from "../src/custom-components/Footer";
-import LocationDenial from "../src/custom-components/Modals/LocationDenial/whole";
+import DenialModal from "../src/custom-components/Modals/LocationDenial/DenialModal";
 
 export default function index() {
   return (
@@ -25,7 +25,7 @@ export default function index() {
       <LayoutContainer marginAbove="4.5rem" bg="#fffbf7">
         <Footer />
       </LayoutContainer>
-      <LocationDenial/>
+      <DenialModal/>
       
     </>
   );

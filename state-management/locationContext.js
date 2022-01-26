@@ -92,13 +92,3 @@ export default function LocationContextProvider(props) {
   return <AAA.Provider value={distribution}>{props.children}</AAA.Provider>;
 }
 
-/*
-denialModal (Boolean)
-decides whether the LocationDenial modal should be visible or not
-
-geoUnsupportedModal(Boolean)
-decides whether the GeoUnsupported modal should be visible or not
-
-locationObj
-Project state variable for your current location (auto-set to whatever saved in LocalStorage on startup)
-*/
