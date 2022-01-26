@@ -1,5 +1,7 @@
 import React from 'react';
+import { Typography, Box } from '@mui/material';
 import { useSelector, useDispatch } from "react-redux";
+import { mix } from '../../../../styles/styleMixins';
 
 export default function GeoUnsupported() {
   //@ Import redux variables that determine the visibility of our entire component
@@ -7,5 +9,7 @@ export default function GeoUnsupported() {
   if(!geolocationUnsupported) return "" // if falsy, don't render this component
   
 
-  return <div></div>;
+  return <>
+    
+  </>;
 }
