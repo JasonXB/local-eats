@@ -21,7 +21,7 @@ import { usaDenialActions } from "../../../../state-management/store/homepage/lo
 import { homepageModalActions } from "../../../../state-management/store/homepage/ModalVisibility";
 //  prettier-ignore
 import { yelpCitiesCA, yelpCitiesUS, yelpStates } from "../../../../state-management/store/yelpData";
-import Predetermined from "./Predetermined";
+import PredeterminedInputs from "./PredeterminedInputs";
 import ModalWrapper from "../ModalWrapper";
 
 const StyledModal = styled("div")`
@@ -125,7 +125,7 @@ export default function LocationDenialModal(props) {
         <br />
         (keeps your real location a secret)
       </Typography>
-      <Predetermined />
+      <PredeterminedInputs />
       <Typography variant="h5" component="p" sx={{ fontWeight: "600", mt: 1 }}>
         OPTION 2:
       </Typography>
