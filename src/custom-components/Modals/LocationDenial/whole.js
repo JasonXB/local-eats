@@ -108,7 +108,11 @@ export default function LocationDenialModal(props) {
 
   if (!permissionsDenied) return ""; // if falsy, don't render this component
   return (
-    <ModalWrapper headerText="Location Permissions Denied">
+    <ModalWrapper
+      headerText="Location Permissions Denied"
+      cancelHandler={cancelHandler}
+      submitHandler={submitHandler}
+    >
       <Typography variant="h6" component="p">
         This site requires a location to operate
       </Typography>
@@ -122,26 +126,13 @@ export default function LocationDenialModal(props) {
         (keeps your real location a secret)
       </Typography>
       <Predetermined />
-      <Typography variant="h5" component="p" sx={{ fontWeight: "600", mt: 2 }}>
+      <Typography variant="h5" component="p" sx={{ fontWeight: "600", mt: 1 }}>
         OPTION 2:
       </Typography>
       <Typography variant="h6" component="p">
         Allow site to access your location.
         <br /> Reload the page, then hit the "detect location" button
       </Typography>
-      <Box sx={{ ...mix.flexRow, justifyContent: "end", mt: 5 }}>
-        <Button variant="outlined" size="medium" onClick={cancelHandler}>
-          Cancel
-        </Button>
-        <Button
-          variant="outlined"
-          onClick={submitHandler}
-          size="medium"
-          sx={{ ml: 2 }}
-        >
-          Submit
-        </Button>
-      </Box>
     </ModalWrapper>
   );
 }

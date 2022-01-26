@@ -1,6 +1,6 @@
 import React from "react";
-import LocationDenial from "../src/custom-components/Modals/LocationDenial/whole";
+import GeoUnsupported from "../src/custom-components/Modals/GeoUnsupported/GeoUnsupported";
 
 export default function TestError() {
-  return <LocationDenial />;
+  return <GeoUnsupported />;
 }

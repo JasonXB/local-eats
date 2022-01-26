@@ -1,6 +1,6 @@
 import React from "react";
 import { styled } from "@mui/system";
-import { Typography, Box } from "@mui/material";
+import { Typography, Box, Button } from "@mui/material";
 import { mix } from "../../../styles/styleMixins";
 
 const StyledModal = styled("div")`
@@ -35,6 +35,23 @@ export default function ModalWrapper(props) {
               {props.headerText}
             </Typography>
             {props.children}
+            <Box sx={{ ...mix.flexRow, justifyContent: "end", mt: 3.5 }}>
+              <Button
+                variant="outlined"
+                size="medium"
+                onClick={props.cancelHandler}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="outlined"
+                onClick={props.submitHandler}
+                size="medium"
+                sx={{ ml: 2 }}
+              >
+                Submit
+              </Button>
+            </Box>
           </Box>
         </StyledModal>
       </Box>
