@@ -27,7 +27,7 @@ export default function SearchbarDesktop() {
   };
 
   // Import location data found at startup, and a detect location function fr/ Context API
-  const { detectLocation, locationObj } = useLocationContext();
+  const { detectLocationHandler, locationObj } = useLocationContext();
   // Decide on what message to show on the searchbar based on saved location data on LocalStorage
   const [desktopMSG, setDesktopMSG] = useState("Pick a location");
   useEffect(() => {
@@ -39,14 +39,13 @@ export default function SearchbarDesktop() {
   const getNewLocation = async function (event) {
     closeMenu();
     // search for a new location, and override any saved ones in localStorage
-    await detectLocation(true); // invoke the function defined in locationContext.js
+    await detectLocationHandler(true); // invoke the function defined in locationContext.js
   };
 
   // Reveal the Predetermined Locations Modal by setting a Redux state value
   const openPredetermined = () => dispatch(homepageModalActions.usePredeterminedLocations()); // prettier-ignore
   const pickPredetermined = async function (event) {
     closeMenu();
-    console.log('ww')
     openPredetermined();
   };
 

@@ -23,20 +23,20 @@ export default function LocationContextProvider(props) {
   //@ Use this function to manually save an object to localStorage and locationObj states
   const createLocationManually = function (inputObj) {
     // Check to see if the object you submit has all required keys
-    const requiredKeys = ["locationString", "city", "country","apiString","stateProvinceCode", "latitude", "longitude"] //  prettier-ignore
-    const arr = [];
-    requiredKeys.forEach((key) => {
-      if (inputObj.hasOwnProperty(key)) arr.push(true);
-      else arr.push(false);
-    });
+    // const requiredKeys = ["locationString", "city", "country","apiString","stateProvinceCode", "latitude", "longitude"] //  prettier-ignore
+    // const arr = [];
+    // requiredKeys.forEach((key) => {
+    //   if (inputObj.hasOwnProperty(key)) arr.push(true);
+    //   else arr.push(false);
+    // });
     if (arr.includes(false)) return alert("invalid keys"); // will leave up permanently
     // Save them to project state and localStorage if they have all required keys
     setLocationObj(inputObj);
     localStorage.setItem("savedLocation", JSON.stringify(inputObj));
   };
 
-  //@ Use this function to get your current location
-  const detectLocation = async function (findNew) {
+  //@ This function gets called after pressing the "Get Current Location" Button
+  const detectLocationHandler = async function (findNew) {
     // Check the visitor's browser supports Geolocation
     if (!navigator.geolocation) {
       renderGeoUnsupportedModal();
@@ -54,7 +54,7 @@ export default function LocationContextProvider(props) {
       try {
         const locationInfo = await getPosition();
         // API Route call (it sends a GET request to Mapquest's API to get an area name for those coords)
-        const apiRouteCall = await axios.post("/api/getAreaName", {
+        const apiRouteCall = await axios.post("/api/getAreaInfo/viaLatLong", {
           // Body payload in JS form- send lat and long
           latitude: locationInfo.coords.latitude,
           longitude: locationInfo.coords.longitude,
@@ -73,6 +73,25 @@ export default function LocationContextProvider(props) {
     actionsAfterCoordinates(); // invoke above f() immediately
   };
 
+  //@ Called after submitting a predetermined location
+  const predeterminedHandler = async function (areaName) {
+    try {
+      // API Route call (it sends a GET request to Mapquest's API to get an area name for those coords)
+      const apiRouteCall = await axios.post("/api/getAreaInfo/viaAreaName", {
+        areaName,
+      });
+      // Extract data from the successful API call (axios auto-throws an error if it goes wrong)
+      const requestData = apiRouteCall.data.requestData;
+      // Save details to localStorage and project state
+      localStorage.setItem("savedLocation", JSON.stringify(requestData));
+      setLocationObj(requestData);
+    } catch (err) {
+      console.error(err);
+      //% render a modal giving the user the choice to use predetermined locations
+      renderLocationDenialModal();
+    }
+  };
+
   //! Delete once development ends (and anywhere we use it)
   //  prettier-ignore
   const devButton = <button onClick={()=>{
@@ -82,7 +101,8 @@ export default function LocationContextProvider(props) {
 
   // ——————————————————  GATHER EVERYTHING YOU WANT TO DISTRIBUTE   ————————————————————————————————————
   const locationRelated = {
-    detectLocation, // use as a handler for buttons that trigger geolocation tracking
+    detectLocationHandler, // use as a handler for buttons that trigger geolocation tracking
+    predeterminedHandler,
     locationObj, // use to check what our current location is (Saved to state and localStorage)
     // setLocationObj, // use for the GeoLocation utility function only!
     devButton, //! for development only
@@ -91,4 +111,3 @@ export default function LocationContextProvider(props) {
   const distribution = { ...locationRelated };
   return <AAA.Provider value={distribution}>{props.children}</AAA.Provider>;
 }
-

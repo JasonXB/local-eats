@@ -7,7 +7,7 @@ import GpsFixedIcon from "@mui/icons-material/GpsFixed";
 
 import { mix } from "../../../styles/styleMixins";
 export default function SearchbarMobile() {
-  const { detectLocation, locationObj } = useLocationContext();
+  const { detectLocationHandler, locationObj } = useLocationContext();
 
   // Decide on what message to show on the searchbar based on saved location data on LocalStorage
   const [mobileMSG, setMobileMSG] = useState("None yet");
@@ -18,7 +18,7 @@ export default function SearchbarMobile() {
 
   // search for a new location, and override any saved ones in localStorage
   const getNewLocation = function () {
-    detectLocation(true); // boolean required for override
+    detectLocationHandler(true); // boolean required for override
   };
   
   return (

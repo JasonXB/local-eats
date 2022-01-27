@@ -7,9 +7,9 @@ import LayoutContainer from "../src/custom-components/LayoutContainer";
 import Cuisines from "../src/page-blocks/home/Cuisines";
 import RestaurantTypes from "../src/page-blocks/home/RestaurantTypes";
 import Footer from "../src/custom-components/Footer";
-import DenialModal from "../src/custom-components/Modals/LocationDenial/DenialModal";
-import GeoUnsupported from "../src/custom-components/Modals/GeoUnsupported";
-import PredeterminedModal from "../src/custom-components/Modals/Predetermined";
+import LocationDenialModal from "../src/custom-components/Modals/LocationDenial/DenialModal";
+import GeoUnsupportedModal from "../src/custom-components/Modals/GeoUnsupported";
+import PredeterminedLocationModal from "../src/custom-components/Modals/Predetermined";
 import { homepageModalActions } from "../state-management/store/homepage/ModalVisibility";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -33,10 +33,10 @@ export default function index() {
         <Footer />
       </LayoutContainer>
       {/* Modals that appear conditionally based on states saved in the Redux store */}
-      <button onClick={revealGeo}>SHOW GEO UNSUPPORTED</button>
-      <DenialModal />
-      <PredeterminedModal />
-      <GeoUnsupported />
+      {/* <button onClick={revealGeo}>SHOW GEO UNSUPPORTED</button> */}
+      <LocationDenialModal />
+      <PredeterminedLocationModal />
+      <GeoUnsupportedModal />
     </>
   );
 }

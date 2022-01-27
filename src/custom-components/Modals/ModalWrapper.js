@@ -9,6 +9,7 @@ import { usaDenialActions } from "../../../state-management/store/homepage/locat
 import { homepageModalActions } from "../../../state-management/store/homepage/ModalVisibility";
 //  prettier-ignore
 import { yelpCitiesCA, yelpCitiesUS, yelpStates } from "../../../state-management/store/yelpData";
+import { useLocationContext } from "../../../state-management/locationContext";
 
 const StyledModal = styled("div")`
   position: fixed;
@@ -24,6 +25,7 @@ const StyledModal = styled("div")`
 `;
 
 export default function ModalWrapper(props) {
+  const {predeterminedHandler} = useLocationContext()
   const closeModal = () => dispatch(homepageModalActions.closeAllModals()); // reusable f()
 
   //@ Create a dispatch function that selects a country and saves it to state
@@ -44,8 +46,8 @@ export default function ModalWrapper(props) {
   const removeErrorUS_M2 = () => dispatch(usaDenialActions.noErrorM2()); // removes error visuals
   const resetUS = () => dispatch(usaDenialActions.resetState()); // removes error visuals
   const resetCA = () => dispatch(canadaDenialActions.resetState()); // removes error visuals
-  
-  const submitHandler = function () {
+
+  const submitHandler = async function () {
     // Check the Redux store for the currently selected city in <CanadianSelect/> and <AmericanSelect/>
     if (chosenCountry === "Canada") {
       // Make sure the field is filled in
@@ -56,10 +58,13 @@ export default function ModalWrapper(props) {
         removeErrorCA();
         console.log("SUCCESS CANADA");
         //! save to localStorage and ContextAPI, then reset the state
+        const areaName = `${chosenCityCA}, Canada`;
+        const response = await predeterminedHandler(areaName);
+        //! if it fails, it should return a falsy
         closeModal();
         return;
       }
-    }
+    } //
 
     if (chosenCountry === "United States") {
       // Make sure the fields are filled in
@@ -78,6 +83,9 @@ export default function ModalWrapper(props) {
       removeErrorUS_M2();
       //! Save to localStorage and ContextAPI, then reset the state
       console.log("SUCCESS FOR USA");
+      const areaName = `${chosenCityUSA}, ${chosenStateUSA}, United States`;
+      const response = await predeterminedHandler(areaName);
+      //! if it fails, it should return a falsy
       closeModal();
       return;
     }
