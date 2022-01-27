@@ -1,22 +1,17 @@
 import React from "react";
 import { Typography, Box, Button, Divider, Link } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import { mix } from "../../../styles/styleMixins";
 import ModalWrapper from "./ModalWrapper";
 import InputField from "./LocationDenial/InputField";
 
 export default function GeoUnsupported(props) {
-  //@ Import redux variables that determine the visibility of our entire component
-  // const geolocationUnsupported= useSelector((state) => state.homepageModals.geolocationUnsupported); // prettier-ignore
-  // if (!geolocationUnsupported) return ""; // if falsy, don't render this component
+  // Import redux variables that determine the visibility of our entire component
+  const geolocationUnsupported= useSelector((state) => state.homepageModals.showGeoUnsupported); // prettier-ignore
+  if (!geolocationUnsupported) return ""; // if falsy, don't render this component
 
   return (
     <>
-      <ModalWrapper
-        headerText="Browser does not support Geolocation"
-        cancelHandler={cancelHandler}
-        submitHandler={submitHandler}
-      >
+      <ModalWrapper headerText="Browser does not support Geolocation">
         <Typography variant="h6">
           Your experience will improve with access to geolocation services
         </Typography>

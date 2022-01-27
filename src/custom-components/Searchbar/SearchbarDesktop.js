@@ -9,8 +9,13 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import GpsFixedIcon from "@mui/icons-material/GpsFixed";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import PublicIcon from "@mui/icons-material/Public";
+import { homepageModalActions } from "../../../state-management/store/homepage/ModalVisibility";
+import { useSelector, useDispatch } from "react-redux";
 
 export default function SearchbarDesktop() {
+  const dispatch = useDispatch();
+
+  // Create functions that open and close the drop down menu on the searchbar
   const openMenu = function (event) {
     setAnchorEl(event.currentTarget.closest("div.anchor_point"));
     setArrowIcon(<ArrowDropUpIcon fontSize="large" />);
@@ -27,17 +32,22 @@ export default function SearchbarDesktop() {
   const [desktopMSG, setDesktopMSG] = useState("Pick a location");
   useEffect(() => {
     if (!locationObj) setDesktopMSG("Pick a location");
-    else setDesktopMSG(locationObj.locationString);
+    // if we have no saved location
+    else setDesktopMSG(locationObj.locationString); // if we have a saved location
   }, [locationObj]); // change it whenever locationObj is altered
 
   const getNewLocation = async function (event) {
     closeMenu();
     // search for a new location, and override any saved ones in localStorage
-    await detectLocation(true);
+    await detectLocation(true); // invoke the function defined in locationContext.js
   };
+
+  // Reveal the Predetermined Locations Modal by setting a Redux state value
+  const openPredetermined = () => dispatch(homepageModalActions.usePredeterminedLocations()); // prettier-ignore
   const pickPredetermined = async function (event) {
     closeMenu();
-    //! code actions for a nation selector
+    console.log('ww')
+    openPredetermined();
   };
 
   // BELOW JS AFFECTS STYLING ONLY ▼

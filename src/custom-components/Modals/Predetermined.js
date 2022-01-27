@@ -5,13 +5,13 @@ import { mix } from "../../../styles/styleMixins";
 import ModalWrapper from "./ModalWrapper";
 import InputField from "./LocationDenial/InputField";
 
-export default function PredeterminedLocations(props) {
+export default function PredeterminedModal(props) {
+  // Import redux variables that determine the visibility of our entire component
+  const showPredeterminedModal = useSelector((state) => state.homepageModals.showPredetermined); // prettier-ignore
+  if (!showPredeterminedModal) return ""; // if falsy, don't render this component
+
   return (
-    <ModalWrapper
-      headerText="Pick from Predetermined Locations"
-      cancelHandler={cancelHandler}
-      submitHandler={submitHandler}
-    >
+    <ModalWrapper headerText="Pick from Predetermined Locations">
       <Typography variant="h6">
         Search for restaurants across Canada and the United States
         <br />

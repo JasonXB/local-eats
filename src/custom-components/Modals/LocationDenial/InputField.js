@@ -33,7 +33,7 @@ export default function Predetermined() {
   let inputs;
   if (chosenCountry === "Canada") inputs = <CanadianSelect />;
   if (chosenCountry === "United States") inputs = <AmericanSelect />;
-  
+
   return (
     <FormControl>
       <RadioGroup
