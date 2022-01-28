@@ -3,6 +3,7 @@ import axios from "axios";
 import { homepageModalActions } from "../state-management/store/homepage/ModalVisibility";
 import { useSelector, useDispatch } from "react-redux";
 import { useState, createContext, useContext, useEffect } from "react"; // import useContext
+import { customThemes } from "../styles/MUI_themes";
 const AAA = createContext();
 export const useLocationContext = () => useContext(AAA); // export custom hook
 
@@ -20,20 +21,12 @@ export default function LocationContextProvider(props) {
   const renderLocationDenialModal = () => dispatch(homepageModalActions.permissionsDenied()); //  prettier-ignore
   const renderGeoUnsupportedModal = () => dispatch(homepageModalActions.geolocationUnsupported()); //  prettier-ignore
 
-  //@ Use this function to manually save an object to localStorage and locationObj states
-  const createLocationManually = function (inputObj) {
-    // Check to see if the object you submit has all required keys
-    // const requiredKeys = ["locationString", "city", "country","apiString","stateProvinceCode", "latitude", "longitude"] //  prettier-ignore
-    // const arr = [];
-    // requiredKeys.forEach((key) => {
-    //   if (inputObj.hasOwnProperty(key)) arr.push(true);
-    //   else arr.push(false);
-    // });
-    if (arr.includes(false)) return alert("invalid keys"); // will leave up permanently
-    // Save them to project state and localStorage if they have all required keys
-    setLocationObj(inputObj);
-    localStorage.setItem("savedLocation", JSON.stringify(inputObj));
-  };
+  //@ State value that determines whether the searchbar drop down menu on desktop should be open or not
+  const [searchbarMenuOpen, setSearchbarMenuOpen] = useState(false);
+  const openSearchbarMenu = () => setSearchbarMenuOpen(true);
+  const closeSearchbarMenu = () => setSearchbarMenuOpen(false);
+  //@ This state value decides whether the snackbar should be rendered temporarily or not
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   //@ This function gets called after pressing the "Get Current Location" Button
   const detectLocationHandler = async function () {
@@ -91,6 +84,38 @@ export default function LocationContextProvider(props) {
       renderLocationDenialModal();
     }
   };
+  const checkForSavedLocation = async function () {
+    // See if we have a saved location in the project state / localStorage
+    const savedLocation = locationObj;
+    const mobileViewport = window.innerWidth < 700;
+    const desktopViewport = window.innerWidth >= 700;
+    //! 700px is the MUI theme breakpoint (make dynamic later)
+    // IF WE HAVE NO SAVED LOCATION ...
+    // On desktop screens: Scroll up to the top, render a snackbar, and open the Searchbar Menu
+    if (!savedLocation && desktopViewport) {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+      // Open the searchbar menu after a delay (restricts scroll movement otherwise)
+      setTimeout(() => {
+        openSearchbarMenu();
+      }, 800); // will snap you back to orig position after submitting a location
+      setSnackbarOpen(true);
+    }
+    // On mobile screens: Scroll up to the top, render a snackbar
+    if (!savedLocation && mobileViewport) {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+      setSnackbarOpen(true);
+    }
+    // IF WE HAVE A SAVED LOCATION
+    else {
+      //! Do the cools tuff
+    }
+  };
 
   //! Delete once development ends (and anywhere we use it)
   //  prettier-ignore
@@ -106,8 +131,15 @@ export default function LocationContextProvider(props) {
     locationObj, // use to check what our current location is (Saved to state and localStorage)
     // setLocationObj, // use for the GeoLocation utility function only!
     devButton, //! for development only
-    createLocationManually, // use to save locationObjects, specifically when we use the Countries Selector
   };
-  const distribution = { ...locationRelated };
+  const searchbarRelated = {
+    searchbarMenuOpen, // boolean that dictates whether the drop down menu on the Desktop searchbar is open
+    openSearchbarMenu, // opens it
+    closeSearchbarMenu, // closes it
+    checkForSavedLocation,
+    snackbarOpen,
+    setSnackbarOpen,
+  };
+  const distribution = { ...locationRelated, ...searchbarRelated };
   return <AAA.Provider value={distribution}>{props.children}</AAA.Provider>;
 }

@@ -3,8 +3,11 @@ import Card from "@mui/material/Card";
 import { CardContent, CardMedia } from "@mui/material";
 import { Typography, Container } from "@mui/material";
 import { mix } from "../../../styles/styleMixins";
+import { useLocationContext } from "../../../state-management/locationContext";
 
 export default function SearchOptions1() {
+  const { checkForSavedLocation } = useLocationContext(); // prettier-ignore
+  
   return (
     <>
       <Container
@@ -20,10 +23,9 @@ export default function SearchOptions1() {
       >
         <Card
           sx={{
-            // width: "100%",
-            // maxWidth: "100%",
             [`@media (max-width: 570px)`]: { borderRadius: 0 },
           }}
+          onClick={checkForSavedLocation}
         >
           <CardMedia
             component="img"
@@ -47,6 +49,7 @@ export default function SearchOptions1() {
           sx={{
             [`@media (max-width: 570px)`]: { borderRadius: 0 },
           }}
+          onClick={checkForSavedLocation}
         >
           <CardMedia
             component="img"

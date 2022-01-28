@@ -7,6 +7,9 @@ import GpsFixedIcon from "@mui/icons-material/GpsFixed";
 import LocationOffIcon from "@mui/icons-material/LocationOff";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { mix } from "../../../styles/styleMixins";
+import { homepageModalActions } from "../../../state-management/store/homepage/ModalVisibility";
+import { useSelector, useDispatch } from "react-redux";
+
 export default function SearchbarMobile() {
   const { detectLocationHandler, predeterminedHandler, locationObj } = useLocationContext(); // prettier-ignore
   // Decide on what message to show on the searchbar based on whether the project has a saved location or not
@@ -14,10 +17,9 @@ export default function SearchbarMobile() {
   if (!locationObj) mobileMSG = "none";
   else mobileMSG = locationObj.locationString;
 
-  // search for a new location, and override any saved ones in localStorage
-  // const detectLocation = function () {
-  //   detectLocationHandler(); // boolean required for override
-  // };
+  //@ Reveal the Predetermined Locations Modal by setting a Redux state value
+  const dispatch = useDispatch();
+  const openPredetermined = () => dispatch(homepageModalActions.usePredeterminedLocations()); // prettier-ignore
 
   return (
     <>
@@ -57,7 +59,7 @@ export default function SearchbarMobile() {
             </Typography>
           </Stack>
         </Button>
-        <Button sx={mobileStyles.locationBtn} onClick={predeterminedHandler}>
+        <Button sx={mobileStyles.locationBtn} onClick={openPredetermined}>
           <LocationOffIcon
             fontSize="large"
             color="secondary"
@@ -77,7 +79,7 @@ export default function SearchbarMobile() {
               sx={{ fontSize: "0.875rem" }}
               align="left"
             >
-              from a predetermined list
+              from our premade list
             </Typography>
           </Stack>
         </Button>
@@ -103,8 +105,8 @@ const mobileStyles = {
     marginTop: 0,
     justifyContent: "space-between",
     borderRadius: "10px",
-    pb:2,
-    ["@media (max-width: 520px)"]: {
+    pb: 2,
+    ["@media (max-width: 540px)"]: {
       ...mix.flexColumn,
       alignItems: "flex-start",
     },

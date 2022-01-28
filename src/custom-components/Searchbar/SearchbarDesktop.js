@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useLocationContext } from "../../../state-management/locationContext";
 //  prettier-ignore
 import { Typography, Button, Box, Divider, TextField, InputBase, Menu, MenuItem } from "@mui/material";
@@ -13,20 +13,26 @@ import { homepageModalActions } from "../../../state-management/store/homepage/M
 import { useSelector, useDispatch } from "react-redux";
 
 export default function SearchbarDesktop() {
-  const dispatch = useDispatch();
-  
-  // Create functions that open and close the drop down menu on the searchbar
+  const anchorEl = useRef();
+  //^ Import the LocationContext variables and functions that control the Searchbar drop down menu
+  const { searchbarMenuOpen, openSearchbarMenu, closeSearchbarMenu } = useLocationContext(); // prettier-ignore
+  const [arrowIcon, setArrowIcon] = useState(<ArrowDropDownIcon />);
+  const open = searchbarMenuOpen; // menu opens when searchbarMenuOpen is true
+
+  //^ Create functions that open and close the drop down menu on the searchbar
   const openMenu = function (event) {
-    setAnchorEl(event.currentTarget.closest("div.anchor_point"));
+    // Set searchbarMenuOpen to true, flip the arrow icon, and specify an anchor for the menu
+    openSearchbarMenu();
     setArrowIcon(<ArrowDropUpIcon fontSize="large" />);
   }; // Use Search as an achor element for any menus that spawn underneath
   const closeMenu = function () {
+    // Set searchbarMenuOpen to true, flip the arrow icon, and erase the specified menu anchor
+    closeSearchbarMenu();
     setArrowIcon(<ArrowDropDownIcon fontSize="large" />);
-    setAnchorEl(null);
     return;
   };
 
-  // Import location data found at startup, and a detect location function fr/ Context API
+  //@ Import location data found at startup, and a detect location function fr/ Context API
   const { detectLocationHandler, locationObj } = useLocationContext();
   // Decide on what message to show on the searchbar based on saved location data on LocalStorage
   const [desktopMSG, setDesktopMSG] = useState("Pick a location");
@@ -36,26 +42,22 @@ export default function SearchbarDesktop() {
     else setDesktopMSG(locationObj.locationString); // if we have a saved location
   }, [locationObj]); // change it whenever locationObj is altered
 
-  const getNewLocation = async function (event) {
+  const detectLocation = async function (event) {
     closeMenu();
     // search for a new location, and override any saved ones in localStorage
     await detectLocationHandler(); // invoke the function defined in locationContext.js
   };
 
-  // Reveal the Predetermined Locations Modal by setting a Redux state value
+  //@ Reveal the Predetermined Locations Modal by setting a Redux state value
+  const dispatch = useDispatch();
   const openPredetermined = () => dispatch(homepageModalActions.usePredeterminedLocations()); // prettier-ignore
   const pickPredetermined = async function (event) {
     closeMenu();
     openPredetermined();
   };
 
-  // BELOW JS AFFECTS STYLING ONLY ▼
-  const [arrowIcon, setArrowIcon] = useState(<ArrowDropDownIcon />);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-
   return (
-    <Search className="anchor_point">
+    <Search id="anchor_point" ref={anchorEl}>
       <Button sx={styles.menuButton} color="secondary" onClick={openMenu}>
         <LocationOnIcon />
         <Typography variant="p" sx={styles.location} align="left">
@@ -66,12 +68,12 @@ export default function SearchbarDesktop() {
 
       <Menu
         id="basic-menu"
-        anchorEl={anchorEl}
+        anchorEl={anchorEl.current}
         open={open}
         onClose={closeMenu}
         sx={styles.menu}
       >
-        <MenuItem sx={{ display: "flex", px: 1.5 }} onClick={getNewLocation}>
+        <MenuItem sx={{ display: "flex", px: 1.5 }} onClick={detectLocation}>
           <GpsFixedIcon color="secondary" sx={{ mt: "-4px" }} />
           <Button color="secondary" align="left">
             Detect current location

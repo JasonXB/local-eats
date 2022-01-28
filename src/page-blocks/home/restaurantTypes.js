@@ -3,7 +3,9 @@ import React from "react";
 import { Typography, ButtonBase, Button ,Box, CardContent, CardMedia , Container, Card} from '@mui/material';
 import LayoutContainer from "../../custom-components/LayoutContainer";
 import { mix } from "../../../styles/styleMixins";
+import { useLocationContext } from "../../../state-management/locationContext";
 export default function RestaurantTypes() {
+  const { checkForSavedLocation } = useLocationContext(); // prettier-ignore
   return (
     <>
       <Typography variant="h2" sx={{ pl: 2 }}>
@@ -50,6 +52,7 @@ export default function RestaurantTypes() {
                     <Button
                       key={ind}
                       variant="outlined"
+                      onClick={checkForSavedLocation}
                       sx={{ fontSize: "1rem", borderRadius: 0, mr: 1, mb: 1 }}
                     >
                       {shopType}

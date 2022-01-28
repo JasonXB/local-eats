@@ -1,11 +1,10 @@
 import React from "react";
 import { mix } from "../../../styles/styleMixins";
-//  prettier-ignore
-import { Typography, ButtonBase, Box } from '@mui/material';
+import { Typography, ButtonBase, Box } from '@mui/material'; // prettier-ignore
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import LayoutContainer from "../../custom-components/LayoutContainer";
-//  prettier-ignore
-import { Ca, Cn, Fr, Gr, In, It, Jp, Mx, Pe, Es, Lk, Sy, Th, Us, Vn} from "react-flags-select";
+import { useLocationContext } from "../../../state-management/locationContext";
+import { Ca, Cn, Fr, Gr, In, It, Jp, Mx, Pe, Es, Lk, Sy, Th, Us, Vn} from "react-flags-select"; // prettier-ignore
 
 const cuisineList = {
   Canadian: Ca, // these are functions that produce SVG's
@@ -26,6 +25,11 @@ const cuisineList = {
 };
 
 export default function Cuisines() {
+  const { checkForSavedLocation } = useLocationContext(); // prettier-ignore
+  const pushToNewPage= function(){
+    // Check if we have a saved location in the project state / localStorage
+    checkForSavedLocation()
+  }
   return (
     <>
       <Box sx={{ ...mix.responsiveLayout }}>
@@ -52,6 +56,7 @@ export default function Cuisines() {
           return (
             <ButtonBase
               key={index}
+              onClick={pushToNewPage}
               sx={{
                 display: "grid",
                 gridTemplateColumns: "auto 1fr auto",
