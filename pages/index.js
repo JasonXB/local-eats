@@ -10,12 +10,13 @@ import Footer from "../src/custom-components/Footer";
 import LocationDenialModal from "../src/custom-components/Modals/LocationDenial/DenialModal";
 import GeoUnsupportedModal from "../src/custom-components/Modals/GeoUnsupported";
 import PredeterminedLocationModal from "../src/custom-components/Modals/Predetermined";
+import DynamicSnackbar from "../src/custom-components/DynamicSnackbar";
 import { homepageModalActions } from "../state-management/store/homepage/ModalVisibility";
 import { useSelector, useDispatch } from "react-redux";
 
 export default function index() {
-  const dispatch = useDispatch();
-  const revealGeo = () => dispatch(homepageModalActions.geolocationUnsupported()); // prettier-ignore
+  // const dispatch = useDispatch();
+  // const revealGeo = () => dispatch(homepageModalActions.geolocationUnsupported()); // prettier-ignore
 
   return (
     <>
@@ -37,6 +38,7 @@ export default function index() {
       <LocationDenialModal />
       <PredeterminedLocationModal />
       <GeoUnsupportedModal />
+      <DynamicSnackbar msg="Must select a location first" />
     </>
   );
 }

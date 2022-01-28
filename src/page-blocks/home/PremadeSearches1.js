@@ -14,7 +14,7 @@ export default function SearchOptions1() {
             display: "grid",
             gridTemplateColumns: "1fr 1fr",
             gap: "1rem",
-            px:2,
+            px: 2,
           },
         }}
       >
@@ -52,7 +52,6 @@ export default function SearchOptions1() {
             component="img"
             height="140"
             image="/images/fineDining.jpg"
-            
           />
           <CardContent>
             <Typography gutterBottom variant="h5" component="p">

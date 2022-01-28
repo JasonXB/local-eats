@@ -14,7 +14,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 export default function SearchbarDesktop() {
   const dispatch = useDispatch();
-
+  
   // Create functions that open and close the drop down menu on the searchbar
   const openMenu = function (event) {
     setAnchorEl(event.currentTarget.closest("div.anchor_point"));
