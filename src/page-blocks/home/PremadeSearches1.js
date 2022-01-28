@@ -7,7 +7,7 @@ import { useLocationContext } from "../../../state-management/locationContext";
 
 export default function SearchOptions1() {
   const { checkForSavedLocation } = useLocationContext(); // prettier-ignore
-  
+
   return (
     <>
       <Container
@@ -24,6 +24,7 @@ export default function SearchOptions1() {
         <Card
           sx={{
             [`@media (max-width: 570px)`]: { borderRadius: 0 },
+            ...mix.hoverShadow,
           }}
           onClick={checkForSavedLocation}
         >
@@ -48,6 +49,10 @@ export default function SearchOptions1() {
         <Card
           sx={{
             [`@media (max-width: 570px)`]: { borderRadius: 0 },
+            "&:hover": {
+              cursor: "pointer",
+            },
+            ...mix.hoverShadow,
           }}
           onClick={checkForSavedLocation}
         >

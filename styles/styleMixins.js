@@ -40,9 +40,11 @@ export const mix = {
   },
   hoverShadow: {
     "&:hover": {
-      boxShadow: `rgba(28, 28, 28, 0.08) 0px 4px 8px`,
+      boxShadow: `rgba(28, 28, 28, 0.35) 0px 4px 7px`,
+      cursor: "pointer",
     },
   },
+
   titleFont: {
     fontFamily: "'Righteous', cursive",
     fontWeight: 800,
