@@ -7,7 +7,7 @@ export default async function handler(req, res) {
   const requestData = await fetchLocationData(requestURL);
   if (requestData !== null)
     res.status(200).json({ message: "Data fetched successfully", requestData });
-  else res.status(402).json({ message: "MapquestAPI error" });
+  else res.status(404).json({ message: "MapquestAPI error" });
 }
 
 async function fetchLocationData(requestURL) {

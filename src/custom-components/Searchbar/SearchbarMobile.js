@@ -8,23 +8,22 @@ import GpsFixedIcon from "@mui/icons-material/GpsFixed";
 import { mix } from "../../../styles/styleMixins";
 export default function SearchbarMobile() {
   const { detectLocationHandler, locationObj } = useLocationContext();
+  // Decide on what message to show on the searchbar based on whether the project has a saved location or not
+  let mobileMSG; 
+  if (!locationObj) mobileMSG="None yet";
+  else mobileMSG=locationObj.locationString;
 
-  // Decide on what message to show on the searchbar based on saved location data on LocalStorage
-  const [mobileMSG, setMobileMSG] = useState("None yet");
-  useEffect(() => {
-    if (!locationObj) setMobileMSG("None yet");
-    else setMobileMSG(locationObj.locationString);
-  }, [locationObj]); // change it whenever locationObj is altered
+  
 
   // search for a new location, and override any saved ones in localStorage
-  const getNewLocation = function () {
-    detectLocationHandler(true); // boolean required for override
+  const detectLocation = function () {
+    detectLocationHandler(); // boolean required for override
   };
-  
+
   return (
     <>
       <Box sx={mobileStyles.boxParent}>
-        <Button sx={mobileStyles.locationBtn} onClick={getNewLocation}>
+        <Button sx={mobileStyles.locationBtn} onClick={detectLocation}>
           <GpsFixedIcon fontSize="large" color="secondary" sx={{ mr: 1.5 }} />
           <Stack sx={{ mr: 1.5 }}>
             <Typography

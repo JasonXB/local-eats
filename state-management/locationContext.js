@@ -36,7 +36,7 @@ export default function LocationContextProvider(props) {
   };
 
   //@ This function gets called after pressing the "Get Current Location" Button
-  const detectLocationHandler = async function (findNew) {
+  const detectLocationHandler = async function () {
     // Check the visitor's browser supports Geolocation
     if (!navigator.geolocation) {
       renderGeoUnsupportedModal();

@@ -39,7 +39,7 @@ export default function SearchbarDesktop() {
   const getNewLocation = async function (event) {
     closeMenu();
     // search for a new location, and override any saved ones in localStorage
-    await detectLocationHandler(true); // invoke the function defined in locationContext.js
+    await detectLocationHandler(); // invoke the function defined in locationContext.js
   };
 
   // Reveal the Predetermined Locations Modal by setting a Redux state value
