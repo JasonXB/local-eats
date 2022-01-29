@@ -72,8 +72,8 @@ const desktopStyles = {
       background: `linear-gradient(
       rgba(0, 0, 0, 0.5),
       rgba(0, 0, 0, 0.5) ),
-      url('/images/backdropA.jpg') no-repeat`,
-      backgroundPosition: "100% 10%",
+      url('/images/resto.jpg') no-repeat`,
+      backgroundPosition: "100% 70%",
       backgroundSize: "cover",
       position: "relative",
 

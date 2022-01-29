@@ -13,13 +13,14 @@ import PredeterminedLocationModal from "../src/custom-components/Modals/Predeter
 import DynamicSnackbar from "../src/custom-components/DynamicSnackbar";
 import { homepageModalActions } from "../state-management/store/homepage/ModalVisibility";
 import { useSelector, useDispatch } from "react-redux";
-
+import Navbar from "../src/custom-components/Navbar";
 export default function index() {
   // const dispatch = useDispatch();
   // const revealGeo = () => dispatch(homepageModalActions.geolocationUnsupported()); // prettier-ignore
 
   return (
     <>
+      <Navbar />
       <MissionStatement />
       <LayoutContainer marginAbove="2.25rem">
         <SearchOptionsRow1 />
