@@ -9,7 +9,7 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { mix } from "../../../styles/styleMixins";
 import { homepageModalActions } from "../../../state-management/store/homepage/ModalVisibility";
 import { useSelector, useDispatch } from "react-redux";
-import Navbar from "../Navbar";
+import Navbar from "../Navbar/Navbar";
 export default function SearchbarMobile() {
   const { detectLocationHandler, predeterminedHandler, locationObj } = useLocationContext(); // prettier-ignore
   // Decide on what message to show on the searchbar based on whether the project has a saved location or not

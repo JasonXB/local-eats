@@ -14,9 +14,8 @@ export const customThemes = {
       },
     },
     palette: {
-      primary: { main: "#1f3c50" }, // dark color
-      // primary: { main: "#00897b" }, // green color
-      secondary: { main: "#c54949" }, // orangey red
+      primary: { main: "#1f3c50" }, // dark color near black
+      secondary: { main: "#da3743" }, // near crimson red
       grayBackground: { main: "#F5F5F5" },
     },
     breakpoints: {
