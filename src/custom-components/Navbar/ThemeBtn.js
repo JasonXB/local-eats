@@ -20,7 +20,7 @@ export default function ThemeBtn() {
             <Brightness2Icon fontSize="medium" />
           </IconButton>
           <Typography variant="p" sx={styles.enableDarkText}>
-            Enable dark mode
+            Enable Dark Mode
           </Typography>
         </Box>
       </>
@@ -44,6 +44,7 @@ export default function ThemeBtn() {
         <Typography variant="p" sx={styles.enableLightText}>
           Enable light mode
         </Typography>
+        
       </Box>
     );
   }

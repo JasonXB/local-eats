@@ -73,7 +73,7 @@ const desktopStyles = {
       rgba(0, 0, 0, 0.5),
       rgba(0, 0, 0, 0.5) ),
       url('/images/resto.jpg') no-repeat`,
-      backgroundPosition: "100% 70%",
+      backgroundPosition: "100% 66%",
       backgroundSize: "cover",
       position: "relative",
 

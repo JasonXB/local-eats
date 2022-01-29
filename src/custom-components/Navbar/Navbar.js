@@ -1,49 +1,19 @@
 import React from "react";
-import { Typography, Box, Button } from "@mui/material";
-import { mix } from "../../../styles/styleMixins";
-import ThemeBtn from "./ThemeBtn";
+import NavbarDesktop from "./DesktopVersion";
+import NavbarMobile from "./MobileVersion";
+import { useGlobalContext } from "../../../state-management/globalContext";
+
 export default function Navbar() {
+  // Feed each component our logged in status (appearance changes depending on value)
+  const { onlineStatus } = useGlobalContext();
   return (
     <>
-      {/* Shown only on viewports over md breakpoint */}
-      <Box sx={styles.boxParent} href={"example.com"}>
-        <ThemeBtn/>
-        <Box>
-          <Button variant="contained" disableElevation>
-            Sign up
-          </Button>
-          <Button
-            sx={{ ml: 2 }}
-            href={"example.com"}
-            variant="outlined"
-            disableElevation
-          >
-            Sign in
-          </Button>
-        </Box>
-      </Box>
+      {/* <NavbarMobile onlineStatus={onlineStatus} /> */}
+      <NavbarDesktop onlineStatus={onlineStatus} />
     </>
   );
+  // Only one of these components is visible at a time. (this behaviour's coded inside each component)
+  // Before the "sm" breakpoint it's NavbarMobile that's visible (pre 700px)
+  // After "sm", it's NavbarDesktop (post 700px)
+  // This breakpoint may be changed in the future, inside the MUI_themes.js file
 }
-
-const mobileStyles = {
-  title: {
-    ...mix.titleFont,
-    ...mix.regMargin("mt"),
-    my: 0,
-  },
-};
-
-const styles = {
-  boxParent: (theme) => {
-    return {
-      py: 1,
-      px:2,
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-      bgcolor: "#fffbf7",
-      [theme.breakpoints.down("sm")]: { display: "none" },
-    };
-  },
-};

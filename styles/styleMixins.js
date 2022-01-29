@@ -76,4 +76,15 @@ export const mix = {
       },
     };
   },
+  hideAfterBP: (BPname, theme) => {
+    return {
+      [theme.breakpoints.up(BPname)]: { display: "none" },
+    };
+  },
+  hideBeforeBP: (BPname, theme) => {
+    return {
+      [theme.breakpoints.down(BPname)]: { display: "none" },
+    };
+  },
+  
 };

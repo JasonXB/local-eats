@@ -1,3 +1,5 @@
+REMAINING FEATURES
+1. Dark mode toggle requires a dark theme to be written
 
 ——————————————————————— AFTER COMPLETED  ———————————————————————————————
 FINAL CHECKS
