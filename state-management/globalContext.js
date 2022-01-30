@@ -3,7 +3,7 @@ const AAA = createContext();
 export const useGlobalContext = () => useContext(AAA); // export custom hook
 
 export default function GlobalContextAPIProvider(props) {
-  // Manage the theme 
+  // Manage the theme
   const [themeString, setThemeString] = useState(null); // null, "light", or "dark"
   // Manage login status
   const [onlineStatus, setOnlineStatus] = useState(false); //!! set to false by default unless you log in
@@ -16,7 +16,7 @@ export default function GlobalContextAPIProvider(props) {
   }, []);
 
   // DISTRIBUTION
-  const themeRelated = {themeString, setThemeString}
+  const themeRelated = { themeString, setThemeString };
   const authRelated = { onlineStatus, signIn, signOut };
   const distribution = { ...themeRelated, ...authRelated };
   return <AAA.Provider value={distribution}>{props.children}</AAA.Provider>;

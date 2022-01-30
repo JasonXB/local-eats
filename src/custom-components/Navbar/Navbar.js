@@ -8,7 +8,7 @@ export default function Navbar() {
   const { onlineStatus } = useGlobalContext();
   return (
     <>
-      {/* <NavbarMobile onlineStatus={onlineStatus} /> */}
+      <NavbarMobile onlineStatus={onlineStatus} />
       <NavbarDesktop onlineStatus={onlineStatus} />
     </>
   );

@@ -1,3 +1,4 @@
+// import MenuIcon from "@mui/icons-material/Menu"; // <MenuIcon size="large" />
 import SearchbarMobile from "../../custom-components/Searchbar/SearchbarMobile";
 //  prettier-ignore
 import { Typography, Box, Stack, Button, InputBase, Menu, MenuItem,} from "@mui/material";
@@ -21,7 +22,7 @@ export default function Home() {
         >
           Local Eats
         </Typography>
-        <SearchbarMobile/>
+        <SearchbarMobile />
       </Stack>
       {/* THE FOLLOWING IS ONLY VISIBLE ON SCREENS PAST THE sm BREAKPOINT */}
       <Box component="section" sx={desktopStyles.cuisineIMG}>
@@ -62,7 +63,7 @@ const mobileStyles = {
     ...mix.titleFont,
     ...mix.regMargin("mt"),
   },
-}
+};
 
 const desktopStyles = {
   cuisineIMG: (theme) => {
