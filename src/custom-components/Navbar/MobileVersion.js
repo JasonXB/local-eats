@@ -1,22 +1,19 @@
 import React from "react";
 import { useGlobalContext } from "../../../state-management/globalContext";
-import { Typography, Box, Button } from "@mui/material";
+import { Typography, Box, Button, IconButton } from "@mui/material";
 import { breakBefore, breakAfter } from "../ConditionalBreak";
+import { mix } from "../../../styles/styleMixins";
 import SignOutBtn from "./SignOutBtn";
 import SignUpBtn from "./SignUpBtn";
 import SignInBtn from "./SignInBtn";
 import BookmarksBtn from "./BookmarksBtn";
 import HistoryBtn from "./HistoryBtn";
+import ThemeBtn from "./ThemeBtn";
 // --
 import MenuIcon from "@mui/icons-material/Menu";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
-import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
+import Brightness4Icon from "@mui/icons-material/Brightness4";
 
 export default function TemporaryDrawer() {
   const { onlineStatus } = useGlobalContext();
@@ -55,7 +52,6 @@ export default function TemporaryDrawer() {
           <SignUpBtn mobile={true} />
           <SignInBtn mobile={true} />
         </List>
-        <Divider />
       </Box>
     );
   }
@@ -69,43 +65,56 @@ export default function TemporaryDrawer() {
         onKeyDown={toggleDrawer(anchor, false)}
       >
         <List sx={{ p: 2 }}>
-          <HistoryBtn mobile={true}/>
-          <BookmarksBtn mobile={true}/>
-          <SignOutBtn mobile={true}/>
+          <HistoryBtn mobile={true} />
+          <BookmarksBtn mobile={true} />
+          <SignOutBtn mobile={true} />
         </List>
-        <Divider />
       </Box>
     );
   }
   return (
-    <Box
-      sx={{
-        position: "absolute",
-        // right: 0,
-        ml: 2,
-        mt: 2,
-        "& .MuiSvgIcon-root": { fontSize: "2.5rem" },
-        "&:hover": { cursor: "pointer" },
-      }}
-    >
-      {["top"].map((anchor) => (
-        <React.Fragment key={anchor}>
-          <MenuIcon onClick={toggleDrawer(anchor, true)} />
-          <Drawer
-            anchor={anchor}
-            open={state[anchor]}
-            onClose={toggleDrawer(anchor, false)}
-          >
-            {list(anchor)}
-          </Drawer>
-        </React.Fragment>
-      ))}
-    </Box>
+    <>
+      <Box
+        sx={(theme) => {
+          return {
+            position: "absolute",
+            left: 0,
+            ml: 2,
+            mt: 2.2,
+            ...mix.hideAfterBP("sm", theme),
+            "& .MuiSvgIcon-root": { fontSize: "2.5rem" },
+            "&:hover": { cursor: "pointer" },
+          };
+        }}
+      >
+        {["top"].map((anchor) => (
+          <React.Fragment key={anchor}>
+            <MenuIcon onClick={toggleDrawer(anchor, true)} />
+            <Drawer
+              anchor={anchor}
+              open={state[anchor]}
+              onClose={toggleDrawer(anchor, false)}
+            >
+              {list(anchor)}
+            </Drawer>
+          </React.Fragment>
+        ))}
+      </Box>{" "}
+      <IconButton
+        color="primary"
+        sx={(theme) => {
+          return {
+            position: "absolute",
+            right: 0,
+            // p: 0,
+            mt: 1.45,
+            mr: 2,
+            ...mix.hideAfterBP("sm", theme),
+          };
+        }}
+      >
+        <Brightness4Icon fontSize="large" />
+      </IconButton>
+    </>
   );
 }
-
-const styles = {
-  container: {
-    position: "fixed",
-  },
-};
