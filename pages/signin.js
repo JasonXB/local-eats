@@ -7,6 +7,7 @@ import {
   breakAfter,
   breakBefore,
 } from "../src/custom-components/ConditionalBreak";
+import FormHelperText from "@mui/material/FormHelperText";
 import { mix } from "../styles/styleMixins";
 
 export default function signup() {
@@ -15,13 +16,8 @@ export default function signup() {
   const passwordRef = useRef();
 
   const googleHandler = function () {};
-
-  const submitHandler = function () {
-    // Check if each entry has something typed in (no whitespace)
-    // Send a request to a local API that validates the email/password
-    // error handle along the way
-    // If successful, re-route to homepage
-  };
+  const submitHandler = function () {};
+  
   return (
     <Stack sx={styles.parentContainer}>
       <Typography variant="h2" sx={{ ...mix.titleFont }}>
@@ -60,6 +56,7 @@ export default function signup() {
           User Email:
         </Typography>
         <OutlinedInput inputRef={emailRef} placeholder="name@email.com" />
+        {/* <FormHelperText sx={{m:0, mt:0.5}}>Sephi</FormHelperText> */}
       </FormControl>
 
       <FormControl sx={styles.formControl}>

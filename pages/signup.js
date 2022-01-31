@@ -3,10 +3,12 @@ import { Typography, Box, Stack, Button, TextField, InputLabel } from "@mui/mate
 import Divider from "@mui/material/Divider";
 import FormControl, { useFormControl } from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
+import axios from "axios";
 import {
   breakAfter,
   breakBefore,
 } from "../src/custom-components/ConditionalBreak";
+import FormHelperText from "@mui/material/FormHelperText";
 import { mix } from "../styles/styleMixins";
 
 export default function signup() {
@@ -17,11 +19,49 @@ export default function signup() {
 
   const googleHandler = function () {};
 
-  const submitHandler = function () {
-    // Check if each entry has something typed in (no whitespace)
-    // Send a request to a local API that validates the email/password
-    // error handle along the way
-    // If successful, re-route to homepage
+  const submitHandler = async function () {
+    // Capture what's typed in each input
+    const typedEmail = emailRef.current.value;
+    const typedPassword = passwordRef.current.value;
+    const typedPassword2 = verifyPasswordRef.current.value;
+    // Send a request to our API route that validates the email (sees if it is blatantly fake)
+    try {
+      const checkEmail = await axios.post("/api/auth/inspectEmail", {
+        email: typedEmail,
+      });
+    } catch (err) {
+      alert("Invalid email"); //!
+      return; // if the email's invalid, stop the execution here
+    } // Passing this point means our email is valid
+
+    // Check to see if our password strength is high enough
+    try {
+      // Make a request to the API route that checks our password strength
+      const checkPassword = await axios.post("/api/auth/checkPasswordStrength", { password: typedPassword }); // prettier-ignore
+      // If our password is strong enough, the rest of this block executes (if not, we get sent to catch block)
+    } catch (err) {
+      // Being sent here means our password was inadequate
+      alert("Password does not meet requirements"); //! plus render the message below
+      return; // if the password's too weak, stop the execution here
+    }
+
+    // Make sure that the verify password field matches the regular password field
+    if (typedPassword !== typedPassword2) {
+      alert("Verify password does not match new password");
+    }
+
+    // Past this point, the email is likely valid, the password is strong, and the password field inputs match
+    console.log("Fields appear valid");
+    //! Navigate the user to a new page and send them a verification email
+    // If the email fails the test, render a message saying it is invalid
+    // If the email passes the test, check the strength of the password
+    // If the password isn't strong enough, render a message saying so
+    // If the password is strong enough, send an email verification link
+    // nav the user to a new page telling them we emailed them a verif link
+    // const checkPassword = await axios.get("/api/auth/checkPasswordStrength", {
+    //   password: typedPassword,
+    // });
+    // console.log(checkPassword);
   };
   return (
     <Stack sx={styles.parentContainer}>
@@ -69,7 +109,11 @@ export default function signup() {
         <Typography align="left" variant="label">
           Password:
         </Typography>
-        <OutlinedInput inputRef={passwordRef} placeholder="Enter password" />
+        <OutlinedInput
+          inputRef={passwordRef}
+          placeholder="Enter password"
+          type="password"
+        />
       </FormControl>
 
       <FormControl sx={styles.formControl}>
@@ -79,6 +123,7 @@ export default function signup() {
         <OutlinedInput
           inputRef={verifyPasswordRef}
           placeholder="Enter password again"
+          type="password"
         />
       </FormControl>
       <Button
@@ -89,6 +134,13 @@ export default function signup() {
       >
         Submit
       </Button>
+      <Typography variant="p" sx={{ mt: 2 }}>
+        PASSWORD REQUIREMENTS
+      </Typography>
+      <Typography variant="p">
+        Must be 8 characters or longer. Requires an uppercase, lowercase, plus
+        at least 1 symbol. No punctuation allowed
+      </Typography>
     </Stack>
   );
 }
