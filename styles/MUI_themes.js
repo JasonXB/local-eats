@@ -16,6 +16,7 @@ export const customThemes = {
     palette: {
       primary: { main: "#1f3c50" }, // dark color near black
       secondary: { main: "#da3743" }, // near crimson red
+      info: { main: "#4285f4" }, // google blue
       grayBackground: { main: "#F5F5F5" },
     },
     breakpoints: {

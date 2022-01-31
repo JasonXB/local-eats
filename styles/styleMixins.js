@@ -47,7 +47,7 @@ export const mix = {
 
   titleFont: {
     fontFamily: "'Righteous', cursive",
-    fontWeight: 800,
+    fontWeight: 500,
     fontStyle: "italic",
   },
   anchorStyling: {
@@ -86,5 +86,4 @@ export const mix = {
       [theme.breakpoints.down(BPname)]: { display: "none" },
     };
   },
-  
 };
