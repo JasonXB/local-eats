@@ -30,7 +30,7 @@ export default function signup() {
 
       <FormControl sx={styles.formControl}>
         <Typography align="left" variant="label">
-          Email: "//!INSERT CURRENT EMAIL" 
+          Email: "//!INSERT CURRENT EMAIL"
         </Typography>
       </FormControl>
 
@@ -38,19 +38,28 @@ export default function signup() {
         <Typography align="left" variant="label">
           Old Password:
         </Typography>
-        <OutlinedInput inputRef={currentPasswordRef} placeholder="Enter old password" />
+        <OutlinedInput
+          inputRef={currentPasswordRef}
+          placeholder="Enter old password"
+        />
       </FormControl>
       <FormControl sx={styles.formControl}>
         <Typography align="left" variant="label">
           New Password:
         </Typography>
-        <OutlinedInput inputRef={currentPasswordRef} placeholder="Enter new password" />
+        <OutlinedInput
+          inputRef={currentPasswordRef}
+          placeholder="Enter new password"
+        />
       </FormControl>
       <FormControl sx={styles.formControl}>
         <Typography align="left" variant="label">
           Verify New Password:
         </Typography>
-        <OutlinedInput inputRef={currentPasswordRef} placeholder="Enter new password again" />
+        <OutlinedInput
+          inputRef={currentPasswordRef}
+          placeholder="Enter new password again"
+        />
       </FormControl>
       <Button
         variant="contained"

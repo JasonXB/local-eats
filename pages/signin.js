@@ -3,7 +3,10 @@ import { Typography, Box, Stack, Button, TextField, InputLabel } from "@mui/mate
 import Divider from "@mui/material/Divider";
 import FormControl, { useFormControl } from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
-import {breakAfter, breakBefore} from "../src/custom-components/ConditionalBreak"
+import {
+  breakAfter,
+  breakBefore,
+} from "../src/custom-components/ConditionalBreak";
 import { mix } from "../styles/styleMixins";
 
 export default function signup() {
@@ -11,9 +14,7 @@ export default function signup() {
   const emailRef = useRef();
   const passwordRef = useRef();
 
-  const googleHandler= function(){
-    
-  }
+  const googleHandler = function () {};
 
   const submitHandler = function () {
     // Check if each entry has something typed in (no whitespace)
@@ -36,11 +37,11 @@ export default function signup() {
           maxWidth: "35rem",
         }}
       >
-        Sign in to gain access to bookmarks, preserved search history,{breakBefore(454)} plus any
-        new features upon release!
+        Sign in to gain access to bookmarks, preserved search history,
+        {breakBefore(454)} plus any new features upon release!
       </Typography>
       <Button
-      onClick={googleHandler}
+        onClick={googleHandler}
         variant="contained"
         color="info"
         disableElevation
@@ -48,8 +49,10 @@ export default function signup() {
       >
         Sign in with Google
       </Button>
-      <Divider sx={{ width: "100%", mb: 3, mt:2, mx: 2 }}>
-        <Box component="span" sx={{ position:"relative", top:"10px"}}>OR</Box>
+      <Divider sx={{ width: "100%", mb: 3, mt: 2, mx: 2 }}>
+        <Box component="span" sx={{ position: "relative", top: "10px" }}>
+          OR
+        </Box>
       </Divider>
 
       <FormControl sx={styles.formControl}>
