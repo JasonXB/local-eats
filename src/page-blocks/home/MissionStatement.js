@@ -7,7 +7,7 @@ import SearchbarDesktop from "../../custom-components/Searchbar/SearchbarDesktop
 import { useLocationContext } from "../../../state-management/locationContext";
 
 export default function Home() {
-  const { locationObj, detectLocation } = useLocationContext();
+  const { locationObject, detectLocation } = useLocationContext();
 
   return (
     <>

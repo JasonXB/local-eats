@@ -33,14 +33,14 @@ export default function SearchbarDesktop() {
   };
 
   //@ Import location data found at startup, and a detect location function fr/ Context API
-  const { detectLocationHandler, locationObj } = useLocationContext();
+  const { detectLocationHandler, locationObject } = useLocationContext();
   // Decide on what message to show on the searchbar based on saved location data on LocalStorage
   const [desktopMSG, setDesktopMSG] = useState("Pick a location");
   useEffect(() => {
-    if (!locationObj) setDesktopMSG("Pick a location");
+    if (!locationObject) setDesktopMSG("Pick a location");
     // if we have no saved location
-    else setDesktopMSG(locationObj.locationString); // if we have a saved location
-  }, [locationObj]); // change it whenever locationObj is altered
+    else setDesktopMSG(locationObject.locationString); // if we have a saved location
+  }, [locationObject]); // change it whenever locationObject is altered
 
   const detectLocation = async function (event) {
     closeMenu();

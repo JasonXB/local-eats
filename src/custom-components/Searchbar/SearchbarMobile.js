@@ -11,11 +11,11 @@ import { homepageModalActions } from "../../../state-management/store/homepage/M
 import { useSelector, useDispatch } from "react-redux";
 
 export default function SearchbarMobile() {
-  const { detectLocationHandler, predeterminedHandler, locationObj } = useLocationContext(); // prettier-ignore
+  const { detectLocationHandler, predeterminedHandler, locationObject } = useLocationContext(); // prettier-ignore
   // Decide on what message to show on the searchbar based on whether the project has a saved location or not
   let mobileMSG;
-  if (!locationObj) mobileMSG = "none";
-  else mobileMSG = locationObj.locationString;
+  if (!locationObject) mobileMSG = "none";
+  else mobileMSG = locationObject.locationString;
 
   //@ Reveal the Predetermined Locations Modal by setting a Redux state value
   const dispatch = useDispatch();

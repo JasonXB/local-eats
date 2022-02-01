@@ -1,6 +1,6 @@
 import React from "react";
 import { Typography, Box, Button, Divider, Link } from "@mui/material";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import ModalWrapper from "./ModalWrapper";
 import InputField from "./LocationDenial/InputField";
 

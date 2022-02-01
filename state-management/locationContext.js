@@ -2,18 +2,43 @@
 import axios from "axios";
 import { homepageModalActions } from "../state-management/store/homepage/ModalVisibility";
 import { useSelector, useDispatch } from "react-redux";
-import { useState, createContext, useContext, useEffect } from "react"; // import useContext
+import { useState, createContext, useContext, useEffect, useReducer } from "react"; // prettier-ignore
 import { customThemes } from "../styles/MUI_themes";
+
 const AAA = createContext();
 export const useLocationContext = () => useContext(AAA); // export custom hook
 
+function reducer(state, action) {
+  switch (action.type) {
+    case "SET_LOCATION_OBJECT":
+      return { ...state, savedLocation: action.payload };
+    case "OPEN_SEARCHBAR_MENU":
+      return { ...state, searchbarMenuOpen: true };
+    case "CLOSE_SEARCHBAR_MENU":
+      return { ...state, searchbarMenuOpen: false };
+    case "OPEN_SNACKBAR":
+      return { ...state, snackbarOpen: true };
+    case "CLOSE_SNACKBAR":
+      return { ...state, snackbarOpen: false };
+    default:
+      return state;
+  }
+}
 export default function LocationContextProvider(props) {
-  //@ This state variable holds objects filled with location data per each user (saved in LocalStorage)
+  const [state, reducerDispatch] = useReducer(reducer, {
+    savedLocation: null, // will contain saved location data from LocalStorage
+    searchbarMenuOpen: false, // Bool that dictates whether have the searchbar menu in desktop open/closed
+    snackbarOpen: false, // Bool that tells whrether a utility message should be rendered or not
+  });
   // On startup, check LocalStorage for any saved location objects
-  const [locationObj, setLocationObj] = useState(null);
   useEffect(() => {
     if (!localStorage.getItem("savedLocation")) return;
-    else setLocationObj(JSON.parse(localStorage.getItem("savedLocation")));
+    else {
+      reducerDispatch({
+        type: "SET_LOCATION_OBJECT",
+        payload: JSON.parse(localStorage.getItem("savedLocation")),
+      });
+    }
   }, []); // we set the state variable equal to our findings, or null if none exist
 
   //@ Use redux to create dispatch functions that render modals conditionally based on state values
@@ -21,12 +46,9 @@ export default function LocationContextProvider(props) {
   const renderLocationDenialModal = () => dispatch(homepageModalActions.permissionsDenied()); //  prettier-ignore
   const renderGeoUnsupportedModal = () => dispatch(homepageModalActions.geolocationUnsupported()); //  prettier-ignore
 
-  //@ State value that determines whether the searchbar drop down menu on desktop should be open or not
-  const [searchbarMenuOpen, setSearchbarMenuOpen] = useState(false);
-  const openSearchbarMenu = () => setSearchbarMenuOpen(true);
-  const closeSearchbarMenu = () => setSearchbarMenuOpen(false);
-  //@ This state value decides whether the snackbar should be rendered temporarily or not
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  // Open and close the snackbar using dispatch functions
+  const openSnackbar = () => reducerDispatch({ type: "OPEN_SNACKBAR" });
+  const closeSnackbar = () => reducerDispatch({ type: "CLOSE_SNACKBAR" });
 
   //@ This function gets called after pressing the "Get Current Location" Button
   const detectLocationHandler = async function () {
@@ -56,7 +78,10 @@ export default function LocationContextProvider(props) {
         const requestData = apiRouteCall.data.requestData;
         // Save details to localStorage and project state
         localStorage.setItem("savedLocation", JSON.stringify(requestData));
-        setLocationObj(requestData);
+        reducerDispatch({
+          type: "SET_LOCATION_OBJECT",
+          payload: requestData,
+        });
       } catch (err) {
         console.error(err);
         //% render a modal giving the user the choice to use predetermined locations
@@ -77,7 +102,7 @@ export default function LocationContextProvider(props) {
       const requestData = apiRouteCall.data.requestData;
       // Save details to localStorage and project state
       localStorage.setItem("savedLocation", JSON.stringify(requestData));
-      setLocationObj(requestData);
+      reducerDispatch({ type: "SET_LOCATION_OBJECT", payload: requestData });
     } catch (err) {
       console.error(err);
       //% render a modal giving the user the choice to use predetermined locations
@@ -86,7 +111,7 @@ export default function LocationContextProvider(props) {
   };
   const checkForSavedLocation = async function () {
     // See if we have a saved location in the project state / localStorage
-    const savedLocation = locationObj;
+    const savedLocation = state.savedLocation;
     const mobileViewport = window.innerWidth < 700;
     const desktopViewport = window.innerWidth >= 700;
     //! 700px is the MUI theme breakpoint (make dynamic later)
@@ -99,9 +124,9 @@ export default function LocationContextProvider(props) {
       });
       // Open the searchbar menu after a delay (restricts scroll movement otherwise)
       setTimeout(() => {
-        openSearchbarMenu();
+        reducerDispatch({ type: "OPEN_SEARCHBAR_MENU" });
       }, 800); // will snap you back to orig position after submitting a location
-      setSnackbarOpen(true);
+      reducerDispatch({ type: "OPEN_SNACKBAR" });
     }
     // On mobile screens: Scroll up to the top, render a snackbar
     if (!savedLocation && mobileViewport) {
@@ -109,7 +134,7 @@ export default function LocationContextProvider(props) {
         top: 0,
         behavior: "smooth",
       });
-      setSnackbarOpen(true);
+      reducerDispatch({ type: "OPEN_SNACKBAR" });
     }
     // IF WE HAVE A SAVED LOCATION
     else {
@@ -120,25 +145,30 @@ export default function LocationContextProvider(props) {
   //! Delete once development ends (and anywhere we use it)
   //  prettier-ignore
   const devButton = <button onClick={()=>{
-    setLocationObj(null);
+      reducerDispatch({ type: "SET_LOCATION_OBJECT", payload: null });
     localStorage.removeItem("savedLocation");
   }}>Delete saved location </button>
 
   // ——————————————————  GATHER EVERYTHING YOU WANT TO DISTRIBUTE   ————————————————————————————————————
   const locationRelated = {
-    detectLocationHandler, // use as a handler for buttons that trigger geolocation tracking
-    predeterminedHandler,
-    locationObj, // use to check what our current location is (Saved to state and localStorage)
-    // setLocationObj, // use for the GeoLocation utility function only!
+    // State object containing details of our Saved Location in LocalStorage
+    locationObject: state.savedLocation,
+    detectLocationHandler, // handler for buttons that trigger geolocation tracking
+    predeterminedHandler, // handler for buttons that choose a predetermined location
+
     devButton, //! for development only
   };
   const searchbarRelated = {
-    searchbarMenuOpen, // boolean that dictates whether the drop down menu on the Desktop searchbar is open
-    openSearchbarMenu, // opens it
-    closeSearchbarMenu, // closes it
+    // Dispatch functions that open + close the searchbar drop down menu on desktop viewports
+    searchbarMenuOpen: state.searchbarMenuOpen, // Boolean that tells us if the searchbar menu's open or not
+    openSearchbarMenu: () => reducerDispatch({ type: "OPEN_SEARCHBAR_MENU" }), // opens it
+    closeSearchbarMenu: () => reducerDispatch({ type: "CLOSE_SEARCHBAR_MENU" }), // closes it
+    // Open and Close the snackbar
+    snackbarOpen: state.snackbarOpen,
+    openSnackbar: () => reducerDispatch({ type: "OPEN_SNACKBAR" }),
+    closeSnackbar: () => reducerDispatch({ type: "CLOSE_SNACKBAR" }),
+    // Checks if we have a saved location in LocalStorage/project state
     checkForSavedLocation,
-    snackbarOpen,
-    setSnackbarOpen,
   };
   const distribution = { ...locationRelated, ...searchbarRelated };
   return <AAA.Provider value={distribution}>{props.children}</AAA.Provider>;
