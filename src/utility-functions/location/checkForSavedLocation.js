@@ -1,11 +1,14 @@
-import axios from "axios";
+import { breakpointValues } from "../../../styles/MUI_themes";
 
-export const checkForSaved = async function () {
+// This utility function uses dispatch functions and state values from locationContext.js
+export const checkForSaved = async function (
+  savedLocation,
+  openSearchbarMenu,
+  openSnackbar
+) {
   // See if we have a saved location in the project state / localStorage
-  const savedLocation = state.savedLocation;
-  const mobileViewport = window.innerWidth < 700;
-  const desktopViewport = window.innerWidth >= 700;
-  //! 700px is the MUI theme breakpoint (make dynamic later)
+  const mobileViewport = window.innerWidth < breakpointValues.sm;
+  const desktopViewport = window.innerWidth >= breakpointValues.sm;
   // IF WE HAVE NO SAVED LOCATION ...
   // On desktop screens: Scroll up to the top, render a snackbar, and open the Searchbar Menu
   if (!savedLocation && desktopViewport) {
@@ -15,9 +18,9 @@ export const checkForSaved = async function () {
     });
     // Open the searchbar menu after a delay (restricts scroll movement otherwise)
     setTimeout(() => {
-      reducerDispatch({ type: "OPEN_SEARCHBAR_MENU" }); //!
+      openSearchbarMenu();
     }, 800); // will snap you back to orig position after submitting a location
-    reducerDispatch({ type: "OPEN_SNACKBAR" }); //!
+    openSnackbar();
   }
   // On mobile screens: Scroll up to the top, render a snackbar
   if (!savedLocation && mobileViewport) {
@@ -25,7 +28,7 @@ export const checkForSaved = async function () {
       top: 0,
       behavior: "smooth",
     });
-    reducerDispatch({ type: "OPEN_SNACKBAR" }); //!
+    openSnackbar();
   }
   // IF WE HAVE A SAVED LOCATION
   else {

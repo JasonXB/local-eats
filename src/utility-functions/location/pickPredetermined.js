@@ -1,5 +1,6 @@
 import axios from "axios";
 
+// This utility function uses dispatch functions and state values from locationContext.js
 export const pickPredetermined = async function (
   areaName,
   setLocationObject,

@@ -1,5 +1,13 @@
 import { createTheme } from "@mui/material/styles";
 
+export const breakpointValues = {
+  xs: 0,
+  sm: 700,
+  md: 1000,
+  lg: 1300,
+  xl: 1636,
+};
+
 export const customThemes = {
   //^ STANDARD LIGHT THEME
   light: createTheme({
@@ -20,13 +28,7 @@ export const customThemes = {
       grayBackground: { main: "#F5F5F5" },
     },
     breakpoints: {
-      values: {
-        xs: 0,
-        sm: 700, 
-        md: 1000,
-        lg: 1300,
-        xl: 1636,
-      },
+      values: breakpointValues,
     },
     //^ CHANGE THE HEADER FONT SIZES
     typography: {
