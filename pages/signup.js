@@ -1,44 +1,14 @@
+import axios from "axios";
 import React, { useRef, useState, useReducer, useEffect } from "react";
 import { Typography, Box, Stack, Button, TextField, InputLabel } from "@mui/material"; // prettier-ignore
 import Divider from "@mui/material/Divider";
 import FormControl, { useFormControl } from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
-import axios from "axios";
 import { breakAfter, breakBefore } from "../src/custom-components/ConditionalBreak"; // prettier-ignore
 import FormHelperText from "@mui/material/FormHelperText";
 import { mix } from "../styles/styleMixins";
-
-const reducer = function (state, action) {
-  if (action.type === "INVALID_EMAIL") {
-    return { ...state, emailText: "Invalid entry", emailError: true };
-  }
-  if (action.type === "INVALID_PASSWORD") {
-    return {
-      ...state,
-      passwordText: "Password does not meet requirements",
-      passwordError: true,
-      passwordRequirements: true,
-    };
-  }
-  if (action.type === "INVALID_PASSWORD_2") {
-    return {
-      ...state,
-      verifyPasswordText: "Passwords do not match",
-      verifyPasswordError: true,
-    };
-  }
-  if (action.type === "RESET") {
-    return {
-      emailText: " ",
-      emailError: false,
-      passwordText: " ",
-      passwordError: false,
-      verifyPasswordText: " ",
-      verifyPasswordError: false,
-      passwordRequirements: false,
-    };
-  }
-};
+// Firebase auth imports
+import {loginWithGoogle} from "../firebase"
 
 export default function signup() {
   const [formState, dispatch] = useReducer(reducer, {
@@ -50,7 +20,7 @@ export default function signup() {
     verifyPasswordError: false,
     passwordRequirements: false,
   });
-  
+
   // Collect values of what's typed in each of the input fields
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -62,7 +32,10 @@ export default function signup() {
   const passwordChangeHandler = () => formState.passwordError && dispatch({ type: "RESET" }); // prettier-ignore
   const verifyChangeHandler = () => formState.verifyPasswordError && dispatch({ type: "RESET" }); // prettier-ignore
 
-  const googleHandler = function () {};
+  const googleHandler = function () {
+    // auth.signInWithRedirect(new firebase.auth.GoogleAuthProvider());
+    loginWithGoogle()
+  };
 
   const submitHandler = async function () {
     dispatch({ type: "RESET" }); // Reset the form state to remove any error visuals that were required earlier
@@ -209,6 +182,38 @@ export default function signup() {
       </Typography>{" "}
     </Stack>
   );
+}
+
+function reducer(state, action) {
+  if (action.type === "INVALID_EMAIL") {
+    return { ...state, emailText: "Invalid entry", emailError: true };
+  }
+  if (action.type === "INVALID_PASSWORD") {
+    return {
+      ...state,
+      passwordText: "Password does not meet requirements",
+      passwordError: true,
+      passwordRequirements: true,
+    };
+  }
+  if (action.type === "INVALID_PASSWORD_2") {
+    return {
+      ...state,
+      verifyPasswordText: "Passwords do not match",
+      verifyPasswordError: true,
+    };
+  }
+  if (action.type === "RESET") {
+    return {
+      emailText: " ",
+      emailError: false,
+      passwordText: " ",
+      passwordError: false,
+      verifyPasswordText: " ",
+      verifyPasswordError: false,
+      passwordRequirements: false,
+    };
+  }
 }
 
 const styles = {
