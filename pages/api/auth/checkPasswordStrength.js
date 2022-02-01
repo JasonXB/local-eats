@@ -19,7 +19,6 @@ export default async function handler(req, res) {
   }; // if this object contains a falsy, the password is not acceptable
   // Check if any of the KVP's in that object equal false
   let falseInside = Object.values(conditions).includes(false); // Boolean
-  console.log(falseInside)
   if (falseInside) {
     // If we have a false in the object, throw an error
     res.status(422).json({ message: "Invalid password" });

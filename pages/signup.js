@@ -1,4 +1,4 @@
-import React, { useRef, useState, useReducer } from "react";
+import React, { useRef, useState, useReducer, useEffect } from "react";
 import { Typography, Box, Stack, Button, TextField, InputLabel } from "@mui/material"; // prettier-ignore
 import Divider from "@mui/material/Divider";
 import FormControl, { useFormControl } from "@mui/material/FormControl";
@@ -50,10 +50,17 @@ export default function signup() {
     verifyPasswordError: false,
     passwordRequirements: false,
   });
+  
   // Collect values of what's typed in each of the input fields
   const emailRef = useRef();
   const passwordRef = useRef();
   const verifyPasswordRef = useRef();
+
+  // Whenever the user types something, reset the error state in that input field
+  // Check to see if an error state is active first (don't want to redefine state multiple times for no reason)
+  const emailChangeHandler = () =>  formState.emailError && dispatch({ type: "RESET" }); // prettier-ignore
+  const passwordChangeHandler = () => formState.passwordError && dispatch({ type: "RESET" }); // prettier-ignore
+  const verifyChangeHandler = () => formState.verifyPasswordError && dispatch({ type: "RESET" }); // prettier-ignore
 
   const googleHandler = function () {};
 
@@ -63,7 +70,7 @@ export default function signup() {
     const typedEmail = emailRef.current.value;
     const typedPassword = passwordRef.current.value;
     const typedPassword2 = verifyPasswordRef.current.value;
-    
+
     // Send a request to our API route that validates the email (sees if it is blatantly fake)
     try {
       await axios.post("/api/auth/inspectEmail", {
@@ -138,6 +145,7 @@ export default function signup() {
           inputRef={emailRef}
           placeholder="name@email.com"
           error={formState.emailError}
+          onChange={emailChangeHandler}
         />
         <FormHelperText sx={styles.formHelperText}>
           {formState.emailText}
@@ -156,6 +164,7 @@ export default function signup() {
           placeholder="Enter password"
           type="password"
           error={formState.passwordError}
+          onChange={passwordChangeHandler}
         />
         <FormHelperText sx={styles.formHelperText}>
           {formState.passwordText}
@@ -174,6 +183,7 @@ export default function signup() {
           placeholder="Enter password again"
           type="password"
           error={formState.verifyPasswordError}
+          onChange={verifyChangeHandler}
         />
         <FormHelperText sx={styles.formHelperText}>
           {formState.verifyPasswordText}
