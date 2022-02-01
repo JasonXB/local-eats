@@ -1,6 +1,7 @@
 //  prettier-ignore
 import axios from "axios";
 import { homepageModalActions } from "../state-management/store/homepage/ModalVisibility";
+import {detectLocation} from "../src/utility-functions/location/detectLocation"
 import { useSelector, useDispatch } from "react-redux";
 import { useState, createContext, useContext, useEffect, useReducer } from "react"; // prettier-ignore
 import { customThemes } from "../styles/MUI_themes";
@@ -41,55 +42,21 @@ export default function LocationContextProvider(props) {
     }
   }, []); // we set the state variable equal to our findings, or null if none exist
 
-  //@ Use redux to create dispatch functions that render modals conditionally based on state values
+  //@ Render modals conditionally based on Redux state values
   const dispatch = useDispatch();
   const renderLocationDenialModal = () => dispatch(homepageModalActions.permissionsDenied()); //  prettier-ignore
   const renderGeoUnsupportedModal = () => dispatch(homepageModalActions.geolocationUnsupported()); //  prettier-ignore
 
-  // Open and close the snackbar using dispatch functions
-  const openSnackbar = () => reducerDispatch({ type: "OPEN_SNACKBAR" });
-  const closeSnackbar = () => reducerDispatch({ type: "CLOSE_SNACKBAR" });
-
+  
+  const setLocationObject = (requestData) =>
+    reducerDispatch({
+      type: "SET_LOCATION_OBJECT",
+      payload: requestData,
+    });
   //@ This function gets called after pressing the "Get Current Location" Button
   const detectLocationHandler = async function () {
-    // Check the visitor's browser supports Geolocation
-    if (!navigator.geolocation) {
-      renderGeoUnsupportedModal();
-      return;
-    }
-
-    // Made a promisified Geolocation API function, so we can chain actions after it with async/await
-    const getPosition = function () {
-      return new Promise(function (onSuccess, onReject) {
-        navigator.geolocation.getCurrentPosition(onSuccess, onReject);
-      });
-    };
-    // Use the coordinates to get the current area name via Mapquest API
-    const actionsAfterCoordinates = async function () {
-      try {
-        const locationInfo = await getPosition();
-        // API Route call (it sends a GET request to Mapquest's API to get an area name for those coords)
-        const apiRouteCall = await axios.post("/api/getAreaInfo/viaLatLong", {
-          // Body payload in JS form- send lat and long
-          latitude: locationInfo.coords.latitude,
-          longitude: locationInfo.coords.longitude,
-        });
-        // Extract data from the successful API call (axios auto-throws an error if it goes wrong)
-        const requestData = apiRouteCall.data.requestData;
-        // Save details to localStorage and project state
-        localStorage.setItem("savedLocation", JSON.stringify(requestData));
-        reducerDispatch({
-          type: "SET_LOCATION_OBJECT",
-          payload: requestData,
-        });
-      } catch (err) {
-        console.error(err);
-        //% render a modal giving the user the choice to use predetermined locations
-        renderLocationDenialModal();
-      }
-    };
-    actionsAfterCoordinates(); // invoke above f() immediately
-  };
+    detectLocation(renderGeoUnsupportedModal, setLocationObject, renderLocationDenialModal); // prettier-ignore
+  }; 
 
   //@ Called after submitting a predetermined location
   const predeterminedHandler = async function (areaName) {
