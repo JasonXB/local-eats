@@ -1,7 +1,9 @@
 //  prettier-ignore
 import axios from "axios";
 import { homepageModalActions } from "../state-management/store/homepage/ModalVisibility";
-import {detectLocation} from "../src/utility-functions/location/detectLocation"
+// Import utility functions we'll be destributing throughout our project
+import { detectLocation } from "../src/utility-functions/location/detectLocation";
+import { pickPredetermined } from "../src/utility-functions/location/pickPredetermined";
 import { useSelector, useDispatch } from "react-redux";
 import { useState, createContext, useContext, useEffect, useReducer } from "react"; // prettier-ignore
 import { customThemes } from "../styles/MUI_themes";
@@ -47,7 +49,6 @@ export default function LocationContextProvider(props) {
   const renderLocationDenialModal = () => dispatch(homepageModalActions.permissionsDenied()); //  prettier-ignore
   const renderGeoUnsupportedModal = () => dispatch(homepageModalActions.geolocationUnsupported()); //  prettier-ignore
 
-  
   const setLocationObject = (requestData) =>
     reducerDispatch({
       type: "SET_LOCATION_OBJECT",
@@ -56,25 +57,11 @@ export default function LocationContextProvider(props) {
   //@ This function gets called after pressing the "Get Current Location" Button
   const detectLocationHandler = async function () {
     detectLocation(renderGeoUnsupportedModal, setLocationObject, renderLocationDenialModal); // prettier-ignore
-  }; 
+  };
 
   //@ Called after submitting a predetermined location
   const predeterminedHandler = async function (areaName) {
-    try {
-      // API Route call (it sends a GET request to Mapquest's API to get an area name for those coords)
-      const apiRouteCall = await axios.post("/api/getAreaInfo/viaAreaName", {
-        areaName,
-      });
-      // Extract data from the successful API call (axios auto-throws an error if it goes wrong)
-      const requestData = apiRouteCall.data.requestData;
-      // Save details to localStorage and project state
-      localStorage.setItem("savedLocation", JSON.stringify(requestData));
-      reducerDispatch({ type: "SET_LOCATION_OBJECT", payload: requestData });
-    } catch (err) {
-      console.error(err);
-      //% render a modal giving the user the choice to use predetermined locations
-      renderLocationDenialModal();
-    }
+    pickPredetermined(areaName, setLocationObject, renderLocationDenialModal); // prettier-ignore
   };
   const checkForSavedLocation = async function () {
     // See if we have a saved location in the project state / localStorage

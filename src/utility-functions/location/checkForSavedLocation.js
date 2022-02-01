@@ -1,4 +1,6 @@
-const checkForSavedLocation = async function () {
+import axios from "axios";
+
+export const checkForSaved = async function () {
   // See if we have a saved location in the project state / localStorage
   const savedLocation = state.savedLocation;
   const mobileViewport = window.innerWidth < 700;
