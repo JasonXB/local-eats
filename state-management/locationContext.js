@@ -33,6 +33,7 @@ export default function LocationContextProvider(props) {
     savedLocation: null, // will contain saved location data from LocalStorage
     searchbarMenuOpen: false, // Bool that dictates whether have the searchbar menu in desktop open/closed
     snackbarOpen: false, // Bool that tells whrether a utility message should be rendered or not
+    // locationType: null, // equals undefined, "actual", or "predetermined"
   });
   // On startup, check LocalStorage for any saved location objects
   useEffect(() => {

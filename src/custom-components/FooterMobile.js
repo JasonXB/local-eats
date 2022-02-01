@@ -28,7 +28,7 @@ export default function FooterMobile() {
           textAlign: "center",
         }}
       >
-        Search data provided by Yelp Fusion™
+        Search other types of businesses
       </Typography>
       {Object.keys(footerAnchors).map((headerText, i) => {
         return (
@@ -66,7 +66,7 @@ export default function FooterMobile() {
       })}
       <Divider sx={{ mt: 4, mb: 4 }} />
       <Typography sx={{ pb: 4, textAlign: "center" }}>
-        Copyright © 2004–2022 Yelp Incorporated.
+      Search data provided by the Yelp Fusion™ API.
       </Typography>
     </Box>
   );
