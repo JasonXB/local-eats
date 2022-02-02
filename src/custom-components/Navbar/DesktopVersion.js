@@ -12,7 +12,7 @@ import SignOutBtn from "./SignOutBtn";
 /* Shown only on viewports past the md breakpoint */
 export default function NavbarDesktop(props) {
   // If we're not signed in, render this (login status passed down here via props)
-  if (!props.onlineStatus) {
+  if (!props.currentlyOnline) {
     return (
       <Box sx={desktopStyles.boxParent}>
         <ThemeBtn />

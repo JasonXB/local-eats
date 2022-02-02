@@ -5,11 +5,11 @@ import { useGlobalContext } from "../../../state-management/globalContext";
 
 export default function Navbar() {
   // Feed each component our logged in status (appearance changes depending on value)
-  const { onlineStatus } = useGlobalContext();
+  const { currentlyOnline } = useGlobalContext();
   return (
     <>
-      <NavbarMobile onlineStatus={onlineStatus} />
-      <NavbarDesktop onlineStatus={onlineStatus} />
+      <NavbarMobile currentlyOnline={currentlyOnline} />
+      <NavbarDesktop currentlyOnline={currentlyOnline} />
     </>
   );
   // Only one of these components is visible at a time. (this behaviour's coded inside each component)

@@ -16,9 +16,9 @@ import List from "@mui/material/List";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 
 export default function TemporaryDrawer() {
-  const { onlineStatus } = useGlobalContext();
+  const { currentlyOnline } = useGlobalContext();
   let listItems;
-  if (!onlineStatus) {
+  if (!currentlyOnline) {
     listItems = [<SignUpBtn />, <SignInBtn />];
   } else {
     listItems = [<HistoryBtn />, <BookmarksBtn />, <SignOutBtn />];
@@ -36,7 +36,7 @@ export default function TemporaryDrawer() {
   };
   let list; //changes based on login status
   // If not logged in, render these items in the drawer
-  if (!onlineStatus) {
+  if (!currentlyOnline) {
     list = (anchor) => (
       <Box
         sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
@@ -56,7 +56,7 @@ export default function TemporaryDrawer() {
     );
   }
   // If logged in, render the following in the drawer
-  if (onlineStatus) {
+  if (currentlyOnline) {
     list = (anchor) => (
       <Box
         sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
