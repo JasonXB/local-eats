@@ -8,7 +8,8 @@ import { breakAfter, breakBefore } from "../src/custom-components/ConditionalBre
 import FormHelperText from "@mui/material/FormHelperText";
 import { mix } from "../styles/styleMixins";
 // Firebase auth imports
-import {loginWithGoogle} from "../firebase"
+import { signup_EmailPassword } from "../src/utility-functions/auth/credentials";
+import { login_Google } from "../src/utility-functions/auth/thirdParty";
 
 export default function signup() {
   const [formState, dispatch] = useReducer(reducer, {
@@ -33,8 +34,7 @@ export default function signup() {
   const verifyChangeHandler = () => formState.verifyPasswordError && dispatch({ type: "RESET" }); // prettier-ignore
 
   const googleHandler = function () {
-    // auth.signInWithRedirect(new firebase.auth.GoogleAuthProvider());
-    loginWithGoogle()
+    login_Google();
   };
 
   const submitHandler = async function () {
@@ -65,12 +65,17 @@ export default function signup() {
     }
 
     // Make sure that the verify password field matches the regular password field
-    if (typedPassword !== typedPassword2) {
+    if (typedPassword !== typedPassword2)
       dispatch({ type: "INVALID_PASSWORD_2" });
-    }
+
     // Past this point, the email is likely valid, the password is strong, and the password field inputs match
     console.log("Fields appear valid");
-    //! Submit request to firebase, and send a verification email
+    // The following code is for trying to create new accounts with email/password
+    const requestNewAccount = await signup_EmailPassword(
+      typedEmail,
+      typedPassword
+    );
+    console.log(requestNewAccount);
   };
   return (
     <Stack sx={styles.parentContainer}>
