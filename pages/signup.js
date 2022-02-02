@@ -9,7 +9,7 @@ import FormHelperText from "@mui/material/FormHelperText";
 import { mix } from "../styles/styleMixins";
 // Firebase auth imports
 import { signup_EmailPassword } from "../src/utility-functions/auth/credentials";
-import { login_Google } from "../src/utility-functions/auth/thirdParty";
+import { loginGoogle } from "../src/utility-functions/auth/thirdParty";
 
 export default function signup() {
   const [formState, dispatch] = useReducer(reducer, {
@@ -34,7 +34,7 @@ export default function signup() {
   const verifyChangeHandler = () => formState.verifyPasswordError && dispatch({ type: "RESET" }); // prettier-ignore
 
   const googleHandler = function () {
-    login_Google();
+    loginGoogle();
   };
 
   const submitHandler = async function () {

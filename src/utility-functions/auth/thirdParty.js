@@ -4,15 +4,15 @@ import { signInWithRedirect, GoogleAuthProvider } from "firebase/auth";
 // Logs users in via Google authentication
 const googleProvider = new GoogleAuthProvider();
 
-export const login_Google = async function () {
+export const loginGoogle = async function () {
   try {
     const result = await signInWithRedirect(auth, googleProvider);
     // Past this point, the user will be logged in
-
     // This gives you a Google Access Token. You can use it to access Google APIs.
     const credential = GoogleAuthProvider.credentialFromResult(result);
     const token = credential.accessToken;
-    console.log(token);
+    console.log(99, token);
+
     //! probably want to save this to global state
   } catch (error) {
     // Handle Errors here.
