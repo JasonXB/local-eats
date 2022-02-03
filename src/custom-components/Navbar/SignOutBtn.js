@@ -1,7 +1,5 @@
 import React from "react";
 import { Button } from "@mui/material";
-import { auth } from "../../utility-functions/auth/firebase";
-import { signOut } from "firebase/auth";
 import { useGlobalContext } from "../../../state-management/globalContext";
 export default function SignOutBtn(props) {
   const { signOutProject } = useGlobalContext();

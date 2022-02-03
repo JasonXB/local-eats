@@ -7,9 +7,6 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import { breakAfter, breakBefore } from "../src/custom-components/ConditionalBreak"; // prettier-ignore
 import FormHelperText from "@mui/material/FormHelperText";
 import { mix } from "../styles/styleMixins";
-// Firebase auth imports
-import { signup_EmailPassword } from "../src/utility-functions/auth/credentials";
-import { loginGoogle } from "../src/utility-functions/auth/thirdParty";
 
 export default function signup() {
   const [formState, dispatch] = useReducer(reducer, {
@@ -70,12 +67,7 @@ export default function signup() {
 
     // Past this point, the email is likely valid, the password is strong, and the password field inputs match
     console.log("Fields appear valid");
-    // The following code is for trying to create new accounts with email/password
-    const requestNewAccount = await signup_EmailPassword(
-      typedEmail,
-      typedPassword
-    );
-    console.log(requestNewAccount);
+    
   };
   return (
     <Stack sx={styles.parentContainer}>

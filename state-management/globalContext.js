@@ -23,7 +23,7 @@ export default function GlobalContextAPIProvider(props) {
   });
 
   // These functions sign us in/out unofficially (they affect project state, but not our actual Auth state)
-  // Will be used alongside the actual Sign In / Sign Out processes (Firebase Auth methods)
+  // Will be used alongside the actual Sign In / Sign Out processes 
   const signInProject = () => dispatch({ type: "SIGN_IN" });
   const signOutProject = () => dispatch({ type: "SIGN_OUT" });
   const changeThemeString = (inp) => dispatch({ type: "CHANGE_THEME_STRING", payload: inp }); // prettier-ignore
