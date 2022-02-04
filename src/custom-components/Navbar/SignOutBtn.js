@@ -4,14 +4,7 @@ import { useGlobalContext } from "../../../state-management/globalContext";
 export default function SignOutBtn(props) {
   const { signOutProject } = useGlobalContext();
   const signoutHandler = async function () {
-    try {
-      const req = await signOut(auth);
-      signOutProject()
-    } catch (error) {
-      alert(
-        "Something has gone wrong during the sign out process. Please try again"
-      );
-    }
+    
   };
 
   // props.mobile is a Boolean that tells us if we're rendering on a screen 700px long or lower

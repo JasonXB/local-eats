@@ -6,9 +6,9 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import {
   breakAfter,
   breakBefore,
-} from "../src/custom-components/ConditionalBreak";
+} from "../../src/custom-components/ConditionalBreak";
 import FormHelperText from '@mui/material/FormHelperText';
-import { mix } from "../styles/styleMixins";
+import { mix } from "../../styles/styleMixins";
 
 export default function signup() {
   // Collect values of what's typed in each of the input fields

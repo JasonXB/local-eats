@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 
 export default function SignupBtn(props) {
   const router = useRouter();
-  const onClickHandler = () => router.push("/signup");
+  const onClickHandler = () => router.push("/auth/signup");
 
   // props.mobile is a Boolean that tells us if we're rendering on a screen 700px long or lower
   if (props.mobile)

@@ -4,9 +4,9 @@ import { Typography, Box, Stack, Button, TextField, InputLabel } from "@mui/mate
 import Divider from "@mui/material/Divider";
 import FormControl, { useFormControl } from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
-import { breakAfter, breakBefore } from "../src/custom-components/ConditionalBreak"; // prettier-ignore
+import { breakAfter, breakBefore } from "../../src/custom-components/ConditionalBreak"; // prettier-ignore
 import FormHelperText from "@mui/material/FormHelperText";
-import { mix } from "../styles/styleMixins";
+import { mix } from "../../styles/styleMixins";
 
 export default function signup() {
   const [formState, dispatch] = useReducer(reducer, {
@@ -18,7 +18,6 @@ export default function signup() {
     verifyPasswordError: false,
     passwordRequirements: false,
   });
-
   // Collect values of what's typed in each of the input fields
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -26,13 +25,10 @@ export default function signup() {
 
   // Whenever the user types something, reset the error state in that input field
   // Check to see if an error state is active first (don't want to redefine state multiple times for no reason)
-  const emailChangeHandler = () =>  formState.emailError && dispatch({ type: "RESET" }); // prettier-ignore
-  const passwordChangeHandler = () => formState.passwordError && dispatch({ type: "RESET" }); // prettier-ignore
-  const verifyChangeHandler = () => formState.verifyPasswordError && dispatch({ type: "RESET" }); // prettier-ignore
+  const typingEmailHandler = () =>  formState.emailError && dispatch({ type: "RESET" }); // prettier-ignore
+  const typingPasswordHandler = () => formState.passwordError && dispatch({ type: "RESET" }); // prettier-ignore
+  const typingVerifyHandler = () => formState.verifyPasswordError && dispatch({ type: "RESET" }); // prettier-ignore
 
-  const googleHandler = function () {
-    loginGoogle();
-  };
 
   const submitHandler = async function () {
     dispatch({ type: "RESET" }); // Reset the form state to remove any error visuals that were required earlier
@@ -87,22 +83,6 @@ export default function signup() {
         Sign up and gain access to bookmarks, preserved search history,
         {breakBefore(454)} plus any new features upon release!
       </Typography>
-      <Button
-        onClick={googleHandler}
-        variant="contained"
-        color="info"
-        disableElevation
-        sx={{ width: "80%", maxWidth: "20.625rem" }}
-      >
-        Sign up with Google
-      </Button>
-      <Divider
-        sx={{ width: "100%", mb: 3, mt: 2, mx: 2, verticalAlign: "center" }}
-      >
-        <Box component="span" sx={{ position: "relative", top: "10px" }}>
-          OR
-        </Box>
-      </Divider>
       <FormControl sx={styles.formControl}>
         <Typography
           align="left"
@@ -115,7 +95,7 @@ export default function signup() {
           inputRef={emailRef}
           placeholder="name@email.com"
           error={formState.emailError}
-          onChange={emailChangeHandler}
+          onChange={typingEmailHandler}
         />
         <FormHelperText sx={styles.formHelperText}>
           {formState.emailText}
@@ -134,7 +114,7 @@ export default function signup() {
           placeholder="Enter password"
           type="password"
           error={formState.passwordError}
-          onChange={passwordChangeHandler}
+          onChange={typingPasswordHandler}
         />
         <FormHelperText sx={styles.formHelperText}>
           {formState.passwordText}
@@ -153,7 +133,7 @@ export default function signup() {
           placeholder="Enter password again"
           type="password"
           error={formState.verifyPasswordError}
-          onChange={verifyChangeHandler}
+          onChange={typingVerifyHandler}
         />
         <FormHelperText sx={styles.formHelperText}>
           {formState.verifyPasswordText}
