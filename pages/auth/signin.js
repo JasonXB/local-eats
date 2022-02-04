@@ -35,20 +35,6 @@ export default function signup() {
         Sign in to gain access to bookmarks, preserved search history,
         {breakBefore(454)} plus any new features upon release!
       </Typography>
-      <Button
-        onClick={googleHandler}
-        variant="contained"
-        color="info"
-        disableElevation
-        sx={{ width: "80%", maxWidth: "20.625rem" }}
-      >
-        Sign in with Google
-      </Button>
-      <Divider sx={{ width: "100%", mb: 3, mt: 2, mx: 2 }}>
-        <Box component="span" sx={{ position: "relative", top: "10px" }}>
-          OR
-        </Box>
-      </Divider>
 
       <FormControl sx={styles.formControl}>
         <Typography align="left" variant="label">
