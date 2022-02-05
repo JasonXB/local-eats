@@ -15,7 +15,6 @@ export default function NavbarDesktop(props) {
   if (!props.currentlyOnline) {
     return (
       <Box sx={desktopStyles.boxParent}>
-        <ThemeBtn />
         <Box>
           <SignUpBtn />
           <SignInBtn />
@@ -27,7 +26,6 @@ export default function NavbarDesktop(props) {
   return (
     <>
       <Box sx={desktopStyles.boxParent}>
-        <ThemeBtn />
         <Box>
           <HistoryBtn />
           <BookmarksBtn />
@@ -45,7 +43,7 @@ const desktopStyles = {
       py: 1,
       px: 2,
       display: "flex",
-      justifyContent: "space-between",
+      justifyContent: "flex-end",
       alignItems: "center",
       bgcolor: "#fffbf7",
     };

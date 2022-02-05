@@ -78,8 +78,8 @@ export default function TemporaryDrawer() {
         sx={(theme) => {
           return {
             position: "absolute",
-            left: 0,
-            ml: 2,
+            right: 0,
+            mr: 2,
             mt: 2.2,
             ...mix.hideAfterBP("sm", theme),
             "& .MuiSvgIcon-root": { fontSize: "2.5rem" },
@@ -100,21 +100,6 @@ export default function TemporaryDrawer() {
           </React.Fragment>
         ))}
       </Box>{" "}
-      <IconButton
-        color="primary"
-        sx={(theme) => {
-          return {
-            position: "absolute",
-            right: 0,
-            // p: 0,
-            mt: 1.45,
-            mr: 2,
-            ...mix.hideAfterBP("sm", theme),
-          };
-        }}
-      >
-        <Brightness4Icon fontSize="large" />
-      </IconButton>
     </>
   );
 }
