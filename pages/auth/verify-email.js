@@ -5,8 +5,11 @@ import { mix } from "../../styles/styleMixins";
 import { useGlobalContext } from "../../state-management/globalContext";
 //! only let users currently logging in to access this
 //! only allow 2 attempts max, quit back to home or something (do what slack does)
+
 export default function verifyEmail() {
-  const { hashedPIN, expiryDatePIN, pendingEmail, password } = useGlobalContext(); // prettier-ignore
+  // Extract the pending email data we saved at the end of /auth/signup.js
+  const pendingEmailData = localStorage.getItem("pendingEmailData");
+  const { hashedPIN, expiryDatePIN, pendingEmail, password } = JSON.parse(pendingEmailData); // prettier-ignore
 
   const pinRef = useRef();
   const verifyHandler = async function () {
@@ -14,13 +17,16 @@ export default function verifyEmail() {
     //! if user fails, make sure to clear the project state for pin and hashed password.
     //! add in error handling
     try {
-      const requestNewAccount = await axios.post("/api/auth/signupP2", {
+      // Request a new account
+      await axios.post("/api/auth/signupP2", {
         submittedPIN: typedPIN, // the pin we type in this pg's form
         hashedPIN, // a hashed version of the correct PIN we emailed
         expiryDatePIN,
         email: pendingEmail, // email submitted in /signup
         password, // password submitted in /signup
       });
+      // If account creation succeeds, clear out the localStorage data we saved
+      localStorage.removeItem("pendingEmailData");
     } catch (error) {
       console.error(error);
     }

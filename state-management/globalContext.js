@@ -6,14 +6,6 @@ function reducer(state, action) {
   switch (action.type) {
     case "CHANGE_THEME_STRING":
       return { ...state, themeString: action.payload };
-    case "EMAIL_PENDING_VERIFICATION":
-      return {
-        ...state,
-        hashedPIN: action.payload.hashedPIN,
-        expiryDatePIN: action.payload.expiryDatePIN,
-        pendingEmail: action.payload.pendingEmail,
-        password: action.payload.password,
-      };
     default:
       return state;
   }
@@ -22,26 +14,23 @@ function reducer(state, action) {
 export default function GlobalContextAPIProvider(props) {
   const [state, dispatch] = useReducer(reducer, {
     themeString: null, // null, "light", or "dark"
-    hashedPIN: null, // used to verify an email
-    expiryDatePIN: null, // when the PIN expires and become unusable
-    pendingEmail: null,
-    password:null,
   });
-  
+
   // Change what theme should be used
   const changeThemeString = (inp) => dispatch({ type: "CHANGE_THEME_STRING", payload: inp }); // prettier-ignore
 
   // Save a hashed PIN with an exp date to help verify a submitted email belongs to the user
-  const pendingEmailHandler = (inp1, inp2, inp3, inp4) =>
-    dispatch({
-      type: "EMAIL_PENDING_VERIFICATION",
-      payload: {
+  const pendingEmailHandler = (inp1, inp2, inp3, inp4) => {
+    localStorage.setItem(
+      "pendingEmailData",
+      JSON.stringify({
         hashedPIN: inp1,
         expiryDatePIN: inp2,
         pendingEmail: inp3,
-        password: inp4
-      },
-    });
+        password: inp4,
+      })
+    );
+  };
 
   useEffect(() => {
     // Check local storage for any pre-selected theme from the user
