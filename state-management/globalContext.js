@@ -4,12 +4,16 @@ export const useGlobalContext = () => useContext(AAA); // export custom hook
 
 function reducer(state, action) {
   switch (action.type) {
-    case "SIGN_IN":
-      return { ...state, signedIn: true };
-    case "SIGN_OUT":
-      return { ...state, signedIn: false };
     case "CHANGE_THEME_STRING":
       return { ...state, themeString: action.payload };
+    case "EMAIL_PENDING_VERIFICATION":
+      return {
+        ...state,
+        hashedPIN: action.payload.hashedPIN,
+        expiryDatePIN: action.payload.expiryDatePIN,
+        pendingEmail: action.payload.pendingEmail,
+        password: action.payload.password,
+      };
     default:
       return state;
   }
@@ -17,16 +21,27 @@ function reducer(state, action) {
 
 export default function GlobalContextAPIProvider(props) {
   const [state, dispatch] = useReducer(reducer, {
-    signedIn: false, // stays false by default until you log in
     themeString: null, // null, "light", or "dark"
-    authObject: null, // upon login, this'll contain idTokens, email, refreshToken ...etc
+    hashedPIN: null, // used to verify an email
+    expiryDatePIN: null, // when the PIN expires and become unusable
+    pendingEmail: null,
+    password:null,
   });
-
-  // These functions sign us in/out unofficially (they affect project state, but not our actual Auth state)
-  // Will be used alongside the actual Sign In / Sign Out processes 
-  const signInProject = () => dispatch({ type: "SIGN_IN" });
-  const signOutProject = () => dispatch({ type: "SIGN_OUT" });
+  
+  // Change what theme should be used
   const changeThemeString = (inp) => dispatch({ type: "CHANGE_THEME_STRING", payload: inp }); // prettier-ignore
+
+  // Save a hashed PIN with an exp date to help verify a submitted email belongs to the user
+  const pendingEmailHandler = (inp1, inp2, inp3, inp4) =>
+    dispatch({
+      type: "EMAIL_PENDING_VERIFICATION",
+      payload: {
+        hashedPIN: inp1,
+        expiryDatePIN: inp2,
+        pendingEmail: inp3,
+        password: inp4
+      },
+    });
 
   useEffect(() => {
     // Check local storage for any pre-selected theme from the user
@@ -35,9 +50,13 @@ export default function GlobalContextAPIProvider(props) {
 
   // DISTRIBUTION
   const themeRelated = { themeString: state.themeString, changeThemeString };
-  const authRelated = { currentlyOnline: state.signedIn, signInProject, signOutProject };
+  const authRelated = {
+    expiryDatePIN: state.expiryDatePIN,
+    hashedPIN: state.hashedPIN,
+    pendingEmail: state.pendingEmail,
+    password: state.password,
+    pendingEmailHandler,
+  };
   const distribution = { ...themeRelated, ...authRelated };
   return <AAA.Provider value={distribution}>{props.children}</AAA.Provider>;
 }
-
-

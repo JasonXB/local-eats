@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useRouter } from "next/router";
 import React, { useRef, useState, useReducer, useEffect } from "react";
 import { Typography, Box, Stack, Button, TextField, InputLabel } from "@mui/material"; // prettier-ignore
 import Divider from "@mui/material/Divider";
@@ -7,8 +8,12 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import { breakAfter, breakBefore } from "../../src/custom-components/ConditionalBreak"; // prettier-ignore
 import FormHelperText from "@mui/material/FormHelperText";
 import { mix } from "../../styles/styleMixins";
+import { useGlobalContext } from "../../state-management/globalContext";
 
 export default function signup() {
+  const router = useRouter();
+  const { pendingEmailHandler } = useGlobalContext();
+
   const [formState, dispatch] = useReducer(reducer, {
     emailText: " ", // allots spacefor the message before we even want one to be visible
     emailError: false,
@@ -28,7 +33,6 @@ export default function signup() {
   const typingEmailHandler = () =>  formState.emailError && dispatch({ type: "RESET" }); // prettier-ignore
   const typingPasswordHandler = () => formState.passwordError && dispatch({ type: "RESET" }); // prettier-ignore
   const typingVerifyHandler = () => formState.verifyPasswordError && dispatch({ type: "RESET" }); // prettier-ignore
-
 
   const submitHandler = async function () {
     dispatch({ type: "RESET" }); // Reset the form state to remove any error visuals that were required earlier
@@ -58,12 +62,30 @@ export default function signup() {
     }
 
     // Make sure that the verify password field matches the regular password field
-    if (typedPassword !== typedPassword2)
-      dispatch({ type: "INVALID_PASSWORD_2" });
+    if (typedPassword !== typedPassword2) dispatch({ type: "INVALID_PASSWORD_2" }); // prettier-ignore
 
     // Past this point, the email is likely valid, the password is strong, and the password field inputs match
     console.log("Fields appear valid");
-    
+    // Generate a 6 digit PIN, send it to typed email so we can verify
+    // Return this PIN hashed fr/ API route, save it to project state, then redirect
+    let hashedPIN, expiryDatePIN;
+    try {
+      const requestVerif = await axios.post("/api/auth/signupP1", {
+        email: typedEmail,
+        password: typedPassword,
+      });
+      hashedPIN = requestVerif.data.hashedPIN; // hashed 6 digit PIN
+      expiryDatePIN = requestVerif.data.expiryDate; // Unix
+      // Save the hashedPIN and expiry date to the project state
+      pendingEmailHandler(hashedPIN, expiryDatePIN, typedEmail, typedPassword);
+      router.push("/auth/verify-email"); // redirect
+    } catch (error) {
+      alert(
+        "Something unexpected has occured. Please enjoy our site as a guest then try logging on later"
+      ); //!!! render a link back to home or something
+    }
+
+    // Return this PIN hashed fr/ API route, save to project state, then redirect
   };
   return (
     <Stack sx={styles.parentContainer}>

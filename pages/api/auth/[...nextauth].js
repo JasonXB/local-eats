@@ -9,7 +9,8 @@ export default NextAuth({
       // Place your own verification logic inside
       async authorize(credentials) {
         // Connect to the database and grab hold of the db instance
-        const db = await connectToDB();
+        const client = await connectToDB();
+        const db = client.db();
         // Search the users collection for a doc/account with the submitted email
         const user = await db.collection("users").findOne({
           email: credentials.email,

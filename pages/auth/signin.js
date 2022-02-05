@@ -41,7 +41,6 @@ export default function signup() {
           User Email:
         </Typography>
         <OutlinedInput inputRef={emailRef} placeholder="name@email.com" />
-        
       </FormControl>
 
       <FormControl sx={styles.formControl}>

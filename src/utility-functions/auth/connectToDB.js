@@ -10,8 +10,7 @@ export async function connectToDB() {
   try {
     const mongoURI = `mongodb+srv://${cluster.username}:${cluster.password}@cluster0.fojrq.mongodb.net/${cluster.db}?retryWrites=true&w=majority`;
     const client = await MongoClient.connect(mongoURI);
-    const db = client.db();
-    return db; // return db instance
+    return client; // return db instance
   } catch (error) {
     return null;
   }
