@@ -1,11 +1,10 @@
 import axios from "axios";
 import { useRouter } from "next/router";
-import React, { useRef, useState, useReducer, useEffect } from "react";
-import { Typography, Box, Stack, Button, TextField, InputLabel } from "@mui/material"; // prettier-ignore
-import Divider from "@mui/material/Divider";
-import FormControl, { useFormControl } from "@mui/material/FormControl";
+import React, { useRef, useState, useReducer } from "react";
+import { Typography, Stack, Button } from "@mui/material"; // prettier-ignore
+import FormControl from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
-import { breakAfter, breakBefore } from "../../src/custom-components/ConditionalBreak"; // prettier-ignore
+import { breakBefore } from "../../src/custom-components/ConditionalBreak"; // prettier-ignore
 import FormHelperText from "@mui/material/FormHelperText";
 import { mix } from "../../styles/styleMixins";
 import { useGlobalContext } from "../../state-management/globalContext";
@@ -13,7 +12,7 @@ import { useGlobalContext } from "../../state-management/globalContext";
 export default function signup() {
   const router = useRouter();
   const { pendingEmailHandler } = useGlobalContext();
-
+  const [bottomMessage, setBottomMessage] = useState("");
   const [formState, dispatch] = useReducer(reducer, {
     emailText: " ", // allots spacefor the message before we even want one to be visible
     emailError: false,
@@ -62,7 +61,10 @@ export default function signup() {
     }
 
     // Make sure that the verify password field matches the regular password field
-    if (typedPassword !== typedPassword2) dispatch({ type: "INVALID_PASSWORD_2" }); // prettier-ignore
+    if (typedPassword !== typedPassword2) {
+      dispatch({ type: "INVALID_PASSWORD_2" });
+      return; // stop the execution here
+    }
 
     // Past this point, the email is likely valid, the password is strong, and the password field inputs match
     console.log("Fields appear valid");
@@ -80,12 +82,8 @@ export default function signup() {
       pendingEmailHandler(hashedPIN, expiryDatePIN, typedEmail, typedPassword);
       router.push("/auth/verify-email"); // redirect
     } catch (error) {
-      alert(
-        "Something unexpected has occured. Please enjoy our site as a guest then try logging on later"
-      ); //!!! render a link back to home or something
+      router.replace("/auth/signupError");
     }
-
-    // Return this PIN hashed fr/ API route, save to project state, then redirect
   };
   return (
     <Stack sx={styles.parentContainer}>
@@ -178,7 +176,7 @@ export default function signup() {
       <Typography variant="p" sx={{ opacity: formState.passwordError ? 1 : 0 }}>
         Must be 8 characters or longer. Requires an uppercase, lowercase, plus
         at least 1 symbol. No punctuation allowed
-      </Typography>{" "}
+      </Typography>
     </Stack>
   );
 }

@@ -1,5 +1,5 @@
 import NextAuth from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials"
+import CredentialsProvider from "next-auth/providers/credentials";
 import { connectToDB } from "../../../src/utility-functions/auth/connectToDB";
 export default NextAuth({
   // OAuth authentication providers...
@@ -42,8 +42,8 @@ export default NextAuth({
   pages: {
     signIn: "/signin",
     // signOut: '/auth/signout',  //! see what happens on sign out
-    error: '/error', // Error code passed in query string as ?error=
-    verifyRequest: '/verify-request', // (used for check email message) //! see if we do this officially 
-    newUser: '/' // New users will be directed here on first sign in 
+    error: "/error", // Error code passed in query string as ?error=
+    verifyRequest: "/verify-request", // (used for check email message) //! see if we do this officially
+    newUser: "/", // New users will be directed here on first sign in
   },
 });

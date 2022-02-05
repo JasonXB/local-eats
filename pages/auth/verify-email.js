@@ -27,6 +27,7 @@ export default function verifyEmail() {
       });
       // If account creation succeeds, clear out the localStorage data we saved
       localStorage.removeItem("pendingEmailData");
+      //! Reroute to homepage while logged in and render a message saying new account created
     } catch (error) {
       console.error(error);
     }

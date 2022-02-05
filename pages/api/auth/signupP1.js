@@ -27,19 +27,17 @@ export default async function handler(req, res) {
     text: "Please do not reply to sender",
     html: `Submit the following PIN code to verify your email on Local Eats: <strong>${normalPIN}</strong>`,
   };
-  const sendEmail = await sgMail.send(msg);
-  res.status(200).json({ message: "Email sent", hashedPIN, expiryDate });
 
-  // sgMail
-  //   .send(msg)
-  //   .then(() => {
-  //     res.status(200).json({ message: "Email sent", hashedPIN, expiryDate });
-  //     return;
-  //   })
-  //   .catch((error) => {
-  //     res.status(422).json({ message: "SendGrid API failure" });
-  //     return;
-  //   });
+  sgMail
+    .send(msg)
+    .then(() => {
+      res.status(200).json({ message: "Email sent", hashedPIN, expiryDate });
+      return;
+    })
+    .catch((error) => {
+      res.status(422).json({ message: "SendGrid API failure" });
+      return;
+    });
 
   return;
 }
