@@ -17,7 +17,7 @@ export default async function handler(req, res) {
   const normalPIN = makeId(6);
   const hashedPIN = await hash(normalPIN, 12);
   // Generate Unix timestamp 30 mins into future
-  const expiryDate = new Date().getTime() + 30 * 60; // 30 mins in future
+  const expiryDate = new Date().getTime() + 1800000; // 30 mins in future
   // Send the normal PIN to the request body email
   const emailToVerify = req.body.email;
   const msg = {

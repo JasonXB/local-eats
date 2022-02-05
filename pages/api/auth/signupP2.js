@@ -11,15 +11,16 @@ export default async function handler(req, res) {
     res.status(422).json({ message: "Invalid PIN" });
     return; // if pins don't match, end the API route
   }
-  console.log("Passed the PIN gate");
 
   // Check if the PIN is submitted before the time limit we're imposing
-  // const currentUnixTime = new Date().getTime();
-  // if (currentUnixTime > expiryDatePIN) {
-  //   res.status(422).json({ message: "PIN has expired" });
-  //   return; // if the PIN's expired, end the API route
-  // }
-  // console.log("Passed the expiry Unix gate");
+  const currentUnixTime = new Date().getTime();
+  console.log(`currentUnixTime: ${currentUnixTime}`);
+  console.log(`expiryDatePIN: ${expiryDatePIN}`);
+  if (currentUnixTime > expiryDatePIN) {
+    res.status(422).json({ message: "PIN has expired" });
+    return; // if the PIN's expired, end the API route
+  }
+  console.log("Passed the expiry Unix gate");
 
   // Check if a user with the submitted email exists already
   const client = await connectToDB(); // access db instance
@@ -30,7 +31,6 @@ export default async function handler(req, res) {
     client.close();
     return; // if this email's in use, end the API route and close the Mongo Session
   }
-  console.log("Passed the existing account gate");
 
   // PAST THIS POINT, THE REQUIREMENTS TO CREATE A NEW ACCOUNT ARE MET
   // Enter the "users" collection to make a new account doc
@@ -39,6 +39,5 @@ export default async function handler(req, res) {
     password: hashedPassword, // is hashed before insertion for security reasons
   });
   client.close(); // end Mongo session
-  console.log("API route conquered!");
   res.status(201).json({ message: "Created user!" });
 }

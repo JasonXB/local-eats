@@ -18,6 +18,7 @@ export default function index() {
   // const dispatch = useDispatch();
   // const revealGeo = () => dispatch(homepageModalActions.geolocationUnsupported()); // prettier-ignore
 
+  // console.log()
   return (
     <>
       <Navbar />

@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { Typography, Box, Stack, Button, FormControl, OutlinedInput } from "@mui/material"; // prettier-ignore
 import { mix } from "../../styles/styleMixins";
 import { useGlobalContext } from "../../state-management/globalContext";
@@ -7,13 +7,13 @@ import { useGlobalContext } from "../../state-management/globalContext";
 //! only allow 2 attempts max, quit back to home or something (do what slack does)
 
 export default function verifyEmail() {
-  // Extract the pending email data we saved at the end of /auth/signup.js
-  const pendingEmailData = localStorage.getItem("pendingEmailData");
-  const { hashedPIN, expiryDatePIN, pendingEmail, password } = JSON.parse(pendingEmailData); // prettier-ignore
-
   const pinRef = useRef();
+
   const verifyHandler = async function () {
     const typedPIN = pinRef.current.value;
+    // Extract the pending email data we saved at the end of /auth/signup.js
+    const pendingEmailData = localStorage.getItem("pendingEmailData");
+    const { hashedPIN, expiryDatePIN, pendingEmail, password } = JSON.parse(pendingEmailData); // prettier-ignore
     //! if user fails, make sure to clear the project state for pin and hashed password.
     //! add in error handling
     try {
@@ -54,10 +54,10 @@ export default function verifyEmail() {
         </Button>
       </FormControl>
       <Typography variant="p">
-        We just sent a 6 digit verification code to {pendingEmail} via email.
-        Enter that code to prove that you own this email address. This code will
-        expire within 30 minutes. Be sure to check your spam folder if you
-        cannot find it
+        We just sent a 6 digit PIN to the email you submitted. Enter that code
+        to prove that you own this email address. Be sure to check your spam
+        folder if you cannot find it, and know that the code expires in 30
+        minutes
       </Typography>
     </Stack>
   );
