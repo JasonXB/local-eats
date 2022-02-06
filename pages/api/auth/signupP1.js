@@ -13,13 +13,14 @@ function makeId(length) {
 }
 
 export default async function handler(req, res) {
+  const emailToVerify = req.body.email;
+
   // Generate a 6 digit PIN to send via email, and create a hashed version
   const normalPIN = makeId(6);
   const hashedPIN = await hash(normalPIN, 12);
   // Generate Unix timestamp 30 mins into future
   const expiryDate = new Date().getTime() + 1800000; // 30 mins in future
   // Send the normal PIN to the request body email
-  const emailToVerify = req.body.email;
   const msg = {
     to: emailToVerify, // recipient
     from: "jasonxportfolio@gmail.com", // Change to your verified sender

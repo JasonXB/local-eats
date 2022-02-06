@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import { Typography, Box, Stack, Button, FormControl, OutlinedInput } from "@mui/material"; // prettier-ignore
 import { mix } from "../../styles/styleMixins";
 import { useGlobalContext } from "../../state-management/globalContext";
@@ -8,7 +8,7 @@ import { useGlobalContext } from "../../state-management/globalContext";
 
 export default function verifyEmail() {
   const pinRef = useRef();
-
+  const [errorMessage, setErrorMessage] = useState(null);
   const verifyHandler = async function () {
     const typedPIN = pinRef.current.value;
     // Extract the pending email data we saved at the end of /auth/signup.js
@@ -54,12 +54,33 @@ export default function verifyEmail() {
           VERIFY
         </Button>
       </FormControl>
-      <Typography variant="p">
-        We just sent a 6 digit PIN to the email you submitted. Enter that code
-        to prove that you own this email address. Be sure to check your spam
-        folder if you cannot find it, and know that the code expires in 30
-        minutes
-      </Typography>
+      <Stack sx={{ height: "5rem" }}>
+        {!errorMessage && (
+          <Typography variant="p" sx={{ mb: 1 }}>
+            We just sent a 6 digit verification code to the email you submitted
+            (be sure to check your spam folder if you cannot find it)
+            <br />
+            The code expires in 30 minutes and you only get 2 chances
+          </Typography>
+        )}
+        {errorMessage === "PIN incorrect" && (
+          <Typography variant="p">
+            The pin you submitted is incorrect. You have 1 more chance to verify
+            this email
+          </Typography>
+        )}
+        {errorMessage === "PIN expired" && (
+          <>
+            <Typography variant="p">
+              This PIN has expired. Restart the sign up process if you still
+              wish to verify this email
+            </Typography>
+            <Button variant="contained" sx={{ mt: 2 }} href="/">
+              Return to homepage
+            </Button>
+          </>
+        )}
+      </Stack>
     </Stack>
   );
 }

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useRouter } from "next/router";
 import React, { useRef, useState, useReducer } from "react";
-import { Typography, Stack, Button } from "@mui/material"; // prettier-ignore
+import { Typography, Stack, Button, Box } from "@mui/material"; // prettier-ignore
 import FormControl from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import { breakBefore } from "../../src/custom-components/ConditionalBreak"; // prettier-ignore
@@ -12,7 +12,7 @@ import { useGlobalContext } from "../../state-management/globalContext";
 export default function signup() {
   const router = useRouter();
   const { pendingEmailHandler } = useGlobalContext();
-  const [bottomMessage, setBottomMessage] = useState("");
+
   const [formState, dispatch] = useReducer(reducer, {
     emailText: " ", // allots spacefor the message before we even want one to be visible
     emailError: false,
@@ -21,6 +21,7 @@ export default function signup() {
     verifyPasswordText: " ",
     verifyPasswordError: false,
     passwordRequirements: false,
+    emailTaken: undefined,
   });
   // Collect values of what's typed in each of the input fields
   const emailRef = useRef();
@@ -39,6 +40,15 @@ export default function signup() {
     const typedEmail = emailRef.current.value;
     const typedPassword = passwordRef.current.value;
     const typedPassword2 = verifyPasswordRef.current.value;
+    // Check if the email's currently being used
+    try {
+      await axios.post("/api/auth/signupP0", {
+        email: typedEmail,
+      });
+    } catch (error) {
+      dispatch({ type: "INVALID_EMAIL" }); // Being sent here means our email was invalid
+      return; // if the email's invalid, stop the execution here
+    }
 
     // Send a request to our API route that validates the email (sees if it is blatantly fake)
     try {
@@ -65,9 +75,8 @@ export default function signup() {
       dispatch({ type: "INVALID_PASSWORD_2" });
       return; // stop the execution here
     }
-
     // Past this point, the email is likely valid, the password is strong, and the password field inputs match
-    console.log("Fields appear valid");
+
     // Generate a 6 digit PIN, send it to typed email so we can verify
     // Return this PIN hashed fr/ API route, save it to project state, then redirect
     let hashedPIN, expiryDatePIN;
@@ -167,23 +176,59 @@ export default function signup() {
       >
         Submit
       </Button>
-      <Typography
-        variant="p"
-        sx={{ mt: 2, opacity: formState.passwordError ? 1 : 0 }}
-      >
-        PASSWORD REQUIREMENTS
-      </Typography>
-      <Typography variant="p" sx={{ opacity: formState.passwordError ? 1 : 0 }}>
-        Must be 8 characters or longer. Requires an uppercase, lowercase, plus
-        at least 1 symbol. No punctuation allowed
-      </Typography>
+      {!formState.emailTaken && (
+        <Stack sx={styles.bottomSection}>
+          <Typography
+            variant="p"
+            sx={{ mt: 2, opacity: formState.passwordError ? 1 : 0 }}
+          >
+            PASSWORD REQUIREMENTS
+          </Typography>
+          <Typography
+            variant="p"
+            sx={{ opacity: formState.passwordError ? 1 : 0 }}
+          >
+            Must be 8 characters or longer. Requires an uppercase, lowercase,
+            plus at least 1 symbol. No punctuation allowed
+          </Typography>
+        </Stack>
+      )}
+      {formState.emailTaken && (
+        <Stack sx={styles.bottomSection}>
+          <Typography variant="p" color="secondary" sx={{ mt: 2 }}>
+            This email's already connected to an existing Local Eats account.
+          </Typography>
+          <Box
+            component="a"
+            href="/auth/signin"
+            sx={(theme) => {
+              return { color: theme.palette.secondary.main };
+            }}
+          >
+            Click here to visit our sign in page
+          </Box>
+        </Stack>
+      )}
     </Stack>
   );
 }
 
 function reducer(state, action) {
   if (action.type === "INVALID_EMAIL") {
-    return { ...state, emailText: "Invalid entry", emailError: true };
+    return {
+      ...state,
+      emailText: "Invalid entry",
+      emailError: true,
+      emailTaken: undefined,
+    };
+  }
+  if (action.type === "EMAIL_IS_TAKEN") {
+    return {
+      ...state,
+      emailText: "Email already in use",
+      emailError: true,
+      emailTaken: true,
+    };
   }
   if (action.type === "INVALID_PASSWORD") {
     return {
@@ -191,6 +236,7 @@ function reducer(state, action) {
       passwordText: "Password does not meet requirements",
       passwordError: true,
       passwordRequirements: true,
+      emailTaken: undefined,
     };
   }
   if (action.type === "INVALID_PASSWORD_2") {
@@ -198,6 +244,7 @@ function reducer(state, action) {
       ...state,
       verifyPasswordText: "Passwords do not match",
       verifyPasswordError: true,
+      emailTaken: undefined,
     };
   }
   if (action.type === "RESET") {
@@ -209,6 +256,7 @@ function reducer(state, action) {
       verifyPasswordText: " ",
       verifyPasswordError: false,
       passwordRequirements: false,
+      emailTaken: undefined,
     };
   }
 }
@@ -238,5 +286,9 @@ const styles = {
   conditionalRed: (inp) => {
     if(inp) return { color: "#d32f2f" } // prettier-ignore
     if(!inp) return { color: "rgba(0, 0, 0, 0.87)" } // prettier-ignore
+  },
+  bottomSection: {
+    height: "5.5rem",
+    mt: 2,
   },
 };
