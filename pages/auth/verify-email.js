@@ -32,6 +32,12 @@ export default function verifyEmail() {
       console.error(error);
     }
   };
+
+  const returnHomeHandler = function () {
+    localStorage.removeItem("pendingEmailData");
+    window.location.href = "/auth/signup";
+  };
+
   return (
     <Stack sx={styles.parentContainer}>
       <Typography variant="h2" sx={mix.titleFont}>
@@ -58,25 +64,26 @@ export default function verifyEmail() {
         {!errorMessage && (
           <Typography variant="p" sx={{ mb: 1 }}>
             We just sent a 6 digit verification code to the email you submitted
-            (be sure to check your spam folder if you cannot find it)
-            <br />
-            The code expires in 30 minutes and you only get 2 chances
+            (be sure to check your spam folder if you cannot find it). The code
+            expires in 30 minutes and you only get 1 try before it becomes
+            invalid
           </Typography>
         )}
         {errorMessage === "PIN incorrect" && (
-          <Typography variant="p">
-            The pin you submitted is incorrect. You have 1 more chance to verify
-            this email
-          </Typography>
+          <>
+            <Typography variant="p">
+              The PIN you submitted is incorrect
+            </Typography>
+            <Button variant="text" sx={{ mt: 2 }} onClick={returnHomeHandler}>
+              Return to sign up page and try again
+            </Button>
+          </>
         )}
         {errorMessage === "PIN expired" && (
           <>
-            <Typography variant="p">
-              This PIN has expired. Restart the sign up process if you still
-              wish to verify this email
-            </Typography>
-            <Button variant="contained" sx={{ mt: 2 }} href="/">
-              Return to homepage
+            <Typography variant="p">This PIN has expired</Typography>
+            <Button variant="text" sx={{ mt: 2 }} onClick={returnHomeHandler}>
+              Return to sign up page and try again
             </Button>
           </>
         )}

@@ -14,7 +14,7 @@ export default function signup() {
   const { pendingEmailHandler } = useGlobalContext();
 
   const [formState, dispatch] = useReducer(reducer, {
-    emailText: " ", // allots spacefor the message before we even want one to be visible
+    emailText: " ", // allots space for the message before we even want one to be visible
     emailError: false,
     passwordText: " ",
     passwordError: false,
@@ -35,7 +35,8 @@ export default function signup() {
   const typingVerifyHandler = () => formState.verifyPasswordError && dispatch({ type: "RESET" }); // prettier-ignore
 
   const submitHandler = async function () {
-    dispatch({ type: "RESET" }); // Reset the form state to remove any error visuals that were required earlier
+    // Reset the form state to remove any error visuals that were required earlier
+    dispatch({ type: "RESET" }); 
     // Capture what's typed in each input field
     const typedEmail = emailRef.current.value;
     const typedPassword = passwordRef.current.value;
@@ -46,7 +47,8 @@ export default function signup() {
         email: typedEmail,
       });
     } catch (error) {
-      dispatch({ type: "INVALID_EMAIL" }); // Being sent here means our email was invalid
+      dispatch({ type: "EMAIL_IS_TAKEN" }); // Being sent here means our email was invalid
+      // alert("Email taken!");
       return; // if the email's invalid, stop the execution here
     }
 
@@ -57,6 +59,7 @@ export default function signup() {
       }); // Passing the try catch means our email is valid
     } catch (err) {
       dispatch({ type: "INVALID_EMAIL" }); // Being sent here means our email was invalid
+      // alert("Bad email");
       return; // if the email's invalid, stop the execution here
     }
 
@@ -67,12 +70,14 @@ export default function signup() {
       // If our password is strong enough, the rest of this block executes (if not, we get sent to catch block)
     } catch (err) {
       dispatch({ type: "INVALID_PASSWORD" }); // Being sent here means our password was inadequate
+      // alert("bad password");
       return; // if the password's too weak, stop the execution here
     }
 
     // Make sure that the verify password field matches the regular password field
     if (typedPassword !== typedPassword2) {
       dispatch({ type: "INVALID_PASSWORD_2" });
+      // alert("Passwords don't match");
       return; // stop the execution here
     }
     // Past this point, the email is likely valid, the password is strong, and the password field inputs match
@@ -91,6 +96,7 @@ export default function signup() {
       pendingEmailHandler(hashedPIN, expiryDatePIN, typedEmail, typedPassword);
       router.push("/auth/verify-email"); // redirect
     } catch (error) {
+      // alert("Error during sign up");
       router.replace("/auth/signupError");
     }
   };
@@ -180,6 +186,7 @@ export default function signup() {
         <Stack sx={styles.bottomSection}>
           <Typography
             variant="p"
+            color="secondary"
             sx={{ mt: 2, opacity: formState.passwordError ? 1 : 0 }}
           >
             PASSWORD REQUIREMENTS
@@ -187,6 +194,7 @@ export default function signup() {
           <Typography
             variant="p"
             sx={{ opacity: formState.passwordError ? 1 : 0 }}
+            color="secondary"
           >
             Must be 8 characters or longer. Requires an uppercase, lowercase,
             plus at least 1 symbol. No punctuation allowed
@@ -216,47 +224,66 @@ export default function signup() {
 function reducer(state, action) {
   if (action.type === "INVALID_EMAIL") {
     return {
-      ...state,
       emailText: "Invalid entry",
       emailError: true,
       emailTaken: undefined,
+      // Reset other states back to init value
+      passwordText: " ",
+      passwordError: false,
+      verifyPasswordText: " ",
+      verifyPasswordError: false,
+      passwordRequirements: false,
     };
   }
   if (action.type === "EMAIL_IS_TAKEN") {
     return {
-      ...state,
       emailText: "Email already in use",
       emailError: true,
-      emailTaken: true,
+      emailTaken: true, //! now here
+      // Reset other states back to init value
+      passwordText: " ",
+      passwordError: false,
+      verifyPasswordText: " ",
+      verifyPasswordError: false,
+      passwordRequirements: false,
     };
   }
   if (action.type === "INVALID_PASSWORD") {
     return {
-      ...state,
       passwordText: "Password does not meet requirements",
       passwordError: true,
       passwordRequirements: true,
+      // Reset other states back to init value
+      emailText: " ",
+      emailError: false,
       emailTaken: undefined,
+      verifyPasswordText: " ",
+      verifyPasswordError: false,
     };
   }
   if (action.type === "INVALID_PASSWORD_2") {
     return {
-      ...state,
       verifyPasswordText: "Passwords do not match",
       verifyPasswordError: true,
+      // Reset other states back to init value
+      emailText: " ",
+      emailError: false,
       emailTaken: undefined,
+      passwordText: " ",
+      passwordError: false,
+      passwordRequirements: false,
     };
   }
   if (action.type === "RESET") {
     return {
       emailText: " ",
       emailError: false,
+      emailTaken: undefined,
       passwordText: " ",
       passwordError: false,
       verifyPasswordText: " ",
       verifyPasswordError: false,
       passwordRequirements: false,
-      emailTaken: undefined,
     };
   }
 }

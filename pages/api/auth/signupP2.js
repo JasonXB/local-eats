@@ -24,7 +24,7 @@ export default async function handler(req, res) {
   // Enter the "users" collection to make a new account doc
   const client = await connectToDB(); // access db instance
   const db = client.db();
-  const result = await db.collection("users").insertOne({
+  await db.collection("users").insertOne({
     email,
     password: hashedPassword, // is hashed before insertion for security reasons
   });
