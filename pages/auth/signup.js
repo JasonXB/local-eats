@@ -11,7 +11,6 @@ import { useGlobalContext } from "../../state-management/globalContext";
 
 export default function signup() {
   const router = useRouter();
-  const { pendingEmailHandler } = useGlobalContext();
 
   const [formState, dispatch] = useReducer(reducer, {
     emailText: " ", // allots space for the message before we even want one to be visible
@@ -36,7 +35,7 @@ export default function signup() {
 
   const submitHandler = async function () {
     // Reset the form state to remove any error visuals that were required earlier
-    dispatch({ type: "RESET" }); 
+    dispatch({ type: "RESET" });
     // Capture what's typed in each input field
     const typedEmail = emailRef.current.value;
     const typedPassword = passwordRef.current.value;
@@ -48,7 +47,6 @@ export default function signup() {
       });
     } catch (error) {
       dispatch({ type: "EMAIL_IS_TAKEN" }); // Being sent here means our email was invalid
-      // alert("Email taken!");
       return; // if the email's invalid, stop the execution here
     }
 
@@ -59,7 +57,6 @@ export default function signup() {
       }); // Passing the try catch means our email is valid
     } catch (err) {
       dispatch({ type: "INVALID_EMAIL" }); // Being sent here means our email was invalid
-      // alert("Bad email");
       return; // if the email's invalid, stop the execution here
     }
 
@@ -70,33 +67,25 @@ export default function signup() {
       // If our password is strong enough, the rest of this block executes (if not, we get sent to catch block)
     } catch (err) {
       dispatch({ type: "INVALID_PASSWORD" }); // Being sent here means our password was inadequate
-      // alert("bad password");
       return; // if the password's too weak, stop the execution here
     }
 
     // Make sure that the verify password field matches the regular password field
     if (typedPassword !== typedPassword2) {
       dispatch({ type: "INVALID_PASSWORD_2" });
-      // alert("Passwords don't match");
       return; // stop the execution here
-    }
-    // Past this point, the email is likely valid, the password is strong, and the password field inputs match
+    } // Past this point, the email is likely valid, the password is strong, and the password field inputs match
 
-    // Generate a 6 digit PIN, send it to typed email so we can verify
-    // Return this PIN hashed fr/ API route, save it to project state, then redirect
-    let hashedPIN, expiryDatePIN;
+    // Create a pending account that holds your email, hashed password
+    // Verification PIN, expiry date for that PIN... etc
     try {
-      const requestVerif = await axios.post("/api/auth/signupP1", {
+      await axios.post("/api/auth/signupP1", {
         email: typedEmail,
         password: typedPassword,
       });
-      hashedPIN = requestVerif.data.hashedPIN; // hashed 6 digit PIN
-      expiryDatePIN = requestVerif.data.expiryDate; // Unix
-      // Save the hashedPIN and expiry date to the project state
-      pendingEmailHandler(hashedPIN, expiryDatePIN, typedEmail, typedPassword);
+      localStorage.setItem("pendingAccountEmail", typedEmail); // save email we're signing with up on LocalStorage
       router.push("/auth/verify-email"); // redirect
     } catch (error) {
-      // alert("Error during sign up");
       router.replace("/auth/signupError");
     }
   };

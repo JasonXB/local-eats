@@ -19,19 +19,6 @@ export default function GlobalContextAPIProvider(props) {
   // Change what theme should be used
   const changeThemeString = (inp) => dispatch({ type: "CHANGE_THEME_STRING", payload: inp }); // prettier-ignore
 
-  // Save a hashed PIN with an exp date to help verify a submitted email belongs to the user
-  const pendingEmailHandler = (inp1, inp2, inp3, inp4) => {
-    localStorage.setItem(
-      "pendingEmailData",
-      JSON.stringify({
-        hashedPIN: inp1,
-        expiryDatePIN: inp2,
-        pendingEmail: inp3,
-        password: inp4,
-      })
-    );
-  };
-
   useEffect(() => {
     // Check local storage for any pre-selected theme from the user
     changeThemeString(localStorage.getItem("preselectedTheme")); // can = null
@@ -39,13 +26,7 @@ export default function GlobalContextAPIProvider(props) {
 
   // DISTRIBUTION
   const themeRelated = { themeString: state.themeString, changeThemeString };
-  const authRelated = {
-    expiryDatePIN: state.expiryDatePIN,
-    hashedPIN: state.hashedPIN,
-    pendingEmail: state.pendingEmail,
-    password: state.password,
-    pendingEmailHandler,
-  };
-  const distribution = { ...themeRelated, ...authRelated };
+
+  const distribution = { ...themeRelated };
   return <AAA.Provider value={distribution}>{props.children}</AAA.Provider>;
 }
