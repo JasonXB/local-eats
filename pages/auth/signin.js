@@ -16,7 +16,7 @@ export default function signup() {
   const passwordRef = useRef();
 
   const submitHandler = function () {};
-  
+
   return (
     <Stack sx={styles.parentContainer}>
       <Typography variant="h2" sx={{ ...mix.titleFont }}>
@@ -65,7 +65,7 @@ export default function signup() {
 const styles = {
   parentContainer: {
     width: "100%",
-    height: "100vh",
+    height: "78vh",
     maxWidth: "35rem",
     margin: "auto",
     textAlign: "center",

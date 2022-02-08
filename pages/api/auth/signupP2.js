@@ -1,4 +1,4 @@
-import { compare, hash } from "bcryptjs";
+import { compare } from "bcryptjs";
 import { connectToDB } from "../../../src/utility-functions/auth/connectToDB";
 
 //# API Route file
