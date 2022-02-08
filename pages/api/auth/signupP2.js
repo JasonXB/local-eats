@@ -6,7 +6,7 @@ export default async function handler(req, res) {
   const { pendingEmail, submittedPIN } = req.body; // prettier-ignore
   const client = await connectToDB(); // access db instance
   const db = client.db();
-  //@ Find the pending account created with the pending email and extract its data
+  // Find the pending account created with the pending email and extract its data
   const pendingAccount = await db
     .collection("users")
     .findOne({ email: pendingEmail });
@@ -30,14 +30,14 @@ export default async function handler(req, res) {
   }
 
   // Past this point, the user's verified themselves
-  //! Make changes to the pending account to indicate it is now verified
-  await db
-    .collection("users")
-    .updateOne(
-      { email: pendingEmail },
-      { $set: { accountStatus: "verified" } }
-    );
-
+  // Make changes to the pending account to indicate it is now verified
+  await db.collection("users").updateOne(
+    { email: pendingEmail },
+    {
+      $set: { accountStatus: "verified" },
+      $unset: { hashedVerifyPIN: "", pinExpiryDate: "" },
+    }
+  );
   client.close(); // end Mongo session
   res.status(201).json({ message: "Created user!" });
 }
