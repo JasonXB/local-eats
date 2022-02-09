@@ -7,7 +7,24 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import { breakBefore } from "../../src/custom-components/ConditionalBreak"; // prettier-ignore
 import FormHelperText from "@mui/material/FormHelperText";
 import { mix } from "../../styles/styleMixins";
-import { useGlobalContext } from "../../state-management/globalContext";
+import { getSession } from "next-auth/react";
+
+export async function getServerSideProps(context) {
+  // Find out if we're logged in
+  const session = await getSession({ req: context.req }); // falsy if not logged in. session obj if we are
+  // Redirect to homepage if we are (logged in users don't need to login again)
+  if (session) {
+    return {
+      redirect: {
+        destination: "/", // redirect to this path
+        permanent: false, // don't always want to redirect (only if user's logged in)
+      },
+    };
+  }
+  // If the user is not logged in, let them access this page
+  // Just pass the session through props in case component needs it
+  return { props: { session } };
+}
 
 export default function signup() {
   const router = useRouter();

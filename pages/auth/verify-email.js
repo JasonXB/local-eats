@@ -4,6 +4,24 @@ import { Typography, Box, Stack, Button, FormControl, OutlinedInput } from "@mui
 import { mix } from "../../styles/styleMixins";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
+import { getSession } from "next-auth/react";
+
+export async function getServerSideProps(context) {
+  // Find out if we're logged in
+  const session = await getSession({ req: context.req }); // falsy if not logged in. session obj if we are
+  // Redirect to homepage if we are (logged in users don't need to login again)
+  if (session) {
+    return {
+      redirect: {
+        destination: "/", // redirect to this path
+        permanent: false, // don't always want to redirect (only if user's logged in)
+      },
+    };
+  }
+  // If the user is not logged in, let them access this page
+  // Just pass the session through props in case component needs it
+  return { props: { session } };
+}
 
 export default function verifyEmail() {
   const [bottomMessage, setbottomMessage] = useState("start"); // sets text @ bottom
@@ -66,9 +84,8 @@ export default function verifyEmail() {
         pendingEmail,
         submittedPIN: typedPIN, // the pin we type in this pg's form
       }); // past this point, account creation has succeeded
-      //! Sign in immediately
-
-      endSignupProcess("success"); // delete localStorage data and redirect
+      // Sign in immediately, delete localStorage data and redirect
+      endSignupProcess("success"); //
     } catch (error) {
       // Render an error message dependent on the response object's problem with the PIN submitted
       const responseMessage = error.response.data.message;

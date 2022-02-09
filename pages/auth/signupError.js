@@ -2,6 +2,23 @@ import React, { useState, useRef } from "react";
 import { Typography, Box, Stack, Divider, Button } from "@mui/material"; // prettier-ignore
 import { mix } from "../../styles/styleMixins";
 
+export async function getServerSideProps(context) {
+  // Find out if we're logged in
+  const session = await getSession({ req: context.req }); // falsy if not logged in. session obj if we are
+  // Redirect to homepage if we are (logged in users don't need to login again)
+  if (session) {
+    return {
+      redirect: {
+        destination: "/", // redirect to this path
+        permanent: false, // don't always want to redirect (only if user's logged in)
+      },
+    };
+  }
+  // If the user is not logged in, let them access this page
+  // Just pass the session through props in case component needs it
+  return { props: { session } };
+}
+
 export default function UseFormControl() {
   const inputRef = useRef(); // access field value with inputRef.current.value
   return (
@@ -29,7 +46,8 @@ export default function UseFormControl() {
             account again later.
           </Typography>
           <Typography sx={styles.para}>
-            For now, feel free to enjoy the site as a guest (most site features are still available)
+            For now, feel free to enjoy the site as a guest (most site features
+            are still available)
           </Typography>
           <Button variant="contained" sx={{ mt: 2 }} href="/">
             Return to homepage as a guest

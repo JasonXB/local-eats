@@ -10,7 +10,25 @@ import {
 import FormHelperText from "@mui/material/FormHelperText";
 import { mix } from "../../styles/styleMixins";
 import { credentialSignIn } from "../api/helperFunctions/credentialSignIn";
-//! page should not be accessible by those who are alreDY LOGGED IN
+import { getSession } from "next-auth/react";
+
+export async function getServerSideProps(context) {
+  // Find out if we're logged in
+  const session = await getSession({ req: context.req }); // falsy if not logged in. session obj if we are
+  // Redirect to homepage if we are (logged in users don't need to login again)
+  if (session) {
+    return {
+      redirect: {
+        destination: "/", // redirect to this path
+        permanent: false, // don't always want to redirect (only if user's logged in)
+      },
+    };
+  }
+  // If the user is not logged in, let them access this page
+  // Just pass the session through props in case component needs it
+  return { props: { session } };
+}
+
 export default function signup() {
   const router = useRouter();
   // Collect values of what's typed in each of the input fields
@@ -35,9 +53,9 @@ export default function signup() {
     // If one of the input fields is empty, render some error text without looking in the DB
     const typedEmail_NoWhitespace = typedEmail.replaceAll(" ", "");
     const typedPassword_NoWhitespace = typedPassword.replaceAll(" ", "");
-    if (typedEmail_NoWhitespace.length === 0) return setEmailErrorText("No user found for that email"); // prettier-ignore
+    if (typedEmail_NoWhitespace.length === 0) return setEmailErrorText("No account found using this email"); // prettier-ignore
     if (typedPassword_NoWhitespace.length === 0) return setPasswordErrorText("Incorrect password"); // prettier-ignore
-    
+
     // Perform an email/password check on our DB
     const loginRequest = await credentialSignIn(typedEmail, typedPassword); // request object returned
     // request object on failure: {error: "No user found for that email", ok: true, status: 200 }
@@ -46,7 +64,7 @@ export default function signup() {
     // If the login attempt is not successful...
     if (loginRequest.error) {
       const errorMSG = loginRequest.error;
-      if (errorMSG === "No user found for that email") setEmailErrorText(errorMSG); // prettier-ignore
+      if (errorMSG === "No account found using this email") setEmailErrorText(errorMSG); // prettier-ignore
       if (errorMSG === "Incorrect password") setPasswordErrorText(errorMSG);
     }
 
@@ -80,7 +98,9 @@ export default function signup() {
           align="left"
           variant="label"
           color={
-            emailErrorText === "No user found for that email" ? "secondary" : ""
+            emailErrorText === "No account found using this email"
+              ? "secondary"
+              : ""
           }
         >
           User Email:
@@ -88,7 +108,7 @@ export default function signup() {
         <OutlinedInput
           inputRef={emailRef}
           placeholder="name@email.com"
-          error={emailErrorText === "No user found for that email"}
+          error={emailErrorText === "No account found using this email"}
           onChange={typingEmailHandler}
         />
         <FormHelperText sx={styles.formHelperText}>
@@ -141,7 +161,7 @@ const styles = {
   formControl: {
     width: "80%",
     maxWidth: "20.625rem",
-    mb: 4,
+    mb: 0.75,
     fontWeight: 500,
   },
   formHelperText: {
