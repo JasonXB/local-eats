@@ -83,7 +83,9 @@ export default function signup() {
         email: typedEmail,
         password: typedPassword,
       });
-      localStorage.setItem("pendingAccountEmail", typedEmail); // save email we're signing with up on LocalStorage
+      // Save the signup email and password to localStorage
+      localStorage.setItem("pendingAccountEmail", typedEmail);
+      localStorage.setItem("signupPassword", typedPassword);
       router.push("/auth/verify-email"); // redirect
     } catch (error) {
       router.replace("/auth/signupError");

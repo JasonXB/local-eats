@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { useLocationContext } from "../state-management/locationContext";
+import React from "react";
 // Component building block imports
 import MissionStatement from "../src/page-blocks/home/MissionStatement";
 import SearchOptionsRow1 from "../src/page-blocks/home/PremadeSearches1";
@@ -11,14 +10,9 @@ import LocationDenialModal from "../src/custom-components/Modals/LocationDenial/
 import GeoUnsupportedModal from "../src/custom-components/Modals/GeoUnsupported";
 import PredeterminedLocationModal from "../src/custom-components/Modals/Predetermined";
 import DynamicSnackbar from "../src/custom-components/DynamicSnackbar";
-import { homepageModalActions } from "../state-management/store/homepage/ModalVisibility";
-import { useSelector, useDispatch } from "react-redux";
 import Navbar from "../src/custom-components/Navbar/Navbar";
-export default function index() {
-  // const dispatch = useDispatch();
-  // const revealGeo = () => dispatch(homepageModalActions.geolocationUnsupported()); // prettier-ignore
 
-  // console.log()
+export default function index() {
   return (
     <>
       <Navbar />
@@ -35,8 +29,6 @@ export default function index() {
       <LayoutContainer marginAbove="4.5rem" bg="#fffbf7">
         <Footer />
       </LayoutContainer>
-      {/* Modals that appear conditionally based on states saved in the Redux store */}
-      {/* <button onClick={revealGeo}>SHOW GEO UNSUPPORTED</button> */}
       <LocationDenialModal />
       <PredeterminedLocationModal />
       <GeoUnsupportedModal />

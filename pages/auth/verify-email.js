@@ -5,37 +5,50 @@ import { mix } from "../../styles/styleMixins";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
 
-//! only let users currently logging in to access this
-//! only allow 2 attempts max, quit back to home or something (do what slack does)
-
 export default function verifyEmail() {
   const [bottomMessage, setbottomMessage] = useState("Account created"); // sets text @ bottom
   const router = useRouter();
   const pinRef = useRef(); // the value of the verification PIN field
 
-  // Logs in a user, assuming an account is made for the email used in the process
+  // Logs in a user
   const loginProcedure = async function (email, password) {
-
+    // Call the log in callback function defined in [...nextauth].js
+    const result = await signIn("credentials", {
+      redirect: false, // prevents a redirect if something fails
+      email,
+      password,
+    });
+    console.log(result);
+    // If the signup procedure succeeded, the parameters we pass are guaranteed to be correct
+    // Error handling not required in this 1 niche scenario
+    return;
   };
 
   const endSignupProcess = function (resultString) {
     let redirectLocation;
-    // If login attemot fails, delete LocalStorage data and redirect
+    // If login attempt fails, delete LocalStorage data and redirect
     if (resultString == "failure") {
       localStorage.removeItem("pendingAccountEmail");
+      localStorage.removeItem("signupPassword");
       redirectLocation = "/auth/signup";
     }
     // If signup succeeds, immediately log in then redirect to home
     if (resultString == "success") {
-      const loginEmail = localStorage.getItem("pendingAccountEmail");
+      // Save localStorage data temporarily inside variables
+      const signupEmail = localStorage.getItem("pendingAccountEmail");
+      const signupPassword = localStorage.getItem("signupPassword");
+      // Delete localStorage data
       localStorage.removeItem("pendingAccountEmail");
+      localStorage.removeItem("signupPassword");
       redirectLocation = "/";
-      loginProcedure();
+      // Log in using the email/password used during sign up
+      loginProcedure(signupEmail, signupPassword);
     }
+    // Redirect to homepage while signed in
     setTimeout(() => {
       router.push(redirectLocation);
     }, 5000);
-  }; // deletes localStorage data and redirect
+  };
 
   // Redirect visitors who arrived without going through /auth/signup first
   let pendingEmail;
