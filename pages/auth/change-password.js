@@ -9,13 +9,26 @@ import { mix } from "../../styles/styleMixins";
 import { credentialSignIn } from "../api/helperFunctions/credentialSignIn";
 import { getSession } from "next-auth/react";
 
+// Redirect users to homepage if they come here offline
+export async function getServerSideProps(context) {
+  const session = await getSession({ req: context.req }); // falsy if not logged in. session obj if we are
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/", // redirect to this path
+        permanent: false, // don't always want to redirect (only if user's logged in)
+      },
+    };
+  }
+  return { props: { session } };
+}
+
 export default function ChangePassword() {
   const router = useRouter();
   // Collect values of what's typed in each of the input fields
   const emailRef = useRef();
   const passwordRef = useRef();
   // Controls the text underneath the input fields
-  const [emailErrorText, setEmailErrorText] = useState(" ");
   const [passwordErrorText, setPasswordErrorText] = useState(" ");
 
   const typingEmailHandler = async function () {

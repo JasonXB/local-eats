@@ -7,10 +7,9 @@ import { signIn } from "next-auth/react";
 import { getSession } from "next-auth/react";
 import AuthHeader from "../../src/page-blocks/authForms/Header";
 
+// Redirect users to homepage if they come here online
 export async function getServerSideProps(context) {
-  // Find out if we're logged in
   const session = await getSession({ req: context.req }); // falsy if not logged in. session obj if we are
-  // Redirect to homepage if we are (logged in users don't need to login again)
   if (session) {
     return {
       redirect: {
@@ -19,12 +18,17 @@ export async function getServerSideProps(context) {
       },
     };
   }
-  // If the user is not logged in, let them access this page
-  // Just pass the session through props in case component needs it
   return { props: { session } };
 }
 
 export default function verifyEmail() {
+  // Redirect visitors who arrived without going through /auth/signup first
+  let pendingEmail;
+  useEffect(() => {
+    pendingEmail = localStorage.getItem("pendingAccountEmail");
+    if (!pendingEmail) window.location.href = "/auth/signup";
+  }, []);
+
   const [bottomMessage, setbottomMessage] = useState("start"); // sets text @ bottom
   const router = useRouter();
   const pinRef = useRef(); // the value of the verification PIN field
@@ -37,7 +41,6 @@ export default function verifyEmail() {
       email,
       password,
     });
-    console.log(result);
     // If the signup procedure succeeded, the parameters we pass are guaranteed to be correct
     // Error handling not required in this 1 niche scenario
     return;
@@ -69,13 +72,6 @@ export default function verifyEmail() {
     }, 5000);
   };
 
-  // Redirect visitors who arrived without going through /auth/signup first
-  let pendingEmail;
-  useEffect(() => {
-    pendingEmail = localStorage.getItem("pendingAccountEmail");
-    if (!pendingEmail) window.location.href = "/auth/signup";
-  }, []);
-
   const verifyHandler = async function () {
     const typedPIN = pinRef.current.value;
     console.log(pendingEmail);
@@ -99,10 +95,7 @@ export default function verifyEmail() {
 
   return (
     <Stack sx={styles.parentContainer}>
-      <AuthHeader
-        titleText={"Verify Email"}
-        descriptionText={""} 
-      />
+      <AuthHeader titleText={"Verify Email"} descriptionText={""} />
       <FormControl sx={styles.formControl}>
         <Typography align="left" variant="label" sx={{ mb: 0.5 }}>
           Verification Code:

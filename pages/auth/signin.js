@@ -13,10 +13,9 @@ import { credentialSignIn } from "../api/helperFunctions/credentialSignIn";
 import { getSession } from "next-auth/react";
 import AuthHeader from "../../src/page-blocks/authForms/Header";
 
+// Redirect users to homepage if they come here online
 export async function getServerSideProps(context) {
-  // Find out if we're logged in
   const session = await getSession({ req: context.req }); // falsy if not logged in. session obj if we are
-  // Redirect to homepage if we are (logged in users don't need to login again)
   if (session) {
     return {
       redirect: {
@@ -25,8 +24,6 @@ export async function getServerSideProps(context) {
       },
     };
   }
-  // If the user is not logged in, let them access this page
-  // Just pass the session through props in case component needs it
   return { props: { session } };
 }
 

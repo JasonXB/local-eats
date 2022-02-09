@@ -10,7 +10,7 @@ import { mix } from "../../styles/styleMixins";
 import { getSession } from "next-auth/react";
 import AuthHeader from "../../src/page-blocks/authForms/Header";
 
-// Redirect to homepage if the visitor is not logged in
+// Redirect users to homepage if they come here offline
 export async function getServerSideProps(context) {
   const session = await getSession({ req: context.req }); // falsy if not logged in. session obj if we are
   if (!session) {
@@ -21,8 +21,6 @@ export async function getServerSideProps(context) {
       },
     };
   }
-  // If the user is not logged in, let them access this page
-  // Just pass the session through props in case component needs it
   return { props: { session } };
 }
 
