@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useReducer } from "react";
 import { Typography, Box, Stack, Button, TextField, InputLabel } from "@mui/material"; // prettier-ignore
 import { useRouter } from "next/router";
 import FormControl, { useFormControl } from "@mui/material/FormControl";
@@ -23,20 +23,57 @@ export async function getServerSideProps(context) {
   return { props: { session } };
 }
 
+function reducer(state, action) {
+  switch (action.type) {
+    // Actions to take when the user submits a bad input for a field
+    case "INVALID_OLD_PASSWORD":
+      return { ...state, oldPasswordText: "Incorrect account password", oldPasswordError: true }; // prettier-ignore
+    case "INVALID_NEW_PASSWORD":
+      return { ...state, newPasswordText: "Does not meet requirements", newPasswordError: true }; // prettier-ignore
+    case "INVALID_VERIFY_PASSWORD":
+      return { ...state, verifyPasswordText: "Does not match new password", verifyPasswordError: true }; // prettier-ignore
+
+    // Actions to take when we type in one of our fields
+    case "TYPING_OLD_PASSWORD":
+      return { ...state, oldPasswordText: " ", oldPasswordError: false };
+    case "TYPING_NEW_PASSWORD":
+      return { ...state, newPasswordText: " ", newPasswordError: false };
+    case "TYPING_VERIFY_PASSWORD":
+      return { ...state, verifyPasswordText: " ", verifyPasswordError: false };
+
+    case "RESET":
+      return {
+        oldPasswordText: " ",
+        oldPasswordError: false,
+        newPasswordText: " ",
+        newPasswordError: false,
+        verifyPasswordText: " ",
+        verifyPasswordError: false,
+      };
+    default:
+      return state;
+  }
+}
+
 export default function ChangePassword() {
   const router = useRouter();
-  // Collect values of what's typed in each of the input fields
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  // Controls the text underneath the input fields
-  const [passwordErrorText, setPasswordErrorText] = useState(" ");
+  // These states and dispatch functions control the error text and colors of each input field
+  const [formState, dispatch] = useReducer(reducer, {
+    oldPasswordText: " ", // allots space for the message before we even want one to be visible
+    oldPasswordError: false,
+    newPasswordText: " ",
+    newPasswordError: false,
+    verifyPasswordText: " ",
+    verifyPasswordError: false,
+  }); 
+  const oldPasswordHandler = () => dispatch({ type: "TYPING_OLD_PASSWORD" }); // prettier-ignore
+  const newPasswordHandler = () => dispatch({ type: "TYPING_NEW_PASSWORD" }); // prettier-ignore
+  const verifyPasswordHandler = () => dispatch({ type: "TYPING_VERIFY_PASSWORD" }); // prettier-ignore
 
-  const typingEmailHandler = async function () {
-    setEmailErrorText(" ");
-  };
-  const typingPasswordHandler = async function () {
-    setPasswordErrorText(" ");
-  };
+  // Collect values typed into each input field
+  const oldPasswordRef = useRef();
+  const newPasswordRef = useRef();
+  const verifyPasswordRef = useRef();
 
   const loginHandler = async function () {
     // Capture values of input fields
@@ -74,54 +111,54 @@ export default function ChangePassword() {
         <Typography
           align="left"
           variant="label"
-          color={passwordErrorText === "Incorrect password" ? "secondary" : ""}
+          color={formState.oldPasswordError ? "secondary" : ""}
         >
           Old Password:
         </Typography>
         <OutlinedInput
-          inputRef={passwordRef}
+          inputRef={oldPasswordRef}
           placeholder="Enter old password"
-          error={passwordErrorText === "Incorrect password"}
-          onChange={typingPasswordHandler}
+          error={formState.oldPasswordError}
+          onChange={oldPasswordHandler}
         />
         <FormHelperText sx={styles.formHelperText}>
-          {passwordErrorText}
+          {formState.oldPasswordText}
         </FormHelperText>
       </FormControl>
       <FormControl sx={styles.formControl}>
         <Typography
           align="left"
           variant="label"
-          color={passwordErrorText === "Incorrect password" ? "secondary" : ""}
+          color={formState.newPasswordError ? "secondary" : ""}
         >
           New Password:
         </Typography>
         <OutlinedInput
-          inputRef={passwordRef}
+          inputRef={newPasswordRef}
           placeholder="Enter new password"
-          error={passwordErrorText === "Incorrect password"}
-          onChange={typingPasswordHandler}
+          error={formState.newPasswordError}
+          onChange={newPasswordHandler}
         />
         <FormHelperText sx={styles.formHelperText}>
-          {passwordErrorText}
+          {formState.newPasswordText}
         </FormHelperText>
       </FormControl>
       <FormControl sx={styles.formControl}>
         <Typography
           align="left"
           variant="label"
-          color={passwordErrorText === "Incorrect password" ? "secondary" : ""}
+          color={formState.verifyPasswordError ? "secondary" : ""}
         >
           Verify New Password:
         </Typography>
         <OutlinedInput
-          inputRef={passwordRef}
+          inputRef={verifyPasswordRef}
           placeholder="Enter new password again"
-          error={passwordErrorText === "Incorrect password"}
-          onChange={typingPasswordHandler}
+          error={formState.verifyPasswordError}
+          onChange={verifyPasswordHandler}
         />
         <FormHelperText sx={styles.formHelperText}>
-          {passwordErrorText}
+          {formState.verifyPasswordText}
         </FormHelperText>
       </FormControl>
 
@@ -131,7 +168,7 @@ export default function ChangePassword() {
         onClick={loginHandler}
         sx={{ width: "80%", maxWidth: "20.625rem" }}
       >
-        Submit password change
+        Change password
       </Button>
     </Stack>
   );
