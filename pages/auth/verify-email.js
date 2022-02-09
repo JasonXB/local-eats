@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
 
 export default function verifyEmail() {
-  const [bottomMessage, setbottomMessage] = useState("Account created"); // sets text @ bottom
+  const [bottomMessage, setbottomMessage] = useState("start"); // sets text @ bottom
   const router = useRouter();
   const pinRef = useRef(); // the value of the verification PIN field
 
@@ -94,7 +94,7 @@ export default function verifyEmail() {
           placeholder="6-digit code"
           type="text"
           inputProps={{ maxLength: 6 }}
-          disabled={bottomMessage && true}
+          // disabled={bottomMessage && true}
           // error={formState.passwordError}
           // onChange={typingPasswordHandler}
         />

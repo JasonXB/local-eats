@@ -1,13 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import NavbarDesktop from "./DesktopVersion";
 import NavbarMobile from "./MobileVersion";
+import { useSession } from "next-auth/react";
 
 export default function Navbar() {
   // Feed each component our logged in status (appearance changes depending on value)
+  const { status } = useSession();
+  const [loggedIn, setLoggedIn] = useState(false);
+  useEffect(() => {
+    if (status === "loading" || status === "unauthenticated") {
+      setLoggedIn(false);
+    }
+    if (status === "authenticated") setLoggedIn(true);
+  }, [status]);
+  
   return (
     <>
-      <NavbarMobile />
-      <NavbarDesktop />
+      <NavbarMobile currentlyOnline={loggedIn} />
+      <NavbarDesktop currentlyOnline={loggedIn} />
     </>
   );
   // Only one of these components is visible at a time. (this behaviour's coded inside each component)

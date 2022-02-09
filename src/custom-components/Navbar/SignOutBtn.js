@@ -1,11 +1,9 @@
 import React from "react";
 import { Button } from "@mui/material";
-import { useGlobalContext } from "../../../state-management/globalContext";
+import { signOut } from "next-auth/react";
+
 export default function SignOutBtn(props) {
-  const { signOutProject } = useGlobalContext();
-  const signoutHandler = async function () {
-    
-  };
+  const signoutHandler = () => signOut();
 
   // props.mobile is a Boolean that tells us if we're rendering on a screen 700px long or lower
   if (props.mobile) {

@@ -1,6 +1,8 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { connectToDB } from "../../../src/utility-functions/auth/connectToDB";
+import { compare } from "bcryptjs";
+
 export default NextAuth({
   // OAuth authentication providers...
   providers: [
