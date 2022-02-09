@@ -8,6 +8,7 @@ import { breakBefore } from "../../src/custom-components/ConditionalBreak"; // p
 import FormHelperText from "@mui/material/FormHelperText";
 import { mix } from "../../styles/styleMixins";
 import { getSession } from "next-auth/react";
+import AuthHeader from "../../src/page-blocks/authForms/Header";
 
 export async function getServerSideProps(context) {
   // Find out if we're logged in
@@ -110,22 +111,11 @@ export default function signup() {
   };
   return (
     <Stack sx={styles.parentContainer}>
-      <Typography variant="h2" sx={{ ...mix.titleFont }}>
-        Sign Up
-      </Typography>
-      <Typography
-        variant="p"
-        sx={{
-          fontSize: "1.2rem",
-          mb: 4,
-          px: 2,
-          width: "100%",
-          maxWidth: "35rem",
-        }}
-      >
-        Sign up and gain access to bookmarks, preserved search history,
-        {breakBefore(454)} plus any new features upon release!
-      </Typography>
+      <AuthHeader
+        titleText={"Sign Up"}
+        descriptionText={"Sign up and gain access to bookmarks, preserved search history, plus any new features upon release!"} // prettier-ignore
+      />
+
       <FormControl sx={styles.formControl}>
         <Typography
           align="left"

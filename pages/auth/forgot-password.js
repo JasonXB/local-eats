@@ -1,0 +1,1 @@
+import AuthHeader from "../../src/page-blocks/authForms/Header";

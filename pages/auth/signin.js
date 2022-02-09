@@ -11,6 +11,7 @@ import FormHelperText from "@mui/material/FormHelperText";
 import { mix } from "../../styles/styleMixins";
 import { credentialSignIn } from "../api/helperFunctions/credentialSignIn";
 import { getSession } from "next-auth/react";
+import AuthHeader from "../../src/page-blocks/authForms/Header";
 
 export async function getServerSideProps(context) {
   // Find out if we're logged in
@@ -76,22 +77,10 @@ export default function signup() {
 
   return (
     <Stack sx={styles.parentContainer}>
-      <Typography variant="h2" sx={{ ...mix.titleFont }}>
-        Sign In
-      </Typography>
-      <Typography
-        variant="p"
-        sx={{
-          fontSize: "1.2rem",
-          mb: 4,
-          px: 2,
-          width: "100%",
-          maxWidth: "35rem",
-        }}
-      >
-        Sign in to gain access to bookmarks, preserved search history,
-        {breakBefore(454)} plus any new features upon release!
-      </Typography>
+      <AuthHeader
+        titleText={"Sign In"}
+        descriptionText={"Sign in to gain access to bookmarks, preserved search history, plus any new features upon release!"} // prettier-ignore
+      />
 
       <FormControl sx={styles.formControl}>
         <Typography

@@ -18,17 +18,24 @@ function isStrongEnough(password) {
   var n = password.match(NUMBER_RE);
   var sc = password.match(SPECIAL_CHAR_RE);
   var nr = password.match(NON_REPEATING_CHAR_RE);
-  return password.length >= minLength &&
+  return (
+    password.length >= minLength &&
     !nr &&
-    uc && uc.length >= uppercaseMinCount &&
-    lc && lc.length >= lowercaseMinCount &&
-    n && n.length >= numberMinCount &&
-    sc && sc.length >= specialMinCount;
+    uc &&
+    uc.length >= uppercaseMinCount &&
+    lc &&
+    lc.length >= lowercaseMinCount &&
+    n &&
+    n.length >= numberMinCount &&
+    sc &&
+    sc.length >= specialMinCount
+  );
 }
 
 function customPassword() {
   var password = "";
-  var randomLength = Math.floor(Math.random() * (maxLength - minLength)) + minLength;
+  var randomLength =
+    Math.floor(Math.random() * (maxLength - minLength)) + minLength;
   while (!isStrongEnough(password)) {
     password = generatePassword(randomLength, false, /[\w\d\?\-]/);
   }

@@ -5,6 +5,7 @@ import { mix } from "../../styles/styleMixins";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
 import { getSession } from "next-auth/react";
+import AuthHeader from "../../src/page-blocks/authForms/Header";
 
 export async function getServerSideProps(context) {
   // Find out if we're logged in
@@ -98,9 +99,10 @@ export default function verifyEmail() {
 
   return (
     <Stack sx={styles.parentContainer}>
-      <Typography variant="h2" sx={mix.titleFont}>
-        Verify Email
-      </Typography>
+      <AuthHeader
+        titleText={"Verify Email"}
+        descriptionText={""} 
+      />
       <FormControl sx={styles.formControl}>
         <Typography align="left" variant="label" sx={{ mb: 0.5 }}>
           Verification Code:
@@ -157,7 +159,7 @@ export default function verifyEmail() {
 const styles = {
   parentContainer: {
     width: "100%",
-    height: "60vh",
+    height: "75vh",
     maxWidth: "35rem",
     margin: "auto",
     textAlign: "center",

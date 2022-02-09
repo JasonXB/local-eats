@@ -1,74 +1,124 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Typography, Box, Stack, Button, TextField, InputLabel } from "@mui/material"; // prettier-ignore
-import Divider from "@mui/material/Divider";
+import { useRouter } from "next/router";
 import FormControl, { useFormControl } from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
-import {
-  breakAfter,
-  breakBefore,
-} from "../../src/custom-components/ConditionalBreak";
-import FormHelperText from '@mui/material/FormHelperText';
+import AuthHeader from "../../src/page-blocks/authForms/Header";
+import FormHelperText from "@mui/material/FormHelperText";
 import { mix } from "../../styles/styleMixins";
+import { credentialSignIn } from "../api/helperFunctions/credentialSignIn";
+import { getSession } from "next-auth/react";
 
-export default function signup() {
+export default function ChangePassword() {
+  const router = useRouter();
   // Collect values of what's typed in each of the input fields
   const emailRef = useRef();
-  const currentPasswordRef = useRef();
-  const newPasswordRef = useRef();
-  const verifyNewPasswordRef = useRef();
+  const passwordRef = useRef();
+  // Controls the text underneath the input fields
+  const [emailErrorText, setEmailErrorText] = useState(" ");
+  const [passwordErrorText, setPasswordErrorText] = useState(" ");
 
-  const submitHandler = function () {
-    // Check if each entry has something typed in (no whitespace)
-    // Send a request to a local API that validates the email/password
-    // error handle along the way
-    // If successful, re-route to homepage
+  const typingEmailHandler = async function () {
+    setEmailErrorText(" ");
   };
+  const typingPasswordHandler = async function () {
+    setPasswordErrorText(" ");
+  };
+
+  const loginHandler = async function () {
+    // Capture values of input fields
+    const typedEmail = emailRef.current.value;
+    const typedPassword = passwordRef.current.value;
+
+    // If one of the input fields is empty, render some error text without looking in the DB
+    const typedEmail_NoWhitespace = typedEmail.replaceAll(" ", "");
+    const typedPassword_NoWhitespace = typedPassword.replaceAll(" ", "");
+    if (typedEmail_NoWhitespace.length === 0) return setEmailErrorText("No account found using this email"); // prettier-ignore
+    if (typedPassword_NoWhitespace.length === 0) return setPasswordErrorText("Incorrect password"); // prettier-ignore
+
+    // Perform an email/password check on our DB
+    const loginRequest = await credentialSignIn(typedEmail, typedPassword); // request object returned
+    // request object on failure: {error: "No user found for that email", ok: true, status: 200 }
+    // request object on success: {error: null, ...rest doesn't matter }
+
+    // If the login attempt is not successful...
+    if (loginRequest.error) {
+      const errorMSG = loginRequest.error;
+      if (errorMSG === "No account found using this email") setEmailErrorText(errorMSG); // prettier-ignore
+      if (errorMSG === "Incorrect password") setPasswordErrorText(errorMSG);
+    }
+
+    // If the login attempt is successful, redirect to homepage
+    if (!loginRequest.error) {
+      router.push("/");
+    }
+  };
+
   return (
     <Stack sx={styles.parentContainer}>
-      <Typography variant="h2" sx={{ ...mix.titleFont }}>
-        Change Password
-      </Typography>
-
+      <AuthHeader titleText={"Change Password"} descriptionText={""} />
       <FormControl sx={styles.formControl}>
-        <Typography align="left" variant="label">
-          Email: "//!INSERT CURRENT EMAIL"
-        </Typography>
-      </FormControl>
-
-      <FormControl sx={styles.formControl}>
-        <Typography align="left" variant="label">
+        <Typography
+          align="left"
+          variant="label"
+          color={passwordErrorText === "Incorrect password" ? "secondary" : ""}
+        >
           Old Password:
         </Typography>
         <OutlinedInput
-          inputRef={currentPasswordRef}
+          inputRef={passwordRef}
           placeholder="Enter old password"
+          error={passwordErrorText === "Incorrect password"}
+          onChange={typingPasswordHandler}
         />
+        <FormHelperText sx={styles.formHelperText}>
+          {passwordErrorText}
+        </FormHelperText>
       </FormControl>
       <FormControl sx={styles.formControl}>
-        <Typography align="left" variant="label">
+        <Typography
+          align="left"
+          variant="label"
+          color={passwordErrorText === "Incorrect password" ? "secondary" : ""}
+        >
           New Password:
         </Typography>
         <OutlinedInput
-          inputRef={currentPasswordRef}
+          inputRef={passwordRef}
           placeholder="Enter new password"
+          error={passwordErrorText === "Incorrect password"}
+          onChange={typingPasswordHandler}
         />
+        <FormHelperText sx={styles.formHelperText}>
+          {passwordErrorText}
+        </FormHelperText>
       </FormControl>
       <FormControl sx={styles.formControl}>
-        <Typography align="left" variant="label">
+        <Typography
+          align="left"
+          variant="label"
+          color={passwordErrorText === "Incorrect password" ? "secondary" : ""}
+        >
           Verify New Password:
         </Typography>
         <OutlinedInput
-          inputRef={currentPasswordRef}
+          inputRef={passwordRef}
           placeholder="Enter new password again"
+          error={passwordErrorText === "Incorrect password"}
+          onChange={typingPasswordHandler}
         />
+        <FormHelperText sx={styles.formHelperText}>
+          {passwordErrorText}
+        </FormHelperText>
       </FormControl>
+
       <Button
         variant="contained"
         disableElevation
-        onClick={submitHandler}
+        onClick={loginHandler}
         sx={{ width: "80%", maxWidth: "20.625rem" }}
       >
-        Submit
+        Submit password change
       </Button>
     </Stack>
   );
@@ -77,7 +127,7 @@ export default function signup() {
 const styles = {
   parentContainer: {
     width: "100%",
-    height: "100vh",
+    height: "78vh",
     maxWidth: "35rem",
     margin: "auto",
     textAlign: "center",
@@ -88,11 +138,12 @@ const styles = {
   formControl: {
     width: "80%",
     maxWidth: "20.625rem",
-    mb: 4,
+    mb: 0.75,
     fontWeight: 500,
   },
-  uniformWidth: {
-    width: "80%",
-    maxWidth: "20.625rem",
+  formHelperText: {
+    color: "#d32f2f",
+    m: 0,
+    mt: 0.5,
   },
 };
