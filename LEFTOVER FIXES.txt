@@ -16,3 +16,6 @@ Refactor all your MUI styling so most of it isn't inline
 
 ASK SHADID
 Why this site looks perfectly responsive in dev tools mobile mode but looks questionable when you slide the dev tools share screen further instead
+
+COLOR REFACTOR
+Make the palette colors exportable and replace every instance of "#d32f2f" or "crimson" manual color definitions

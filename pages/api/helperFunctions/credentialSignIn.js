@@ -7,5 +7,5 @@ export const credentialSignIn = async function (email, password) {
     email, // will equal credentials.email in the backend
     password, // will equal credentials.password in the backend
   });
-  console.log(request);
+  return request;
 };

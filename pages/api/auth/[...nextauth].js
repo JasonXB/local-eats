@@ -23,7 +23,7 @@ export default NextAuth({
         // If an account is not found, throw an error (will not cause a redirect thanks to a parmaeter in signIn())
         if (!user) {
           client.close();
-          throw new Error("No user found for that email"); //!!! render something on UI
+          throw new Error("No user found for that email"); 
         }
         // If an account is found, check if the associated password's correct
         const hashedAccountPassword = user.password; // the PW saved on the account in the DB
@@ -33,7 +33,7 @@ export default NextAuth({
         // If the passwords do not match, throw an error and close the db session
         if (!isValid) {
           client.close();
-          throw new Error("Incorrect password"); //!!! render something on UI
+          throw new Error("Incorrect password"); 
         }
         // If password matches, the operation's a success so return an object
         client.close(); // close DB session
