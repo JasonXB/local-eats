@@ -107,7 +107,7 @@ export default function ChangePassword() {
       });
     } catch (error) {
       console.error(error.response);
-      // return alert("Something has gone wrong on our end"); ///! make a simple modal
+      // return alert("Something has gone wrong on our end"); //!!! make a simple modal
     }
   };
 
@@ -168,6 +168,7 @@ export default function ChangePassword() {
           placeholder="Enter new password again"
           error={formState.verifyPasswordError}
           onChange={verifyPasswordHandler}
+          type="password"
         />
         <FormHelperText sx={styles.formHelperText}>
           {formState.verifyPasswordText}
