@@ -76,11 +76,11 @@ export default function ChangeEmail(props) {
 
     // Check if the email's currently being used
     try {
-      await axios.post("/api/auth/signupP0", {
+      await axios.post("/api/auth/inspectEmail", {
         email: currentEmail,
       });
     } catch (error) {
-      dispatch({ type: "EMAIL_IS_TAKEN" }); // Being sent here means our email was invalid
+      dispatch({ type: "INVALID_NEW_EMAIL" }); // Being sent here means our email was invalid
       console.log(error.response);
       return; // if the email's invalid, stop the execution here
     }

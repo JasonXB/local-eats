@@ -74,7 +74,6 @@ export default function verifyEmail() {
 
   const verifyHandler = async function () {
     const typedPIN = pinRef.current.value;
-    console.log(pendingEmail);
     try {
       // Verify your account to gain access to new features
       await axios.post("/api/auth/signupP2", {

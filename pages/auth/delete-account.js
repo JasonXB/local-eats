@@ -9,6 +9,7 @@ import FormHelperText from "@mui/material/FormHelperText";
 import { mix } from "../../styles/styleMixins";
 import { getSession } from "next-auth/react";
 import AuthHeader from "../../src/page-blocks/authForms/Header";
+import { signOut } from "next-auth/react";
 
 // Redirect users to homepage if they come here offline
 export async function getServerSideProps(context) {
@@ -24,23 +25,42 @@ export async function getServerSideProps(context) {
   return { props: { session } };
 }
 
+function reducer(state, action) {
+  switch (action.type) {
+    // Actions to take when the user submits a bad input for a field
+    case "INVALID_PASSWORD":
+      return { ...state, passwordText: "Incorrect password", passwordError: true }; // prettier-ignore
+    case "RESET":
+      return { passwordText: " ", passwordError: false };
+    default:
+      return state;
+  }
+}
+
 export default function DeleteAccount(props) {
-  console.log(props)
   const router = useRouter();
-  const [correctPassword, setCorrectPassword] = useState(undefined);
-
-  // Collect values of what's typed in each of the input fields
-  const emailRef = useRef();
   const passwordRef = useRef();
-  const verifyPasswordRef = useRef();
 
-  // Whenever the user types something, reset the error state in that input field
-  // Check to see if an error state is active first (don't want to redefine state multiple times for no reason)
-  const typingEmailHandler = () =>  formState.emailError && dispatch({ type: "RESET" }); // prettier-ignore
-  const typingPasswordHandler = () => formState.passwordError && dispatch({ type: "RESET" }); // prettier-ignore
-  const typingVerifyHandler = () => formState.verifyPasswordError && dispatch({ type: "RESET" }); // prettier-ignore
+  const [formState, dispatch] = useReducer(reducer, {
+    passwordText: " ",
+    passwordError: false,
+  });
 
-  const submitHandler = async function () {};
+  const submitHandler = async function () {
+    const typedPassword = passwordRef.current.value;
+    try {
+      // Verify password to allow user to delete their account
+      await axios.post("/api/auth/deleteAccount", {
+        submittedPassword: typedPassword,
+      }); // past this point, account deletion has succeeded
+      signOut(); // log out of your old session immediately
+      router.replace("/"); // redirect home
+    } catch (error) {
+      console.error(error.response);
+      dispatch({ type: "INVALID_PASSWORD" });
+    }
+  };
+
   return (
     <Stack sx={styles.parentContainer}>
       <AuthHeader
@@ -48,24 +68,25 @@ export default function DeleteAccount(props) {
         descriptionText={"Be careful! Deleting your account will permanently delete your bookmarks and saved searches"} // prettier-ignore
       />
 
-      {/* <FormControl sx={styles.formControl}>
+      <FormControl sx={styles.formControl}>
         <Typography
           align="left"
           variant="label"
-          sx={ correctPassword ? styles.conditionalRed(true) : styles.conditionalRed(false) } // prettier-ignore
+          color={formState.passwordError ? "secondary" : ""}
         >
-          User Email:
+          Account Password:
         </Typography>
         <OutlinedInput
-          inputRef={emailRef}
-          placeholder="name@email.com"
-          error={correctPassword}
-          onChange={typingEmailHandler}
+          inputRef={passwordRef}
+          placeholder="Enter password"
+          error={formState.passwordError}
+          onChange={() => dispatch({ type: "RESET" })}
         />
         <FormHelperText sx={styles.formHelperText}>
-          {formState.emailText}
+          {formState.passwordText}
         </FormHelperText>
-      </FormControl> */}
+      </FormControl>
+
       <Button
         variant="contained"
         disableElevation
@@ -81,7 +102,7 @@ export default function DeleteAccount(props) {
 const styles = {
   parentContainer: {
     width: "100%",
-    height: "100vh",
+    height: "75vh",
     maxWidth: "35rem",
     margin: "auto",
     textAlign: "center",
