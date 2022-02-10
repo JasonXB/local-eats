@@ -37,7 +37,7 @@ export default NextAuth({
         }
         // If password matches, the operation's a success so return an object
         client.close(); // close DB session
-        return { email: user.email }; // USE TO ACCESS THE CURRENTLY LOGGED IN EMAIL
+        return { email: user.email }; // USE TO ACCESS THE CURRENTLY LOGGED IN EMAIL IN THE CHANGE-PASSWORD API ROUTE
         // Place the user email inside- not the entire user obj (insecure)
       },
     }),

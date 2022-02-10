@@ -8,6 +8,7 @@ import FormHelperText from "@mui/material/FormHelperText";
 import { mix } from "../../styles/styleMixins";
 import { credentialSignIn } from "../api/helperFunctions/credentialSignIn";
 import { getSession } from "next-auth/react";
+import axios from "axios";
 
 // Redirect users to homepage if they come here offline
 export async function getServerSideProps(context) {
@@ -65,7 +66,7 @@ export default function ChangePassword() {
     newPasswordError: false,
     verifyPasswordText: " ",
     verifyPasswordError: false,
-  }); 
+  });
   const oldPasswordHandler = () => dispatch({ type: "TYPING_OLD_PASSWORD" }); // prettier-ignore
   const newPasswordHandler = () => dispatch({ type: "TYPING_NEW_PASSWORD" }); // prettier-ignore
   const verifyPasswordHandler = () => dispatch({ type: "TYPING_VERIFY_PASSWORD" }); // prettier-ignore
@@ -75,38 +76,49 @@ export default function ChangePassword() {
   const newPasswordRef = useRef();
   const verifyPasswordRef = useRef();
 
-  const loginHandler = async function () {
+  const changePasswordHandler = async function () {
     // Capture values of input fields
-    const typedEmail = emailRef.current.value;
-    const typedPassword = passwordRef.current.value;
+    const typedOldPassword = oldPasswordRef.current.value;
+    const typedNewPassword = newPasswordRef.current.value;
+    const typedVerifyPassword = verifyPasswordRef.current.value;
 
     // If one of the input fields is empty, render some error text without looking in the DB
-    const typedEmail_NoWhitespace = typedEmail.replaceAll(" ", "");
-    const typedPassword_NoWhitespace = typedPassword.replaceAll(" ", "");
-    if (typedEmail_NoWhitespace.length === 0) return setEmailErrorText("No account found using this email"); // prettier-ignore
-    if (typedPassword_NoWhitespace.length === 0) return setPasswordErrorText("Incorrect password"); // prettier-ignore
+    const typedOldPW_length = typedOldPassword.replaceAll(" ", "").length;
+    const typedNewPW_length = typedNewPassword.replaceAll(" ", "").length;
+    const typedVPW_length = typedVerifyPassword.replaceAll(" ", "").length;
+    if (typedOldPW_length === 0) return dispatch({ type: "INVALID_OLD_PASSWORD" }); // prettier-ignore
+    if (typedNewPW_length === 0) return dispatch({ type: "INVALID_NEW_PASSWORD" }); // prettier-ignore
+    if (typedVPW_length === 0) return dispatch({ type: "INVALID_VERIFY_PASSWORD" }); // prettier-ignore
 
-    // Perform an email/password check on our DB
-    const loginRequest = await credentialSignIn(typedEmail, typedPassword); // request object returned
-    // request object on failure: {error: "No user found for that email", ok: true, status: 200 }
-    // request object on success: {error: null, ...rest doesn't matter }
-
-    // If the login attempt is not successful...
-    if (loginRequest.error) {
-      const errorMSG = loginRequest.error;
-      if (errorMSG === "No account found using this email") setEmailErrorText(errorMSG); // prettier-ignore
-      if (errorMSG === "Incorrect password") setPasswordErrorText(errorMSG);
+    // Verify the new proposed password's strength using an API route
+    try {
+      await axios.post("/api/auth/checkPasswordStrength", {
+        password: typedNewPassword,
+      });
+    } catch (error) {
+      return dispatch({ type: "INVALID_NEW_PASSWORD" }); // end function
     }
 
-    // If the login attempt is successful, redirect to homepage
-    if (!loginRequest.error) {
-      router.push("/");
+    // Change the password using an API route
+    try {
+      await axios.post("/api/auth/changePassword", {
+        oldPassword: typedOldPassword,
+        newPassword: typedNewPassword,
+      });
+    } catch (error) {
+      console.error(error.response);
+      // return alert("Something has gone wrong on our end"); ///! make a simple modal
     }
   };
 
   return (
     <Stack sx={styles.parentContainer}>
       <AuthHeader titleText={"Change Password"} descriptionText={""} />
+      <Typography variant="p">NEW PASSWORD REQUIREMENTS</Typography>
+      <Typography variant="p" sx={{ mb: 3.75 }}>
+        Must be 8 characters or longer. Requires an uppercase, lowercase, plus
+        at least 1 symbol. No punctuation allowed
+      </Typography>
       <FormControl sx={styles.formControl}>
         <Typography
           align="left"
@@ -165,7 +177,7 @@ export default function ChangePassword() {
       <Button
         variant="contained"
         disableElevation
-        onClick={loginHandler}
+        onClick={changePasswordHandler}
         sx={{ width: "80%", maxWidth: "20.625rem" }}
       >
         Change password
@@ -177,7 +189,7 @@ export default function ChangePassword() {
 const styles = {
   parentContainer: {
     width: "100%",
-    height: "78vh",
+    height: "100vh",
     maxWidth: "35rem",
     margin: "auto",
     textAlign: "center",

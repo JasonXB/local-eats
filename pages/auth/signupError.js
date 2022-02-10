@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import { Typography, Box, Stack, Divider, Button } from "@mui/material"; // prettier-ignore
+import { getSession } from "next-auth/react";
 import { mix } from "../../styles/styleMixins";
 
 // Redirect users to homepage if they come here online
