@@ -110,7 +110,7 @@ export default function signup() {
     <Stack sx={styles.parentContainer}>
       <AuthHeader
         titleText={"Sign Up"}
-        descriptionText={"Sign up and gain access to bookmarks, preserved search history, plus any new features upon release!"} // prettier-ignore
+        descriptionText={"Sign up and gain access to bookmarks plus any new features upon release!"} // prettier-ignore
       />
 
       <FormControl sx={styles.formControl}>

@@ -6,7 +6,7 @@ import SignOutBtn from "./SignOutBtn";
 import SignUpBtn from "./SignUpBtn";
 import SignInBtn from "./SignInBtn";
 import BookmarksBtn from "./BookmarksBtn";
-import HistoryBtn from "./HistoryBtn";
+import ManageAccountBtn from "./ManageAccountBtn";
 import ThemeBtn from "./ThemeBtn";
 // --
 import MenuIcon from "@mui/icons-material/Menu";
@@ -15,12 +15,11 @@ import List from "@mui/material/List";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 
 export default function TemporaryDrawer(props) {
-
   let listItems;
   if (!props.currentlyOnline) {
     listItems = [<SignUpBtn />, <SignInBtn />];
   } else {
-    listItems = [<HistoryBtn />, <BookmarksBtn />, <SignOutBtn />];
+    listItems = [<BookmarksBtn />, <ManageAccountBtn />, <SignOutBtn />];
   }
   const [state, setState] = React.useState({ right: false });
 
@@ -64,8 +63,8 @@ export default function TemporaryDrawer(props) {
         onKeyDown={toggleDrawer(anchor, false)}
       >
         <List sx={{ p: 2 }}>
-          <HistoryBtn mobile={true} />
           <BookmarksBtn mobile={true} />
+          <ManageAccountBtn mobile={true} />
           <SignOutBtn mobile={true} />
         </List>
       </Box>

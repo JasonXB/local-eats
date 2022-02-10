@@ -1,3 +1,16 @@
 LOADING SHOULD BE ADDED WHERE...
 The signup process concludes successfully
 The account deletion succeeding
+
+TEST EACH MAJOR AUTH FEATURE AND PAY ATTENTION WHERE MORE FEEDBACK WOULD BE NICE
+<< sign up >>
+test more
+
+<< sign in >>
+test more
+
+<< change email >>
+test more
+
+<< delete account >>
+Add fullscreen spinner if process succeeds

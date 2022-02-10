@@ -19,6 +19,9 @@ export default function SearchOptions1() {
             gap: "1rem",
             px: 2,
           },
+          ["@media (min-width: 700px)"]: {
+            mt: 5,
+          },
         }}
       >
         <Card

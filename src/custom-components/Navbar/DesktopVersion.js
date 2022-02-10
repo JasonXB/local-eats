@@ -6,13 +6,13 @@ import ThemeBtn from "./ThemeBtn";
 import SignInBtn from "./SignInBtn";
 import SignUpBtn from "./SignUpBtn";
 import BookmarksBtn from "./BookmarksBtn";
-import HistoryBtn from "./HistoryBtn";
+import ManageAccountBtn from "./ManageAccountBtn";
 import SignOutBtn from "./SignOutBtn";
 
 /* Shown only on viewports past the md breakpoint */
 export default function NavbarDesktop(props) {
   // If we're not signed in, render this (login status passed down here via props)
-  
+
   if (!props.currentlyOnline) {
     return (
       <Box sx={desktopStyles.boxParent}>
@@ -28,8 +28,8 @@ export default function NavbarDesktop(props) {
     <>
       <Box sx={desktopStyles.boxParent}>
         <Box>
-          <HistoryBtn />
           <BookmarksBtn />
+          <ManageAccountBtn />
           <SignOutBtn />
         </Box>
       </Box>
