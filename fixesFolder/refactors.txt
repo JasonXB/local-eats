@@ -10,3 +10,8 @@ Use char widths to fix up typography in pages aside from the auth forms (we use 
 
 Remove each styles object per component and place it in the styles folder
 Emulates CSS modules to an extend
+
+Look up error codes and what they mean
+Swap out even API route error 40-whatever to one that's more appropriate
+
+

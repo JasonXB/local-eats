@@ -32,7 +32,7 @@ export default async function handler(req, res) {
   // Send an email containing a PIN for verification purpsoes
   sgMail.send(msg).catch((error) => {
     res.status(422).json({ message: "SendGrid API failure" });
-    return;
+    return; // needed to stop rest of API route from executing
   });
 
   // Create a pending account on MongoDB

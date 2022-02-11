@@ -2,17 +2,13 @@ import React from "react";
 import { Typography, Box, Stack, Button } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import { mix } from "../../../styles/styleMixins";
-export default function GeneralErrorModal() {
-  const [open, setOpen] = React.useState(true);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
+export default function GeneralErrorModal({ hideModal, modalVisible }) {
   return (
     <Modal
       component="section"
       sx={style.backdrop}
-      open={open}
-      onClose={handleClose}
+      open={modalVisible}
+      onClose={hideModal}
     >
       <Stack sx={style.stack}>
         <Box
@@ -26,7 +22,7 @@ export default function GeneralErrorModal() {
           component="p"
           sx={{ my: 2 }}
         >
-          ERROR!
+          Local Eats Error
         </Typography>
         <Typography
           id="modal-modal-description"
@@ -39,8 +35,15 @@ export default function GeneralErrorModal() {
           This issue should resolve itself momentarily, so please try again in a
           few moments
         </Typography>
-        <Button sx={{ mt: 4 }} href="/" color="info">
+        <Button
+          sx={{ mt: 4 }}
+          onClick={() => (window.location.href = "/")}
+          color="info"
+        >
           Return to homepage
+        </Button>
+        <Button onClick={() => hideModal()} color="info">
+          Close pop-up
         </Button>
       </Stack>
     </Modal>

@@ -1,3 +1,8 @@
+Consider placing all Account edits on the same tabular page
+Go through each form and think about
+A) When forms should be cleared in the event of a success or failure
+B) When loading spinners should be used to help with loading
+
 LOADING SHOULD BE ADDED WHERE...
 The signup process concludes successfully
 The account deletion succeeding
@@ -18,3 +23,5 @@ Add fullscreen spinner if process succeeds
 START A COMMUNAL STYLE FOLDER FOR 
 error modals
 auth forms
+
+

@@ -38,6 +38,11 @@ export default async function handler(req, res) {
     return; // if password's wrong, end the route here
   }
 
+  // If passwords do match, make sure the newPassword is different than the old one
+  if (oldPassword === newPassword) {
+    res.status(408).json({ message: "This password has been used previously" });
+    return; // end route here
+  }
   // If passwords do match, encrypt the newPassword and replace the old one
   const hashedNewPassword = await hash(newPassword, 12);
   await db

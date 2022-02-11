@@ -1,4 +1,4 @@
-var taiPasswordStrength = require("tai-password-strength"); 
+var taiPasswordStrength = require("tai-password-strength");
 
 var strengthTester = new taiPasswordStrength.PasswordStrength();
 

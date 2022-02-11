@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect, useReducer } from "react";
-import { Typography, Box, Stack, Button, TextField, InputLabel } from "@mui/material"; // prettier-ignore
+import { Typography, Stack, Button } from "@mui/material"; // prettier-ignore
 import { useRouter } from "next/router";
-import FormControl, { useFormControl } from "@mui/material/FormControl";
+import FormControl from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import AuthHeader from "../../src/page-blocks/authForms/Header";
 import FormHelperText from "@mui/material/FormHelperText";
@@ -30,6 +30,8 @@ function reducer(state, action) {
     // Actions to take when the user submits a bad input for a field
     case "INVALID_OLD_PASSWORD":
       return { ...state, oldPasswordText: "Incorrect account password", oldPasswordError: true }; // prettier-ignore
+    case "INVALID_NEW_PASSWORD_USED_PREVIOUSLY":
+      return { ...state, newPasswordText: "This password has been used before", newPasswordError: true }; // prettier-ignore
     case "INVALID_NEW_PASSWORD":
       return { ...state, newPasswordText: "Does not meet requirements", newPasswordError: true }; // prettier-ignore
     case "INVALID_VERIFY_PASSWORD":
@@ -58,8 +60,11 @@ function reducer(state, action) {
 }
 
 export default function ChangePassword() {
-  // Control the general error modal
-  const [openModal, setOpenModal] = React.useState(false);
+  // Control the general error modal which opens if one of our API route 3rd party services fail
+  const [modalVisible, setModalVisible] = React.useState(true);
+  const revealModal = () => setModalVisible(true);
+  const hideModal = () => setModalVisible(false);
+
   const router = useRouter();
   // These states and dispatch functions control the error text and colors of each input field
   const [formState, dispatch] = useReducer(reducer, {
@@ -112,11 +117,11 @@ export default function ChangePassword() {
       const errorMessage = error.response.data.message;
       if (errorMessage === "Old password is not correct") {
         dispatch({ type: "INVALID_OLD_PASSWORD" });
+      } else if (errorMessage === "This password has been used previously") {
+        dispatch({ type: "INVALID_NEW_PASSWORD_USED_PREVIOUSLY" });
       } else {
-        setOpenModal(true);
+        revealModal();
       }
-      console.error(errorMessage);
-      // return alert("Something has gone wrong on our end"); //!!! make a simple modal
     }
   };
 
@@ -192,7 +197,7 @@ export default function ChangePassword() {
       >
         Change password
       </Button>
-      <GeneralErrorModal />
+      <GeneralErrorModal modalVisible={modalVisible} hideModal={hideModal} />
     </Stack>
   );
 }
