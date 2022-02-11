@@ -9,6 +9,7 @@ import { mix } from "../../styles/styleMixins";
 import { credentialSignIn } from "../api/helperFunctions/credentialSignIn";
 import { getSession } from "next-auth/react";
 import axios from "axios";
+import GeneralErrorModal from "../../src/custom-components/Modals/GeneralError";
 
 // Redirect users to homepage if they come here offline
 export async function getServerSideProps(context) {
@@ -57,6 +58,8 @@ function reducer(state, action) {
 }
 
 export default function ChangePassword() {
+  // Control the general error modal
+  const [openModal, setOpenModal] = React.useState(false);
   const router = useRouter();
   // These states and dispatch functions control the error text and colors of each input field
   const [formState, dispatch] = useReducer(reducer, {
@@ -110,7 +113,7 @@ export default function ChangePassword() {
       if (errorMessage === "Old password is not correct") {
         dispatch({ type: "INVALID_OLD_PASSWORD" });
       } else {
-        alert("Something has gone wrong on our end") ///! generic error modal
+        setOpenModal(true);
       }
       console.error(errorMessage);
       // return alert("Something has gone wrong on our end"); //!!! make a simple modal
@@ -189,6 +192,7 @@ export default function ChangePassword() {
       >
         Change password
       </Button>
+      <GeneralErrorModal />
     </Stack>
   );
 }
