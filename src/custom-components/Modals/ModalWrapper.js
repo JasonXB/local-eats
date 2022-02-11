@@ -116,11 +116,11 @@ export default function ModalWrapper(props) {
             </Typography>
             {props.children}
             <Box sx={{ ...mix.flexRow, justifyContent: "end", mt: 3.5 }}>
-              <Button variant="outlined" size="medium" onClick={cancelHandler}>
+              <Button size="medium" onClick={cancelHandler}>
                 Cancel
               </Button>
               <Button
-                variant="outlined"
+                
                 onClick={submitHandler}
                 size="medium"
                 sx={{ ml: 2 }}

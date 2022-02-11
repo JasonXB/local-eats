@@ -4,3 +4,9 @@ B) Error Modals
 
 COLOR REFACTOR
 Make the palette colors exportable and replace every instance of "#d32f2f" or "crimson" manual color definitions
+
+TYPOGRAPHY
+Use char widths to fix up typography in pages aside from the auth forms (we use recycle components there)
+
+Remove each styles object per component and place it in the styles folder
+Emulates CSS modules to an extend
