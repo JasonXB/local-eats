@@ -1,12 +1,7 @@
-REMAINING FEATURES
-1. Dark mode toggle requires a dark theme to be written
+ELIMINATE THE BREADCRUMBS I LEFT
+CTRL F and eliminate all   //!!!     //!     alert(        console.log(
 
 ——————————————————————— AFTER COMPLETED  ———————————————————————————————
-FINAL CHECKS
-1) Search for //! across your entire project using the VSCode magnifier
-2) Check for alert( across your project- I've used them to skip over error handling in certain areas
-Replace with legitimate error communications
-3) Delete every console.log( 
 
 NON FATAL BUGS
 Check console logs on Firefox browser
@@ -17,5 +12,3 @@ Refactor all your MUI styling so most of it isn't inline
 ASK SHADID
 Why this site looks perfectly responsive in dev tools mobile mode but looks questionable when you slide the dev tools share screen further instead
 
-COLOR REFACTOR
-Make the palette colors exportable and replace every instance of "#d32f2f" or "crimson" manual color definitions

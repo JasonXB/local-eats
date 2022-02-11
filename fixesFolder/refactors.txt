@@ -1,0 +1,6 @@
+USE STYLES FOLDER to share styles between
+A) Auth form pages
+B) Error Modals
+
+COLOR REFACTOR
+Make the palette colors exportable and replace every instance of "#d32f2f" or "crimson" manual color definitions

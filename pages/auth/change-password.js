@@ -106,7 +106,13 @@ export default function ChangePassword() {
         newPassword: typedNewPassword,
       });
     } catch (error) {
-      console.error(error.response);
+      const errorMessage = error.response.data.message;
+      if (errorMessage === "Old password is not correct") {
+        dispatch({ type: "INVALID_OLD_PASSWORD" });
+      } else {
+        alert("Something has gone wrong on our end") ///! generic error modal
+      }
+      console.error(errorMessage);
       // return alert("Something has gone wrong on our end"); //!!! make a simple modal
     }
   };

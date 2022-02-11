@@ -24,7 +24,8 @@ export default async function handler(req, res) {
     .collection("users")
     .findOne({ email: userEmail }); // equals falsy if we can't find it
 
-  // If account's not found, end the route here (should work though, since we're logged in @ this point)
+  // If account's not found, end the route here
+  // (should work though, since we're logged in @ this point)
   if (!userAccount) {
     res.status(405).json({ message: "Something went wrong!" });
     return;
