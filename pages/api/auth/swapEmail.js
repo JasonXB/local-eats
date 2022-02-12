@@ -70,7 +70,7 @@ export default async function handler(req, res) {
   // Send the normal PIN to the request body email
   const msg = {
     to: newEmail, // recipient
-    from: "jasonxportfolio@gmail", // Change to your verified sender
+    from: "jasonxportfolio@gmail.com", // Change to your verified sender
     subject: "Verify Local Eats email",
     text: "Please do not reply to sender",
     html: `Submit the following PIN code to complete an account email change on Local Eats: <strong>${normalPIN}</strong>`,

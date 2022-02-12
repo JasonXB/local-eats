@@ -84,6 +84,7 @@ export default function ChangeEmail(props) {
     } catch (error) {
       // Render error messages onscreen depending on the response object recieved
       console.log(error.response);
+      if (!error.response) alert("No response object???");
       // const errorMSG = error.response.data.message;
 
       // if (errorMSG === "User offline") router.push("/");
