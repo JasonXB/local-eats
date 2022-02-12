@@ -1,11 +1,10 @@
-Create one tabbed component for your account editing
-
-MAKE SURE ALL FORM PAGES LINE UP VERTICALLY USING VH
-
 REFACTOR /auth/signup and /auth/changeEmail since they both have absurdly long try catch checks
 Plus all the other form pages too for their styles and try catch checks
 
+GO THROUGH AND TEST EACH FEATURE
+
 PLACE YOUR GENERIC ERROR MODAL
 Place it in every place API routes are used and there are possible uncaught API route fuckups
+
 
 

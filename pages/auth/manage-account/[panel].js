@@ -1,14 +1,15 @@
 import React, { useState, useLayoutEffect, useEffect } from "react";
+import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import ChangeEmail from "../../src/page-blocks/authForms/ChangeEmail";
-import ChangePassword from "../../src/page-blocks/authForms/ChangePassword";
-import DeleteAccount from "../../src/page-blocks/authForms/DeleteAccount";
+import ChangeEmail from "../../../src/page-blocks/authForms/ChangeEmail";
+import ChangePassword from "../../../src/page-blocks/authForms/ChangePassword";
+import DeleteAccount from "../../../src/page-blocks/authForms/DeleteAccount";
 import { getSession } from "next-auth/react";
-import useWindowSize from "../../src/utility-functions/general/useWindowSize";
+import useWindowSize from "../../../src/utility-functions/general/useWindowSize";
 
 // Redirect users to homepage if they come here offline
 export async function getServerSideProps(context) {
@@ -56,11 +57,31 @@ function a11yProps(index) {
   };
 }
 
-export default function ManageAccount() {
+export default function ManageAccount(props) {
+  const router = useRouter();
+
+  // The URL of this dynamic page dictates which tab's selected @ start
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  // The URL should determine which panel gets auto-selected first
+  useEffect(() => {
+    const query = router.query.panel;
+    const tabSelect = {
+      general: 0,
+      "change-email": 0,
+      "change-password": 1,
+      "delete-account": 2,
+    };
+    if (!tabSelect[query]) setValue(0);
+    else setValue(tabSelect[query]);
+    
+    /*  Use the following links across your project
+    /auth/manage-account/general                  /auth/manage-account/change-email     
+    /auth/manage-account/change-password          /auth/manage-account/delete-account   */
+  }, []);
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -69,7 +90,6 @@ export default function ManageAccount() {
         onChange={handleChange}
         aria-label="basic tabs example"
         variant="fullWidth"
-        
       >
         <Tab label="Change Email" {...a11yProps(0)} />
         <Tab label="Change Password" {...a11yProps(1)} />
