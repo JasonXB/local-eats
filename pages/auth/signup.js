@@ -4,11 +4,10 @@ import React, { useRef, useState, useReducer } from "react";
 import { Typography, Stack, Button, Box } from "@mui/material"; // prettier-ignore
 import FormControl from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
-import { breakBefore } from "../../src/custom-components/ConditionalBreak"; // prettier-ignore
 import FormHelperText from "@mui/material/FormHelperText";
 import { mix } from "../../styles/styleMixins";
 import { getSession } from "next-auth/react";
-import AuthHeader from "../../src/page-blocks/authForms/Header";
+import AuthHeader from "../../src/page-blocks/authForms/HeaderHelper";
 
 // Redirect users to homepage if they come here online
 export async function getServerSideProps(context) {

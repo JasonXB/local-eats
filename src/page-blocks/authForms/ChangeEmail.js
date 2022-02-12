@@ -77,30 +77,34 @@ export default function ChangeEmail(props) {
     if (typedPassword_length === 0) return dispatch({ type: "INVALID_PASSWORD", payload: "This field is required" }); // prettier-ignore
 
     try {
-      await axios.post("/api/auth/swapEmail", {
+      await axios.post("/api/auth/swapEmailP1", {
         newEmail: typedNewEmail,
         submittedPassword: typedPassword,
       });
+      localStorage.setItem("emailChangePending", true);
+      router.push("/auth/verify-email-change");
     } catch (error) {
       // Render error messages onscreen depending on the response object recieved
       console.log(error.response);
       const errorMSG = error.response.data.message;
-      if (errorMSG === "User offline") {router.push("/"); return}
-      else if (errorMSG === "New email in use already") {
+      if (errorMSG === "User offline") {
+        router.push("/");
+        return;
+      } else if (errorMSG === "New email in use already") {
         dispatch({
           type: "INVALID_NEW_EMAIL",
           payload: "This email is connected to an existing Local Eats account",
         });
-        return
+        return;
       } else if (errorMSG === "Current account password incorrect") {
         dispatch({
           type: "INVALID_PASSWORD",
           payload: "Incorrect password",
         });
-        return
+        return;
       } else {
         revealModal();
-        return
+        return;
       }
     }
   };

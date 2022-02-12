@@ -88,5 +88,5 @@ export default async function handler(req, res) {
     .collection("users")
     .updateOne({ email: oldEmail }, { $set: { emailSwap } });
   client.close();
-  res.status(201).json({ message: "Created user!" });
+  res.status(201).json({ message: "Swap procedure part 1 completed" });
 }

@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
 import { getSession } from "next-auth/react";
 import AuthHeader from "../../src/page-blocks/authForms/Header";
+import { styles } from "../../styles/auth/verifyPIN";
 
 // Redirect users to homepage if they come here online
 export async function getServerSideProps(context) {
@@ -147,23 +148,3 @@ export default function verifyEmail() {
     </Stack>
   );
 }
-
-const styles = {
-  parentContainer: {
-    width: "100%",
-    height: "75vh",
-    maxWidth: "35rem",
-    margin: "auto",
-    textAlign: "center",
-    // border: "5px solid black",
-    ...mix.flexColumn,
-    justifyContent: "center",
-  },
-  formControl: {
-    width: "80%",
-    maxWidth: "20.625rem",
-    mb: 1.5,
-    fontWeight: 500,
-    mb: 4,
-  },
-};
