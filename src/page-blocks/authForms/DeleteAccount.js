@@ -4,11 +4,10 @@ import React, { useRef, useState, useReducer } from "react";
 import { Typography, Stack, Button, Box } from "@mui/material"; // prettier-ignore
 import FormControl from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
-import { breakBefore } from "../../src/custom-components/ConditionalBreak"; // prettier-ignore
 import FormHelperText from "@mui/material/FormHelperText";
-import { mix } from "../../styles/styleMixins";
+import { mix } from "../../../styles/styleMixins";
 import { getSession } from "next-auth/react";
-import AuthHeader from "../../src/page-blocks/authForms/Header";
+import AuthHeader from "./HeaderHelper";
 import { signOut } from "next-auth/react";
 
 // Redirect users to homepage if they come here offline
@@ -101,17 +100,14 @@ export default function DeleteAccount(props) {
 
 const styles = {
   parentContainer: {
-    width: "100%",
-    height: "75vh",
-    maxWidth: "35rem",
-    margin: "auto",
+    width: "80vw",
+    maxWidth: "1100px",
     textAlign: "center",
-    // border: "5px solid black",
     ...mix.flexColumn,
-    justifyContent: "center",
+    alignItems: "center",
   },
   formControl: {
-    width: "80%",
+    width: "100%",
     maxWidth: "20.625rem",
     mb: 1.5,
     fontWeight: 500,

@@ -1,11 +1,14 @@
-import React, { useRef, useState, useReducer } from "react";
+import axios from "axios";
+import { useRouter } from "next/router";
+import React, { useRef, useReducer } from "react";
 import { Typography, Stack, Button } from "@mui/material"; // prettier-ignore
 import FormControl from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
-import { mix } from "../../styles/styleMixins";
+import { mix } from "../../../styles/styleMixins";
 import FormHelperText from "@mui/material/FormHelperText";
-import AuthHeader from "../../src/page-blocks/authForms/Header";
+import AuthHeader from "./HeaderHelper";
 import { getSession } from "next-auth/react";
+import GeneralError from "../../custom-components/Modals/GeneralError";
 
 // Redirect users to homepage if they come here offline
 export async function getServerSideProps(context) {
@@ -25,9 +28,7 @@ function reducer(state, action) {
   switch (action.type) {
     // Actions to take when the user submits a bad input for a field
     case "INVALID_NEW_EMAIL":
-      return { ...state, emailText: "Invalid email entry", emailError: true };
-    case "EMAIL_IS_TAKEN":
-      return { ...state, emailText: "Email already in use", emailError: true };
+      return { ...state, emailText: action.payload, emailError: true };
     case "INVALID_PASSWORD":
       return { ...state, emailText: "Invalid email entry", emailError: true }; // prettier-ignore
     case "TYPING_NEW_EMAIL":
@@ -47,6 +48,7 @@ function reducer(state, action) {
 }
 
 export default function ChangeEmail(props) {
+  const router = useRouter();
   // These states and dispatch functions control the error text and colors of each input field
   const [formState, dispatch] = useReducer(reducer, {
     emailText: " ", // allots space for the message before we even want one to be visible
@@ -54,6 +56,11 @@ export default function ChangeEmail(props) {
     passwordText: " ",
     passwordError: false,
   });
+
+  // Control the general error modal which opens if one of our API route 3rd party services fail
+  const [modalVisible, setModalVisible] = React.useState(false);
+  const revealModal = () => setModalVisible(true);
+  const hideModal = () => setModalVisible(false);
 
   // Collect values of what's typed in each of the input fields
   const newEmailRef = useRef();
@@ -63,78 +70,37 @@ export default function ChangeEmail(props) {
     const typedNewEmail = newEmailRef.current.value;
     const typedPassword = passwordRef.current.value;
 
-    // Access session object since we know we're logged in
-    const session = await getSession(); // session obj
-    const currentEmail = session.user.email;
-
     // If one of the input fields is empty, render some error text without looking in the DB
     const typedNewEmail_length = typedNewEmail.replaceAll(" ", "").length;
     const typedPassword_length = typedPassword.replaceAll(" ", "").length;
-    if (typedNewEmail_length === 0) return dispatch({ type: "INVALID_NEW_EMAIL" }); // prettier-ignore
-    if (typedPassword_length === 0) return dispatch({ type: "INVALID_PASSWORD" }); // prettier-ignore
-    console.log("past empty checks");
+    if (typedNewEmail_length === 0) return dispatch({ type: "INVALID_NEW_EMAIL", payload: "This field is required" }); // prettier-ignore
+    if (typedPassword_length === 0) return dispatch({ type: "INVALID_PASSWORD", payload: "This field is required" }); // prettier-ignore
 
-    // Check if the email's currently being used
     try {
-      await axios.post("/api/auth/inspectEmail", {
-        email: currentEmail,
-      });
-    } catch (error) {
-      dispatch({ type: "INVALID_NEW_EMAIL" }); // Being sent here means our email was invalid
-      console.log(error.response);
-      return; // if the email's invalid, stop the execution here
-    }
-    console.log("Past email's in use gate");
-    // // Send a request to our API route that validates the email (sees if it is blatantly fake)
-    // try {
-    //   await axios.post("/api/auth/inspectEmail", {
-    //     email: typedEmail,
-    //   }); // Passing the try catch means our email is valid
-    // } catch (err) {
-    //   dispatch({ type: "INVALID_EMAIL" }); // Being sent here means our email was invalid
-    //   return; // if the email's invalid, stop the execution here
-    // }
-
-    // // Verify that the email provided is not blatantly fake
-    // try {
-    //   await axios.post("/api/auth/inspectEmail", {
-    //     email: typedNewEmail, // Passing the try catch means our email is valid
-    //   });
-    // } catch (err) {
-    //   dispatch({ type: "INVALID_NEW_EMAIL" });
-    //   return; // if the email's invalid, stop the execution here
-    // }
-    // console.log("past email inspection r1");
-
-    // Check if the email's currently being used
-    // try {
-    //   await axios.post("/api/auth/checkForUniqueEmail", {
-    //     email: typedNewEmail,
-    //   });
-    // } catch (error) {
-    //   dispatch({ type: "EMAIL_IS_TAKEN" }); // Render error text conveying the problem
-    //   return; // if the email's invalid, stop the execution here
-    // }
-    // console.log(2);
-
-    // Make sure the password is correct with /api/auth/changeEmail
-    //! Need to get user email for that
-    /*
-    try {
-      await axios.post("/api/auth/changeEmail", {
+      await axios.post("/api/auth/swapEmail", {
         newEmail: typedNewEmail,
         submittedPassword: typedPassword,
-        currentEmail, // grabbed from session object earlier in component
       });
-      // Save the signup email and password to localStorage
-      localStorage.setItem("pendingAccountEmail", typedEmail);
-      localStorage.setItem("signupPassword", typedPassword);
-      router.push("/auth/verify-email"); // redirect
     } catch (error) {
-      router.replace("/auth/signupError");
-      //! may need to be changed depending on what errors are thrown in API route
+      // Render error messages onscreen depending on the response object recieved
+      console.log(error.response);
+      // const errorMSG = error.response.data.message;
+
+      // if (errorMSG === "User offline") router.push("/");
+      // else if (errorMSG === "New email in use already") {
+      //   dispatch({
+      //     type: "INVALID_NEW_EMAIL",
+      //     payload: "This email is already in use",
+      //   });
+      // } else if (errorMSG === "Current account password incorrect") {
+      //   dispatch({
+      //     type: "INVALID_PASSWORD",
+      //     payload: "Incorrect account password",
+      //   });
+      // } else {
+      //   revealModal();
+      // }
     }
-    */
   };
   return (
     <Stack sx={styles.parentContainer}>
@@ -190,6 +156,7 @@ export default function ChangeEmail(props) {
       >
         Change account email
       </Button>
+      <GeneralError modalVisible={modalVisible} hideModal={hideModal} />
     </Stack>
   );
 }

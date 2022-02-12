@@ -4,7 +4,7 @@ import { mix } from "../../../styles/styleMixins";
 
 // This component will provide a title and a description below
 // The styling will remain consistent across every dedicated form page in our project
-export default function AuthHeader({ titleText, descriptionText }) {
+export default function HeaderHelper({ titleText, descriptionText }) {
   return (
     <>
       <Typography variant="h2" sx={mix.titleFont}>

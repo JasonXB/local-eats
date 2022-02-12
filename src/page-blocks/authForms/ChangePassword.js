@@ -3,13 +3,12 @@ import { Typography, Stack, Button } from "@mui/material"; // prettier-ignore
 import { useRouter } from "next/router";
 import FormControl from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
-import AuthHeader from "../../src/page-blocks/authForms/Header";
+import AuthHeader from "./HeaderHelper";
 import FormHelperText from "@mui/material/FormHelperText";
-import { mix } from "../../styles/styleMixins";
-import { credentialSignIn } from "../api/helperFunctions/credentialSignIn";
+import { mix } from "../../../styles/styleMixins";
 import { getSession } from "next-auth/react";
 import axios from "axios";
-import GeneralErrorModal from "../../src/custom-components/Modals/GeneralError";
+import GeneralErrorModal from "../../custom-components/Modals/GeneralError"
 
 // Redirect users to homepage if they come here offline
 export async function getServerSideProps(context) {
@@ -61,7 +60,7 @@ function reducer(state, action) {
 
 export default function ChangePassword() {
   // Control the general error modal which opens if one of our API route 3rd party services fail
-  const [modalVisible, setModalVisible] = React.useState(true);
+  const [modalVisible, setModalVisible] = React.useState(false);
   const revealModal = () => setModalVisible(true);
   const hideModal = () => setModalVisible(false);
 

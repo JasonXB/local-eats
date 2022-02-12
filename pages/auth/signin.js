@@ -11,7 +11,7 @@ import FormHelperText from "@mui/material/FormHelperText";
 import { mix } from "../../styles/styleMixins";
 import { credentialSignIn } from "../api/helperFunctions/credentialSignIn";
 import { getSession } from "next-auth/react";
-import AuthHeader from "../../src/page-blocks/authForms/Header";
+import AuthHeader from "../../src/page-blocks/authForms/HeaderHelper";
 
 // Redirect users to homepage if they come here online
 export async function getServerSideProps(context) {
