@@ -4,11 +4,12 @@ import React, { useRef, useReducer } from "react";
 import { Typography, Stack, Button } from "@mui/material"; // prettier-ignore
 import FormControl from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
-import { mix } from "../../../styles/styleMixins";
 import FormHelperText from "@mui/material/FormHelperText";
 import AuthHeader from "./HeaderHelper";
 import { getSession } from "next-auth/react";
 import GeneralError from "../../custom-components/Modals/GeneralError";
+import { styles } from "../../../styles/auth/manageAccount";
+import useWindowSize from "../../utility-functions/general/useWindowSize";
 
 // Redirect users to homepage if they come here offline
 export async function getServerSideProps(context) {
@@ -166,27 +167,3 @@ export default function ChangeEmail(props) {
     </Stack>
   );
 }
-
-const styles = {
-  parentContainer: {
-    width: "100%",
-    height: "72vh",
-    maxWidth: "35rem",
-    margin: "auto",
-    textAlign: "center",
-    // border: "5px solid black",
-    ...mix.flexColumn,
-    justifyContent: "center",
-  },
-  formControl: {
-    width: "80%",
-    maxWidth: "20.625rem",
-    mb: 0.75,
-    fontWeight: 500,
-  },
-  formHelperText: {
-    color: "#d32f2f",
-    m: 0,
-    mt: 0.5,
-  },
-};

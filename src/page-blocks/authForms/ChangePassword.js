@@ -8,7 +8,8 @@ import FormHelperText from "@mui/material/FormHelperText";
 import { mix } from "../../../styles/styleMixins";
 import { getSession } from "next-auth/react";
 import axios from "axios";
-import GeneralErrorModal from "../../custom-components/Modals/GeneralError"
+import GeneralErrorModal from "../../custom-components/Modals/GeneralError";
+import { styles } from "../../../styles/auth/manageAccount";
 
 // Redirect users to homepage if they come here offline
 export async function getServerSideProps(context) {
@@ -200,27 +201,3 @@ export default function ChangePassword() {
     </Stack>
   );
 }
-
-const styles = {
-  parentContainer: {
-    width: "100%",
-    height: "100vh",
-    maxWidth: "35rem",
-    margin: "auto",
-    textAlign: "center",
-    // border: "5px solid black",
-    ...mix.flexColumn,
-    justifyContent: "center",
-  },
-  formControl: {
-    width: "80%",
-    maxWidth: "20.625rem",
-    mb: 0.75,
-    fontWeight: 500,
-  },
-  formHelperText: {
-    color: "#d32f2f",
-    m: 0,
-    mt: 0.5,
-  },
-};

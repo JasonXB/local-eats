@@ -9,6 +9,7 @@ import { mix } from "../../../styles/styleMixins";
 import { getSession } from "next-auth/react";
 import AuthHeader from "./HeaderHelper";
 import { signOut } from "next-auth/react";
+import {styles} from "../../../styles/auth/manageAccount";
 
 // Redirect users to homepage if they come here offline
 export async function getServerSideProps(context) {
@@ -63,8 +64,8 @@ export default function DeleteAccount(props) {
   return (
     <Stack sx={styles.parentContainer}>
       <AuthHeader
-        titleText={"Delete Local Eats Account"}
-        descriptionText={"Be careful! Deleting your account will permanently delete your bookmarks and saved searches"} // prettier-ignore
+        titleText={"Delete Account"}
+        descriptionText={"We're sad to see you go! Before proceeding, know that deleting your account will erase all your bookmarks"} // prettier-ignore
       />
 
       <FormControl sx={styles.formControl}>
@@ -98,31 +99,3 @@ export default function DeleteAccount(props) {
   );
 }
 
-const styles = {
-  parentContainer: {
-    width: "80vw",
-    maxWidth: "1100px",
-    textAlign: "center",
-    ...mix.flexColumn,
-    alignItems: "center",
-  },
-  formControl: {
-    width: "100%",
-    maxWidth: "20.625rem",
-    mb: 1.5,
-    fontWeight: 500,
-  },
-  formHelperText: {
-    color: "#d32f2f",
-    m: 0,
-    mt: 0.5,
-  },
-  conditionalRed: (inp) => {
-    if(inp) return { color: "#d32f2f" } // prettier-ignore
-    if(!inp) return { color: "rgba(0, 0, 0, 0.87)" } // prettier-ignore
-  },
-  bottomSection: {
-    height: "5.5rem",
-    mt: 2,
-  },
-};
