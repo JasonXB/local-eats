@@ -26,7 +26,6 @@ export default async function handler(req, res) {
     res.status(422).json({ message: "User offline" }); //@ code error actions for this
     return; // Ensure the user is online
   }
-  console.log("user offline gate passed");
   const oldEmail = session.user.email;
 
   // Check to see if the email looks blatantly fake
@@ -35,7 +34,6 @@ export default async function handler(req, res) {
     res.status(422).json({ message: "invalid", response: validityBoolean }); //@ code error actions for this
     return;
   }
-  console.log("newEmailValidity gate passed");
 
   // Check to see if the new email is already in use by another Local-eats user
   const client = await connectToDB(); // access db instance
@@ -49,7 +47,6 @@ export default async function handler(req, res) {
     res.status(422).json({ message: "New email in use already" }); // prettier-ignore
     return; //@ code error actions for this
   }
-  console.log("newEmailTaken gate passed");
 
   // Check if the password provided matches the account found
   const thisAccount = await db.collection("users").findOne({ email: oldEmail });
@@ -59,7 +56,6 @@ export default async function handler(req, res) {
     res.status(408).json({ message: "Current account password incorrect" });
     return; //@ code error actions for this
   }
-  console.log("Current password incorrect gate passed");
   // PAST THIS POINT...
   // THE USER SUBMITTED A CORRECT ACCOUNT PASSWORD AND PICKED AN AVAILABLE NEW EMAIL
 
@@ -81,7 +77,6 @@ export default async function handler(req, res) {
     res.status(422).json({ message: "SendGrid API failure" }); //@ CODE ERROR ACTIONS
     return; // needed to stop rest of API route from executing
   });
-  console.log("Sendgrid failure gate passed");
   // Save an email swap object to the acccount on the DB
   const emailSwap = {
     newEmail,

@@ -30,7 +30,7 @@ function reducer(state, action) {
     case "INVALID_NEW_EMAIL":
       return { ...state, emailText: action.payload, emailError: true };
     case "INVALID_PASSWORD":
-      return { ...state, emailText: "Invalid email entry", emailError: true }; // prettier-ignore
+      return { ...state, passwordText: action.payload, passwordError: true }; // prettier-ignore
     case "TYPING_NEW_EMAIL":
         return { ...state, emailText: " ", emailError: false }; // prettier-ignore
     case "TYPING_PASSWORD":
@@ -69,7 +69,7 @@ export default function ChangeEmail(props) {
   const changeEmailHandler = async function () {
     const typedNewEmail = newEmailRef.current.value;
     const typedPassword = passwordRef.current.value;
-
+    dispatch({ type: "RESET" }); // reset form state
     // If one of the input fields is empty, render some error text without looking in the DB
     const typedNewEmail_length = typedNewEmail.replaceAll(" ", "").length;
     const typedPassword_length = typedPassword.replaceAll(" ", "").length;
@@ -84,23 +84,24 @@ export default function ChangeEmail(props) {
     } catch (error) {
       // Render error messages onscreen depending on the response object recieved
       console.log(error.response);
-      if (!error.response) alert("No response object???");
-      // const errorMSG = error.response.data.message;
-
-      // if (errorMSG === "User offline") router.push("/");
-      // else if (errorMSG === "New email in use already") {
-      //   dispatch({
-      //     type: "INVALID_NEW_EMAIL",
-      //     payload: "This email is already in use",
-      //   });
-      // } else if (errorMSG === "Current account password incorrect") {
-      //   dispatch({
-      //     type: "INVALID_PASSWORD",
-      //     payload: "Incorrect account password",
-      //   });
-      // } else {
-      //   revealModal();
-      // }
+      const errorMSG = error.response.data.message;
+      if (errorMSG === "User offline") {router.push("/"); return}
+      else if (errorMSG === "New email in use already") {
+        dispatch({
+          type: "INVALID_NEW_EMAIL",
+          payload: "This email is connected to an existing Local Eats account",
+        });
+        return
+      } else if (errorMSG === "Current account password incorrect") {
+        dispatch({
+          type: "INVALID_PASSWORD",
+          payload: "Incorrect password",
+        });
+        return
+      } else {
+        revealModal();
+        return
+      }
     }
   };
   return (
