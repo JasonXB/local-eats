@@ -86,26 +86,32 @@ export default function ChangeEmail(props) {
       router.push("/auth/verify-email-change");
     } catch (error) {
       // Render error messages onscreen depending on the response object recieved
-      console.log(error.response);
       const errorMSG = error.response.data.message;
-      if (errorMSG === "User offline") {
-        router.push("/");
-        return;
-      } else if (errorMSG === "New email in use already") {
-        dispatch({
-          type: "INVALID_NEW_EMAIL",
-          payload: "This email is connected to an existing Local Eats account",
-        });
-        return;
-      } else if (errorMSG === "Current account password incorrect") {
-        dispatch({
-          type: "INVALID_PASSWORD",
-          payload: "Incorrect password",
-        });
-        return;
-      } else {
-        revealModal();
-        return;
+      switch (errorMSG) {
+        case "User offline":
+          router.push("/auth/signin");
+          break;
+        case "Invalid email entry": // "INVALID_NEW_EMAIL"
+          dispatch({
+            type: "INVALID_NEW_EMAIL",
+            payload: errorMSG, // prettier-ignore
+          });
+          break;
+        case "This email is connected to an existing Local Eats account":
+          dispatch({
+            type: "INVALID_NEW_EMAIL",
+            payload: errorMSG, // prettier-ignore
+          });
+          break;
+        case "Account password incorrect":
+          dispatch({
+            type: "INVALID_PASSWORD",
+            payload: errorMSG,
+          });
+          break;
+        default:
+          revealModal();
+          break;
       }
     }
   };

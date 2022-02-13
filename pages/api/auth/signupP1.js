@@ -1,8 +1,104 @@
-import { hash } from "bcryptjs";
+import { hash, compare } from "bcryptjs";
 import { connectToDB } from "../../../src/utility-functions/auth/connectToDB";
+// Use to check for bltantly fake emails
+var validator = require("email-validator"); // https://yarnpkg.com/package/email-validator
+// Use to assess password strength
+var taiPasswordStrength = require("tai-password-strength");
+var strengthTester = new taiPasswordStrength.PasswordStrength();
+// Use to send emails
 const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
+export default async function handler(req, res) {
+  // Capture payload values
+  const { email, password, verifyPassword } = req.body;
+
+  // Check to see if the 2 submitted passwords match
+  if (password !== verifyPassword) {
+    res.status(422).json({ message: "This password does not match the first" });
+    return;
+  }
+  console.log("Gate1");
+
+  // Connect to Mongo Cluster
+  const client = await connectToDB(); // access db instance
+  const db = client.db();
+
+  // Check to see if the email is blatantly fake (end the route if it is)
+  const validity = validator.validate(email); // returns Boolean
+  if (!validity) {
+    client.close(); // don't forget to close mongo session
+    res.status(422).json({ message: "Invalid email" });
+    return;
+  }
+  console.log("Gate2");
+
+  // End route if the email's already in use by a verified account
+  const existingUser = await db.collection("users").findOne({ email });
+  if (existingUser && existingUser.accountStatus === "verified") {
+    client.close(); // don't forget to close mongo session
+    res.status(422).json({ message: "This email is tied to an existing Local Eats account" }); // prettier-ignore
+    return;
+  }
+  console.log("Gate3");
+
+  // See if the password provided meets our requirements
+  let results = strengthTester.check(password);
+  const conditions = {
+    characterDiversity: results.charsetSize >= 80,
+    commonPassword: !results.commonPassword,
+    adequateLength: results.passwordLength >= 8,
+    adequateStrength: results.strengthCode != "VERY_WEAK" || results.strengthCode != "WEAK", // prettier-ignore
+    includesNumber: results.charsets.number === true, 
+    includesLowercase: results.charsets.lower === true,
+    includesUppercase: results.charsets.upper === true,
+    includesSymbol: results.charsets.symbol === true,
+    excludesPunctuation: !results.charsets.punctuation,
+  }; // if this object contains a falsy, the password is not acceptable
+  let falseInside = Object.values(conditions).includes(false); // Boolean
+  // If we have a false in the object, throw an error then end the Route
+  if (falseInside) {
+    client.close(); // don't forget to close mongo session
+    res.status(422).json({ message: "Password does not meet requirements" });
+    return;
+  }
+  console.log("Gate4");
+  // PAST THIS POINT, THE EMAIL IS UNIQUE AND LIKELY REAL + THE PASSWORD IS STRONG ENOUGH
+
+  // Generate a 6 digit PIN to send via email, and create a hashed version that expires
+  const normalPIN = makeId(6);
+  const hashedPIN = await hash(normalPIN, 12);
+  const hashedPassword = await hash(password, 12); // hashed version of submitted password from earlier
+  const expiryDate = new Date().getTime() + 1800000; // Unix 30 mins in future
+  const msg = {
+    to: email, // recipient
+    from: "jasonxportfolio@gmail.com", // Change to your verified sender
+    subject: "Verify Local Eats email",
+    text: "Please do not reply to sender",
+    html: `Submit the following PIN code to verify your email on Local Eats: <strong>${normalPIN}</strong>`,
+  };
+
+  // Send an email containing the unhashed generated PIN for verification purpsoes
+  sgMail.send(msg).catch((error) => {
+    client.close();
+    res.status(422).json({ message: "Error" });
+    return; // needed to stop rest of API route from executing
+  });
+  console.log("Gate5");
+
+  // Create a pending account on MongoDB
+  await db.collection("users").insertOne({
+    email,
+    password: hashedPassword, // is hashed before insertion for security reasons
+    hashedVerifyPIN: hashedPIN, // will use to verify the email's owned by the user
+    pinExpiryDate: expiryDate,
+    accountStatus: "pending",
+  });
+  client.close();
+  res.status(200).json({ message: "Pending account created" });
+}
+
+// Use to generate a 6 digit PIN
 function makeId(length) {
   var result = "";
   var characters = "0123456789";
@@ -11,40 +107,4 @@ function makeId(length) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
   }
   return result;
-}
-
-export default async function handler(req, res) {
-  const emailToVerify = req.body.email;
-  const hashedPassword = await hash(req.body.password, 12);
-  // Generate a 6 digit PIN to send via email, and create a hashed version that expires
-  const normalPIN = makeId(6);
-  const hashedPIN = await hash(normalPIN, 12);
-  const expiryDate = new Date().getTime() + 1800000; // Unix 30 mins in future
-  // Send the normal PIN to the request body email
-  const msg = {
-    to: emailToVerify, // recipient
-    from: "jasonxportfolio@gmail.com", // Change to your verified sender
-    subject: "Verify Local Eats email",
-    text: "Please do not reply to sender",
-    html: `Submit the following PIN code to verify your email on Local Eats: <strong>${normalPIN}</strong>`,
-  };
-
-  // Send an email containing a PIN for verification purpsoes
-  sgMail.send(msg).catch((error) => {
-    res.status(422).json({ message: "SendGrid API failure" });
-    return; // needed to stop rest of API route from executing
-  });
-
-  // Create a pending account on MongoDB
-  const client = await connectToDB(); // access db instance
-  const db = client.db();
-  await db.collection("users").insertOne({
-    email: emailToVerify,
-    password: hashedPassword, // is hashed before insertion for security reasons
-    hashedVerifyPIN: hashedPIN, // will use to verify the email's owned by the user
-    pinExpiryDate: expiryDate,
-    accountStatus: "pending",
-  });
-  client.close();
-  res.status(200).json({ message: "Pending account created" });
 }

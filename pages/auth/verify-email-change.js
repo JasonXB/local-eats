@@ -27,10 +27,10 @@ export default function verifyEmail() {
   const router = useRouter();
   const pinRef = useRef(); // the value of the verification PIN field
 
-  useEffect(()=>{
-    const isChangePending= localStorage.getItem("emailChangePending"); // string or null
-    if(!isChangePending) router.replace("/auth/change-email")
-  },[])
+  useEffect(() => {
+    const isChangePending = localStorage.getItem("emailChangePending"); // string or null
+    if (!isChangePending) router.replace("/auth/change-email");
+  }, []);
 
   const verifyHandler = async function () {
     const typedPIN = pinRef.current.value;
@@ -43,7 +43,7 @@ export default function verifyEmail() {
       router.replace("/");
     } catch (error) {
       localStorage.removeItem("emailChangePending");
-      router.replace("/auth/change-email");
+      router.replace("/auth/manage-account/change-email");
     }
   };
 

@@ -31,29 +31,35 @@ export default async function handler(req, res) {
   // Check to see if the email looks blatantly fake
   const newEmailValidity = validator.validate(newEmail); // returns Boolean
   if (!newEmailValidity) {
-    res.status(422).json({ message: "invalid", response: validityBoolean }); //@ code error actions for this
+    res
+      .status(422)
+      .json({ message: "Invalid email entry" }); //@ code error actions for this
     return;
   }
 
   // Check to see if the new email is already in use by another Local-eats user
   const client = await connectToDB(); // access db instance
   const db = client.db();
-  const existingUserForNewEmail = await db
+
+  const newEmailAccount = await db
     .collection("users")
     .findOne({ email: newEmail });
-  if (existingUserForNewEmail) {
-    // If the new email is being used, end the route now
+  if (newEmailAccount && newEmailAccount.accountStatus === "verified") {
+    // If the new email is being used by a verified account, end the route now
     client.close();
-    res.status(422).json({ message: "New email in use already" }); // prettier-ignore
+    res.status(422).json({ message: "This email is connected to an existing Local Eats account" }); // prettier-ignore
     return; //@ code error actions for this
   }
 
   // Check if the password provided matches the account found
-  const thisAccount = await db.collection("users").findOne({ email: oldEmail });
-  const passwordsMatch = await compare(submittedPassword, thisAccount.password); // T/F
+  const currentAccount = await db
+    .collection("users")
+    .findOne({ email: oldEmail });
+  console.log(currentAccount); //!!! equals null for some reason
+  const passwordsMatch = await compare(submittedPassword, currentAccount.password); // T/F
   if (!passwordsMatch) {
     client.close();
-    res.status(408).json({ message: "Current account password incorrect" });
+    res.status(408).json({ message: "Account password incorrect" });
     return; //@ code error actions for this
   }
   // PAST THIS POINT...
@@ -67,7 +73,7 @@ export default async function handler(req, res) {
   const msg = {
     to: newEmail, // recipient
     from: "jasonxportfolio@gmail.com", // Change to your verified sender
-    subject: "Verify Local Eats email",
+    subject: "Verify Local Eats email change",
     text: "Please do not reply to sender",
     html: `Submit the following PIN code to complete an account email change on Local Eats: <strong>${normalPIN}</strong>`,
   };
@@ -83,7 +89,7 @@ export default async function handler(req, res) {
     hashedPIN,
     expiryDate,
     emailSwapStatus: "pending",
-  }
+  };
   await db
     .collection("users")
     .updateOne({ email: oldEmail }, { $set: { emailSwap } });

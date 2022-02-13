@@ -64,7 +64,7 @@ export default function signup() {
 
     // Make a request to an API route to verify or discredit the form submissions
     try {
-      await axios.post("/api/auth/signupN1", {
+      await axios.post("/api/auth/signupP1", {
         email: typedEmail,
         password: typedPassword,
         verifyPassword: typedPassword2,
@@ -91,6 +91,7 @@ export default function signup() {
           break;
         default:
           alert("Something's gone wrong on our end!");
+          break;
       }
       return;
     }
