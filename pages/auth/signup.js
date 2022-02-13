@@ -34,7 +34,6 @@ export default function signup() {
     verifyPasswordText: " ",
     verifyPasswordError: false,
     passwordRequirements: false,
-    emailTaken: undefined,
   });
   // Collect values of what's typed in each of the input fields
   const emailRef = useRef();
@@ -54,57 +53,49 @@ export default function signup() {
     const typedEmail = emailRef.current.value;
     const typedPassword = passwordRef.current.value;
     const typedPassword2 = verifyPasswordRef.current.value;
-    // Check if the email's currently being used
-    try {
-      await axios.post("/api/auth/signupP0", {
-        email: typedEmail,
-      });
-    } catch (error) {
-      dispatch({ type: "EMAIL_IS_TAKEN" }); // Being sent here means our email was invalid
-      return; // if the email's invalid, stop the execution here
-    }
 
-    // Send a request to our API route that validates the email (sees if it is blatantly fake)
-    try {
-      await axios.post("/api/auth/inspectEmail", {
-        email: typedEmail,
-      }); // Passing the try catch means our email is valid
-    } catch (err) {
-      dispatch({ type: "INVALID_EMAIL" }); // Being sent here means our email was invalid
-      return; // if the email's invalid, stop the execution here
-    }
+    // Make sure each field is filled in
+    const emailLength = typedEmail.replaceAll(" ", "").length;
+    const passwordLength = typedPassword.replaceAll(" ", "").length;
+    const verifyPasswordLength = typedPassword2.replaceAll(" ", "").length;
+    if(!emailLength) return dispatch({type: "INVALID_EMAIL", payload: "This field is required"}); // prettier-ignore
+    if(!passwordLength) return dispatch({type: "INVALID_PASSWORD", payload: "This field is required"}); // prettier-ignore
+    if(!verifyPasswordLength) return dispatch({type: "INVALID_PASSWORD_2", payload: "This field is required"}); // prettier-ignore
 
-    // Check to see if our password strength is high enough
+    // Make a request to an API route to verify or discredit the form submissions
     try {
-      // Make a request to the API route that checks our password strength
-      await axios.post("/api/auth/checkPasswordStrength", { password: typedPassword }); // prettier-ignore
-      // If our password is strong enough, the rest of this block executes (if not, we get sent to catch block)
-    } catch (err) {
-      dispatch({ type: "INVALID_PASSWORD" }); // Being sent here means our password was inadequate
-      return; // if the password's too weak, stop the execution here
-    }
-
-    // Make sure that the verify password field matches the regular password field
-    if (typedPassword !== typedPassword2) {
-      dispatch({ type: "INVALID_PASSWORD_2" });
-      return; // stop the execution here
-    } // Past this point, the email is likely valid, the password is strong, and the password field inputs match
-
-    // Create a pending account that holds your email, hashed password
-    // Verification PIN, expiry date for that PIN... etc
-    try {
-      await axios.post("/api/auth/signupP1", {
+      await axios.post("/api/auth/signupN1", {
         email: typedEmail,
         password: typedPassword,
+        verifyPassword: typedPassword2,
       });
       // Save the signup email and password to localStorage
       localStorage.setItem("pendingAccountEmail", typedEmail);
       localStorage.setItem("signupPassword", typedPassword);
       router.push("/auth/verify-email"); // redirect
+      return;
     } catch (error) {
-      router.replace("/auth/signupError");
+      const errorMSG = error.response.data.message;
+      switch (errorMSG) {
+        case "This password does not match the first":
+          dispatch({type: "INVALID_PASSWORD_2", payload: errorMSG}); // prettier-ignore
+          break;
+        case "Invalid email":
+          dispatch({type: "INVALID_EMAIL", payload: errorMSG}); // prettier-ignore
+          break;
+        case "This email is tied to an existing Local Eats account":
+          dispatch({ type: "INVALID_EMAIL", payload: errorMSG });
+          break;
+        case "Password does not meet requirements":
+          dispatch({ type: "INVALID_PASSWORD", payload: errorMSG });
+          break;
+        default:
+          alert("Something's gone wrong on our end!");
+      }
+      return;
     }
   };
+
   return (
     <Stack sx={styles.parentContainer}>
       <AuthHeader
@@ -176,109 +167,67 @@ export default function signup() {
       >
         Submit
       </Button>
-      {!formState.emailTaken && (
-        <Stack sx={styles.bottomSection}>
-          <Typography
-            variant="p"
-            color="secondary"
-            sx={{ mt: 2, opacity: formState.passwordError ? 1 : 0 }}
-          >
-            PASSWORD REQUIREMENTS
-          </Typography>
-          <Typography
-            variant="p"
-            sx={{ opacity: formState.passwordError ? 1 : 0 }}
-            color="secondary"
-          >
-            Must be 8 characters or longer. Requires an uppercase, lowercase,
-            plus at least 1 symbol. No punctuation allowed
-          </Typography>
-        </Stack>
-      )}
-      {formState.emailTaken && (
-        <Stack sx={styles.bottomSection}>
-          <Typography variant="p" color="secondary" sx={{ mt: 2 }}>
-            This email's already connected to an existing Local Eats account.
-          </Typography>
-          <Box
-            component="a"
-            href="/auth/signin"
-            sx={(theme) => {
-              return { color: theme.palette.secondary.main };
-            }}
-          >
-            Click here to visit our sign in page
-          </Box>
-        </Stack>
-      )}
+      <Stack sx={styles.bottomSection}>
+        <Typography variant="p" sx={{ mt: 2 }}>
+          PASSWORD REQUIREMENTS
+        </Typography>
+        <Typography variant="p">
+          Must be 8 characters or longer. Requires an uppercase, lowercase, plus
+          at least 1 symbol. No punctuation allowed
+        </Typography>
+      </Stack>
     </Stack>
   );
 }
 
 function reducer(state, action) {
-  if (action.type === "INVALID_EMAIL") {
-    return {
-      emailText: "Invalid entry",
-      emailError: true,
-      emailTaken: undefined,
-      // Reset other states back to init value
-      passwordText: " ",
-      passwordError: false,
-      verifyPasswordText: " ",
-      verifyPasswordError: false,
-      passwordRequirements: false,
-    };
-  }
-  if (action.type === "EMAIL_IS_TAKEN") {
-    return {
-      emailText: "Email already in use",
-      emailError: true,
-      emailTaken: true, //! now here
-      // Reset other states back to init value
-      passwordText: " ",
-      passwordError: false,
-      verifyPasswordText: " ",
-      verifyPasswordError: false,
-      passwordRequirements: false,
-    };
-  }
-  if (action.type === "INVALID_PASSWORD") {
-    return {
-      passwordText: "Password does not meet requirements",
-      passwordError: true,
-      passwordRequirements: true,
-      // Reset other states back to init value
-      emailText: " ",
-      emailError: false,
-      emailTaken: undefined,
-      verifyPasswordText: " ",
-      verifyPasswordError: false,
-    };
-  }
-  if (action.type === "INVALID_PASSWORD_2") {
-    return {
-      verifyPasswordText: "Passwords do not match",
-      verifyPasswordError: true,
-      // Reset other states back to init value
-      emailText: " ",
-      emailError: false,
-      emailTaken: undefined,
-      passwordText: " ",
-      passwordError: false,
-      passwordRequirements: false,
-    };
-  }
-  if (action.type === "RESET") {
-    return {
-      emailText: " ",
-      emailError: false,
-      emailTaken: undefined,
-      passwordText: " ",
-      passwordError: false,
-      verifyPasswordText: " ",
-      verifyPasswordError: false,
-      passwordRequirements: false,
-    };
+  switch (action.type) {
+    case "INVALID_EMAIL":
+      return {
+        emailText: action.payload,
+        emailError: true,
+        // Reset other states back to init value
+        passwordText: " ",
+        passwordError: false,
+        verifyPasswordText: " ",
+        verifyPasswordError: false,
+        passwordRequirements: false,
+      };
+    case "INVALID_PASSWORD":
+      return {
+        passwordText: action.payload,
+        passwordError: true,
+        passwordRequirements: true,
+        // Reset other states back to init value
+        emailText: " ",
+        emailError: false,
+        verifyPasswordText: " ",
+        verifyPasswordError: false,
+      };
+    case "INVALID_PASSWORD_2":
+      return {
+        verifyPasswordText: action.payload,
+        verifyPasswordError: true,
+        // Reset other states back to init value
+        emailText: " ",
+        emailError: false,
+        passwordText: " ",
+        passwordError: false,
+        passwordRequirements: false,
+      };
+    case "RESET":
+      return {
+        emailText: " ",
+        emailError: false,
+        passwordText: " ",
+        passwordError: false,
+        verifyPasswordText: " ",
+        verifyPasswordError: false,
+        passwordRequirements: false,
+      };
+    default:
+      alert("Something's gone wrong on our end!");
+      return;
   }
 }
 

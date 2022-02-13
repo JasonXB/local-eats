@@ -68,7 +68,7 @@ export default function signup() {
 
     // If the login attempt is successful, redirect to homepage
     if (!loginRequest.error) {
-      router.push("/");
+      router.push("/"); //!!! reconsider redirecting home after a failed login attempt
     }
   };
 

@@ -1,5 +1,4 @@
-var validator = require("email-validator"); 
-// https://yarnpkg.com/package/email-validator
+var validator = require("email-validator"); // https://yarnpkg.com/package/email-validator
 
 export default async function handler(req, res) {
   const emailToInspect = req.body.email;

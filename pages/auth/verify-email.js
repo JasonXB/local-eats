@@ -5,7 +5,7 @@ import { mix } from "../../styles/styleMixins";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
 import { getSession } from "next-auth/react";
-import AuthHeader from "../../src/page-blocks/authForms/Header";
+import AuthHeader from "../../src/page-blocks/authForms/HeaderHelper";
 import { styles } from "../../styles/auth/verifyPIN";
 
 // Redirect users to homepage if they come here online
@@ -30,7 +30,7 @@ export default function verifyEmail() {
     if (!pendingEmail) window.location.href = "/auth/signup";
   }, []);
 
-  const [bottomMessage, setbottomMessage] = useState("start"); // sets text @ bottom
+  // const [bottomMessage, setbottomMessage] = useState("start"); // sets text @ bottom
   const router = useRouter();
   const pinRef = useRef(); // the value of the verification PIN field
 
@@ -84,11 +84,6 @@ export default function verifyEmail() {
       // Sign in immediately, delete localStorage data and redirect
       endSignupProcess("success"); //
     } catch (error) {
-      // Render an error message dependent on the response object's problem with the PIN submitted
-      const responseMessage = error.response.data.message;
-      if(responseMessage === "Invalid PIN") setbottomMessage("Invalid PIN"); // prettier-ignore
-      if(responseMessage === "PIN has expired") setbottomMessage("PIN has expired"); // prettier-ignore
-      // Remove the pending data from LocalStorage and trigger a page redirect after 5 seconds
       endSignupProcess("failure"); // delete localStorage data and redirect
     }
   };
@@ -115,35 +110,12 @@ export default function verifyEmail() {
         </Button>
       </FormControl>
       <Stack sx={{ height: "5rem" }}>
-        {bottomMessage === "start" && (
-          <Typography variant="p" sx={{ mb: 1 }}>
-            We just sent a 6 digit verification code to the email you submitted
-            (be sure to check your spam folder if you cannot find it). The code
-            expires in 30 minutes and you only get 1 try before you must restart
-            on our sign up page
-          </Typography>
-        )}
-        {bottomMessage === "Invalid PIN" && (
-          <Typography variant="p">
-            The PIN you submitted is not correct. You will be redirected to the
-            sign up page in 5 seconds...
-          </Typography>
-        )}
-        {bottomMessage === "PIN has expired" && (
-          <Typography variant="p">
-            This PIN has expired. You will be redirected to the sign up page in
-            5 seconds...
-          </Typography>
-        )}
-        {bottomMessage === "Account created" && (
-          <Typography variant="p">
-            Congratulations!
-            <br />
-            You've successfully completed the sign up process and have unlocked
-            all Local Eats features. You will be redirected to the homepage
-            while logged in after 5 seconds...
-          </Typography>
-        )}
+        <Typography variant="p" sx={{ mb: 1 }}>
+          We just sent a 6 digit verification code to the email you submitted
+          (be sure to check your spam folder if you cannot find it). The code
+          expires in 30 minutes and you only get 1 try before you must restart
+          on our sign up page
+        </Typography>
       </Stack>
     </Stack>
   );

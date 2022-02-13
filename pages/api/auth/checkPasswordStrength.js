@@ -1,5 +1,4 @@
 var taiPasswordStrength = require("tai-password-strength");
-
 var strengthTester = new taiPasswordStrength.PasswordStrength();
 
 export default async function handler(req, res) {
