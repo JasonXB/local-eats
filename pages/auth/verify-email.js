@@ -68,9 +68,7 @@ export default function verifyEmail() {
       loginProcedure(signupEmail, signupPassword);
     }
     // Redirect to homepage while signed in
-    setTimeout(() => {
-      router.push(redirectLocation);
-    }, 5000);
+    router.push(redirectLocation);
   };
 
   const verifyHandler = async function () {
