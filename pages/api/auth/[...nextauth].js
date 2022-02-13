@@ -8,7 +8,7 @@ export default NextAuth({
   providers: [
     CredentialsProvider({
       // This async FN runs when we get a login request
-      // Place your own verification logic inside
+      // Place your own verification logic inside, then handle errors on pages/auth/signin
       async authorize(credentials) {
         // Extract the parameters used when calling signIn() which triggers this function
         const email = credentials.email;
@@ -25,7 +25,12 @@ export default NextAuth({
           client.close();
           throw new Error("No account found using this email");
         }
-        // If an account is found, check if the associated password's correct
+        // Make sure the account is verified
+        if(user.accountStatus==="pending"){
+          client.close();
+          throw new Error("The account tied to this email is not verified yet");
+        }
+        // If a verified account is found, check if the associated password's correct
         const hashedAccountPassword = user.password; // the PW saved on the account in the DB
         // Compare the login attempt password to the encrypted one in MongoDB
         const isValid = await compare(password, hashedAccountPassword);
@@ -43,10 +48,10 @@ export default NextAuth({
     }),
   ],
   pages: {
-    signIn: "/signin",
+    signIn: "/auth/signin",
     // signOut: '/auth/signout',  //! see what happens on sign out
-    error: "/error", // Error code passed in query string as ?error=
-    verifyRequest: "/verify-request", // (used for check email message) //! see if we do this officially
+    error: "/auth/signupError", // Error code passed in query string as ?error=
+    // verifyRequest: "/verify-request", // (used for check email message) //! see if we do this officially
     newUser: "/", // New users will be directed here on first sign in
   },
 });

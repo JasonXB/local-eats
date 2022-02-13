@@ -55,7 +55,7 @@ export default async function handler(req, res) {
   const currentAccount = await db
     .collection("users")
     .findOne({ email: oldEmail });
-  console.log(currentAccount); //!!! equals null for some reason
+  console.log(currentAccount); //!!! equals null for some reason sometimes
   const passwordsMatch = await compare(submittedPassword, currentAccount.password); // T/F
   if (!passwordsMatch) {
     client.close();

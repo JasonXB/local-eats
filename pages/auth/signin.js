@@ -62,14 +62,22 @@ export default function signup() {
     // If the login attempt is not successful...
     if (loginRequest.error) {
       const errorMSG = loginRequest.error;
-      if (errorMSG === "No account found using this email") setEmailErrorText(errorMSG); // prettier-ignore
-      if (errorMSG === "Incorrect password") setPasswordErrorText(errorMSG);
+      // Render error messages on the form depending on the error type
+      switch (errorMSG) {
+        case "No account found using this email":
+        case "The account tied to this email is not verified yet":
+          setEmailErrorText(errorMSG);
+          break;
+        case "Incorrect password":
+          setPasswordErrorText(errorMSG);
+          break;
+        default:
+          alert("Something's gone wrong on our end!");
+          break;
+      }
     }
-
     // If the login attempt is successful, redirect to homepage
-    if (!loginRequest.error) {
-      router.push("/"); //!!! reconsider redirecting home after a failed login attempt
-    }
+    if (!loginRequest.error) return router.push("/");
   };
 
   return (
