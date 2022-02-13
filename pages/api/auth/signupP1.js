@@ -18,7 +18,6 @@ export default async function handler(req, res) {
     res.status(422).json({ message: "This password does not match the first" });
     return;
   }
-  console.log("Gate1");
 
   // Connect to Mongo Cluster
   const client = await connectToDB(); // access db instance
@@ -31,16 +30,14 @@ export default async function handler(req, res) {
     res.status(422).json({ message: "Invalid email" });
     return;
   }
-  console.log("Gate2");
 
   // End route if the email's already in use by a verified account
   const existingUser = await db.collection("users").findOne({ email });
   if (existingUser && existingUser.accountStatus === "verified") {
     client.close(); // don't forget to close mongo session
-    res.status(422).json({ message: "This email is tied to an existing Local Eats account" }); // prettier-ignore
+    res.status(422).json({ message: "This email is tied to a verified account" }); // prettier-ignore
     return;
   }
-  console.log("Gate3");
 
   // See if the password provided meets our requirements
   let results = strengthTester.check(password);
@@ -49,7 +46,7 @@ export default async function handler(req, res) {
     commonPassword: !results.commonPassword,
     adequateLength: results.passwordLength >= 8,
     adequateStrength: results.strengthCode != "VERY_WEAK" || results.strengthCode != "WEAK", // prettier-ignore
-    includesNumber: results.charsets.number === true, 
+    includesNumber: results.charsets.number === true,
     includesLowercase: results.charsets.lower === true,
     includesUppercase: results.charsets.upper === true,
     includesSymbol: results.charsets.symbol === true,
@@ -62,7 +59,6 @@ export default async function handler(req, res) {
     res.status(422).json({ message: "Password does not meet requirements" });
     return;
   }
-  console.log("Gate4");
   // PAST THIS POINT, THE EMAIL IS UNIQUE AND LIKELY REAL + THE PASSWORD IS STRONG ENOUGH
 
   // Generate a 6 digit PIN to send via email, and create a hashed version that expires
@@ -84,18 +80,43 @@ export default async function handler(req, res) {
     res.status(422).json({ message: "Error" });
     return; // needed to stop rest of API route from executing
   });
-  console.log("Gate5");
 
-  // Create a pending account on MongoDB
-  await db.collection("users").insertOne({
-    email,
-    password: hashedPassword, // is hashed before insertion for security reasons
-    hashedVerifyPIN: hashedPIN, // will use to verify the email's owned by the user
-    pinExpiryDate: expiryDate,
-    accountStatus: "pending",
-  });
-  client.close();
-  res.status(200).json({ message: "Pending account created" });
+  // IF THE EMAIL IS NOT ASSOCIATED WITH ANY ACCOUNT... VERIFIED OR PENDING
+  // Create a new pending account on MongoDB
+  if (!existingUser) {
+    await db.collection("users").insertOne({
+      email,
+      password: hashedPassword, // is hashed before insertion for security reasons
+      hashedVerifyPIN: hashedPIN, // will use to verify the email's owned by the user
+      pinExpiryDate: expiryDate,
+      accountStatus: "pending",
+    });
+    client.close();
+    res.status(200).json({ message: "Pending account created" });
+  }
+
+  // IF THE EMAIL'S CONNECTED TO A PENDING ACCOUNT
+  // Update the pending account data so that the latest form submitter has a chance to verify ownership
+  else if (existingUser.accountStatus === "pending") {
+    await db.collection("users").updateOne(
+      {
+        email,
+      },
+      {
+        $set: {
+          email,
+          password: hashedPassword, // is hashed before insertion for security reasons
+          hashedVerifyPIN: hashedPIN, // will use to verify the email's owned by the user
+          pinExpiryDate: expiryDate,
+          accountStatus: "pending",
+        },
+      }
+    );
+    client.close();
+    res.status(200).json({ message: "Pending account created" });
+  }
+
+  
 }
 
 // Use to generate a 6 digit PIN

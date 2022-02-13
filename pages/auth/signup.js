@@ -75,6 +75,7 @@ export default function signup() {
       router.push("/auth/verify-email"); // redirect
       return;
     } catch (error) {
+      console.log(error.response)
       const errorMSG = error.response.data.message;
       switch (errorMSG) {
         case "This password does not match the first":
@@ -83,7 +84,7 @@ export default function signup() {
         case "Invalid email":
           dispatch({type: "INVALID_EMAIL", payload: errorMSG}); // prettier-ignore
           break;
-        case "This email is tied to an existing Local Eats account":
+        case "This email is tied to a verified account":
           dispatch({ type: "INVALID_EMAIL", payload: errorMSG });
           break;
         case "Password does not meet requirements":
@@ -227,7 +228,6 @@ function reducer(state, action) {
         passwordRequirements: false,
       };
     default:
-      alert("Something's gone wrong on our end!");
       return;
   }
 }
