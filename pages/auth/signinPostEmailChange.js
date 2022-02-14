@@ -15,10 +15,11 @@ export async function getServerSideProps(context) {
   return { props: { session } };
 }
 
-export default function signin() {
-  const title = "Sign In";
+export default function signinPostEmailChange() {
+  const title = "Email Changed Successfully";
   const descrip =
-    "Sign in and gain access to bookmarks plus any new features upon release!";
-  ("Log back into your account using your new credentials");
-  return useSignIn(title, descrip, true);
+    "Log back into your account using your new credentials";
+  return useSignIn(title, descrip, false);
 }
+
+// http://localhost:3000/auth/signinPostEmailChange

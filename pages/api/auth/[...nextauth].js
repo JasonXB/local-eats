@@ -48,7 +48,7 @@ export default NextAuth({
     }),
   ],
   pages: {
-    signIn: "/auth/signin",
+    // signIn: "/auth/signin",
     // signOut: '/auth/signout',  //! see what happens on sign out
     error: "/auth/signupError", // Error code passed in query string as ?error=
     // verifyRequest: "/verify-request", // (used for check email message) //! see if we do this officially

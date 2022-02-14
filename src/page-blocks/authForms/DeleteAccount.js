@@ -61,6 +61,7 @@ export default function DeleteAccount(props) {
       signOut(); // log out of your old session immediately
       router.replace("/"); // redirect home
     } catch (error) {
+      if(!error.response || !error.response.data) return revealErrorModal();
       const errorMSG = error.response.data.message;
       switch (errorMSG) {
         case "Incorrect password":

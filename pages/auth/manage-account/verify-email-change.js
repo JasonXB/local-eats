@@ -1,20 +1,19 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { Typography, Box, Stack, Button, FormControl, OutlinedInput } from "@mui/material"; // prettier-ignore
-import { mix } from "../../../styles/styleMixins";
 import { useRouter } from "next/router";
 import { signOut } from "next-auth/react";
 import { getSession } from "next-auth/react";
 import AuthHeader from "../../../src/page-blocks/authForms/HeaderHelper";
 import { styles } from "../../../styles/auth/verifyPIN";
-import Success from "../../../src/custom-components/Success";
+
 // Redirect users to homepage if they come here offline
 export async function getServerSideProps(context) {
   const session = await getSession({ req: context.req }); // falsy if not logged in. session obj if we are
   if (!session) {
     return {
       redirect: {
-        destination: "/auth/signin", // redirect to this path
+        destination: "/auth/signinPostEmailChange", // redirect to this path
         permanent: false, // don't always want to redirect (only if user's logged in)
       },
     };
@@ -40,9 +39,9 @@ export default function verifyEmail() {
         submittedPIN: typedPIN, // the pin we type in this pg's form
       });
       localStorage.removeItem("emailChangePending");
-      // Log the user out and prompt a sign in again
-      // NextAuth will still consider your old email to be what you're logged in with now
-      signOut(); // our SSR page guard will redirect users to the sign in page
+      signOut(); 
+      // IMPORTANT: sign out and prompt users to relogin to reinitialize NextAuth with up to date user data
+      // Our SSR page guard will take care of the redirect for us to /auth/siginPostEmailChange
     } catch (error) {
       localStorage.removeItem("emailChangePending");
       router.replace("/auth/manage-account/change-email");

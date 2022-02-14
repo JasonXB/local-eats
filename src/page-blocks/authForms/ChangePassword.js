@@ -1,6 +1,7 @@
 import React, { useRef, useState, useReducer } from "react";
 import { Typography, Stack, Button } from "@mui/material"; // prettier-ignore
 import { useRouter } from "next/router";
+import { signOut } from "next-auth/react";
 import FormControl from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import AuthHeader from "./HeaderHelper";
@@ -11,13 +12,13 @@ import GeneralErrorModal from "../../custom-components/Modals/GeneralError";
 import { styles } from "../../../styles/auth/manageAccount";
 import ReturnHomeBtn from "../../custom-components/ReturnHomeBtn";
 
-// Redirect users to homepage if they come here offline
+// Redirect users to sign in page if they come here offline
 export async function getServerSideProps(context) {
   const session = await getSession({ req: context.req }); // falsy if not logged in. session obj if we are
   if (!session) {
     return {
       redirect: {
-        destination: "/auth/signin", // redirect to this path
+        destination: "/auth/signinPostPasswordChange",
         permanent: false, // don't always want to redirect (only if user's logged in)
       },
     };
@@ -44,7 +45,6 @@ function reducer(state, action) {
       return { ...state, newPasswordText: " ", newPasswordError: false };
     case "TYPING_VERIFY_PASSWORD":
       return { ...state, verifyPasswordText: " ", verifyPasswordError: false };
-
     case "RESET":
       return {
         oldPasswordText: " ",
@@ -112,7 +112,12 @@ export default function ChangePassword() {
         oldPassword: typedOldPassword,
         newPassword: typedNewPassword,
       });
+      router.replace("/auth/signinPostPasswordChange")
+      // IMPORTANT: sign out and prompt users to relogin to reinitialize NextAuth with up to date user data
+      // Our SSR page guard will take care of the redirect for us to /auth/siginPostPasswordChange
     } catch (error) {
+      console.log(error.response);
+      if (!error.response || !error.response.data) return revealErrorModal();
       const errorMSG = error.response.data.message;
       switch (errorMSG) {
         case "Old password is not correct":
@@ -200,7 +205,7 @@ export default function ChangePassword() {
       >
         Change password
       </Button>
-      <ReturnHomeBtn/>
+      <ReturnHomeBtn />
       <GeneralErrorModal modalVisible={modalVisible} />
     </Stack>
   );

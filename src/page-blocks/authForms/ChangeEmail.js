@@ -86,6 +86,7 @@ export default function ChangeEmail(props) {
       router.push("/auth/manage-account/verify-email-change");
     } catch (error) {
       // Render error messages onscreen depending on the response object recieved
+      if(!error.response || !error.response.data) return revealErrorModal();
       const errorMSG = error.response.data.message;
       switch (errorMSG) {
         case "User offline":

@@ -22,10 +22,12 @@ export default async function handler(req, res) {
 
   // If the password's wrong, end the API route and throw an error
   if (!correctPassword) {
+    client.close();
     res.status(401).json({ message: "Incorrect password" });
     return; // end API route here
   }
   // If the password matches, go ahead and delete the account
   await db.collection("users").deleteOne({ email: accountEmail });
+  client.close();
   res.status(200).json({ message: "Account deleted" });
 }

@@ -82,7 +82,7 @@ export default function signup() {
       router.push("/auth/verify-email"); // redirect
       return;
     } catch (error) {
-      console.log(error.response);
+      if(!error.response || !error.response.data) return revealErrorModal();
       const errorMSG = error.response.data.message;
       switch (errorMSG) {
         case "This password does not match the first":
