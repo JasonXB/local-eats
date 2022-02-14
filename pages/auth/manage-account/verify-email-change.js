@@ -3,11 +3,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { Typography, Box, Stack, Button, FormControl, OutlinedInput } from "@mui/material"; // prettier-ignore
 import { mix } from "../../../styles/styleMixins";
 import { useRouter } from "next/router";
-import { signIn } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import { getSession } from "next-auth/react";
 import AuthHeader from "../../../src/page-blocks/authForms/HeaderHelper";
 import { styles } from "../../../styles/auth/verifyPIN";
-
+import Success from "../../../src/custom-components/Success";
 // Redirect users to homepage if they come here offline
 export async function getServerSideProps(context) {
   const session = await getSession({ req: context.req }); // falsy if not logged in. session obj if we are
@@ -29,7 +29,7 @@ export default function verifyEmail() {
 
   useEffect(() => {
     const isChangePending = localStorage.getItem("emailChangePending"); // string or null
-    if (!isChangePending) router.replace("/auth/manage-account/change-email ");
+    if (!isChangePending) router.replace("/auth/manage-account/change-email");
   }, []);
 
   const verifyHandler = async function () {
@@ -40,7 +40,9 @@ export default function verifyEmail() {
         submittedPIN: typedPIN, // the pin we type in this pg's form
       });
       localStorage.removeItem("emailChangePending");
-      router.replace("/"); //!!! render success component
+      // Log the user out and prompt a sign in again
+      // NextAuth will still consider your old email to be what you're logged in with now
+      signOut(); // our SSR page guard will redirect users to the sign in page
     } catch (error) {
       localStorage.removeItem("emailChangePending");
       router.replace("/auth/manage-account/change-email");

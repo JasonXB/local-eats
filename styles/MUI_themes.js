@@ -14,7 +14,7 @@ export const customThemes = {
     components: {
       // Disable button ripple- which is controlled as a default prop
       MuiButtonBase: {
-        defaultProps: { disableRipple: true, disableElevation: true },
+        defaultProps: { disableRipple: true },
       },
       // Remove Container's default padding
       MuiContainer: {

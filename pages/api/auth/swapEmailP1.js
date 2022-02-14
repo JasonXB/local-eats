@@ -27,13 +27,18 @@ export default async function handler(req, res) {
     return; // Ensure the user is online
   }
   const oldEmail = session.user.email;
+  console.log(oldEmail, newEmail)
+  if (newEmail === oldEmail) {
+    res
+      .status(422)
+      .json({ message: "This email's already tied to your Local Eats account" });
+    return;
+  }
 
   // Check to see if the email looks blatantly fake
   const newEmailValidity = validator.validate(newEmail); // returns Boolean
   if (!newEmailValidity) {
-    res
-      .status(422)
-      .json({ message: "Invalid email entry" }); //@ code error actions for this
+    res.status(422).json({ message: "Invalid email entry" }); //@ code error actions for this
     return;
   }
 
@@ -56,7 +61,10 @@ export default async function handler(req, res) {
     .collection("users")
     .findOne({ email: oldEmail });
   console.log(currentAccount); //!!! equals null for some reason sometimes
-  const passwordsMatch = await compare(submittedPassword, currentAccount.password); // T/F
+  const passwordsMatch = await compare(
+    submittedPassword,
+    currentAccount.password
+  ); // T/F
   if (!passwordsMatch) {
     client.close();
     res.status(408).json({ message: "Account password incorrect" });

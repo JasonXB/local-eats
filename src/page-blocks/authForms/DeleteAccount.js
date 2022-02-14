@@ -10,6 +10,7 @@ import AuthHeader from "./HeaderHelper";
 import { signOut } from "next-auth/react";
 import { styles } from "../../../styles/auth/manageAccount";
 import GeneralErrorModal from "../../custom-components/Modals/GeneralError";
+import ReturnHomeBtn from "../../custom-components/ReturnHomeBtn";
 
 // Redirect users to homepage if they come here offline
 export async function getServerSideProps(context) {
@@ -105,6 +106,7 @@ export default function DeleteAccount(props) {
       >
         Delete account
       </Button>
+      <ReturnHomeBtn/>
       <GeneralErrorModal modalVisible={modalVisible} />
     </Stack>
   );

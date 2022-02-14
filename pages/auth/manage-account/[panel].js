@@ -104,6 +104,7 @@ export default function ManageAccount(props) {
       <TabPanel value={value} index={2}>
         <DeleteAccount />
       </TabPanel>
+
     </Box>
   );
 }

@@ -9,6 +9,7 @@ import { getSession } from "next-auth/react";
 import axios from "axios";
 import GeneralErrorModal from "../../custom-components/Modals/GeneralError";
 import { styles } from "../../../styles/auth/manageAccount";
+import ReturnHomeBtn from "../../custom-components/ReturnHomeBtn";
 
 // Redirect users to homepage if they come here offline
 export async function getServerSideProps(context) {
@@ -199,6 +200,7 @@ export default function ChangePassword() {
       >
         Change password
       </Button>
+      <ReturnHomeBtn/>
       <GeneralErrorModal modalVisible={modalVisible} />
     </Stack>
   );

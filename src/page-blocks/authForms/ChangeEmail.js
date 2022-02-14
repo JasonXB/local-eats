@@ -9,6 +9,7 @@ import AuthHeader from "./HeaderHelper";
 import { getSession } from "next-auth/react";
 import GeneralErrorModal from "../../custom-components/Modals/GeneralError";
 import { styles } from "../../../styles/auth/manageAccount";
+import ReturnHomeBtn from "../../custom-components/ReturnHomeBtn";
 
 // Redirect users to homepage if they come here offline
 export async function getServerSideProps(context) {
@@ -90,7 +91,8 @@ export default function ChangeEmail(props) {
         case "User offline":
           router.push("/auth/signin");
           break;
-        case "Invalid email entry": // "INVALID_NEW_EMAIL"
+        case "This email's already tied to your Local Eats account":
+        case "Invalid email entry":
           dispatch({
             type: "INVALID_NEW_EMAIL",
             payload: errorMSG,
@@ -130,7 +132,6 @@ export default function ChangeEmail(props) {
         <Typography
           align="left"
           variant="label"
-          color={formState.emailError ? "secondary" : ""}
           sx={{ mb: 2, mt: "2px" }}
         >
           CURRENT EMAIL:
@@ -184,6 +185,7 @@ export default function ChangeEmail(props) {
       >
         Change account email
       </Button>
+      <ReturnHomeBtn/>
       <GeneralErrorModal modalVisible={modalVisible} />
     </Stack>
   );
