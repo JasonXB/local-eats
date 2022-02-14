@@ -1,11 +1,10 @@
-import React, { useRef, useState, useEffect, useReducer } from "react";
+import React, { useRef, useState, useReducer } from "react";
 import { Typography, Stack, Button } from "@mui/material"; // prettier-ignore
 import { useRouter } from "next/router";
 import FormControl from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import AuthHeader from "./HeaderHelper";
 import FormHelperText from "@mui/material/FormHelperText";
-import { mix } from "../../../styles/styleMixins";
 import { getSession } from "next-auth/react";
 import axios from "axios";
 import GeneralErrorModal from "../../custom-components/Modals/GeneralError";
@@ -61,9 +60,8 @@ function reducer(state, action) {
 
 export default function ChangePassword() {
   // Control the general error modal which opens if one of our API route 3rd party services fail
-  const [modalVisible, setModalVisible] = React.useState(false);
-  const revealModal = () => setModalVisible(true);
-  const hideModal = () => setModalVisible(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const revealErrorModal = () => setModalVisible(true);
 
   const router = useRouter();
   // These states and dispatch functions control the error text and colors of each input field
@@ -114,13 +112,17 @@ export default function ChangePassword() {
         newPassword: typedNewPassword,
       });
     } catch (error) {
-      const errorMessage = error.response.data.message;
-      if (errorMessage === "Old password is not correct") {
-        dispatch({ type: "INVALID_OLD_PASSWORD" });
-      } else if (errorMessage === "This password has been used previously") {
-        dispatch({ type: "INVALID_NEW_PASSWORD_USED_PREVIOUSLY" });
-      } else {
-        revealModal();
+      const errorMSG = error.response.data.message;
+      switch (errorMSG) {
+        case "Old password is not correct":
+          dispatch({ type: "INVALID_OLD_PASSWORD" });
+          break;
+        case "This password has been used previously":
+          dispatch({ type: "INVALID_NEW_PASSWORD_USED_PREVIOUSLY" }); // prettier-ignore
+          break;
+        default:
+          revealErrorModal();
+          break;
       }
     }
   };
@@ -197,7 +199,7 @@ export default function ChangePassword() {
       >
         Change password
       </Button>
-      <GeneralErrorModal modalVisible={modalVisible} hideModal={hideModal} />
+      <GeneralErrorModal modalVisible={modalVisible} />
     </Stack>
   );
 }

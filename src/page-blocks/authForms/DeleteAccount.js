@@ -5,11 +5,11 @@ import { Typography, Stack, Button, Box } from "@mui/material"; // prettier-igno
 import FormControl from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import FormHelperText from "@mui/material/FormHelperText";
-import { mix } from "../../../styles/styleMixins";
 import { getSession } from "next-auth/react";
 import AuthHeader from "./HeaderHelper";
 import { signOut } from "next-auth/react";
-import {styles} from "../../../styles/auth/manageAccount";
+import { styles } from "../../../styles/auth/manageAccount";
+import GeneralErrorModal from "../../custom-components/Modals/GeneralError";
 
 // Redirect users to homepage if they come here offline
 export async function getServerSideProps(context) {
@@ -46,6 +46,10 @@ export default function DeleteAccount(props) {
     passwordError: false,
   });
 
+  // Control the general error modal which opens if one of our API route 3rd party services fail
+  const [modalVisible, setModalVisible] = useState(false);
+  const revealErrorModal = () => setModalVisible(true);
+
   const submitHandler = async function () {
     const typedPassword = passwordRef.current.value;
     try {
@@ -56,8 +60,15 @@ export default function DeleteAccount(props) {
       signOut(); // log out of your old session immediately
       router.replace("/"); // redirect home
     } catch (error) {
-      console.error(error.response);
-      dispatch({ type: "INVALID_PASSWORD" });
+      const errorMSG = error.response.data.message;
+      switch (errorMSG) {
+        case "Incorrect password":
+          dispatch({ type: "INVALID_PASSWORD" });
+          break;
+        default:
+          revealErrorModal();
+          break;
+      }
     }
   };
 
@@ -86,7 +97,6 @@ export default function DeleteAccount(props) {
           {formState.passwordText}
         </FormHelperText>
       </FormControl>
-
       <Button
         variant="contained"
         disableElevation
@@ -95,7 +105,7 @@ export default function DeleteAccount(props) {
       >
         Delete account
       </Button>
+      <GeneralErrorModal modalVisible={modalVisible} />
     </Stack>
   );
 }
-

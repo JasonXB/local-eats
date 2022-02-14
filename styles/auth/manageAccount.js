@@ -3,7 +3,7 @@ import { mix } from "../styleMixins";
 export const styles = {
   parentContainer: {
     width: "100%",
-    marginTop: "2rem",
+    marginTop: "3.5rem",
     maxWidth: "35rem",
     marginInline: "auto",
     textAlign: "center",

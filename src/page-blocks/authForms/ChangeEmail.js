@@ -1,15 +1,14 @@
 import axios from "axios";
 import { useRouter } from "next/router";
-import React, { useRef, useReducer } from "react";
+import React, { useRef, useReducer, useState } from "react";
 import { Typography, Stack, Button } from "@mui/material"; // prettier-ignore
 import FormControl from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import FormHelperText from "@mui/material/FormHelperText";
 import AuthHeader from "./HeaderHelper";
 import { getSession } from "next-auth/react";
-import GeneralError from "../../custom-components/Modals/GeneralError";
+import GeneralErrorModal from "../../custom-components/Modals/GeneralError";
 import { styles } from "../../../styles/auth/manageAccount";
-import useWindowSize from "../../utility-functions/general/useWindowSize";
 
 // Redirect users to homepage if they come here offline
 export async function getServerSideProps(context) {
@@ -59,9 +58,8 @@ export default function ChangeEmail(props) {
   });
 
   // Control the general error modal which opens if one of our API route 3rd party services fail
-  const [modalVisible, setModalVisible] = React.useState(false);
-  const revealModal = () => setModalVisible(true);
-  const hideModal = () => setModalVisible(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const revealErrorModal = () => setModalVisible(true);
 
   // Collect values of what's typed in each of the input fields
   const newEmailRef = useRef();
@@ -94,13 +92,13 @@ export default function ChangeEmail(props) {
         case "Invalid email entry": // "INVALID_NEW_EMAIL"
           dispatch({
             type: "INVALID_NEW_EMAIL",
-            payload: errorMSG, // prettier-ignore
+            payload: errorMSG, 
           });
           break;
         case "This email is connected to an existing Local Eats account":
           dispatch({
             type: "INVALID_NEW_EMAIL",
-            payload: errorMSG, // prettier-ignore
+            payload: errorMSG,
           });
           break;
         case "Account password incorrect":
@@ -110,7 +108,7 @@ export default function ChangeEmail(props) {
           });
           break;
         default:
-          revealModal();
+          revealErrorModal();
           break;
       }
     }
@@ -169,7 +167,7 @@ export default function ChangeEmail(props) {
       >
         Change account email
       </Button>
-      <GeneralError modalVisible={modalVisible} hideModal={hideModal} />
+      <GeneralErrorModal modalVisible={modalVisible} />
     </Stack>
   );
 }
