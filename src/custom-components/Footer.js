@@ -59,7 +59,7 @@ export default function Footer() {
         </Box>
         <Divider sx={{ mt: 4, mb: 4 }} />
         <Typography sx={{ pb: 4, textAlign: "center" }}>
-          Business data provided by the Yelp Fusion™ API.
+          Data provided by the Yelp Fusion™ API.
         </Typography>
       </Box>
     </>

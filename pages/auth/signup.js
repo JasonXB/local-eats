@@ -8,6 +8,7 @@ import FormHelperText from "@mui/material/FormHelperText";
 import { mix } from "../../styles/styleMixins";
 import { getSession } from "next-auth/react";
 import AuthHeader from "../../src/page-blocks/authForms/HeaderHelper";
+import GeneralErrorModal from "../../src/custom-components/Modals/GeneralError"
 
 // Redirect users to homepage if they come here online
 export async function getServerSideProps(context) {
@@ -25,7 +26,7 @@ export async function getServerSideProps(context) {
 
 export default function signup() {
   const router = useRouter();
-
+  // Control the form using state values
   const [formState, dispatch] = useReducer(reducer, {
     emailText: " ", // allots space for the message before we even want one to be visible
     emailError: false,
@@ -35,6 +36,7 @@ export default function signup() {
     verifyPasswordError: false,
     passwordRequirements: false,
   });
+
   // Collect values of what's typed in each of the input fields
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -45,6 +47,11 @@ export default function signup() {
   const typingEmailHandler = () =>  formState.emailError && dispatch({ type: "RESET" }); // prettier-ignore
   const typingPasswordHandler = () => formState.passwordError && dispatch({ type: "RESET" }); // prettier-ignore
   const typingVerifyHandler = () => formState.verifyPasswordError && dispatch({ type: "RESET" }); // prettier-ignore
+
+  // Control the general error modal should open if one of our API route 3rd party services fail
+  const [modalVisible, setModalVisible] = React.useState(false);
+  const revealErrorModal = () => setModalVisible(true);
+
 
   const submitHandler = async function () {
     // Reset the form state to remove any error visuals that were required earlier
@@ -91,12 +98,16 @@ export default function signup() {
           dispatch({ type: "INVALID_PASSWORD", payload: errorMSG });
           break;
         default:
-          alert("Something's gone wrong on our end!");
-          break;
+          revealErrorModal(); 
+          // render general error modal if the failed response message is something other than the options we provided
+          // should only happen when one of our 3rd party services fail (SendGrid, MongoDB...etc)
+          break; 
       }
       return;
     }
   };
+
+  
 
   return (
     <Stack sx={styles.parentContainer}>
@@ -104,7 +115,6 @@ export default function signup() {
         titleText={"Sign Up"}
         descriptionText={"Sign up and gain access to bookmarks plus any new features upon release!"} // prettier-ignore
       />
-
       <FormControl sx={styles.formControl}>
         <Typography
           align="left"
@@ -184,6 +194,7 @@ export default function signup() {
           at least 1 symbol. No punctuation allowed
         </Typography>
       </Stack>
+      <GeneralErrorModal modalVisible={modalVisible}/>
     </Stack>
   );
 }

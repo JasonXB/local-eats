@@ -64,7 +64,7 @@ export default function verifyEmail() {
           // error={formState.passwordError}
           // onChange={typingPasswordHandler}
         />
-        <Button variant="contained" onClick={verifyHandler}>
+        <Button variant="contained" disableElevation onClick={verifyHandler}>
           VERIFY
         </Button>
       </FormControl>

@@ -12,6 +12,7 @@ import { mix } from "../../styles/styleMixins";
 import { credentialSignIn } from "../api/helperFunctions/credentialSignIn";
 import { getSession } from "next-auth/react";
 import AuthHeader from "../../src/page-blocks/authForms/HeaderHelper";
+import GeneralErrorModal from "../../src/custom-components/Modals/GeneralError";
 
 // Redirect users to homepage if they come here online
 export async function getServerSideProps(context) {
@@ -40,6 +41,10 @@ export default function signup() {
     passwordText: " ",
     passwordError: false,
   });
+
+  // Control the general error modal should open if one of our API route 3rd party services fail
+  const [modalVisible, setModalVisible] = React.useState(false);
+  const revealErrorModal = () => setModalVisible(true);
 
   const loginHandler = async function () {
     // Capture values of input fields
@@ -78,7 +83,9 @@ export default function signup() {
           dispatch({ type: "INVALID_PASSWORD", payload: errorMSG });
           break;
         default:
-          alert("Something's gone wrong on our end!"); //!!! replace with modal
+          revealErrorModal();
+          // render general error modal if the failed response message is something other than the options we provided
+          // should only happen when one of our 3rd party services fail (SendGrid, MongoDB...etc)
           break;
       }
       return;
@@ -136,17 +143,19 @@ export default function signup() {
       <Button
         variant="contained"
         onClick={loginHandler}
-        sx={{ width: "80%", maxWidth: "20.625rem" }}
+        sx={styles.btn}
+        disableElevation
       >
         Sign in to Local Eats
       </Button>
       <Button
         variant="outlined"
         href="/auth/signup"
-        sx={{ width: "80%", maxWidth: "20.625rem", mt:2 }}
+        sx={{ ...styles.btn, mt: 2 }}
       >
         Need an account? Sign up!
       </Button>
+      <GeneralErrorModal modalVisible={modalVisible} />
     </Stack>
   );
 }
@@ -212,5 +221,9 @@ const styles = {
     color: "#d32f2f",
     m: 0,
     mt: 0.5,
+  },
+  btn: {
+    width: "80%",
+    maxWidth: "20.625rem",
   },
 };

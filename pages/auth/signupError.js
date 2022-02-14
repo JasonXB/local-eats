@@ -47,7 +47,7 @@ export default function UseFormControl() {
             For now, feel free to enjoy the site as a guest (most site features
             are still available)
           </Typography>
-          <Button variant="contained" sx={{ mt: 2 }} href="/">
+          <Button variant="contained" disableElevation sx={{ mt: 2 }} href="/">
             Return to homepage as a guest
           </Button>
         </Stack>

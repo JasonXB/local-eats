@@ -12,7 +12,6 @@ export default function SignInBtn(props) {
         fullWidth
         onClick={onClickHandler}
         variant="outlined"
-        disableElevation
         sx={{ mb: 1 }}
       >
         Sign in
@@ -24,7 +23,6 @@ export default function SignInBtn(props) {
       sx={{ ml: 2 }}
       onClick={onClickHandler}
       variant="outlined"
-      disableElevation
     >
       Sign in
     </Button>
