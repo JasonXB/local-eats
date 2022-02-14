@@ -75,7 +75,7 @@ export default function signup() {
       router.push("/auth/verify-email"); // redirect
       return;
     } catch (error) {
-      console.log(error.response)
+      console.log(error.response);
       const errorMSG = error.response.data.message;
       switch (errorMSG) {
         case "This password does not match the first":
@@ -167,12 +167,18 @@ export default function signup() {
         onClick={submitHandler}
         sx={{ width: "80%", maxWidth: "20.625rem" }}
       >
-        Submit
+        Sign up to Local Eats
+      </Button>
+      <Button
+        disableElevation
+        variant="outlined"
+        href="/auth/signin"
+        sx={{ width: "80%", maxWidth: "20.625rem", mt: 2 }}
+      >
+        Have an account? Sign in!
       </Button>
       <Stack sx={styles.bottomSection}>
-        <Typography variant="p" sx={{ mt: 2 }}>
-          PASSWORD REQUIREMENTS
-        </Typography>
+        <Typography variant="p">PASSWORD REQUIREMENTS</Typography>
         <Typography variant="p">
           Must be 8 characters or longer. Requires an uppercase, lowercase, plus
           at least 1 symbol. No punctuation allowed
@@ -260,6 +266,6 @@ const styles = {
   },
   bottomSection: {
     height: "5.5rem",
-    mt: 2,
+    mt: 4,
   },
 };

@@ -138,7 +138,14 @@ export default function signup() {
         onClick={loginHandler}
         sx={{ width: "80%", maxWidth: "20.625rem" }}
       >
-        Log into account
+        Sign in to Local Eats
+      </Button>
+      <Button
+        variant="outlined"
+        href="/auth/signup"
+        sx={{ width: "80%", maxWidth: "20.625rem", mt:2 }}
+      >
+        Need an account? Sign up!
       </Button>
     </Stack>
   );
