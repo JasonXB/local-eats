@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useRouter } from "next/router";
-import React, { useRef, useReducer, useState } from "react";
+import React, { useRef, useReducer, useState, useEffect } from "react";
 import { Typography, Stack, Button } from "@mui/material"; // prettier-ignore
 import FormControl from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
@@ -49,6 +49,7 @@ function reducer(state, action) {
 
 export default function ChangeEmail(props) {
   const router = useRouter();
+
   // These states and dispatch functions control the error text and colors of each input field
   const [formState, dispatch] = useReducer(reducer, {
     emailText: " ", // allots space for the message before we even want one to be visible
@@ -92,7 +93,7 @@ export default function ChangeEmail(props) {
         case "Invalid email entry": // "INVALID_NEW_EMAIL"
           dispatch({
             type: "INVALID_NEW_EMAIL",
-            payload: errorMSG, 
+            payload: errorMSG,
           });
           break;
         case "This email is connected to an existing Local Eats account":
@@ -113,14 +114,33 @@ export default function ChangeEmail(props) {
       }
     }
   };
+
+  // Grab the email we're logged in with on startup to use in JSX
+  const [currentEmail, setCurrentEmail]= useState("")
+  useEffect(async () => {
+    const session = await getSession();
+    setCurrentEmail(session.user.email);
+  }, []);
+
   return (
     <Stack sx={styles.parentContainer}>
       <AuthHeader
         titleText={"Change Email"}
-        descriptionText={"Swap your current account email for another. Any emails will be directed to your new address once you're done"} // prettier-ignore
+        descriptionText={""} 
       />
 
       <FormControl sx={styles.formControl}>
+        <Typography
+          align="left"
+          variant="label"
+          color={formState.emailError ? "secondary" : ""}
+          sx={{ mb: 2, mt:"2px" }}
+        >
+          CURRENT EMAIL:
+          <br />
+          <Typography>{currentEmail}</Typography>
+        </Typography>
+
         <Typography
           align="left"
           variant="label"
