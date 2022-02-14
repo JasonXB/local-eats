@@ -80,7 +80,7 @@ export default function verifyEmail() {
         submittedPIN: typedPIN, // the pin we type in this pg's form
       }); // past this point, account creation has succeeded
       // Sign in immediately, delete localStorage data and redirect
-      endSignupProcess("success"); //
+      endSignupProcess("success"); //!!! change success actions
     } catch (error) {
       endSignupProcess("failure"); // delete localStorage data and redirect
     }

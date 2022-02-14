@@ -16,7 +16,7 @@ export async function getServerSideProps(context) {
   if (!session) {
     return {
       redirect: {
-        destination: "/", // redirect to this path
+        destination: "/auth/signin", // redirect to this path
         permanent: false, // don't always want to redirect (only if user's logged in)
       },
     };
@@ -82,7 +82,7 @@ export default function ChangeEmail(props) {
         submittedPassword: typedPassword,
       });
       localStorage.setItem("emailChangePending", true);
-      router.push("/auth/verify-email-change");
+      router.push("/auth/manage-account/verify-email-change");
     } catch (error) {
       // Render error messages onscreen depending on the response object recieved
       const errorMSG = error.response.data.message;
@@ -116,7 +116,7 @@ export default function ChangeEmail(props) {
   };
 
   // Grab the email we're logged in with on startup to use in JSX
-  const [currentEmail, setCurrentEmail]= useState("")
+  const [currentEmail, setCurrentEmail] = useState("");
   useEffect(async () => {
     const session = await getSession();
     setCurrentEmail(session.user.email);
@@ -124,17 +124,14 @@ export default function ChangeEmail(props) {
 
   return (
     <Stack sx={styles.parentContainer}>
-      <AuthHeader
-        titleText={"Change Email"}
-        descriptionText={""} 
-      />
+      <AuthHeader titleText={"Change Email"} descriptionText={""} />
 
       <FormControl sx={styles.formControl}>
         <Typography
           align="left"
           variant="label"
           color={formState.emailError ? "secondary" : ""}
-          sx={{ mb: 2, mt:"2px" }}
+          sx={{ mb: 2, mt: "2px" }}
         >
           CURRENT EMAIL:
           <br />

@@ -17,7 +17,7 @@ export async function getServerSideProps(context) {
   if (!session) {
     return {
       redirect: {
-        destination: "/", // redirect to this path
+        destination: "/auth/signin", // redirect to this path
         permanent: false, // don't always want to redirect (only if user's logged in)
       },
     };

@@ -1,12 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { Typography, Box, Stack, Button, FormControl, OutlinedInput } from "@mui/material"; // prettier-ignore
-import { mix } from "../../styles/styleMixins";
+import { mix } from "../../../styles/styleMixins";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
 import { getSession } from "next-auth/react";
-import AuthHeader from "../../src/page-blocks/authForms/HeaderHelper";
-import { styles } from "../../styles/auth/verifyPIN";
+import AuthHeader from "../../../src/page-blocks/authForms/HeaderHelper";
+import { styles } from "../../../styles/auth/verifyPIN";
 
 // Redirect users to homepage if they come here offline
 export async function getServerSideProps(context) {
@@ -14,7 +14,7 @@ export async function getServerSideProps(context) {
   if (!session) {
     return {
       redirect: {
-        destination: "/", // redirect to this path
+        destination: "/auth/signin", // redirect to this path
         permanent: false, // don't always want to redirect (only if user's logged in)
       },
     };
@@ -29,7 +29,7 @@ export default function verifyEmail() {
 
   useEffect(() => {
     const isChangePending = localStorage.getItem("emailChangePending"); // string or null
-    if (!isChangePending) router.replace("/auth/change-email");
+    if (!isChangePending) router.replace("/auth/manage-account/change-email ");
   }, []);
 
   const verifyHandler = async function () {
@@ -40,7 +40,7 @@ export default function verifyEmail() {
         submittedPIN: typedPIN, // the pin we type in this pg's form
       });
       localStorage.removeItem("emailChangePending");
-      router.replace("/");
+      router.replace("/"); //!!! render success component
     } catch (error) {
       localStorage.removeItem("emailChangePending");
       router.replace("/auth/manage-account/change-email");

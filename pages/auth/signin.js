@@ -20,7 +20,7 @@ export async function getServerSideProps(context) {
   if (session) {
     return {
       redirect: {
-        destination: "/", // redirect to this path
+        destination: "/", // if online, redirect home
         permanent: false, // don't always want to redirect (only if user's logged in)
       },
     };
