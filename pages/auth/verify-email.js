@@ -7,6 +7,7 @@ import { signIn } from "next-auth/react";
 import { getSession } from "next-auth/react";
 import AuthHeader from "../../src/page-blocks/authForms/HeaderHelper";
 import { styles } from "../../styles/auth/verifyPIN";
+import Spinner from "../../src/custom-components/LoadingVisuals/FullScreen/Spinner";
 
 // Redirect users to homepage if they come here online
 export async function getServerSideProps(context) {
@@ -23,6 +24,9 @@ export async function getServerSideProps(context) {
 }
 
 export default function verifyEmail() {
+  // Render a loading spinner during some of this page's async operations
+  const [spinner, setSpinner] = useState(false);
+
   // Redirect visitors who arrived without going through /auth/signup first
   let pendingEmail;
   useEffect(() => {
@@ -73,6 +77,7 @@ export default function verifyEmail() {
 
   const verifyHandler = async function () {
     const typedPIN = pinRef.current.value;
+    setSpinner(true);
     try {
       // Verify your account to gain access to new features
       await axios.post("/api/auth/signupP2", {
@@ -80,12 +85,13 @@ export default function verifyEmail() {
         submittedPIN: typedPIN, // the pin we type in this pg's form
       }); // past this point, account creation has succeeded
       // Sign in immediately, delete localStorage data and redirect
-      endSignupProcess("success"); //!!! change success actions
+      endSignupProcess("success");
     } catch (error) {
       endSignupProcess("failure"); // delete localStorage data and redirect
     }
   };
 
+  if (spinner) return <Spinner />;
   return (
     <Stack sx={styles.parentContainer}>
       <AuthHeader titleText={"Verify Email"} descriptionText={""} />

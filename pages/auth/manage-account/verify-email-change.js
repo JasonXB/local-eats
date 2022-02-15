@@ -6,6 +6,7 @@ import { signOut } from "next-auth/react";
 import { getSession } from "next-auth/react";
 import AuthHeader from "../../../src/page-blocks/authForms/HeaderHelper";
 import { styles } from "../../../styles/auth/verifyPIN";
+import Spinner from "../../../src/custom-components/LoadingVisuals/FullScreen/Spinner";
 
 // Redirect users to homepage if they come here offline
 export async function getServerSideProps(context) {
@@ -26,12 +27,16 @@ export default function verifyEmail() {
   const router = useRouter();
   const pinRef = useRef(); // the value of the verification PIN field
 
+  // Render a loading spinner during some of this page's async operations
+  const [spinner, setSpinner] = useState(false);
+
   useEffect(() => {
     const isChangePending = localStorage.getItem("emailChangePending"); // string or null
     if (!isChangePending) router.replace("/auth/manage-account/change-email");
   }, []);
 
   const verifyHandler = async function () {
+    setSpinner(true);
     const typedPIN = pinRef.current.value;
     try {
       // Verify your account to gain access to new features
@@ -40,7 +45,7 @@ export default function verifyEmail() {
       });
       localStorage.removeItem("emailChangePending");
       // router.replace("/auth/credChangeSignin");
-      signOut(); 
+      signOut();
       // IMPORTANT: sign out and prompt users to relogin to reinitialize NextAuth with up to date user data
       // Our SSR page guard will take care of the redirect for us to /auth/siginPostEmailChange
     } catch (error) {
@@ -49,6 +54,7 @@ export default function verifyEmail() {
     }
   };
 
+  if (spinner) return <Spinner />;
   return (
     <Stack sx={styles.parentContainer}>
       <AuthHeader titleText={"Verify Email Change"} descriptionText={""} />

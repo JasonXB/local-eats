@@ -9,6 +9,7 @@ import { credentialSignIn } from "../../../pages/api/helperFunctions/credentialS
 import AuthHeader from "../../../src/page-blocks/authForms/HeaderHelper";
 import GeneralErrorModal from "../../../src/custom-components/Modals/GeneralError";
 import GuestBtn from "../../custom-components/GuestBtn";
+
 export default function useSignIn(title, descrip, needNewAccount) {
   const router = useRouter();
   // Collect values of what's typed in each of the input fields
@@ -209,5 +210,6 @@ const styles = {
   btn: {
     width: "80%",
     maxWidth: "20.625rem",
+    mt: 1,
   },
 };
