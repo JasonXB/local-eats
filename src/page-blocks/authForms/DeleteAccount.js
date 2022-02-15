@@ -58,8 +58,10 @@ export default function DeleteAccount(props) {
       await axios.post("/api/auth/deleteAccount", {
         submittedPassword: typedPassword,
       }); // past this point, account deletion has succeeded
-      signOut(); // log out of your old session immediately
-      router.replace("/"); // redirect home
+      router.replace("/auth/account-deleted"); 
+      //## redirect to this page that instantly logs you out and tells users the account deletion succeeded
+      //## We could log users out here, but the SSR page guards on [panel].js would reroute us to a sign in page
+      //## That makes no sense if the user just deleted their account
     } catch (error) {
       if(!error.response || !error.response.data) return revealErrorModal();
       const errorMSG = error.response.data.message;
