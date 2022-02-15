@@ -26,7 +26,6 @@ export default async function handler(req, res) {
 
   // Verify the PIN submitted in the verify form
   const correctPIN = await compare(submittedPIN, correctHashedPIN); // Boolean
-  console.log(correctPIN);
   // If the PIN is wrong, delete the emailSwap object on the account we're logged into
   if (!correctPIN) {
     await db
@@ -62,4 +61,3 @@ export default async function handler(req, res) {
   res.status(201).json({ message: "Swap procedure part 2 completed" });
 }
 
-// should only reach new page if we have localStorage "emailSwap Pending"

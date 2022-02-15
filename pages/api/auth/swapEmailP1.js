@@ -27,7 +27,6 @@ export default async function handler(req, res) {
     return; // Ensure the user is online
   }
   const oldEmail = session.user.email;
-  console.log(oldEmail, newEmail)
   if (newEmail === oldEmail) {
     res
       .status(422)

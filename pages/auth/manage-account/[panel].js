@@ -9,7 +9,6 @@ import ChangeEmail from "../../../src/page-blocks/authForms/ChangeEmail";
 import ChangePassword from "../../../src/page-blocks/authForms/ChangePassword";
 import DeleteAccount from "../../../src/page-blocks/authForms/DeleteAccount";
 import { getSession } from "next-auth/react";
-import useWindowSize from "../../../src/utility-functions/general/useWindowSize";
 
 // Redirect users to homepage if they come here offline
 export async function getServerSideProps(context) {
@@ -17,7 +16,7 @@ export async function getServerSideProps(context) {
   if (!session) {
     return {
       redirect: {
-        destination: "/auth/credChangeSignin", //!!!
+        destination: "/auth/credChangeSignin", 
         permanent: false, // don't always want to redirect (only if user's logged in)
       },
     };

@@ -115,8 +115,6 @@ export default async function handler(req, res) {
     client.close();
     res.status(200).json({ message: "Pending account created" });
   }
-
-  
 }
 
 // Use to generate a 6 digit PIN
