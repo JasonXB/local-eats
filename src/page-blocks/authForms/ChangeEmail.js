@@ -11,20 +11,6 @@ import GeneralErrorModal from "../../custom-components/Modals/GeneralError";
 import { styles } from "../../../styles/auth/manageAccount";
 import ReturnHomeBtn from "../../custom-components/ReturnHomeBtn";
 
-// Redirect users to homepage if they come here offline
-export async function getServerSideProps(context) {
-  const session = await getSession({ req: context.req }); // falsy if not logged in. session obj if we are
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/auth/signin", // redirect to this path
-        permanent: false, // don't always want to redirect (only if user's logged in)
-      },
-    };
-  }
-  return { props: { session } };
-}
-
 function reducer(state, action) {
   switch (action.type) {
     // Actions to take when the user submits a bad input for a field
@@ -47,6 +33,9 @@ function reducer(state, action) {
       return state;
   }
 }
+
+// Since this component is nested within /auth/[panel].js
+// We'll let that component take care of redirects if we're on this page while offline (no SSR guards here)
 
 export default function ChangeEmail(props) {
   const router = useRouter();

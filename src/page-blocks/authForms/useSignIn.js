@@ -8,8 +8,8 @@ import { mix } from "../../../styles/styleMixins";
 import { credentialSignIn } from "../../../pages/api/helperFunctions/credentialSignIn";
 import AuthHeader from "../../../src/page-blocks/authForms/HeaderHelper";
 import GeneralErrorModal from "../../../src/custom-components/Modals/GeneralError";
-
-export default function useSignIn( title, descrip, needNewAccount ) {
+import GuestBtn from "../../custom-components/GuestBtn";
+export default function useSignIn(title, descrip, needNewAccount) {
   const router = useRouter();
   // Collect values of what's typed in each of the input fields
   const emailRef = useRef();
@@ -138,6 +138,7 @@ export default function useSignIn( title, descrip, needNewAccount ) {
           Need an account? Sign up!
         </Button>
       )}
+      <GuestBtn />
       <GeneralErrorModal modalVisible={modalVisible} />
     </Stack>
   );

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Box } from '@mui/material';
+import { Button } from '@mui/material';
 import {styles} from "../../styles/auth/verifyPIN"
 
 export default function ReturnHomeBtn() {

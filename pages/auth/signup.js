@@ -9,7 +9,7 @@ import { mix } from "../../styles/styleMixins";
 import { getSession } from "next-auth/react";
 import AuthHeader from "../../src/page-blocks/authForms/HeaderHelper";
 import GeneralErrorModal from "../../src/custom-components/Modals/GeneralError"
-
+import GuestBtn from "../../src/custom-components/GuestBtn"
 // Redirect users to homepage if they come here online
 export async function getServerSideProps(context) {
   const session = await getSession({ req: context.req }); // falsy if not logged in. session obj if we are
@@ -171,6 +171,7 @@ export default function signup() {
           {formState.verifyPasswordText}
         </FormHelperText>
       </FormControl>
+      
       <Button
         variant="contained"
         disableElevation
@@ -187,7 +188,8 @@ export default function signup() {
       >
         Have an account? Sign in!
       </Button>
-      <Stack sx={styles.bottomSection}>
+      <GuestBtn/>
+      <Stack sx={{mt:4}}>
         <Typography variant="p">PASSWORD REQUIREMENTS</Typography>
         <Typography variant="p">
           Must be 8 characters or longer. Requires an uppercase, lowercase, plus
@@ -274,9 +276,5 @@ const styles = {
   conditionalRed: (inp) => {
     if(inp) return { color: "#d32f2f" } // prettier-ignore
     if(!inp) return { color: "rgba(0, 0, 0, 0.87)" } // prettier-ignore
-  },
-  bottomSection: {
-    height: "5.5rem",
-    mt: 4,
   },
 };
