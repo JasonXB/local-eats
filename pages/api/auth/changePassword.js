@@ -14,7 +14,6 @@ export default async function handler(req, res) {
     res.status(401).json({ message: "Not authenticated!" });
     return;
   }
-  console.log("gate1");
   // Grab the current logged in email- only works b/c of [...nextAuth].js: return { email: user.email } @ end
   const userEmail = session.user.email;
   // Check the db for an account with the exact userEmail we have
@@ -31,7 +30,6 @@ export default async function handler(req, res) {
     res.status(405).json({ message: "Something went wrong!" });
     return;
   }
-  console.log("gate2");
   // If we find it, compare our oldPassword submission to the encryted db one
   const passwordsMatch = await compare(oldPassword, userAccount.password); // T/F
   if (!passwordsMatch) {
@@ -39,20 +37,17 @@ export default async function handler(req, res) {
     res.status(408).json({ message: "Old password is not correct" });
     return; // if password's wrong, end the route here
   }
-  console.log("gate3");
   // If passwords do match, make sure the newPassword is different than the old one
   if (oldPassword === newPassword) {
     client.close();
     res.status(408).json({ message: "This password has been used previously" });
     return; // end route here
   }
-  console.log("gate4");
   // If passwords do match, encrypt the newPassword and replace the old one
   const hashedNewPassword = await hash(newPassword, 12);
   await db
     .collection("users")
     .updateOne({ email: userEmail }, { $set: { password: hashedNewPassword } });
-  console.log("gate5");
   client.close();
   res.status(200).json({ message: "Password updated!" });
   return;

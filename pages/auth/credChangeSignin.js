@@ -14,11 +14,10 @@ export async function getServerSideProps(context) {
   }
   return { props: { session } };
 }
-
-export default function signinPostEmailChange() {
-  const title = "Email Changed Successfully";
+export default function credChangeSignin() {
+  const title = "Credentials Changed Successfully";
   const descrip =
-    "Log back into your account using your new credentials";
+    "Log back into your account using your new info";
   return useSignIn(title, descrip, false);
 }
 

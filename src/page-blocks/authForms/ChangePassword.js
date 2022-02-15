@@ -6,25 +6,13 @@ import FormControl from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import AuthHeader from "./HeaderHelper";
 import FormHelperText from "@mui/material/FormHelperText";
-import { getSession } from "next-auth/react";
 import axios from "axios";
 import GeneralErrorModal from "../../custom-components/Modals/GeneralError";
 import { styles } from "../../../styles/auth/manageAccount";
 import ReturnHomeBtn from "../../custom-components/ReturnHomeBtn";
 
-// Redirect users to sign in page if they come here offline
-export async function getServerSideProps(context) {
-  const session = await getSession({ req: context.req }); // falsy if not logged in. session obj if we are
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/auth/signinPostPasswordChange",
-        permanent: false, // don't always want to redirect (only if user's logged in)
-      },
-    };
-  }
-  return { props: { session } };
-}
+// Since this component is nested within /auth/[panel].js
+// We'll let that component take care of redirects if we're on this page while offline
 
 function reducer(state, action) {
   switch (action.type) {
@@ -112,11 +100,11 @@ export default function ChangePassword() {
         oldPassword: typedOldPassword,
         newPassword: typedNewPassword,
       });
-      router.replace("/auth/signinPostPasswordChange")
+      // router.replace("/auth/credChangeSignin");
+      signOut(); 
       // IMPORTANT: sign out and prompt users to relogin to reinitialize NextAuth with up to date user data
       // Our SSR page guard will take care of the redirect for us to /auth/siginPostPasswordChange
     } catch (error) {
-      console.log(error.response);
       if (!error.response || !error.response.data) return revealErrorModal();
       const errorMSG = error.response.data.message;
       switch (errorMSG) {

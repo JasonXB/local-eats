@@ -13,7 +13,7 @@ export async function getServerSideProps(context) {
   if (!session) {
     return {
       redirect: {
-        destination: "/auth/signinPostEmailChange", // redirect to this path
+        destination: "/auth/credChangeSignin", // redirect to this path
         permanent: false, // don't always want to redirect (only if user's logged in)
       },
     };
@@ -39,6 +39,7 @@ export default function verifyEmail() {
         submittedPIN: typedPIN, // the pin we type in this pg's form
       });
       localStorage.removeItem("emailChangePending");
+      // router.replace("/auth/credChangeSignin");
       signOut(); 
       // IMPORTANT: sign out and prompt users to relogin to reinitialize NextAuth with up to date user data
       // Our SSR page guard will take care of the redirect for us to /auth/siginPostEmailChange

@@ -17,7 +17,7 @@ export async function getServerSideProps(context) {
   if (!session) {
     return {
       redirect: {
-        destination: "/auth/signin", // if offline, redirect to sign in page
+        destination: "/auth/credChangeSignin", //!!!
         permanent: false, // don't always want to redirect (only if user's logged in)
       },
     };
