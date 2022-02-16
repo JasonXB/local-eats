@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useLocationContext } from "../../../state-management/locationContext";
 //  prettier-ignore
-import { Typography, Button, Box, Divider, TextField, InputBase, Menu, MenuItem } from "@mui/material";
+import { Typography, Button, Divider, InputBase, Menu, MenuItem, Box, IconButton } from "@mui/material"; // prettier-ignore
 import { styled, alpha } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
@@ -11,9 +11,12 @@ import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import PublicIcon from "@mui/icons-material/Public";
 import { homepageModalActions } from "../../../state-management/store/homepage/ModalVisibility";
 import { useSelector, useDispatch } from "react-redux";
+import { useRouter } from "next/router";
 
 export default function SearchbarDesktop() {
+  const router = useRouter();
   const anchorEl = useRef();
+  const searchbarRef = useRef();
   //^ Import the LocationContext variables and functions that control the Searchbar drop down menu
   const { searchbarMenuOpen, openSearchbarMenu, closeSearchbarMenu } = useLocationContext(); // prettier-ignore
   const [arrowIcon, setArrowIcon] = useState(<ArrowDropDownIcon />);
@@ -56,8 +59,16 @@ export default function SearchbarDesktop() {
     openPredetermined();
   };
 
+  const submitHandler = function (e) {
+    e.preventDefault();
+    const typedInput = searchbarRef.current.value;
+    const inputLength= typedInput.replaceAll(/\s/g, "").length
+    if (inputLength === 0) return;
+    router.push(`/search?term=${typedInput.toLowerCase()}`);
+  };
+
   return (
-    <Search id="anchor_point" ref={anchorEl}>
+    <Search id="anchor_point" ref={anchorEl} onSubmit={submitHandler}>
       <Button sx={styles.menuButton} color="secondary" onClick={openMenu}>
         <LocationOnIcon />
         <Typography variant="p" sx={styles.location} align="left">
@@ -88,14 +99,24 @@ export default function SearchbarDesktop() {
       </Menu>
 
       <Divider orientation="vertical" flexItem sx={{ mx: 1 }} />
-      <SearchIcon />
-      <InputBase
-        sx={{
-          ml: 1,
-          flex: 1,
-        }}
-        placeholder="Restaurant, cuisine, or dish"
-      />
+      <Box
+        id="searchfield"
+        component="form"
+        onSubmit={submitHandler}
+        sx={{ display: "flex", alignItems: "center", width: "100%" }}
+      >
+        <IconButton type="submit" aria-label="search" sx={{ p: 0 }}>
+          <SearchIcon />
+        </IconButton>
+        <InputBase
+          sx={{
+            ml: 1,
+            flex: 1,
+          }}
+          placeholder="Restaurant, cuisine, or dish"
+          inputRef={searchbarRef}
+        />
+      </Box>
     </Search>
   );
 }
@@ -123,7 +144,7 @@ const styles = {
   location: {
     width: "12.25rem",
     ml: 1,
-    mt: "4px",
+    mt: "2px",
   },
   // The location button that triggers the drop down list to appear
   menuButton: {

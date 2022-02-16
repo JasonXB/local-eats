@@ -78,21 +78,12 @@ export default function LocationContextProvider(props) {
     if (redirectAuthorized) return router.push(redirectURL);
   };
 
-  //! Delete once development ends (and anywhere we use it)
-  //  prettier-ignore
-  const devButton = <button onClick={()=>{
-      reducerDispatch({ type: "SET_LOCATION_OBJECT", payload: null });
-    localStorage.removeItem("savedLocation");
-  }}>Delete saved location </button>
-
   // ——————————————————  GATHER EVERYTHING YOU WANT TO DISTRIBUTE   ————————————————————————————————————
   const locationRelated = {
     // State object containing details of our Saved Location in LocalStorage
     locationObject: state.savedLocation,
     detectLocationHandler, // handler for buttons that trigger geolocation tracking
     predeterminedHandler, // handler for buttons that choose a predetermined location
-
-    devButton, //! for development only
   };
   const searchbarRelated = {
     // Dispatch functions that open + close the searchbar drop down menu on desktop viewports

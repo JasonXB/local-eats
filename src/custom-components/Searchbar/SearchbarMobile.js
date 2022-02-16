@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useLocationContext } from "../../../state-management/locationContext";
 //  prettier-ignore
-import { Typography, Button, Box, Stack, InputBase, Menu, MenuItem } from "@mui/material";
+import { Typography, Button, Box, Stack, InputBase, Menu, MenuItem, IconButton } from "@mui/material"; // prettier-ignore
 import SearchIcon from "@mui/icons-material/Search";
 import GpsFixedIcon from "@mui/icons-material/GpsFixed";
 import LocationOffIcon from "@mui/icons-material/LocationOff";
@@ -9,8 +9,11 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { mix } from "../../../styles/styleMixins";
 import { homepageModalActions } from "../../../state-management/store/homepage/ModalVisibility";
 import { useSelector, useDispatch } from "react-redux";
+import { useRouter } from "next/router";
 
 export default function SearchbarMobile() {
+  const router = useRouter();
+  const searchbarRef = useRef();
   const { detectLocationHandler, predeterminedHandler, locationObject } = useLocationContext(); // prettier-ignore
   // Decide on what message to show on the searchbar based on whether the project has a saved location or not
   let mobileMSG;
@@ -20,6 +23,14 @@ export default function SearchbarMobile() {
   //@ Reveal the Predetermined Locations Modal by setting a Redux state value
   const dispatch = useDispatch();
   const openPredetermined = () => dispatch(homepageModalActions.usePredeterminedLocations()); // prettier-ignore
+
+  const submitHandler = function (e) {
+    e.preventDefault();
+    const typedInput = searchbarRef.current.value;
+    const inputLength= typedInput.replaceAll(/\s/g, "").length
+    if (inputLength === 0) return;
+    router.push(`/search?term=${typedInput.toLowerCase()}`);
+  };
 
   return (
     <>
@@ -31,11 +42,18 @@ export default function SearchbarMobile() {
       >
         Current Location: {mobileMSG}
       </Typography>
-      <Box sx={mobileStyles.searchbar}>
-        <SearchIcon sx={{ mx: 1.25 }} color="secondary" />
+      <Box
+        component="form"
+        onSubmit={submitHandler}
+        sx={mobileStyles.searchbar}
+      >
+        <IconButton type="submit" aria-label="search" sx={{ p: 0 }}>
+          <SearchIcon sx={{ mx: 1.25 }} color="secondary" />
+        </IconButton>
         <InputBase
           sx={{ ml: 1, flex: 1, p: 0.5 }}
           placeholder="Restaurant, cuisine, or dish"
+          inputRef={searchbarRef}
         />
       </Box>{" "}
       <Box sx={{ ...mobileStyles.boxParent }}>
