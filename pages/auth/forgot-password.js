@@ -1,5 +1,4 @@
 import React from "react";
-import AuthHeader from "../../src/page-blocks/authForms/Header";
 
 // Redirect users to homepage if they come here offline
 export async function getServerSideProps(context) {

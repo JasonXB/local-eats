@@ -12,7 +12,14 @@ import PredeterminedLocationModal from "../src/custom-components/Modals/Predeter
 import DynamicSnackbar from "../src/custom-components/DynamicSnackbar";
 import Navbar from "../src/custom-components/Navbar/Navbar";
 
-export default function index() {
+// Use Static Generation to render the HTML during build (speeds up page load times)
+export async function getStaticProps() {
+  return {
+    props: { pg: "home" },
+  };
+}
+
+export default function HomePage() {
   return (
     <>
       <Navbar />

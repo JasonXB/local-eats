@@ -5,6 +5,14 @@ import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import GuestBtn from "../../src/custom-components/GuestBtn";
 import { mix } from "../../styles/styleMixins";
+
+// Speed up page load times using Static Generation
+export async function getStaticProps() {
+  return {
+    props: { pg: "account-deleted" },
+  };
+}
+
 export default function AccountDeleted() {
   // Instant signOut if we're logged in when we reach this page
   const { data: session, status } = useSession();
