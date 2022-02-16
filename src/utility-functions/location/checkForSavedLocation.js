@@ -1,10 +1,10 @@
 import { breakpointValues } from "../../../styles/MUI_themes";
 
 // This utility function uses dispatch functions and state values from locationContext.js
-export const checkForSaved = async function (
+export const checkForSaved = function (
   savedLocation,
   openSearchbarMenu,
-  openSnackbar
+  openSnackbar,
 ) {
   // See if we have a saved location in the project state / localStorage
   const mobileViewport = window.innerWidth < breakpointValues.sm;
@@ -21,17 +21,17 @@ export const checkForSaved = async function (
       openSearchbarMenu();
     }, 800); // will snap you back to orig position after submitting a location
     openSnackbar();
+    return;
   }
   // On mobile screens: Scroll up to the top, render a snackbar
-  if (!savedLocation && mobileViewport) {
+  else if (!savedLocation && mobileViewport) {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
     openSnackbar();
+    return;
   }
-  // IF WE HAVE A SAVED LOCATION
-  else {
-    //! Do the cool stuff
-  }
+  // If we do have a saved location, then navigate to a new dynamic page
+  return true
 };

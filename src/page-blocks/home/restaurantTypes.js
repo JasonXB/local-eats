@@ -52,7 +52,9 @@ export default function RestaurantTypes() {
                     <Button
                       key={ind}
                       variant="outlined"
-                      onClick={checkForSavedLocation}
+                      onClick={() =>
+                        checkForSavedLocation(`/search?term=${shopType.toLowerCase()}`)
+                      }
                       sx={{ fontSize: "1rem", borderRadius: 0, mr: 1, mb: 1 }}
                     >
                       {shopType}

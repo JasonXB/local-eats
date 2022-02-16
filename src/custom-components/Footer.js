@@ -2,7 +2,11 @@ import React from "react";
 import { Typography, Box, Stack, Divider } from "@mui/material";
 import { mix } from "../../styles/styleMixins";
 import FooterMobile from "./FooterMobile";
+import { useLocationContext } from "../../state-management/locationContext";
+
 export default function Footer() {
+  const { checkForSavedLocation } = useLocationContext();
+
   return (
     <>
       {/* Only appears on screen sizes below sm (700px) */}
@@ -45,8 +49,11 @@ export default function Footer() {
                     <Box
                       component="a"
                       key={i}
-                      href={footerAnchors[headerText][anchorText]}
-                      // onClick={relocate}
+                      onClick={() =>
+                        checkForSavedLocation(
+                          footerAnchors[headerText][anchorText]
+                        )
+                      }
                       sx={{ mb: 0.8, ...mix.anchorStyling }}
                     >
                       {anchorText}
@@ -71,52 +78,52 @@ export default function Footer() {
 // Round 2: To create anchor tags that navigate users to a new page
 export const footerAnchors = {
   "Large Chains": {
-    Malls: "",
-    Pharmacies: "",
-    Superstores: "",
-    Furniture: "",
-    Clothing: "",
-    Grocery: "",
-    "Garden Centers": "",
+    Malls: "/search?term=mall",
+    Pharmacies: "/search?term=pharmacy",
+    Superstores: "/search?term=superstore",
+    Grocery: "/search?term=grocery",
+    Furniture: "/search?term=furniture",
+    "Men's Clothing": "/search?term=menscloth",
+    "Women's Clothing": "/search?term=womenscloth",
   },
   Tech: {
-    Arcades: "",
-    "Video games": "",
-    "Virtual Reality": "",
-    Computers: "",
-    Electronics: "",
-    Robotics: "",
-    "IT Services": "",
+    Arcades: "/search?term=arcades",
+    "Video Game Stores": "/search?term=videogamestores",
+    "Virtual Reality": "/search?term=virtualrealitycenters",
+    Computers: "/search?term=computers",
+    Electronics: "/search?term=electronics",
+    "Electronics Repair": "/search?term=electronicsrepair",
+    "IT Services": "/search?term=itservices",
   },
   Fitness: {
-    Gyms: "",
-    Swimming: "",
-    "Sports Equipment": "",
-    Supplements: "",
-    Swimming: "",
-    "Rock Climbing": "",
-    Skiing: "",
-    "Martial Arts": "",
+    Gyms: "/search?term=gyms",
+    "Sports Equipment": "/search?term=sportswear",
+    Supplements: "/search?term=vitaminssupplements",
+    "Swimming Pools": "/search?term=swimmingpools",
+    "Rock Climbing": "/search?term=rock_climbing",
+    Skiing: "/search?term=skiing",
+    "Martial Arts": "/search?term=martialarts",
   },
   Automotive: {
-    "Driving Schools": "",
-    "Car Dealerships": "",
-    Mechanics: "",
-    "Body Shops": "",
-    Tires: "",
+    "Driving Schools": "/search?term=driving_schools",
+    "Car Dealerships": "/search?term=car_dealers",
+    "Auto Repair": "/search?term=autorepair",
+    "Auto Detailing": "/search?term=auto_detailing",
+    "Gas Stations": "/search?term=servicestations",
   },
   Educational: {
-    "Elementary School": "",
-    "High school": "",
-    College: "",
-    University: "",
-    Tutoring: "",
+    Preschool: "/search?term=preschools",
+    "Elementary School": "/search?term=elementaryschools",
+    "High school": "/search?term=highschools",
+    "Higher Education": "/search?term=collegeuniv",
+    Tutoring: "/search?term=privatetutors",
   },
   Miscellaneous: {
-    "Pawn Shops": "",
-    "Thrift Stores": "",
-    Massage: "",
-    Dispensaries: "",
-    "Pet stores": "",   
+    "Pawn Shops": "/search?term=pawn",
+    "Thrift Stores": "/search?term=thrift_stores",
+    Massage: "/search?term=massage",
+    Dispensaries: "/search?term=cannabisdispensaries",
+    "Pet stores": "/search?term=petstore",
+    Casinos: "/search?term=casinos",
   },
 };

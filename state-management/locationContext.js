@@ -1,5 +1,6 @@
 //  prettier-ignore
 import axios from "axios";
+import { useRouter } from "next/router";
 import { homepageModalActions } from "../state-management/store/homepage/ModalVisibility";
 // Import utility functions we'll be destributing throughout our project
 import { detectLocation } from "../src/utility-functions/location/detectLocation";
@@ -7,7 +8,6 @@ import { pickPredetermined } from "../src/utility-functions/location/pickPredete
 import { checkForSaved } from "../src/utility-functions/location/checkForSavedLocation";
 import { useSelector, useDispatch } from "react-redux";
 import { useState, createContext, useContext, useEffect, useReducer } from "react"; // prettier-ignore
-import { customThemes } from "../styles/MUI_themes";
 
 const AAA = createContext();
 export const useLocationContext = () => useContext(AAA); // export custom hook
@@ -29,6 +29,7 @@ function reducer(state, action) {
   }
 }
 export default function LocationContextProvider(props) {
+  const router = useRouter();
   const [state, reducerDispatch] = useReducer(reducer, {
     savedLocation: null, // will contain saved location data from LocalStorage
     searchbarMenuOpen: false, // Bool that dictates whether have the searchbar menu in desktop open/closed
@@ -56,6 +57,7 @@ export default function LocationContextProvider(props) {
       type: "SET_LOCATION_OBJECT",
       payload: requestData,
     });
+
   //@ This function gets called after pressing the "Get Current Location" Button
   const detectLocationHandler = async function () {
     detectLocation(renderGeoUnsupportedModal, setLocationObject, renderLocationDenialModal); // prettier-ignore
@@ -65,13 +67,15 @@ export default function LocationContextProvider(props) {
   const predeterminedHandler = async function (areaName) {
     pickPredetermined(areaName, setLocationObject, renderLocationDenialModal); // prettier-ignore
   };
+
   //@ Use to check if we have a saved location in our project state / localStorage
-  const checkForSavedLocation = async function () {
-    checkForSaved(
+  const checkForSavedLocation = async function (redirectURL) {
+    const redirectAuthorized = checkForSaved(
       state.savedLocation,
       () => reducerDispatch({ type: "OPEN_SEARCHBAR_MENU" }),
       () => reducerDispatch({ type: "OPEN_SNACKBAR" })
-    );
+    ); // if this function returns true, we should redirect to a dynamic search page
+    if (redirectAuthorized) return router.push(redirectURL);
   };
 
   //! Delete once development ends (and anywhere we use it)

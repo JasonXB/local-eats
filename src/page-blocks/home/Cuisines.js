@@ -7,7 +7,7 @@ import { useLocationContext } from "../../../state-management/locationContext";
 import { Ca, Cn, Fr, Gr, In, It, Jp, Mx, Pe, Es, Lk, Sy, Th, Us, Vn} from "react-flags-select"; // prettier-ignore
 
 const cuisineList = {
-  Canadian: Ca, // these are functions that produce SVG's
+  Canadian: Ca, // these are functions that produce SVG's that render flags
   American: Us,
   Chinese: Cn,
   Japanese: Jp,
@@ -26,10 +26,9 @@ const cuisineList = {
 
 export default function Cuisines() {
   const { checkForSavedLocation } = useLocationContext(); // prettier-ignore
-  const pushToNewPage= function(){
-    // Check if we have a saved location in the project state / localStorage
-    checkForSavedLocation()
-  }
+  const pushToNewPage = function () {
+    checkForSavedLocation();
+  };
   return (
     <>
       <Box sx={{ ...mix.responsiveLayout }}>
@@ -56,7 +55,7 @@ export default function Cuisines() {
           return (
             <ButtonBase
               key={index}
-              onClick={pushToNewPage}
+              onClick={() => checkForSavedLocation(`/search?term=${key.toLowerCase()}`)}
               sx={{
                 display: "grid",
                 gridTemplateColumns: "auto 1fr auto",

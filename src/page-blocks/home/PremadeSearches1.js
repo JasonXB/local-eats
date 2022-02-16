@@ -8,6 +8,11 @@ import { useLocationContext } from "../../../state-management/locationContext";
 export default function SearchOptions1() {
   const { checkForSavedLocation } = useLocationContext(); // prettier-ignore
 
+  // Clicking on a card should trigger a function that redirects us to a dynamic page
+  // We need a locationObject before doing so (why React Context houses that function)
+  const cardHandler1 = async () => checkForSavedLocation("/search?price=1");
+  const cardHandler2 = async () => checkForSavedLocation("/search?price=4");
+
   return (
     <>
       <Container
@@ -29,7 +34,7 @@ export default function SearchOptions1() {
             [`@media (max-width: 570px)`]: { borderRadius: 0 },
             ...mix.hoverShadow,
           }}
-          onClick={checkForSavedLocation}
+          onClick={cardHandler1}
         >
           <CardMedia
             component="img"
@@ -57,7 +62,7 @@ export default function SearchOptions1() {
             },
             ...mix.hoverShadow,
           }}
-          onClick={checkForSavedLocation}
+          onClick={cardHandler2}
         >
           <CardMedia
             component="img"

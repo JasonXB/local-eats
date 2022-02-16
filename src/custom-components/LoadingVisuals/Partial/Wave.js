@@ -6,8 +6,8 @@ export default function FullscreenSpinner() {
     <Box   
       sx={{
         display: "flex",
-        height: "100vh",
-        weight: "100vw",
+        height: "100%",
+        weight: "100%",
         justifyContent: "center",
         alignItems: "center",
       }}
