@@ -12,6 +12,7 @@ import PublicIcon from "@mui/icons-material/Public";
 import { homepageModalActions } from "../../../state-management/store/homepage/ModalVisibility";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
+import { lengthNoSpaces } from "../../utility-functions/general/lengthNoSpaces";
 
 export default function SearchbarDesktop() {
   const router = useRouter();
@@ -62,7 +63,7 @@ export default function SearchbarDesktop() {
   const submitHandler = function (e) {
     e.preventDefault();
     const typedInput = searchbarRef.current.value;
-    const inputLength= typedInput.replaceAll(/\s/g, "").length
+    const inputLength = lengthNoSpaces(typedInput);
     if (inputLength === 0) return;
     router.push(`/search?term=${typedInput.toLowerCase()}`);
   };

@@ -10,6 +10,7 @@ import { getSession } from "next-auth/react";
 import GeneralErrorModal from "../../custom-components/Modals/GeneralError";
 import { styles } from "../../../styles/auth/manageAccount";
 import ReturnHomeBtn from "../../custom-components/ReturnHomeBtn";
+import { lengthNoSpaces } from "../../utility-functions/general/lengthNoSpaces";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -61,8 +62,8 @@ export default function ChangeEmail(props) {
     const typedPassword = passwordRef.current.value;
     dispatch({ type: "RESET" }); // reset form state
     // If one of the input fields is empty, render some error text without looking in the DB
-    const typedNewEmail_length = typedNewEmail.replaceAll(" ", "").length;
-    const typedPassword_length = typedPassword.replaceAll(" ", "").length;
+    const typedNewEmail_length = lengthNoSpaces(typedNewEmail);
+    const typedPassword_length = lengthNoSpaces(typedPassword);
     if (typedNewEmail_length === 0) return dispatch({ type: "INVALID_NEW_EMAIL", payload: "This field is required" }); // prettier-ignore
     if (typedPassword_length === 0) return dispatch({ type: "INVALID_PASSWORD", payload: "This field is required" }); // prettier-ignore
 
@@ -75,7 +76,7 @@ export default function ChangeEmail(props) {
       router.push("/auth/manage-account/verify-email-change");
     } catch (error) {
       // Render error messages onscreen depending on the response object recieved
-      if(!error.response || !error.response.data) return revealErrorModal();
+      if (!error.response || !error.response.data) return revealErrorModal();
       const errorMSG = error.response.data.message;
       switch (errorMSG) {
         case "User offline":
@@ -119,11 +120,7 @@ export default function ChangeEmail(props) {
       <AuthHeader titleText={"Change Email"} descriptionText={""} />
 
       <FormControl sx={styles.formControl}>
-        <Typography
-          align="left"
-          variant="label"
-          sx={{ mb: 2, mt: "2px" }}
-        >
+        <Typography align="left" variant="label" sx={{ mb: 2, mt: "2px" }}>
           CURRENT EMAIL:
           <br />
           <Typography>{currentEmail}</Typography>
@@ -175,7 +172,7 @@ export default function ChangeEmail(props) {
       >
         Change account email
       </Button>
-      <ReturnHomeBtn/>
+      <ReturnHomeBtn />
       <GeneralErrorModal modalVisible={modalVisible} />
     </Stack>
   );

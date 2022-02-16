@@ -9,6 +9,7 @@ import { credentialSignIn } from "../../../pages/api/helperFunctions/credentialS
 import AuthHeader from "../../../src/page-blocks/authForms/HeaderHelper";
 import GeneralErrorModal from "../../../src/custom-components/Modals/GeneralError";
 import GuestBtn from "../../custom-components/GuestBtn";
+import { lengthNoSpaces } from "../../utility-functions/general/lengthNoSpaces";
 
 export default function useSignIn(title, descrip, needNewAccount) {
   const router = useRouter();
@@ -34,14 +35,14 @@ export default function useSignIn(title, descrip, needNewAccount) {
     const typedPassword = passwordRef.current.value;
 
     // If one of the input fields is empty, render some error text without looking in the DB
-    const thinnedEmail = typedEmail.replaceAll(" ", "");
-    const thinnedPassword = typedPassword.replaceAll(" ", "");
-    if (thinnedEmail.length === 0)
+    const thinnedEmailLength = lengthNoSpaces(typedEmail);
+    const thinnedPasswordLength = lengthNoSpaces(typedPassword);
+    if (thinnedEmailLength === 0)
       return dispatch({
         type: "INVALID_EMAIL",
         payload: "This field is required",
       });
-    if (thinnedPassword.length === 0)
+    if (thinnedPasswordLength === 0)
       return dispatch({
         type: "INVALID_PASSWORD",
         payload: "This field is required",

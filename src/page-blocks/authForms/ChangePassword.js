@@ -10,6 +10,7 @@ import axios from "axios";
 import GeneralErrorModal from "../../custom-components/Modals/GeneralError";
 import { styles } from "../../../styles/auth/manageAccount";
 import ReturnHomeBtn from "../../custom-components/ReturnHomeBtn";
+import {lengthNoSpaces} from "../../utility-functions/general/lengthNoSpaces"
 
 // Since this component is nested within /auth/[panel].js
 // We'll let that component take care of redirects if we're on this page while offline
@@ -78,9 +79,9 @@ export default function ChangePassword() {
     const typedVerifyPassword = verifyPasswordRef.current.value;
 
     // If one of the input fields is empty, render some error text without looking in the DB
-    const typedOldPW_length = typedOldPassword.replaceAll(" ", "").length;
-    const typedNewPW_length = typedNewPassword.replaceAll(" ", "").length;
-    const typedVPW_length = typedVerifyPassword.replaceAll(" ", "").length;
+    const typedOldPW_length = lengthNoSpaces(typedOldPassword);
+    const typedNewPW_length = lengthNoSpaces(typedNewPassword);
+    const typedVPW_length = lengthNoSpaces(typedVerifyPassword);
     if (typedOldPW_length === 0) return dispatch({ type: "INVALID_OLD_PASSWORD" }); // prettier-ignore
     if (typedNewPW_length === 0) return dispatch({ type: "INVALID_NEW_PASSWORD" }); // prettier-ignore
     if (typedVPW_length === 0) return dispatch({ type: "INVALID_VERIFY_PASSWORD" }); // prettier-ignore
@@ -101,7 +102,7 @@ export default function ChangePassword() {
         newPassword: typedNewPassword,
       });
       // router.replace("/auth/credChangeSignin");
-      signOut(); 
+      signOut();
       // IMPORTANT: sign out and prompt users to relogin to reinitialize NextAuth with up to date user data
       // Our SSR page guard will take care of the redirect for us to /auth/siginPostPasswordChange
     } catch (error) {

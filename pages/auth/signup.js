@@ -8,8 +8,10 @@ import FormHelperText from "@mui/material/FormHelperText";
 import { mix } from "../../styles/styleMixins";
 import { getSession } from "next-auth/react";
 import AuthHeader from "../../src/page-blocks/authForms/HeaderHelper";
-import GeneralErrorModal from "../../src/custom-components/Modals/GeneralError"
-import GuestBtn from "../../src/custom-components/GuestBtn"
+import GeneralErrorModal from "../../src/custom-components/Modals/GeneralError";
+import GuestBtn from "../../src/custom-components/GuestBtn";
+import { lengthNoSpaces } from "../../src/utility-functions/general/lengthNoSpaces";
+
 // Redirect users to homepage if they come here online
 export async function getServerSideProps(context) {
   const session = await getSession({ req: context.req }); // falsy if not logged in. session obj if we are
@@ -52,7 +54,6 @@ export default function signup() {
   const [modalVisible, setModalVisible] = React.useState(false);
   const revealErrorModal = () => setModalVisible(true);
 
-
   const submitHandler = async function () {
     // Reset the form state to remove any error visuals that were required earlier
     dispatch({ type: "RESET" });
@@ -62,9 +63,9 @@ export default function signup() {
     const typedPassword2 = verifyPasswordRef.current.value;
 
     // Make sure each field is filled in
-    const emailLength = typedEmail.replaceAll(" ", "").length;
-    const passwordLength = typedPassword.replaceAll(" ", "").length;
-    const verifyPasswordLength = typedPassword2.replaceAll(" ", "").length;
+    const emailLength = lengthNoSpaces(typedEmail);
+    const passwordLength = lengthNoSpaces(typedPassword);
+    const verifyPasswordLength = lengthNoSpaces(typedPassword2);
     if(!emailLength) return dispatch({type: "INVALID_EMAIL", payload: "This field is required"}); // prettier-ignore
     if(!passwordLength) return dispatch({type: "INVALID_PASSWORD", payload: "This field is required"}); // prettier-ignore
     if(!verifyPasswordLength) return dispatch({type: "INVALID_PASSWORD_2", payload: "This field is required"}); // prettier-ignore
@@ -82,7 +83,7 @@ export default function signup() {
       router.push("/auth/verify-email"); // redirect
       return;
     } catch (error) {
-      if(!error.response || !error.response.data) return revealErrorModal();
+      if (!error.response || !error.response.data) return revealErrorModal();
       const errorMSG = error.response.data.message;
       switch (errorMSG) {
         case "This password does not match the first":
@@ -98,16 +99,14 @@ export default function signup() {
           dispatch({ type: "INVALID_PASSWORD", payload: errorMSG });
           break;
         default:
-          revealErrorModal(); 
+          revealErrorModal();
           // render general error modal if the failed response message is something other than the options we provided
           // should only happen when one of our 3rd party services fail (SendGrid, MongoDB...etc)
-          break; 
+          break;
       }
       return;
     }
   };
-
-  
 
   return (
     <Stack sx={styles.parentContainer}>
@@ -171,7 +170,7 @@ export default function signup() {
           {formState.verifyPasswordText}
         </FormHelperText>
       </FormControl>
-      
+
       <Button
         variant="contained"
         disableElevation
@@ -188,15 +187,15 @@ export default function signup() {
       >
         Have an account? Sign in!
       </Button>
-      <GuestBtn/>
-      <Stack sx={{mt:4}}>
+      <GuestBtn />
+      <Stack sx={{ mt: 4 }}>
         <Typography variant="p">PASSWORD REQUIREMENTS</Typography>
         <Typography variant="p">
           Must be 8 characters or longer. Requires an uppercase, lowercase, plus
           at least 1 symbol. No punctuation allowed
         </Typography>
       </Stack>
-      <GeneralErrorModal modalVisible={modalVisible}/>
+      <GeneralErrorModal modalVisible={modalVisible} />
     </Stack>
   );
 }
