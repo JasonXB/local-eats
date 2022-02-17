@@ -37,7 +37,7 @@ export default function SearchbarDesktop() {
   };
 
   //@ Import location data found at startup, and a detect location function fr/ Context API
-  const { detectLocationHandler, locationObject } = useLocationContext();
+  const { detectLocationHandler, locationObject, checkForSavedLocation } = useLocationContext();
   // Decide on what message to show on the searchbar based on saved location data on LocalStorage
   const [desktopMSG, setDesktopMSG] = useState("Pick a location");
   useEffect(() => {
@@ -65,7 +65,7 @@ export default function SearchbarDesktop() {
     const typedInput = searchbarRef.current.value;
     const inputLength = lengthNoSpaces(typedInput);
     if (inputLength === 0) return;
-    router.push(`/search?term=${typedInput.toLowerCase()}`);
+    checkForSavedLocation(`/search?term=${typedInput.toLowerCase()}`)
   };
 
   return (

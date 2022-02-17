@@ -1,5 +1,6 @@
 import { removeEmptyKVPs } from "./removeEmptyKVPs";
 
+// dependent on a static page with dynamic data (/search?term=...)
 export function generateYelpString(locationObject, queryObject) {
   // End this function early if Reacts prerendering gives us falsy values on mount
   if (!queryObject || !locationObject) return;

@@ -15,7 +15,7 @@ import { lengthNoSpaces } from "../../utility-functions/general/lengthNoSpaces";
 export default function SearchbarMobile() {
   const router = useRouter();
   const searchbarRef = useRef();
-  const { detectLocationHandler, predeterminedHandler, locationObject } = useLocationContext(); // prettier-ignore
+  const { detectLocationHandler, locationObject, checkForSavedLocation } = useLocationContext(); // prettier-ignore
   // Decide on what message to show on the searchbar based on whether the project has a saved location or not
   let mobileMSG;
   if (!locationObject) mobileMSG = "none";
@@ -28,9 +28,9 @@ export default function SearchbarMobile() {
   const submitHandler = function (e) {
     e.preventDefault();
     const typedInput = searchbarRef.current.value;
-    const inputLength= lengthNoSpaces(typedInput)
+    const inputLength = lengthNoSpaces(typedInput);
     if (inputLength === 0) return;
-    router.push(`/search?term=${typedInput.toLowerCase()}`);
+    checkForSavedLocation(`/search?term=${typedInput.toLowerCase()}`);
   };
 
   return (
