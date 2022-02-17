@@ -12,7 +12,6 @@ import ThemeBtn from "./ThemeBtn";
 import MenuIcon from "@mui/icons-material/Menu";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
-import Brightness4Icon from "@mui/icons-material/Brightness4";
 
 export default function TemporaryDrawer(props) {
   let listItems;
@@ -70,6 +69,11 @@ export default function TemporaryDrawer(props) {
       </Box>
     );
   }
+
+  // We change the margins depending on if a specific prop is supplied
+  let burgerMargins;
+  if (props.searchpage) burgerMargins = { mr: 4 };
+  else burgerMargins = { mr: 2, mt: 2.2 };
   return (
     <>
       <Box
@@ -77,8 +81,7 @@ export default function TemporaryDrawer(props) {
           return {
             position: "absolute",
             right: 0,
-            mr: 2,
-            mt: 2.2,
+            ...burgerMargins,
             ...mix.hideAfterBP("sm", theme),
             "& .MuiSvgIcon-root": { fontSize: "2.5rem" },
             "&:hover": { cursor: "pointer" },

@@ -156,7 +156,7 @@ const Search = styled("div")(({ theme }) => ({
 const styles = {
   // Styles the Button text telling us where we currently are
   location: {
-    width: "12.25rem",
+    width: "18rem",
     ml: 1,
     mt: "2px",
   },
