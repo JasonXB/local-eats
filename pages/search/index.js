@@ -27,8 +27,7 @@ export default function Restaurants() {
     setSearchString(generateYelpString(locationObject, query));
   }, [query, locationObject]);
 
-  // Render a spinner while we wait for the the YelpAPI string to generate (CSR)
-  if (!searchString) return <Spinner />;
+
   //! If we have no locationObject and arrive on this page, render the top section only
   return (
     <LayoutContainer>

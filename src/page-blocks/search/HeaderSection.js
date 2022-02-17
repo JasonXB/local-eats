@@ -16,7 +16,7 @@ export default function HeaderSection() {
           ...mix.responsiveLayout,
           mt: 2,
           display: "block",
-          ["@media (min-width: 600px)"]: { display: "none" },
+          ["@media (min-width: 700px)"]: { display: "none" },
         }}
       >
         <Box sx={{ ...mix.flexRow, mb:2 }}>
@@ -25,7 +25,7 @@ export default function HeaderSection() {
             component="h1"
             sx={{ ...mix.titleFont, ml: 2 }}
           >
-            Local Eats
+            Local Eats Search
           </Typography>
           <BurgerBtn searchpage={true} />
         </Box>
@@ -37,8 +37,7 @@ export default function HeaderSection() {
         sx={{
           ...mix.responsiveLayout,
           display: "none",
-          ["@media (min-width: 600px)"]: { display: "block" },
-          ["@media (min-width: 1200px)"]: { display: "none" },
+          ["@media (min-width: 700px)"]: { display: "block" },
         }}
       >
         <Box
@@ -48,40 +47,16 @@ export default function HeaderSection() {
           }}
         >
           <Typography variant="h3" component="h1" sx={{ ...mix.titleFont }}>
-            Local Eats
+            Local Eats Search
           </Typography>
           <NavbarRow />
         </Box>
-        <SearchbarDesktop applyShadow={true} />
+        <Box>
+          <SearchbarDesktop applyShadow={true} />
+        </Box>
       </Stack>
 
-      {/*For beyond 1300px*/}
-      <Stack
-        sx={{
-          ...mix.responsiveLayout,
-          display: "none",
-          ["@media (min-width: 1200px)"]: { display: "block" },
-        }}
-      >
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: "auto 1fr auto",
-            alignItems: "center",
-            gap: 2,
-          }}
-        >
-          <Typography
-            variant="h3"
-            component="h1"
-            sx={{ ...mix.titleFont, mr: 4 }}
-          >
-            Local Eats
-          </Typography>
-          <SearchbarDesktop applyShadow={{ width: "100%" }} />
-          <NavbarRow />
-        </Box>
-      </Stack>
+
     </>
   );
 }
