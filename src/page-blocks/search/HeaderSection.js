@@ -9,16 +9,35 @@ import NavbarRow from "./sub/NavbarRow";
 export default function HeaderSection() {
   return (
     <>
-    {/* Use past 600px breakpoint */}
-    <Stack sx={{ ...mix.responsiveLayout }}>
-      <Box sx={{ ...mix.flexRow, justifyContent: "space-between" }}>
-        <Typography variant="h3" component="h1" sx={{...mix.titleFont}}>
-          Local Eats
-        </Typography>
-        <NavbarRow />
-      </Box>
-      <SearchbarDesktop applyShadow={true} />
-    </Stack>
+    
+      <Typography variant="h4">For beyond 600px</Typography>
+      <Stack sx={{ ...mix.responsiveLayout }}>
+        <Box sx={{ ...mix.flexRow, justifyContent: "space-between" }}>
+          <Typography variant="h3" component="h1" sx={{ ...mix.titleFont }}>
+            Local Eats
+          </Typography>
+          <NavbarRow />
+        </Box>
+        <SearchbarDesktop applyShadow={true} />
+      </Stack>
+
+      <Typography variant="h4">For beyond 1300px</Typography>
+      <Stack sx={{ ...mix.responsiveLayout }}>
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: "auto 1fr auto",
+            alignItems: "center",
+            gap: 2,
+          }}
+        >
+          <Typography variant="h3" component="h1" sx={{ ...mix.titleFont, mr:4 }}>
+            Local Eats
+          </Typography>
+          <SearchbarDesktop applyShadow={{ width: "100%" }} />
+          <NavbarRow />
+        </Box>
+      </Stack>
     </>
   );
 }

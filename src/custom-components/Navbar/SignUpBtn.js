@@ -1,11 +1,7 @@
 import React from "react";
-import { Button, Box } from "@mui/material";
-import { useRouter } from "next/router";
+import { Button } from "@mui/material";
 
 export default function SignupBtn(props) {
-  const router = useRouter();
-  const onClickHandler = () => router.push("/auth/signup");
-
   // props.mobile is a Boolean that tells us if we're rendering on a screen 700px long or lower
   if (props.mobile)
     return (
@@ -14,14 +10,14 @@ export default function SignupBtn(props) {
         disableElevation
         fullWidth
         sx={{ mb: 2 }}
-        onClick={onClickHandler}
+        href="/auth/signup"
       >
         Sign up
       </Button>
     );
   // If we're past the sm breakpoint, render the following
   return (
-    <Button variant="contained" disableElevation onClick={onClickHandler}>
+    <Button variant="contained" disableElevation href="/auth/signup">
       Sign up
     </Button>
   );

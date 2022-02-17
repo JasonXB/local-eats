@@ -68,13 +68,14 @@ export default function SearchbarDesktop({ applyShadow }) {
     if (inputLength === 0) return;
     checkForSavedLocation(`/search?term=${typedInput.toLowerCase()}`);
   };
+  // We have a default style for the Homepage, and a secondary style for the search/restuarant pages
   const stylesNoShadow = { width: "90%", maxWidth: "50rem" };
   const stylesWithShadow = {
     borderRadius: "0.8rem",
     boxShadow: "rgb(28 28 28 / 8%) 0px 2px 8px",
     border: "1px solid rgb(232, 232, 232)",
     width: "100%",
-    // maxWidth: "50rem",
+    height: 48,
   };
   return (
     <Search
