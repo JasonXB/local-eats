@@ -14,6 +14,7 @@ function LayoutContainer(props) {
       }}
     >
       <Box
+      id="responsive_container"
         sx={{
           ...mix.responsiveLayout,
           marginTop: props.marginAbove || "0px",

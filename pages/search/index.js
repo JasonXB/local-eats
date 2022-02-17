@@ -5,9 +5,10 @@ import { generateYelpString } from "../../src/utility-functions/general/generate
 import Spinner from "../../src/custom-components/LoadingVisuals/FullScreen/Spinner";
 import { filterActions } from "../../state-management/store/search/filters";
 import { useSelector, useDispatch } from "react-redux";
-import { Typography, Box, Stack } from "@mui/material";
-import MissionStatement from "../../src/page-blocks/home/MissionStatement";
-import SearchbarDesktop from "../../src/custom-components/Searchbar/SearchbarDesktop";
+import { Typography, Box, Stack, Container, Button } from "@mui/material";
+import LayoutContainer from "../../src/custom-components/LayoutContainer";
+import HeaderSection from "../../src/page-blocks/search/HeaderSection"
+
 export default function Restaurants() {
   const router = useRouter();
   // Grab the filter parameters from Redux (user can alter these)
@@ -29,7 +30,11 @@ export default function Restaurants() {
   // Render a spinner while we wait for the the YelpAPI string to generate (CSR)
   if (!searchString) return <Spinner />;
   //! If we have no locationObject and arrive on this page, render the top section only
-  return <SearchbarDesktop />;
+  return (
+    <LayoutContainer>
+      <HeaderSection/>
+    </LayoutContainer>
+  );
 }
 
 //! TEST NAVIGATING TO THIS PAGE WITHOUT THESE LATER

@@ -86,5 +86,4 @@ export const mix = {
       [theme.breakpoints.down(BPname)]: { display: "none" },
     };
   },
-
 };

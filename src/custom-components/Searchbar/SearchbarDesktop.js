@@ -14,7 +14,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { lengthNoSpaces } from "../../utility-functions/general/lengthNoSpaces";
 
-export default function SearchbarDesktop() {
+export default function SearchbarDesktop({ applyShadow }) {
   const router = useRouter();
   const anchorEl = useRef();
   const searchbarRef = useRef();
@@ -68,9 +68,21 @@ export default function SearchbarDesktop() {
     if (inputLength === 0) return;
     checkForSavedLocation(`/search?term=${typedInput.toLowerCase()}`);
   };
-
+  const stylesNoShadow = { width: "90%", maxWidth: "50rem" };
+  const stylesWithShadow = {
+    borderRadius: "0.8rem",
+    boxShadow: "rgb(28 28 28 / 8%) 0px 2px 8px",
+    border: "1px solid rgb(232, 232, 232)",
+    width: "100%",
+    // maxWidth: "50rem",
+  };
   return (
-    <Search id="anchor_point" ref={anchorEl} onSubmit={submitHandler}>
+    <Search
+      id="anchor_point"
+      ref={anchorEl}
+      onSubmit={submitHandler}
+      sx={applyShadow ? stylesWithShadow : stylesNoShadow}
+    >
       <Button sx={styles.menuButton} color="secondary" onClick={openMenu}>
         <LocationOnIcon />
         <Typography variant="p" sx={styles.location} align="left">
@@ -132,7 +144,6 @@ const Search = styled("div")(({ theme }) => ({
   padding: "0.625rem",
   marginInline: "auto",
   width: "80%",
-  maxWidth: "50rem", // width on larger screens
   "&:hover": {
     cursor: "text",
   },
@@ -165,5 +176,10 @@ const styles = {
     px: 2,
     pb: 2,
     pt: 2,
+  },
+  searchbar: (applyShadow) => {
+    return {
+      width: "100%",
+    };
   },
 };
