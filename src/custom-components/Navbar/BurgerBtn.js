@@ -42,12 +42,15 @@ export default function TemporaryDrawer(props) {
         onKeyDown={toggleDrawer(anchor, false)}
       >
         <List sx={{ p: 2 }}>
-          <Typography align="center" sx={{ my: 1 }}>
+          <Typography align="center" sx={{ mt: 1, mb: 2 }}>
             Having an account lets you bookmark {breakBefore(550)}restaurants to
             revisit later!
           </Typography>
           <SignUpBtn mobile={true} />
           <SignInBtn mobile={true} />
+          {props.addHomepageButton && <Button href="/" fullWidth sx={{ mt: "10px" }}>
+            Return to homepage
+          </Button>}
         </List>
       </Box>
     );
@@ -64,6 +67,9 @@ export default function TemporaryDrawer(props) {
         <List sx={{ p: 2 }}>
           <BookmarksBtn mobile={true} />
           <ManageAccountBtn mobile={true} />
+          {props.addHomepageButton && <Button href="/" fullWidth sx={{mb:1}}>
+            Return to homepage 
+          </Button> }
           <SignOutBtn mobile={true} />
         </List>
       </Box>

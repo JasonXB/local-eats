@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import NavbarDesktop from "./DesktopVersion";
-import NavbarMobile from "./MobileVersion";
+import BurgerBtn from "./BurgerBtn";
 import { useSession } from "next-auth/react";
 
 export default function Navbar() {
@@ -16,7 +16,7 @@ export default function Navbar() {
   
   return (
     <>
-      <NavbarMobile currentlyOnline={loggedIn} />
+      <BurgerBtn currentlyOnline={loggedIn} />
       <NavbarDesktop currentlyOnline={loggedIn} />
     </>
   );
