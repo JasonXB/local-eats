@@ -1,4 +1,5 @@
 import { removeEmptyKVPs } from "./removeEmptyKVPs";
+import {starterFilters} from "../../../state-management/store/search/filters"
 
 // dependent on a static page with dynamic data (/search?term=...)
 export function generateYelpString(locationObject, queryObject) {
@@ -7,7 +8,7 @@ export function generateYelpString(locationObject, queryObject) {
   if (!queryObject.term && !queryObject.price) return;
   // Create an object full of query parameters extracted from our URL
   const queryParams = removeEmptyKVPs({
-    defaultRadius: "20000",
+    defaultRadius: starterFilters.radius,
     latitude: locationObject.latitude,
     longitude: locationObject.longitude,
     price: queryObject.price, // may equal undefined (could be removed)
