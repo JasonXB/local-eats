@@ -6,10 +6,7 @@ import LayoutContainer from "../src/custom-components/LayoutContainer";
 import Cuisines from "../src/page-blocks/home/Cuisines";
 import RestaurantTypes from "../src/page-blocks/home/RestaurantTypes";
 import Footer from "../src/custom-components/Footer";
-import LocationDenialModal from "../src/custom-components/Modals/LocationDenial/DenialModal";
-import GeoUnsupportedModal from "../src/custom-components/Modals/GeoUnsupported";
-import PredeterminedLocationModal from "../src/custom-components/Modals/Predetermined";
-import DynamicSnackbar from "../src/custom-components/DynamicSnackbar";
+import SearchbarModals from "../src/custom-components/Searchbar/SearchbarModals";
 import Navbar from "../src/custom-components/Navbar/Navbar";
 
 // Use Static Generation to render the HTML during build (speeds up page load times)
@@ -36,10 +33,8 @@ export default function HomePage() {
       <LayoutContainer marginAbove="4.5rem" bg="#fffbf7">
         <Footer />
       </LayoutContainer>
-      <LocationDenialModal />
-      <PredeterminedLocationModal />
-      <GeoUnsupportedModal />
-      <DynamicSnackbar msg="Must select a location first" />
+      {/* These fixed position Modals are on standby and will pop up depending on Redux state values */}
+      <SearchbarModals/>
     </>
   );
 }

@@ -7,7 +7,8 @@ import { filterActions } from "../../state-management/store/search/filters";
 import { useSelector, useDispatch } from "react-redux";
 import { Typography, Box, Stack, Container, Button } from "@mui/material";
 import LayoutContainer from "../../src/custom-components/LayoutContainer";
-import HeaderSection from "../../src/page-blocks/search/HeaderSection"
+import HeaderSection from "../../src/page-blocks/search/HeaderSection";
+import SearchbarModals from "../../src/custom-components/Searchbar/SearchbarModals"
 
 export default function Restaurants() {
   const router = useRouter();
@@ -27,12 +28,15 @@ export default function Restaurants() {
     setSearchString(generateYelpString(locationObject, query));
   }, [query, locationObject]);
 
-
   //! If we have no locationObject and arrive on this page, render the top section only
   return (
-    <LayoutContainer>
-      <HeaderSection/>
-    </LayoutContainer>
+    <>
+      <LayoutContainer>
+        <HeaderSection />
+      </LayoutContainer>
+      {/* These fixed position Modals are on standby and will pop up depending on Redux state values */}
+      <SearchbarModals/>
+    </>
   );
 }
 
