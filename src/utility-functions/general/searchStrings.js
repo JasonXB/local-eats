@@ -1,5 +1,5 @@
 import { removeEmptyKVPs } from "./removeEmptyKVPs";
-import {starterFilters} from "../../../state-management/store/search/filters"
+import { starterFilters } from "../../../state-management/store/search/filters";
 
 // dependent on a static page with dynamic data (/search?term=...)
 export function generateYelpString(locationObject, queryObject) {
@@ -19,4 +19,20 @@ export function generateYelpString(locationObject, queryObject) {
     .map((key) => `${key}=${queryParams[key]}`)
     .join("&"); // convert object to a query string
   return `https://api.yelp.com/v3/businesses/search?${qs}`;
+}
+
+export function getSearchHeader(queryObject) {
+  // Create an object full of query parameters extracted from our URL
+  const queryParams = {
+    price: queryObject.price, // may equal undefined (could be removed)
+    term: queryObject.term, // may equal undefined (could be removed)
+  };
+  // Return query string
+  let title;
+  if (queryParams.term) {
+    const titleLowercase = `${queryParams.term}`;
+    title = titleLowercase[0].toUpperCase() + titleLowercase.substring(1);
+  } else if (queryParams.price === "1") title = "Inexpensive Restaurants";
+  else if (queryParams.price === "4") title = "Higher-end Restaurants";
+  return title;
 }

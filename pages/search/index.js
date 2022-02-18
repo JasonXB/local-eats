@@ -1,35 +1,40 @@
 import React, { useReducer, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useLocationContext } from "../../state-management/locationContext";
-import { generateYelpString } from "../../src/utility-functions/general/generateYelpString";
+import { generateYelpString, getSearchHeader } from "../../src/utility-functions/general/searchStrings"; // prettier-ignore
 import Spinner from "../../src/custom-components/LoadingVisuals/FullScreen/Spinner";
 import LayoutContainer from "../../src/custom-components/LayoutContainer";
 import HeaderSection from "../../src/page-blocks/search/HeaderSection";
-import SearchbarModals from "../../src/custom-components/Searchbar/SearchbarModals"
-import RestaurantFilters from "../../src/page-blocks/search/RestauarantFilters"
-
+import SearchbarModals from "../../src/custom-components/Searchbar/SearchbarModals";
+import RestaurantFilters from "../../src/page-blocks/search/RestauarantFilters";
+import SearchResults from "../../src/page-blocks/search/SearchResults";
 export default function Restaurants() {
   const router = useRouter();
-  // Grab the filter parameters from Redux (user can alter these)
-  
 
   // Get query parameters from URL + current location object to make a YelpAPI string
   const { query } = useRouter(); // equals undefined during first 2 few render cycles, then an obj on 3rd
   const { locationObject } = useLocationContext();
-  const [searchString, setSearchString] = useState(undefined);
-  useEffect(() => {
-    setSearchString(generateYelpString(locationObject, query));
-  }, [query, locationObject]);
 
+  // Generate strings for the Yelp API and the header preceeding the restaurant cards
+  const [apiString, setApiString] = useState(undefined);
+  const [searchHeader, setSearchHeader] = useState(undefined);
+  useEffect(() => {
+    if (!query) return; // equals nothing during the first few render cycles
+    setSearchHeader(getSearchHeader(query));
+    if (!locationObject || !query) return;
+    setApiString(generateYelpString(locationObject, query));
+  }, [query, locationObject]);
+  console.log(apiString, searchHeader);
   //! If we have no locationObject and arrive on this page, render the top section only
   return (
     <>
       <LayoutContainer>
         <HeaderSection />
-        <RestaurantFilters/>
+        <RestaurantFilters />
+        <SearchResults apiString={apiString} searchHeader={searchHeader} />
       </LayoutContainer>
       {/* These fixed position Modals are on standby and will pop up depending on Redux state values */}
-      <SearchbarModals/>
+      <SearchbarModals />
     </>
   );
 }

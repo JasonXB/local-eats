@@ -19,7 +19,7 @@ export default function RestauarantFilters() {
     open_now: useSelector((r) => r.searchFilters.open_now),
   };
   return (
-    <Box sx={{ px: 2, mt:5, display: "grid", gridTemplateColumns: "repeat(5, 1fr)" }}>
+    <Box sx={{ px: 2, mt:5, mb:"1.625rem" ,display: "grid", gridTemplateColumns: "repeat(5, 1fr)" }}>
       <Button size="large" variant="outlined" startIcon={<EqualizerIcon />}>
         Adjust Filters
       </Button>
