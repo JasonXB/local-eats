@@ -15,6 +15,10 @@ export const mix = {
     margin: "auto",
     paddingInline: "1rem",
   },
+  // This set of styles is commonly used in the search page
+  searchMargins : {
+    px: 4, ["@media (min-width: 700px)"]: { px: 2 }
+  },
   // We're using a consistent margin size for distancing our components
   regMargin: (side) => {
     const marginMagnitude = "1.0rem";

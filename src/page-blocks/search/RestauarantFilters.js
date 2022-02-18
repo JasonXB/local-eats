@@ -11,7 +11,6 @@ export default function RestauarantFilters() {
   const filterValues = {
     radius: () => {
       const meters = useSelector((r) => r.searchFilters.radius);
-      // const km=
       return String(meters / 1000) + "km";
     },
     price: useSelector((r) => r.searchFilters.price),
@@ -19,25 +18,59 @@ export default function RestauarantFilters() {
     open_now: useSelector((r) => r.searchFilters.open_now),
   };
   return (
-    <Box sx={{ px: 2, mt:5, mb:"1.625rem" ,display: "grid", gridTemplateColumns: "repeat(5, 1fr)" }}>
-      <Button size="large" variant="outlined" startIcon={<EqualizerIcon />}>
+    <Box sx={styles.container}>
+      <Button
+        sx={styles.adjustFilters}
+        size="large"
+        variant="outlined"
+        fullWidth
+        startIcon={<EqualizerIcon />}
+      >
         Adjust Filters
       </Button>
-      <Button size="large" startIcon={<SocialDistanceIcon />}>
+
+      <Button
+        sx={styles.distance}
+        size="large"
+        startIcon={<SocialDistanceIcon />}
+      >
         Distance: {filterValues.radius()}
       </Button>
-      <Button size="large" startIcon={<AttachMoneyIcon />}>
+      <Button sx={styles.price} size="large" startIcon={<AttachMoneyIcon />}>
         Price: {filterValues.price}
       </Button>
-      <Button size="large" startIcon={<LockOpenIcon />}>
+      <Button sx={styles.rating} size="large" startIcon={<LockOpenIcon />}>
         Rating: {filterValues.rating}
       </Button>
-      <Button size="large" startIcon={<LockOpenIcon />}>
+      <Button sx={styles.open_now} size="large" startIcon={<LockOpenIcon />}>
         Open now: {filterValues.open_now}
       </Button>
     </Box>
   );
 }
+
+const styles = {
+  container: {
+    px: 4,
+    mt: 2,
+    mb: "1.625rem",
+    display: "grid",
+    gridTemplateColumns: "1fr",
+    ["@media (min-width: 450px)"]: { gridTemplateColumns: "repeat(2, 1fr)" },
+    ["@media (min-width: 700px)"]: {
+      gridTemplateColumns: "repeat(3, 1fr)",
+      mt: 5,
+      px: 2,
+    },
+    ["@media (min-width: 1200px)"]: { gridTemplateColumns: "repeat(5, 1fr)" },
+  },
+  adjustFilters: { },
+  distance: {},
+  price: {},
+  rating: {},
+  open_now: {},
+};
+
 // Filters button
 // Distance: "under 20km"
 // Price: "1 of 4"
