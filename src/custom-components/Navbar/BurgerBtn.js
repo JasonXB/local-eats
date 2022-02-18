@@ -7,7 +7,6 @@ import SignUpBtn from "./SignUpBtn";
 import SignInBtn from "./SignInBtn";
 import BookmarksBtn from "./BookmarksBtn";
 import ManageAccountBtn from "./ManageAccountBtn";
-import ThemeBtn from "./ThemeBtn";
 // --
 import MenuIcon from "@mui/icons-material/Menu";
 import Drawer from "@mui/material/Drawer";
@@ -48,9 +47,11 @@ export default function TemporaryDrawer(props) {
           </Typography>
           <SignUpBtn mobile={true} />
           <SignInBtn mobile={true} />
-          {props.addHomepageButton && <Button href="/" fullWidth sx={{ mt: "10px" }}>
-            Return to homepage
-          </Button>}
+          {props.addHomepageButton && (
+            <Button href="/" fullWidth sx={{ mt: "10px" }}>
+              Return to homepage
+            </Button>
+          )}
         </List>
       </Box>
     );
@@ -67,9 +68,11 @@ export default function TemporaryDrawer(props) {
         <List sx={{ p: 2 }}>
           <BookmarksBtn mobile={true} />
           <ManageAccountBtn mobile={true} />
-          {props.addHomepageButton && <Button href="/" fullWidth sx={{mb:1}}>
-            Return to homepage 
-          </Button> }
+          {props.addHomepageButton && (
+            <Button href="/" fullWidth sx={{ mb: 1 }}>
+              Return to homepage
+            </Button>
+          )}
           <SignOutBtn mobile={true} />
         </List>
       </Box>

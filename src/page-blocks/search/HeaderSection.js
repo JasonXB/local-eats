@@ -29,7 +29,7 @@ export default function HeaderSection() {
             component="h1"
             sx={{ ...mix.titleFont, ml: 2 }}
           >
-            Local Eats Search
+            Local Search
           </Typography>
           <BurgerBtn
             searchpage={true}
@@ -43,7 +43,7 @@ export default function HeaderSection() {
       {/*For 600px and higher*/}
       <Stack
         sx={{
-          ...mix.responsiveLayout,
+          px:4,
           display: "none",
           ["@media (min-width: 700px)"]: { display: "block" },
         }}
@@ -55,7 +55,7 @@ export default function HeaderSection() {
           }}
         >
           <Typography variant="h3" component="h1" sx={{ ...mix.titleFont }}>
-            Local Eats Search
+            Local Search
           </Typography>
           <NavbarRow />
         </Box>

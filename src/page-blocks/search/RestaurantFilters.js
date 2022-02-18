@@ -60,7 +60,6 @@ const styles = {
     ["@media (min-width: 700px)"]: {
       gridTemplateColumns: "repeat(3, 1fr)",
       mt: 5,
-      px: 2,
     },
     ["@media (min-width: 1200px)"]: { gridTemplateColumns: "repeat(5, 1fr)" },
   },

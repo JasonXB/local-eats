@@ -12,7 +12,7 @@ export default function SearchResults(props) {
     searchTitle = `${searchHeader} in ${locationObject.locationString}`;
 
   return (
-    <Box sx={{ ...mix.searchMargins }}>
+    <Box sx={{ px:4 }}>
       <Typography variant="h3" component="h2">
         {searchTitle}
       </Typography>

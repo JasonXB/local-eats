@@ -6,7 +6,7 @@ import Spinner from "../../src/custom-components/LoadingVisuals/FullScreen/Spinn
 import LayoutContainer from "../../src/custom-components/LayoutContainer";
 import HeaderSection from "../../src/page-blocks/search/HeaderSection";
 import SearchbarModals from "../../src/custom-components/Searchbar/SearchbarModals";
-import RestaurantFilters from "../../src/page-blocks/search/RestauarantFilters";
+import RestaurantFilters from "../../src/page-blocks/search/RestaurantFilters";
 import SearchResults from "../../src/page-blocks/search/SearchResults";
 export default function Restaurants() {
   const router = useRouter();
