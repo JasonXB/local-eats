@@ -16,7 +16,7 @@ export async function getServerSideProps(context) {
   if (!session) {
     return {
       redirect: {
-        destination: "/auth/credChangeSignin", 
+        destination: "/auth/credChangeSignin",
         permanent: false, // don't always want to redirect (only if user's logged in)
       },
     };
@@ -76,7 +76,7 @@ export default function ManageAccount(props) {
     };
     if (!tabSelect[query]) setValue(0);
     else setValue(tabSelect[query]);
-    
+
     /*  Use the following links across your project
     /auth/manage-account/general                  /auth/manage-account/change-email     
     /auth/manage-account/change-password          /auth/manage-account/delete-account   */
@@ -103,7 +103,6 @@ export default function ManageAccount(props) {
       <TabPanel value={value} index={2}>
         <DeleteAccount />
       </TabPanel>
-
     </Box>
   );
 }
