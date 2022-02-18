@@ -20,10 +20,6 @@ const style = {
   boxShadow: 24,
 };
 
-
-
-
-
 export default function BasicModal() {
   const [open, setOpen] = React.useState(true);
   const handleOpen = () => setOpen(true);
@@ -44,7 +40,9 @@ export default function BasicModal() {
               id="modal-modal-title"
               variant="h3"
               component="h2"
-              sx={(theme) => { return { p: 2.5, color: theme.palette.secondary.dark }}}
+              sx={(theme) => {
+                return { p: 2.5, color: theme.palette.secondary.dark };
+              }}
             >
               Filters
             </Typography>
@@ -57,7 +55,7 @@ export default function BasicModal() {
             </IconButton>
           </Container>
           <Divider />
-          <FilterMenu/>
+          <FilterMenu />
         </Box>
       </Modal>
     </div>
@@ -70,4 +68,5 @@ const styles = {
     py: 3,
     px: 1.5,
   },
+  
 };
