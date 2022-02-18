@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export const starterFilters = {
-  radius: 20000,
+  radius: 20000, // options should be 5000, 10000, 20000, 25000, 30000 (5km-30km)
   price: "any",
   rating: "any",
-  open_now: true,
+  open_now: "any",
 };
 const filterSlice = createSlice({
   name: "restaurantFilters", // expected built-in KVP

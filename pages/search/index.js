@@ -3,22 +3,15 @@ import { useRouter } from "next/router";
 import { useLocationContext } from "../../state-management/locationContext";
 import { generateYelpString } from "../../src/utility-functions/general/generateYelpString";
 import Spinner from "../../src/custom-components/LoadingVisuals/FullScreen/Spinner";
-import { filterActions } from "../../state-management/store/search/filters";
-import { useSelector, useDispatch } from "react-redux";
-import { Typography, Box, Stack, Container, Button } from "@mui/material";
 import LayoutContainer from "../../src/custom-components/LayoutContainer";
 import HeaderSection from "../../src/page-blocks/search/HeaderSection";
 import SearchbarModals from "../../src/custom-components/Searchbar/SearchbarModals"
+import RestaurantFilters from "../../src/page-blocks/search/RestauarantFilters"
 
 export default function Restaurants() {
   const router = useRouter();
   // Grab the filter parameters from Redux (user can alter these)
-  const filters = {
-    radius: useSelector((r) => r.searchFilters.radius),
-    price: useSelector((r) => r.searchFilters.price),
-    rating: useSelector((r) => r.searchFilters.rating),
-    open_now: useSelector((r) => r.searchFilters.open_now),
-  };
+  
 
   // Get query parameters from URL + current location object to make a YelpAPI string
   const { query } = useRouter(); // equals undefined during first 2 few render cycles, then an obj on 3rd
@@ -33,6 +26,7 @@ export default function Restaurants() {
     <>
       <LayoutContainer>
         <HeaderSection />
+        <RestaurantFilters/>
       </LayoutContainer>
       {/* These fixed position Modals are on standby and will pop up depending on Redux state values */}
       <SearchbarModals/>

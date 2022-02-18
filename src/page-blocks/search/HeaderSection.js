@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import SearchbarDesktop from "../../../src/custom-components/Searchbar/SearchbarDesktop";
 import LayoutContainer from "../../custom-components/LayoutContainer";
 import { mix } from "../../../styles/styleMixins";
@@ -80,4 +80,3 @@ export default function HeaderSection() {
   );
 }
 
-const styles = {};
