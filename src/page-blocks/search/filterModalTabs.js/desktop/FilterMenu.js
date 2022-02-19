@@ -28,10 +28,22 @@ export default function RatingFilter() {
     rating: (inp) => dispatch(filterActions.setRatingFilter(inp)),
     hours: (inp) => dispatch(filterActions.setHoursFilter(inp)),
   };
-  const handleDistanceChange = (e, selectedVal) => setFilters.distance(selectedVal); // prettier-ignore
-  const handlePriceChange = (e, selectedVal) => setFilters.price(selectedVal);
-  const handleRatingChange = (e, selectedVal) => setFilters.rating(selectedVal);
-  const handleHoursChange = (e, selectedVal) => setFilters.hours(selectedVal);
+  const handleDistanceChange = (e, selectedVal) => {
+    if (selectedVal === null) return; // do not allow users to set the same filter twice
+    setFilters.distance(selectedVal);
+  };
+  const handlePriceChange = (e, selectedVal) => {
+    if (selectedVal === null) return;
+    setFilters.price(selectedVal);
+  };
+  const handleRatingChange = (e, selectedVal) => {
+    if (selectedVal === null) return;
+    setFilters.rating(selectedVal);
+  };
+  const handleHoursChange = (e, selectedVal) => {
+    if (selectedVal === null) return;
+    setFilters.hours(selectedVal);
+  };
 
   return (
     <Stack spacing={1} sx={styles.container}>

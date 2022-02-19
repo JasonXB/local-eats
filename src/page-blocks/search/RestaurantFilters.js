@@ -13,10 +13,20 @@ export default function RestauarantFilters() {
       const meters = useSelector((r) => r.searchFilters.distance);
       return String(meters / 1000) + "km";
     },
-    price: useSelector((r) => r.searchFilters.price),
-    rating: useSelector((r) => r.searchFilters.rating),
-    hours: useSelector((r) => r.searchFilters.hours),
+    price: () => {
+      const priceNumber = useSelector((r) => r.searchFilters.price); // 1 2 3 4
+      if (priceNumber === "any") return "any";
+      else return `${priceNumber} of 4`;
+    },
+    rating: () => {
+      const numberStars = useSelector((r) => r.searchFilters.rating);
+      if (numberStars === "any") return "any";
+      else if (numberStars == "1") return "1 star";
+      else return `${numberStars} stars`;
+    },
+    hours: () => useSelector((r) => r.searchFilters.hours),
   };
+
   return (
     <Box sx={styles.container}>
       <Button
@@ -37,13 +47,13 @@ export default function RestauarantFilters() {
         Max Distance: {filterValues.distance()}
       </Button>
       <Button sx={styles.price} size="large" startIcon={<AttachMoneyIcon />}>
-        Max Price Lvl: {filterValues.price} of 4
+        Max Price Lvl: {filterValues.price()}
       </Button>
       <Button sx={styles.rating} size="large" startIcon={<LockOpenIcon />}>
-        Min Rating: {filterValues.rating} stars
+        Min Rating: {filterValues.rating()}
       </Button>
       <Button sx={styles.hours} size="large" startIcon={<LockOpenIcon />}>
-        Hours: {filterValues.hours}
+        Hours: {filterValues.hours()}
       </Button>
     </Box>
   );
@@ -63,5 +73,4 @@ const styles = {
     },
     ["@media (min-width: 1200px)"]: { gridTemplateColumns: "repeat(5, 1fr)" },
   },
-
 };
