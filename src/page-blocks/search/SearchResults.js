@@ -9,7 +9,7 @@ export default function SearchResults(props) {
   // Compose the full header based on our current location, and the search term
   let searchTitle = "";
   if (locationObject)
-    searchTitle = `${searchHeader} in ${locationObject.locationString}`;
+    searchTitle = `${searchHeader} near ${locationObject.locationString}`;
 
   return (
     <Box sx={{ px:4 }}>

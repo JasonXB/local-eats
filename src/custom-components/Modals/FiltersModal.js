@@ -14,10 +14,11 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: "90%",
-  maxWidth: 700,
+  maxWidth: 600,
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
+  borderRadius: 2,
 };
 
 export default function BasicModal() {
@@ -41,7 +42,7 @@ export default function BasicModal() {
               variant="h3"
               component="h2"
               sx={(theme) => {
-                return { p: 2.5, color: theme.palette.secondary.dark };
+                return { p: 2.5, color: theme.palette.secondary.main };
               }}
             >
               Filters
@@ -54,7 +55,7 @@ export default function BasicModal() {
               <CloseIcon />
             </IconButton>
           </Container>
-          <Divider />
+          <Divider color="#7E7E7E" />
           <FilterMenu />
         </Box>
       </Modal>
@@ -68,5 +69,4 @@ const styles = {
     py: 3,
     px: 1.5,
   },
-  
 };

@@ -8,7 +8,7 @@ import HeaderSection from "../../src/page-blocks/search/HeaderSection";
 import SearchbarModals from "../../src/custom-components/Searchbar/SearchbarModals";
 import RestaurantFilters from "../../src/page-blocks/search/RestaurantFilters";
 import SearchResults from "../../src/page-blocks/search/SearchResults";
-import FiltersModal from "../../src/custom-components/Modals/FiltersModal"
+import FiltersModal from "../../src/custom-components/Modals/FiltersModal";
 
 export default function Restaurants() {
   const router = useRouter();
@@ -37,7 +37,7 @@ export default function Restaurants() {
       </LayoutContainer>
       {/* These fixed position Modals are on standby and will pop up depending on (Redux) state values */}
       <SearchbarModals />
-      <FiltersModal/>
+      <FiltersModal />
     </>
   );
 }
