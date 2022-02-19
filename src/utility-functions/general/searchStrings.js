@@ -32,7 +32,7 @@ export function getSearchHeader(queryObject) {
   if (queryParams.term) {
     const titleLowercase = `${queryParams.term}`;
     title = titleLowercase[0].toUpperCase() + titleLowercase.substring(1);
-  } else if (queryParams.price === "1") title = "Inexpensive Restaurants";
-  else if (queryParams.price === "4") title = "Higher-end Restaurants";
+  } else if (queryParams.price === "1") title = "Restaurants";
+  else if (queryParams.price === "4") title = "Restaurants";
   return title;
 }

@@ -8,34 +8,31 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Slider from "@mui/material/Slider";
 import { mix } from "../../../../../styles/styleMixins";
 import { styled } from "@mui/material/styles";
-
-const StyledRating = styled(Rating)({
-  "& .MuiRating-iconFilled": { color: "#118C4F" },
-  "& .MuiRating-iconHover": { color: "#118C4F" },
-});
+import { useSelector, useDispatch } from "react-redux";
+import { filterActions } from "../../../../../state-management/store/search/filters";
 
 export default function RatingFilter() {
-  
-  // Manage distance filter
-  const [alignment1, setAlignment1] = React.useState(20000);
-  const handleChange1 = (event, newAlignment) => {
-    setAlignment1(newAlignment);
+  const dispatch = useDispatch();
+  // Reference the existing filter values on the Redux store
+  const filterValues = {
+    distance: useSelector((r) => r.searchFilters.distance),
+    price: useSelector((r) => r.searchFilters.price),
+    rating: useSelector((r) => r.searchFilters.rating),
+    hours: useSelector((r) => r.searchFilters.hours),
   };
-  // Manage price filter
-  const [alignment2, setAlignment2] = React.useState("any");
-  const handleChange2 = (event, newAlignment) => {
-    setAlignment2(newAlignment);
+
+  // Create functions that update your filter state values in the Redux store
+  const setFilters = {
+    distance: (inp) => dispatch(filterActions.setDistanceFilter(inp)),
+    price: (inp) => dispatch(filterActions.setPriceFilter(inp)),
+    rating: (inp) => dispatch(filterActions.setRatingFilter(inp)),
+    hours: (inp) => dispatch(filterActions.setHoursFilter(inp)),
   };
-  // Manage rating filter
-  const [alignment3, setAlignment3] = React.useState("any");
-  const handleChange3 = (event, newAlignment) => {
-    setAlignment3(newAlignment);
-  };
-  // Manage hours filter
-  const [alignment4, setAlignment4] = React.useState("any");
-  const handleChange4 = (event, newAlignment) => {
-    setAlignment4(newAlignment);
-  };
+  const handleDistanceChange = (e, selectedVal) => setFilters.distance(selectedVal); // prettier-ignore
+  const handlePriceChange = (e, selectedVal) => setFilters.price(selectedVal);
+  const handleRatingChange = (e, selectedVal) => setFilters.rating(selectedVal);
+  const handleHoursChange = (e, selectedVal) => setFilters.hours(selectedVal);
+
   return (
     <Stack spacing={1} sx={styles.container}>
       <Typography variant="h4" sx={styles.tab}>
@@ -43,9 +40,9 @@ export default function RatingFilter() {
       </Typography>
       <ToggleButtonGroup
         color="secondary"
-        value={alignment1}
+        value={filterValues.distance}
         exclusive
-        onChange={handleChange1}
+        onChange={handleDistanceChange}
         sx={styles.btnGroup}
       >
         <ToggleButton value={10000}>10 km</ToggleButton>
@@ -56,13 +53,13 @@ export default function RatingFilter() {
       </ToggleButtonGroup>
 
       <Typography variant="h4" sx={styles.tab}>
-        Max Price
+        Max Price Level
       </Typography>
       <ToggleButtonGroup
         color="secondary"
-        value={alignment2}
+        value={filterValues.price}
         exclusive
-        onChange={handleChange2}
+        onChange={handlePriceChange}
         sx={styles.btnGroup}
       >
         <ToggleButton value={"any"}>Any</ToggleButton>
@@ -77,9 +74,9 @@ export default function RatingFilter() {
       </Typography>
       <ToggleButtonGroup
         color="secondary"
-        value={alignment3}
+        value={filterValues.rating}
         exclusive
-        onChange={handleChange3}
+        onChange={handleRatingChange}
         sx={styles.btnGroup}
       >
         <ToggleButton value={"any"}>Any</ToggleButton>
@@ -95,13 +92,13 @@ export default function RatingFilter() {
       </Typography>
       <ToggleButtonGroup
         color="secondary"
-        value={alignment4}
+        value={filterValues.hours}
         exclusive
-        onChange={handleChange4}
+        onChange={handleHoursChange}
         sx={styles.btnGroup}
       >
         <ToggleButton value={"any"}>Any</ToggleButton>
-        <ToggleButton value={"open_now"}>Open now</ToggleButton>
+        <ToggleButton value={"open now"}>Open now</ToggleButton>
       </ToggleButtonGroup>
       <Box sx={{ m: 0 }}></Box>
     </Stack>

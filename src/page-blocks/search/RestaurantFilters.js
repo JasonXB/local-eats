@@ -9,13 +9,13 @@ import { mix } from "../../../styles/styleMixins";
 
 export default function RestauarantFilters() {
   const filterValues = {
-    radius: () => {
-      const meters = useSelector((r) => r.searchFilters.radius);
+    distance: () => {
+      const meters = useSelector((r) => r.searchFilters.distance);
       return String(meters / 1000) + "km";
     },
     price: useSelector((r) => r.searchFilters.price),
     rating: useSelector((r) => r.searchFilters.rating),
-    open_now: useSelector((r) => r.searchFilters.open_now),
+    hours: useSelector((r) => r.searchFilters.hours),
   };
   return (
     <Box sx={styles.container}>
@@ -34,16 +34,16 @@ export default function RestauarantFilters() {
         size="large"
         startIcon={<SocialDistanceIcon />}
       >
-        Distance: {filterValues.radius()}
+        Max Distance: {filterValues.distance()}
       </Button>
       <Button sx={styles.price} size="large" startIcon={<AttachMoneyIcon />}>
-        Price: {filterValues.price}
+        Max Price Lvl: {filterValues.price} of 4
       </Button>
       <Button sx={styles.rating} size="large" startIcon={<LockOpenIcon />}>
-        Rating: {filterValues.rating}
+        Min Rating: {filterValues.rating} stars
       </Button>
-      <Button sx={styles.open_now} size="large" startIcon={<LockOpenIcon />}>
-        Open now: {filterValues.open_now}
+      <Button sx={styles.hours} size="large" startIcon={<LockOpenIcon />}>
+        Hours: {filterValues.hours}
       </Button>
     </Box>
   );
@@ -56,22 +56,12 @@ const styles = {
     mb: "1.625rem",
     display: "grid",
     gridTemplateColumns: "1fr",
-    ["@media (min-width: 450px)"]: { gridTemplateColumns: "repeat(2, 1fr)" },
-    ["@media (min-width: 700px)"]: {
+    ["@media (min-width: 525px)"]: { gridTemplateColumns: "repeat(2, 1fr)" },
+    ["@media (min-width: 750px)"]: {
       gridTemplateColumns: "repeat(3, 1fr)",
       mt: 5,
     },
     ["@media (min-width: 1200px)"]: { gridTemplateColumns: "repeat(5, 1fr)" },
   },
-  adjustFilters: { },
-  distance: {},
-  price: {},
-  rating: {},
-  open_now: {},
-};
 
-// Filters button
-// Distance: "under 20km"
-// Price: "1 of 4"
-// Rating: "any"
-// Currently open: "any"
+};
