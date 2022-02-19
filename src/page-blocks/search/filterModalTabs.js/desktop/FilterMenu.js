@@ -15,6 +15,7 @@ const StyledRating = styled(Rating)({
 });
 
 export default function RatingFilter() {
+  
   // Manage distance filter
   const [alignment1, setAlignment1] = React.useState(20000);
   const handleChange1 = (event, newAlignment) => {
@@ -25,7 +26,7 @@ export default function RatingFilter() {
   const handleChange2 = (event, newAlignment) => {
     setAlignment2(newAlignment);
   };
-  // Manage ratings filter
+  // Manage rating filter
   const [alignment3, setAlignment3] = React.useState("any");
   const handleChange3 = (event, newAlignment) => {
     setAlignment3(newAlignment);
@@ -111,7 +112,7 @@ const styles = {
   container: {
     width: "100%",
     height: "100%",
-    py:1,
+    py: 1,
     display: "grid",
     gridTemplateColumns: "auto 1fr",
     gridTemplateRows: "repeat(4, auto)",
@@ -127,9 +128,9 @@ const styles = {
     py: 2,
     px: 2,
     mt: 0,
-    color: "#7E7E7E"
+    color: "#7E7E7E",
   },
-  btnGroup : {
-    pl:2,
-  }
+  btnGroup: {
+    pl: 2,
+  },
 };
