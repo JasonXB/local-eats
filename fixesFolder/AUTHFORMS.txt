@@ -8,5 +8,5 @@ GO THROUGH AND TEST EACH FEATURE
 PLACE YOUR GENERIC ERROR MODAL
 Place it in every place API routes are used and there are possible uncaught API route fuckups
 
-
+FORGOT PASSWORD FEATURE (make it)
 

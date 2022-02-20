@@ -79,6 +79,8 @@ const styles = {
       gridTemplateColumns: "repeat(3, 1fr)",
       mt: 4,
     },
-    ["@media (min-width: 1200px)"]: { gridTemplateColumns: "repeat(5, 1fr)" },
+    ["@media (min-width: 1200px)"]: { 
+      gridTemplateColumns: "repeat(5, 1fr)" 
+    },
   },
 };

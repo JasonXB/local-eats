@@ -56,7 +56,6 @@ export default function SearchbarDesktop({ applyShadow }) {
   //@ Reveal the Predetermined Locations Modal by setting a Redux state value
   const dispatch = useDispatch();
   const openPredetermined = () => {
-    console.log("should open predetermined modal on desktop RN"); //!
     dispatch(homepageModalActions.usePredeterminedLocations());
   };
   const pickPredetermined = async function (event) {

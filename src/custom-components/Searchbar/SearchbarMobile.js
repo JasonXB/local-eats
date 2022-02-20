@@ -24,7 +24,6 @@ export default function SearchbarMobile() {
   //@ Reveal the Predetermined Locations Modal by setting a Redux state value
   const dispatch = useDispatch();
   const openPredetermined = () => {
-    console.log("should open predetermined modal on mobile RN"); //!
     dispatch(homepageModalActions.usePredeterminedLocations());
   };
 

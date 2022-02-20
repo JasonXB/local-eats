@@ -17,7 +17,6 @@ export const pickPredetermined = async function (
     localStorage.setItem("savedLocation", JSON.stringify(requestData));
     setLocationObject(requestData);
   } catch (err) {
-    console.error(err);
     //% render a modal giving the user the choice to use predetermined locations
     renderLocationDenialModal();
   }

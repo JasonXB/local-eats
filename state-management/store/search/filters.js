@@ -13,7 +13,6 @@ const filterSlice = createSlice({
   reducers: {
     setDistanceFilter(state, action) {
       state.distance = action.payload;
-      console.log(state);
     },
     setPriceFilter(state, action) {
       state.price = action.payload;

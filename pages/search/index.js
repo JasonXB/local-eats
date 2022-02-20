@@ -15,19 +15,22 @@ export default function Restaurants() {
   const router = useRouter();
 
   // Get query parameters from URL + current location object to make a YelpAPI string
-  const { query } = useRouter(); // equals undefined during first 2 few render cycles, then an obj on 3rd
+  const { query } = useRouter();
   const { locationObject } = useLocationContext();
 
-  // Generate strings for the Yelp API and the header preceeding the restaurant cards
+  // Generate strings for the Yelp API and the search header
   const [apiString, setApiString] = useState(undefined);
   const [searchHeader, setSearchHeader] = useState(undefined);
   useEffect(() => {
-    if (!query) return; // equals nothing during the first few render cycles
-    setSearchHeader(getSearchHeader(query));
+    // These both equal undefined during first few render cycles
     if (!locationObject || !query) return;
+    // Generate a Yelp API string to request restaurant data
     setApiString(generateYelpString(locationObject, query));
+    // Generate a search header to show before our search results
+    setSearchHeader(
+      `${getSearchHeader(query)} near ${locationObject.locationString}`
+    );
   }, [query, locationObject]);
-  console.log(apiString, searchHeader);
 
   // If we have no locationObject and arrive on this page, render this
   if (!locationObject)
@@ -49,6 +52,7 @@ export default function Restaurants() {
   //       <HeaderSection />
   //       <RestaurantFilters />
   //       <NoResults msg="No results found" />
+  //       {/* Still need our modals on standby */}
   //       <SearchbarModals />
   //       <FiltersModal />
   //     </LayoutContainer>
