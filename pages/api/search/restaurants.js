@@ -4,6 +4,9 @@ export default async function handler(req, res) {
   // Grab data from .env.local and the request body
   const { apiString } = req.body;
   const authKey = process.env.YELP_API_KEY;
+  console.log("STARTING");
+  console.log(apiString);
+  console.log(authKey);
   // Make a GET request to Yelp Fusion and return the data
   try {
     const fetchedData = await axios.get(apiString, {
