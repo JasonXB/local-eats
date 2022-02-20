@@ -9,6 +9,7 @@ import SearchbarModals from "../../src/custom-components/Searchbar/SearchbarModa
 import RestaurantFilters from "../../src/page-blocks/search/RestaurantFilters";
 import SearchResults from "../../src/page-blocks/search/SearchResults";
 import FiltersModal from "../../src/custom-components/Modals/SearchFilter/FiltersModal";
+import NoResults from "../../src/page-blocks/search/NoResults";
 
 export default function Restaurants() {
   const router = useRouter();
@@ -27,18 +28,42 @@ export default function Restaurants() {
     setApiString(generateYelpString(locationObject, query));
   }, [query, locationObject]);
   console.log(apiString, searchHeader);
-  //! If we have no locationObject and arrive on this page, render the top section only
-  return (
-    <>
+
+  // If we have no locationObject and arrive on this page, render this
+  if (!locationObject)
+    return (
       <LayoutContainer>
         <HeaderSection />
-        <RestaurantFilters />
-        <SearchResults apiString={apiString} searchHeader={searchHeader} />
+        <NoResults msg="No location specified!" />
+        {/* Still need our modals on standby */}
+        <SearchbarModals />
+        <FiltersModal />
       </LayoutContainer>
+    );
+
+  //! If the search results yield 0 results, render this
+  //! Figure out where to handle this (here or in SearchResults.js)
+  // if (!locationObject)
+  //   return (
+  //     <LayoutContainer>
+  //       <HeaderSection />
+  //       <RestaurantFilters />
+  //       <NoResults msg="No results found" />
+  //       <SearchbarModals />
+  //       <FiltersModal />
+  //     </LayoutContainer>
+  //   );
+
+  // If we have search results and a location object, render the following
+  return (
+    <LayoutContainer>
+      <HeaderSection />
+      <RestaurantFilters />
+      <SearchResults apiString={apiString} searchHeader={searchHeader} />
       {/* These fixed position Modals are on standby and will pop up depending on (Redux) state values */}
       <SearchbarModals />
       <FiltersModal />
-    </>
+    </LayoutContainer>
   );
 }
 

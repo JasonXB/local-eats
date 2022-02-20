@@ -63,7 +63,7 @@ export default function HeaderSection() {
           sx={{
             display: "grid",
             gridTemplateColumns: "1fr auto",
-            gap: 5,
+            gap: 3,
             alignItems: "center",
           }}
         >
