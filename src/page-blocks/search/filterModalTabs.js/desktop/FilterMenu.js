@@ -1,13 +1,7 @@
 import React from "react";
-import { Typography, Box, Stack, Rating } from "@mui/material"; // prettier-ignore
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import { Typography, Box, Stack } from "@mui/material"; // prettier-ignore
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import Slider from "@mui/material/Slider";
-import { mix } from "../../../../../styles/styleMixins";
-import { styled } from "@mui/material/styles";
 import { useSelector, useDispatch } from "react-redux";
 import { filterActions } from "../../../../../state-management/store/search/filters";
 
@@ -107,7 +101,7 @@ export default function RatingFilter() {
         value={filterValues.hours}
         exclusive
         onChange={handleHoursChange}
-        sx={styles.btnGroup}
+        sx={{...styles.btnGroup, pb:2}}
       >
         <ToggleButton value={"any"}>Any</ToggleButton>
         <ToggleButton value={"open now"}>Open now</ToggleButton>
@@ -122,7 +116,6 @@ const styles = {
     width: "100%",
     height: "100%",
     py: 1,
-    display: "grid",
     gridTemplateColumns: "auto 1fr",
     gridTemplateRows: "repeat(4, auto)",
     alignItems: "center",
@@ -132,6 +125,9 @@ const styles = {
     "span.MuiRating-root": { margin: 0 },
     "span.MuiSlider-colorPrimary": { margin: 0 },
     "div.MuiToggleButtonGroup-root": { margin: 0 },
+    ["@media (min-width: 700px)"]: { 
+      display: "grid",
+    }
   },
   tab: {
     py: 2,
@@ -140,6 +136,6 @@ const styles = {
     color: "#7E7E7E",
   },
   btnGroup: {
-    pl: 2,
+    ["@media (min-width: 400px)"]: {px: 2,}
   },
 };

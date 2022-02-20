@@ -72,10 +72,12 @@ const styles = {
     mb: "1.625rem",
     display: "grid",
     gridTemplateColumns: "1fr",
-    ["@media (min-width: 525px)"]: { gridTemplateColumns: "repeat(2, 1fr)" },
+    ["@media (min-width: 525px)"]: { 
+      gridTemplateColumns: "repeat(2, 1fr)" 
+    },
     ["@media (min-width: 750px)"]: {
       gridTemplateColumns: "repeat(3, 1fr)",
-      mt: 5,
+      mt: 4,
     },
     ["@media (min-width: 1200px)"]: { gridTemplateColumns: "repeat(5, 1fr)" },
   },
