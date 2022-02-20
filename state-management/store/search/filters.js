@@ -5,6 +5,7 @@ export const starterFilters = {
   price: "any", // "any", or 1-4 (integers on)
   rating: "any", // "any", or 1-5 with 0.5 increments
   hours: "any", // "any" or "open now"
+  modalOpen: false,
 };
 const filterSlice = createSlice({
   name: "restaurantFilters", // expected built-in KVP
@@ -22,6 +23,12 @@ const filterSlice = createSlice({
     },
     setHoursFilter(state, action) {
       state.hours = action.payload;
+    },
+    openModal(state, action) {
+      state.modalOpen = true;
+    },
+    closeModal(state, action) {
+      state.modalOpen = false;
     },
   },
 });

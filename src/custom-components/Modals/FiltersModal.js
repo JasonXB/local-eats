@@ -2,11 +2,10 @@ import React from "react";
 import Modal from "@mui/material/Modal";
 import { Typography, Box, Button, Container, IconButton, Divider  } from '@mui/material'; // prettier-ignore
 import CloseIcon from "@mui/icons-material/Close";
-import PropTypes from "prop-types";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
 import { mix } from "../../../styles/styleMixins";
+import { useSelector, useDispatch } from "react-redux";
 import FilterMenu from "../../page-blocks/search/filterModalTabs.js/desktop/FilterMenu";
+import { filterActions } from "../../../state-management/store/search/filters";
 
 const style = {
   position: "absolute",
@@ -22,51 +21,40 @@ const style = {
 };
 
 export default function BasicModal() {
-  const [open, setOpen] = React.useState(true);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
+  const dispatch = useDispatch();
+  // Open and close the modal using Redux state values
+  const isModalOpen = useSelector((r) => r.searchFilters.modalOpen);
+  const closeFilterModal = () => dispatch(filterActions.closeModal());
   return (
-    <div>
-      <Button onClick={handleOpen}>Open modal</Button>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <Container sx={{ ...mix.flexRow, justifyContent: "space-between" }}>
-            <Typography
-              id="modal-modal-title"
-              variant="h3"
-              component="h2"
-              sx={(theme) => {
-                return { p: 2.5, color: theme.palette.secondary.main };
-              }}
-            >
-              Filters
-            </Typography>
-            <IconButton
-              aria-label="delete"
-              sx={{ p: 2.5 }}
-              onClick={handleClose}
-            >
-              <CloseIcon />
-            </IconButton>
-          </Container>
-          <Divider color="#7E7E7E" />
-          <FilterMenu />
-        </Box>
-      </Modal>
-    </div>
+    <Modal
+      open={isModalOpen}
+      onClose={closeFilterModal}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+    >
+      <Box sx={style}>
+        <Container sx={{ ...mix.flexRow, justifyContent: "space-between" }}>
+          <Typography
+            id="modal-modal-title"
+            variant="h3"
+            component="h2"
+            sx={(theme) => {
+              return { p: 2.5, color: theme.palette.secondary.main };
+            }}
+          >
+            Filters
+          </Typography>
+          <IconButton
+            aria-label="delete"
+            sx={{ p: 2.5 }}
+            onClick={closeFilterModal}
+          >
+            <CloseIcon />
+          </IconButton>
+        </Container>
+        <Divider color="#7E7E7E" />
+        <FilterMenu />
+      </Box>
+    </Modal>
   );
 }
-
-const styles = {
-  tab: {
-    fontSize: "1.125rem",
-    py: 3,
-    px: 1.5,
-  },
-};

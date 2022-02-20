@@ -5,7 +5,7 @@ import SocialDistanceIcon from "@mui/icons-material/SocialDistance";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import { useSelector, useDispatch } from "react-redux";
-import { mix } from "../../../styles/styleMixins";
+import { filterActions } from "../../../state-management/store/search/filters";
 
 export default function RestauarantFilters() {
   const filterValues = {
@@ -27,6 +27,10 @@ export default function RestauarantFilters() {
     hours: () => useSelector((r) => r.searchFilters.hours),
   };
 
+  // Function that opens the filters modal which affects your search results
+  const dispatch = useDispatch();
+  const openFilterModal = () => dispatch(filterActions.openModal());
+
   return (
     <Box sx={styles.container}>
       <Button
@@ -35,6 +39,7 @@ export default function RestauarantFilters() {
         variant="outlined"
         fullWidth
         startIcon={<EqualizerIcon />}
+        onClick={openFilterModal}
       >
         Adjust Filters
       </Button>
@@ -43,16 +48,17 @@ export default function RestauarantFilters() {
         sx={styles.distance}
         size="large"
         startIcon={<SocialDistanceIcon />}
+        disabled
       >
         Max Distance: {filterValues.distance()}
       </Button>
-      <Button sx={styles.price} size="large" startIcon={<AttachMoneyIcon />}>
+      <Button sx={styles.price} size="large" startIcon={<AttachMoneyIcon />} disabled>
         Max Price Lvl: {filterValues.price()}
       </Button>
-      <Button sx={styles.rating} size="large" startIcon={<LockOpenIcon />}>
+      <Button sx={styles.rating} size="large" startIcon={<LockOpenIcon />} disabled>
         Min Rating: {filterValues.rating()}
       </Button>
-      <Button sx={styles.hours} size="large" startIcon={<LockOpenIcon />}>
+      <Button sx={styles.hours} size="large" startIcon={<LockOpenIcon />} disabled>
         Hours: {filterValues.hours()}
       </Button>
     </Box>
