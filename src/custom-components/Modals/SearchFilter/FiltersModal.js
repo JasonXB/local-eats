@@ -1,11 +1,11 @@
 import React from "react";
 import Modal from "@mui/material/Modal";
-import { Typography, Box, Button, Container, IconButton, Divider  } from '@mui/material'; // prettier-ignore
+import { Typography, Box, Container, IconButton, Divider } from '@mui/material'; // prettier-ignore
 import CloseIcon from "@mui/icons-material/Close";
-import { mix } from "../../../styles/styleMixins";
+import { mix } from "../../../../styles/styleMixins";
 import { useSelector, useDispatch } from "react-redux";
-import FilterMenu from "../../page-blocks/search/filterModalTabs.js/desktop/FilterMenu";
-import { filterActions } from "../../../state-management/store/search/filters";
+import ModalMenu from "./ModalMenu";
+import { filterActions } from "../../../../state-management/store/search/filters";
 
 const style = {
   position: "absolute",
@@ -18,7 +18,7 @@ const style = {
   border: "2px solid #000",
   boxShadow: 24,
   borderRadius: 2,
-  ["@media (min-width: 700px)"]: { 
+  ["@media (min-width: 700px)"]: {
     maxWidth: 600,
   },
 };
@@ -56,7 +56,7 @@ export default function BasicModal() {
           </IconButton>
         </Container>
         <Divider color="#7E7E7E" />
-        <FilterMenu />
+        <ModalMenu />
       </Box>
     </Modal>
   );

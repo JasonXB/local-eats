@@ -8,7 +8,7 @@ import HeaderSection from "../../src/page-blocks/search/HeaderSection";
 import SearchbarModals from "../../src/custom-components/Searchbar/SearchbarModals";
 import RestaurantFilters from "../../src/page-blocks/search/RestaurantFilters";
 import SearchResults from "../../src/page-blocks/search/SearchResults";
-import FiltersModal from "../../src/custom-components/Modals/FiltersModal";
+import FiltersModal from "../../src/custom-components/Modals/SearchFilter/FiltersModal";
 
 export default function Restaurants() {
   const router = useRouter();

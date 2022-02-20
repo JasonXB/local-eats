@@ -3,7 +3,7 @@ import { Typography, Box, Stack } from "@mui/material"; // prettier-ignore
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { useSelector, useDispatch } from "react-redux";
-import { filterActions } from "../../../../../state-management/store/search/filters";
+import { filterActions } from "../../../../state-management/store/search/filters";
 
 export default function RatingFilter() {
   const dispatch = useDispatch();
