@@ -30,7 +30,10 @@ export default function Restaurants() {
     setSearchHeader(
       `${getSearchHeader(query)} near ${locationObject.locationString}`
     );
-    //!!! Change the price filter parameter if we used the search based on cheap/lavish prices
+    //!!! Reset all state values in store/search/results
+    //!!! Reset all state values in store/search/filters
+    //!!! Change the price filter parameter if we used the search based on cheap/lavish prices (store/search/filters)
+    
   }, [query, locationObject]);
 
   // If we have no locationObject and arrive on this page, render this
@@ -45,19 +48,7 @@ export default function Restaurants() {
       </LayoutContainer>
     );
 
-  //! If the search results yield 0 results, render this
-  //! Figure out where to handle this (here or in SearchResults.js)
-  // if (!locationObject)
-  //   return (
-  //     <LayoutContainer>
-  //       <HeaderSection />
-  //       <RestaurantFilters />
-  //       <NoResults msg="No results found" />
-  //       {/* Still need our modals on standby */}
-  //       <SearchbarModals />
-  //       <FiltersModal />
-  //     </LayoutContainer>
-  //   );
+
 
   // If we have search results and a location object, render the following
   return (

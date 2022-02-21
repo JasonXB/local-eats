@@ -23,12 +23,18 @@ const filterSlice = createSlice({
     },
     setHoursFilter(state, action) {
       state.hours = action.payload;
-      // useSelector((state) => state.storekey.statekey); // prettier-ignore
     },
     openModal(state, action) {
       state.modalOpen = true;
     },
     closeModal(state, action) {
+      state.modalOpen = false;
+    },
+    reset(state, action) {
+      state.distance = 20000;
+      state.price = "any";
+      state.rating = "any";
+      state.hours = "any";
       state.modalOpen = false;
     },
   },

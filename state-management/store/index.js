@@ -9,9 +9,11 @@ import searchResult_reducer from "./search/results"
 // Create a store with the configureStore method (multiple slices)
 const store = configureStore({
   reducer: {
+    // For Homepage mostly
     locationDenialUSA: locationDenialUSA_reducer,
     locationDenialCA: locationDenialCA_reducer,
     homepageModals: homepageModals_reducer,
+    // For restaurant search results page mostly
     searchFilters: restauarantFilter_reducer,
     searchResults: searchResult_reducer,
   },

@@ -17,6 +17,7 @@ export default function RatingFilter() {
   };
 
   // Create functions that update your filter state values in the Redux store
+  //!!! Turn into a custom hook
   const setFilters = {
     distance: (inp) => dispatch(filterActions.setDistanceFilter(inp)),
     price: (inp) => dispatch(filterActions.setPriceFilter(inp)),

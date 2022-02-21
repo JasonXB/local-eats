@@ -28,6 +28,7 @@ export default function BasicModal() {
   // Open and close the modal using Redux state values
   const isModalOpen = useSelector((r) => r.searchFilters.modalOpen);
   const closeFilterModal = () => dispatch(filterActions.closeModal());
+  
   return (
     <Modal
       open={isModalOpen}
