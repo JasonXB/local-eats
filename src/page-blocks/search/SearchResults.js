@@ -20,11 +20,12 @@ export default function SearchResults(props) {
       console.log(numberOfHits);
       console.log(results);
     } catch (error) {
-      console.error("YA DONE FUCKED UP"); //!!! render error block
+      console.error("YA DONE FUCKED UP"); //!!! render custom, No result error block
     }
   };
   fetchYelpData(apiString);
-
+  //! Create Redux store: number of hits, current page number, restoData, 
+  //! Sort data using default filter parameters at start, then resort when they change
   return (
     <Box sx={{ px: 4 }}>
       <Typography variant="h3" component="h2">

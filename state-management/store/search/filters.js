@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export const starterFilters = {
+  // RELATED TO FILTERS
   distance: 20000, // options should be 5000, 10000, 20000, 25000, 30000 (5km-30km)
   price: "any", // "any", or 1-4 (integers on)
   rating: "any", // "any", or 1-5 with 0.5 increments
@@ -22,6 +23,7 @@ const filterSlice = createSlice({
     },
     setHoursFilter(state, action) {
       state.hours = action.payload;
+      // useSelector((state) => state.storekey.statekey); // prettier-ignore
     },
     openModal(state, action) {
       state.modalOpen = true;
