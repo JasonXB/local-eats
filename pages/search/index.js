@@ -30,6 +30,7 @@ export default function Restaurants() {
     setSearchHeader(
       `${getSearchHeader(query)} near ${locationObject.locationString}`
     );
+    //!!! Change the price filter parameter if we used the search based on cheap/lavish prices
   }, [query, locationObject]);
 
   // If we have no locationObject and arrive on this page, render this

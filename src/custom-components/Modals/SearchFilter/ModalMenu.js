@@ -8,6 +8,7 @@ import { filterActions } from "../../../../state-management/store/search/filters
 export default function RatingFilter() {
   const dispatch = useDispatch();
   // Reference the existing filter values on the Redux store
+  //!!! Turn into a custom hook
   const filterValues = {
     distance: useSelector((r) => r.searchFilters.distance),
     price: useSelector((r) => r.searchFilters.price),

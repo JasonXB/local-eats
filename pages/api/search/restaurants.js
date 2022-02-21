@@ -4,6 +4,7 @@ export default async function handler(req, res) {
   // Grab data from .env.local and the request body
   const { apiString } = req.body;
   const authKey = process.env.YELP_API_KEY;
+
   // Make a GET request to Yelp Fusion and return the data
   try {
     const headers = {
@@ -11,10 +12,19 @@ export default async function handler(req, res) {
       Authorization: `bearer ${authKey}`,
     };
     const response = await axios.get(apiString, { headers });
-    const results = response.data.businesses; // array full of restaurant objects
+    const rawResults = response.data.businesses; // array full of restaurant objects
+
+    // Capture the array full of restaurant objects, but add an index# KVP for each one
+    const editedResults = rawResults.map((value, index) => {
+      const restaurantObject = value;
+      restaurantObject.searchIndex = index;
+      return restaurantObject;
+    });
     const numberOfHits = response.data.total; // number of matches for the search
-    
-    res.status(201).json({ message: "Data fetched", results, numberOfHits });
+
+    res
+      .status(201)
+      .json({ message: "Data fetched", results: editedResults, numberOfHits });
     return;
   } catch (err) {
     res.status(420).json({ message: "Fetch failed" });

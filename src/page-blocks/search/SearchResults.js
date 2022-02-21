@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import { useLocationContext } from "../../../state-management/locationContext";
 import { Typography, Box, Stack, Container, Button } from "@mui/material"; // prettier-ignore
+import { useSelector, useDispatch } from "react-redux";
 import { mix } from "../../../styles/styleMixins";
 
 export default function SearchResults(props) {
@@ -9,6 +10,9 @@ export default function SearchResults(props) {
   const { apiString, searchHeader } = props;
   const { locationObject } = useLocationContext();
   if (!apiString || !searchHeader || !locationObject) return "";
+
+  // 
+
 
   // Fetch Yelp API data
   const fetchYelpData = async function (inp) {
@@ -19,6 +23,7 @@ export default function SearchResults(props) {
       const { results, numberOfHits } = data;
       console.log(numberOfHits);
       console.log(results);
+      //!!! Update redux values
     } catch (error) {
       console.error("YA DONE FUCKED UP"); //!!! render custom, No result error block
     }
