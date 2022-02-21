@@ -12,7 +12,9 @@ export default function SearchResults(props) {
 
   const fetchYelpData = async function (inp) {
     try {
-      const data = await axios.post("/api/search/restaurants", { apiString: inp });
+      const data = await axios.post("/api/search/restaurants", {
+        apiString: inp,
+      });
       console.log(data);
     } catch (error) {
       console.error("YA DONE FUCKED UP");

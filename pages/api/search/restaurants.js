@@ -4,19 +4,22 @@ export default async function handler(req, res) {
   // Grab data from .env.local and the request body
   const { apiString } = req.body;
   const authKey = process.env.YELP_API_KEY;
-  console.log("STARTING");
-  console.log(apiString);
-  console.log(authKey);
   // Make a GET request to Yelp Fusion and return the data
   try {
-    const fetchedData = await axios.get(apiString, {
-      Authorization: `bearer ${authKey}`,
+    console.log("BEGIN")
+    const data = await fetch(apiString, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ Authorization: `bearer ${authKey}` }),
     });
+    if (!data.ok) throw new Error("fetch failed");
+    const parsedData = await data.json();
+    console.log(parsedData);
     //!!! Remove unrequired information here
-    res.status(201).json({ message: "Data fetched", restaurants: fetchedData });
+    res.status(201).json({ message: "Data fetched", restaurants: parsedData });
     return;
   } catch (err) {
-    res.status(422).json({ message: "Fetch failed" });
+    res.status(420).json({ message: "Fetch failed" });
     return;
   }
 }
