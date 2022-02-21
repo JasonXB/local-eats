@@ -10,14 +10,17 @@ export default function SearchResults(props) {
   const { locationObject } = useLocationContext();
   if (!apiString || !searchHeader || !locationObject) return "";
 
+  // Fetch Yelp API data
   const fetchYelpData = async function (inp) {
     try {
       const data = await axios.post("/api/search/restaurants", {
         apiString: inp,
       });
-      console.log(data);
+      const { results, numberOfHits } = data;
+      console.log(numberOfHits);
+      console.log(results);
     } catch (error) {
-      console.error("YA DONE FUCKED UP");
+      console.error("YA DONE FUCKED UP"); //!!! render error block
     }
   };
   fetchYelpData(apiString);
