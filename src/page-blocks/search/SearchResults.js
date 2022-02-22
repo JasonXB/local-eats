@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import { useLocationContext } from "../../../state-management/locationContext";
 import { Typography, Box, Stack, Container, Button } from "@mui/material"; // prettier-ignore
@@ -34,14 +34,18 @@ export default function SearchResults(props) {
       dispatch(searchResultActions.showNoResults());
     }
   };
-  fetchYelpData(apiString);
+
+  // Fetch Yelp data on startup, and when any of the parameters change as a result of the queryObj changing
+  useEffect(() => {
+    fetchYelpData(apiString);
+  }, [apiString, searchHeader, locationObject]);
 
   // POSSIBLE OUTCOMES
   // 1) Render nothing if the values from locationObj or query object are not ready yet ( = undefined at first)
   // 2) Render a msg saying no results were found (if someone searches for something & gets 0 hits, or Yelp API fails)
   // 3) Render a list of restaurant matches for the user's search query
   const showNoResults = useSelector((rs) => rs.searchResults.numberOfHits) == 0; // bool
-  if (!apiString || !searchHeader || !locationObject) return null; 
+  if (!apiString || !searchHeader || !locationObject) return null;
   return (
     <Box sx={{ px: 4 }}>
       <Typography variant="h3" component="h2">
