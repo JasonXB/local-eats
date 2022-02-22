@@ -4,37 +4,32 @@ import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { useSelector, useDispatch } from "react-redux";
 import { filterActions } from "../../../../state-management/store/search/filters";
-import useGetFilters from "../../../../src/utility-functions/search/useGetFilters"
+// Custom Hooks
+import useGetFilters from "../../../../src/utility-functions/search/useGetFilters";
+import useChangeFilter from "../../../../src/utility-functions/search/useChangeFilter";
 
 export default function ModalMenu() {
-  const dispatch = useDispatch();
-
-  // Get the existing filter values in the Redux store
+  // Get the existing filter values in the Redux store using our custom hook
   const filterValues = useGetFilters(); // object full of filter values
-  console.log(filterValues)
-  // Create functions that update your filter state values in the Redux store
-  //!!! Turn into a custom hook
-  const setFilters = {
-    distance: (inp) => dispatch(filterActions.setDistanceFilter(inp)),
-    price: (inp) => dispatch(filterActions.setPriceFilter(inp)),
-    rating: (inp) => dispatch(filterActions.setRatingFilter(inp)),
-    hours: (inp) => dispatch(filterActions.setHoursFilter(inp)),
-  };
+
+  // Create functions that update your filter Redux values using our custom hook
+  const setFilter = useChangeFilter(); // function(filterName, newValue)
+
   const handleDistanceChange = (e, selectedVal) => {
     if (selectedVal === null) return; // do not allow users to set the same filter twice
-    setFilters.distance(selectedVal);
+    setFilter("distance", selectedVal);
   };
   const handlePriceChange = (e, selectedVal) => {
     if (selectedVal === null) return;
-    setFilters.price(selectedVal);
+    setFilter("price", selectedVal);
   };
   const handleRatingChange = (e, selectedVal) => {
     if (selectedVal === null) return;
-    setFilters.rating(selectedVal);
+    setFilter("rating", selectedVal);
   };
   const handleHoursChange = (e, selectedVal) => {
     if (selectedVal === null) return;
-    setFilters.hours(selectedVal);
+    setFilter("hours", selectedVal);
   };
 
   return (
@@ -99,7 +94,7 @@ export default function ModalMenu() {
         value={filterValues.hours}
         exclusive
         onChange={handleHoursChange}
-        sx={{...styles.btnGroup, pb:2}}
+        sx={{ ...styles.btnGroup, pb: 2 }}
       >
         <ToggleButton value={"any"}>Any</ToggleButton>
         <ToggleButton value={"open now"}>Open now</ToggleButton>
@@ -123,9 +118,9 @@ const styles = {
     "span.MuiRating-root": { margin: 0 },
     "span.MuiSlider-colorPrimary": { margin: 0 },
     "div.MuiToggleButtonGroup-root": { margin: 0 },
-    ["@media (min-width: 700px)"]: { 
+    ["@media (min-width: 700px)"]: {
       display: "grid",
-    }
+    },
   },
   tab: {
     py: 2,
@@ -134,6 +129,6 @@ const styles = {
     color: "#7E7E7E",
   },
   btnGroup: {
-    ["@media (min-width: 400px)"]: {px: 2,}
+    ["@media (min-width: 400px)"]: { px: 2 },
   },
 };
