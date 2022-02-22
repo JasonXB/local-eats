@@ -4,18 +4,14 @@ import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { useSelector, useDispatch } from "react-redux";
 import { filterActions } from "../../../../state-management/store/search/filters";
+import useGetFilters from "../../../../src/utility-functions/search/useGetFilters"
 
-export default function RatingFilter() {
+export default function ModalMenu() {
   const dispatch = useDispatch();
-  // Reference the existing filter values on the Redux store
-  //!!! Turn into a custom hook
-  const filterValues = {
-    distance: useSelector((r) => r.searchFilters.distance),
-    price: useSelector((r) => r.searchFilters.price),
-    rating: useSelector((r) => r.searchFilters.rating),
-    hours: useSelector((r) => r.searchFilters.hours),
-  };
 
+  // Get the existing filter values in the Redux store
+  const filterValues = useGetFilters(); // object full of filter values
+  console.log(filterValues)
   // Create functions that update your filter state values in the Redux store
   //!!! Turn into a custom hook
   const setFilters = {

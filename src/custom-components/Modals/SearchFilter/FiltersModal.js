@@ -28,7 +28,7 @@ export default function BasicModal() {
   // Open and close the modal using Redux state values
   const isModalOpen = useSelector((r) => r.searchFilters.modalOpen);
   const closeFilterModal = () => dispatch(filterActions.closeModal());
-  
+
   return (
     <Modal
       open={isModalOpen}
@@ -50,7 +50,7 @@ export default function BasicModal() {
           </Typography>
           <IconButton
             aria-label="delete"
-            sx={{ p: 2.5 }}
+            sx={{ p: 2.5, "&:hover": { backgroundColor: "white" } }}
             onClick={closeFilterModal}
           >
             <CloseIcon />

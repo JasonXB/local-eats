@@ -23,3 +23,4 @@ Why this site looks perfectly responsive in dev tools mobile mode but looks ques
 
 TEST SITE IN OTHER COUNTRIES
 If results are bad, disable the ability to use your true location as a locationObj if you're in another country
+

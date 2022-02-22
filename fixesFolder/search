@@ -1,0 +1,2 @@
+Cut off the maximum amount of characters shown for the header title
+(If over 20 chars, render a default message or something)
