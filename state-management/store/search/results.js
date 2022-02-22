@@ -2,11 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initial = {
   // RELATED TO SEARCH RESULTS
+  restaurantList: undefined, // array of restaurant objects from Yelp API
   numberOfHits: undefined, // total matches the user got with their search term
   pageNumber: 1, // which pagination page the user is currently looking at
-  restaurantList: undefined, // array of restaurant objects from Yelp API
-  noResults: false, // decides when to render a "No Results" message
-  generalError: false, // decides when to render a general error
 };
 const searchResultSlice = createSlice({
   name: "searchResults", // expected built-in KVP
@@ -20,21 +18,18 @@ const searchResultSlice = createSlice({
     saveRestaurants(state, action) {
       state.restaurantList = action.payload.list;
       state.numberOfHits = action.payload.hits;
-      console.log(state.restaurantList)
+      state.pageNumber = 1; // reset. revert to page 1 when we search something new
     },
     showNoResults(state, action) {
-      state.noResults = true;
-    },
-    showGeneralError(state, action) {
-      state.generalError = true;
+      state.restaurantList = undefined; // reset
+      state.numberOfHits = 0;
+      state.pageNumber = 1; // reset. revert to page 1 when we search something new
     },
     // Reset all state values
     reset(state, action) {
       state.numberOfHits = undefined;
       state.pageNumber = 1;
       state.restaurantList = undefined;
-      state.noResults = false;
-      state.generalError = false;
     },
   },
 });

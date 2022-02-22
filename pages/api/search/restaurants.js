@@ -16,10 +16,7 @@ export default async function handler(req, res) {
     const numberOfHits = response.data.total; // number of matches for the search
 
     // If we get zero hits, throw an error
-    if (!numberOfHits) {
-      res.status(420).json({ message: "No results found" });
-      return;
-    };
+    if (!numberOfHits) throw new Error("No results found");
 
     // If we do have matches...
     // Capture the array full of restaurant objects, but add an index# KVP for each one
@@ -29,12 +26,11 @@ export default async function handler(req, res) {
       return restaurantObject;
     });
 
-    res
-      .status(201)
+    res.status(201)
       .json({ message: "Data fetched", results: editedResults, numberOfHits });
     return;
   } catch (err) {
-    res.status(420).json({ message: "Fetch failed" });
+    res.status(422).json({ message: "No results found" });
     return;
   }
   return;

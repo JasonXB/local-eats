@@ -2,8 +2,6 @@ import React from "react";
 import { Typography, Box, Stack } from "@mui/material"; // prettier-ignore
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import { useSelector, useDispatch } from "react-redux";
-import { filterActions } from "../../../../state-management/store/search/filters";
 // Custom Hooks
 import useGetFilters from "../../../../src/utility-functions/search/useGetFilters";
 import useChangeFilter from "../../../../src/utility-functions/search/useChangeFilter";

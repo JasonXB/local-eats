@@ -12,11 +12,12 @@ export default function SearchResults(props) {
   const { apiString, searchHeader } = props;
   const { locationObject } = useLocationContext();
 
-  // Fetch Yelp API data
+  // Fetch Yelp API data as soon as we arrive to the page
   const dispatch = useDispatch();
   const fetchYelpData = async function (inp) {
     // Don't run this if these values are undefined or falsy
     if (!apiString || !searchHeader || !locationObject) return;
+    // Make a request to the API route that fetches data from Yelp's API
     try {
       const request = await axios.post("/api/search/restaurants", {
         apiString: inp,
@@ -30,40 +31,24 @@ export default function SearchResults(props) {
         })
       );
     } catch (error) {
-      // Update Redux state values in store/search/results that decide what JSX gets rendered
-      const responseObj = error.response;
-      switch (responseObj.data.message) {
-        // Decides when to render the "No Results" message (store/search/results)
-        case "No results found":
-          dispatch(searchResultActions.showNoResults());
-          break;
-        // Decides when to render a general error message (store/search/results)
-        default:
-          dispatch(searchResultActions.showGeneralError());
-          break;
-      }
+      dispatch(searchResultActions.showNoResults());
     }
   };
   fetchYelpData(apiString);
 
   // POSSIBLE OUTCOMES
-  // 1) Render a msg saying no results were found (if someone searches for something & gets no hits)
-  // 2) Render a message that says something's gone wrong (if there are problems with Yelp's API)
-  // 3) Render nothing if the values from locationObj or query object are not ready yet ( = undefined at first)
-  // 4) Render a list of restaurant matches for the user's search query
-  const showNoResults = useSelector((rs) => rs.searchResults.noResults); // bool
-  const showGeneralError = useSelector((rs) => rs.searchResults.generalError); // bool
-  if (!apiString || !searchHeader || !locationObject) return ""; 
+  // 1) Render nothing if the values from locationObj or query object are not ready yet ( = undefined at first)
+  // 2) Render a msg saying no results were found (if someone searches for something & gets 0 hits, or Yelp API fails)
+  // 3) Render a list of restaurant matches for the user's search query
+  const showNoResults = useSelector((rs) => rs.searchResults.numberOfHits) == 0; // bool
+  if (!apiString || !searchHeader || !locationObject) return null; 
   return (
     <Box sx={{ px: 4 }}>
       <Typography variant="h3" component="h2">
         {searchHeader}
       </Typography>
       {showNoResults && <NoResults msg="No results found" />}
-      {showGeneralError && (
-        <NoResults msg="Something's gone wrong on our end. Please try again" />
-      )}
-      {!showNoResults && !showGeneralError && <div>List of restos</div>}
+      {!showNoResults && <div>List of restos</div>}
     </Box>
   );
 }
