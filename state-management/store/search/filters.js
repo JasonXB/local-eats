@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const starterFilters = {
   // RELATED TO FILTERS
   distance: 20000, // options should be 5000, 10000, 20000, 25000, 30000 (5km-30km)
-  price: "any", // "any", or 1-4 (integers on)
+  price: "any", // "any", or 1-4 (integers only)
   rating: "any", // "any", or 1-5 with 0.5 increments
   hours: "any", // "any" or "open now"
   modalOpen: false,

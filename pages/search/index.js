@@ -1,8 +1,8 @@
 import React, { useReducer, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useLocationContext } from "../../state-management/locationContext";
-import { generateYelpString, getSearchHeader } from "../../src/utility-functions/general/searchStrings"; // prettier-ignore
-import Spinner from "../../src/custom-components/LoadingVisuals/FullScreen/Spinner";
+import { generateYelpString, getSearchHeader } from "../../src/utility-functions/search/searchStrings"; // prettier-ignore
+import useChangeFilter from "../../src/utility-functions/search/useChangeFilter";
 import LayoutContainer from "../../src/custom-components/LayoutContainer";
 import HeaderSection from "../../src/page-blocks/search/HeaderSection";
 import SearchbarModals from "../../src/custom-components/Searchbar/SearchbarModals";
@@ -13,7 +13,7 @@ import NoResults from "../../src/page-blocks/search/NoResults";
 
 export default function Restaurants() {
   const router = useRouter();
-
+  const setFilter = useChangeFilter();
   // Get query parameters from URL + current location object to make a YelpAPI string
   const { query } = useRouter();
   const { locationObject } = useLocationContext();
@@ -30,10 +30,12 @@ export default function Restaurants() {
     setSearchHeader(
       `${getSearchHeader(query)} near ${locationObject.locationString}`
     );
-    //!!! Reset all state values in store/search/results
-    //!!! Reset all state values in store/search/filters
-    //!!! Change the price filter parameter if we used the search based on cheap/lavish prices (store/search/filters)
-    
+    // Change the price filter parameter if we used the search based on cheap/lavish prices (store/search/filters)
+    if (query.price) setFilter("price", Number(query.price));
+
+    //!!! See if the following 2 changes are necessary after we code the restaurant cards
+    // Reset all state values in store/search/results
+    // Reset all state values in store/search/filters
   }, [query, locationObject]);
 
   // If we have no locationObject and arrive on this page, render this
@@ -47,8 +49,6 @@ export default function Restaurants() {
         <FiltersModal />
       </LayoutContainer>
     );
-
-
 
   // If we have search results and a location object, render the following
   return (

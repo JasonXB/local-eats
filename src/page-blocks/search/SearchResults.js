@@ -23,6 +23,7 @@ export default function SearchResults(props) {
         apiString: inp,
       });
       const { numberOfHits, results } = request.data;
+      console.log(results)
       // Update redux values in store/search/results
       dispatch(
         searchResultActions.saveRestaurants({

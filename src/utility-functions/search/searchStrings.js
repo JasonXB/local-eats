@@ -1,4 +1,4 @@
-import { removeEmptyKVPs } from "./removeEmptyKVPs";
+import { removeEmptyKVPs } from "../general/removeEmptyKVPs";
 import { starterFilters } from "../../../state-management/store/search/filters";
 
 // dependent on a static page with dynamic data (/search?term=...)
@@ -18,7 +18,7 @@ export function generateYelpString(locationObject, queryObject) {
   const qs = Object.keys(queryParams)
     .map((key) => `${key}=${queryParams[key]}`)
     .join("&"); // convert object to a query string
-  return `https://api.yelp.com/v3/businesses/search?${qs}`;
+  return `https://api.yelp.com/v3/businesses/search?limit=50&${qs}`;
 }
 
 export function getSearchHeader(queryObject) {
