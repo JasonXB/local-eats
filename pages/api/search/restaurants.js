@@ -18,20 +18,35 @@ export default async function handler(req, res) {
     // If we get zero hits, throw an error
     if (!numberOfHits) throw new Error("No results found");
 
-    // If we do have matches...
-    // Capture the array full of restaurant objects, but add an index# KVP for each one
+    // If we do have matches...query the each restauarant object for data needed on Restauarant Cards
     const editedResults = rawResults.map((value, index) => {
-      const restaurantObject = value;
-      restaurantObject.searchIndex = index;
-      return restaurantObject;
+      // Calculate distance in km
+      const meterDistance = value.distance; 
+      const kmDistance = (meterDistance / 1000).toFixed(1); // rounded to 1 decimal place
+      // Concatenate strings to form a list of categories
+      const listOfCategories = value.categories.map((obj) => obj.title); // array
+      const categoryString = listOfCategories.join(", ");
+      const relevantData = {
+        searchIndex: index,
+        storeID: value.id,
+        image: value.image_url,
+        storeName: value.name,
+        category: categoryString,
+        distance: `${kmDistance} km away`,
+        rating: value.rating,
+        priceLevel: value.price.length,
+        hours: value.is_closed ? "Closed for now" : "Open now",
+      };
+      console.log("RETURNNNN", relevantData);
+      return relevantData;
     });
 
-    res.status(201)
+    res
+      .status(201)
       .json({ message: "Data fetched", results: editedResults, numberOfHits });
     return;
   } catch (err) {
     res.status(422).json({ message: "No results found" });
     return;
   }
-  return;
 }

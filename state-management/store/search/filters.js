@@ -31,7 +31,7 @@ const filterSlice = createSlice({
       state.modalOpen = false;
     },
     reset(state, action) {
-      state.distance = 20000;
+      state.distance = 20000; //!? if you decide to let the filter persist, you'll need to edit the string generator
       state.price = "any";
       state.rating = "any";
       state.hours = "any";

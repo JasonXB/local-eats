@@ -32,10 +32,6 @@ export default function Restaurants() {
     );
     // Change the price filter parameter if we used the search based on cheap/lavish prices (store/search/filters)
     if (query.price) setFilter("price", Number(query.price));
-
-    //!!! See if the following 2 changes are necessary after we code the restaurant cards
-    // Reset all state values in store/search/results
-    // Reset all state values in store/search/filters
   }, [query, locationObject]);
 
   // If we have no locationObject and arrive on this page, render this
