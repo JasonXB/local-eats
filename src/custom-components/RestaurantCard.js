@@ -14,7 +14,7 @@ export default function RestaurantCard() {
     image:
       "https://s3-media2.fl.yelpcdn.com/bphoto/r9TtYxENN_p1e1OlXw2mOg/o.jpg",
     priceLevel: 4,
-    rating: 4.5,
+    rating: 2.35,
     searchIndex: 1,
     storeID: "1p82CEeIjqmw-ioc4YoibA",
     storeName: "Frilu Restaurante FilleRRRRRRRRRR",
@@ -29,6 +29,11 @@ export default function RestaurantCard() {
   const redirect = function (url) {
     router.push(url); //!!! edit the redirect destination when we make the next page
   };
+  // Choose which color to use on the star rating blurb
+  let blurbColor;
+  if(cardData.rating < 3) blurbColor= "#dbac07" // yellow
+  else if(cardData.rating < 4) blurbColor= "#3ab757" // light green
+  else blurbColor= "#267e3e"
 
   return (
     <Stack sx={styles.container} onClick={() => redirect("/")}>
@@ -44,7 +49,7 @@ export default function RestaurantCard() {
         <Box
           sx={{
             ...mix.flexRow,
-            background: "#267e3e",
+            background: blurbColor, 
             borderRadius: 1,
             px: 0.5,
           }}
@@ -96,8 +101,6 @@ const styles = {
       borderRadius: 4,
       cursor: "pointer",
     },
-    //! temp
-    m: "5rem",
   },
   image: {
     borderRadius: 4,
@@ -108,7 +111,6 @@ const styles = {
     fontSize: "1.1rem",
     fontWeight: 600,
     lineHeight: "1.275rem",
-    // Trailing dots ... if text is too long
     my: 1,
   },
   text: {
@@ -117,6 +119,7 @@ const styles = {
     lineHeight: "1.3125rem",
     mb: 0.5,
   },
+
   trailingDots: {
     textOverflow: "ellipsis",
     overflow: "hidden",
