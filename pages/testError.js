@@ -1,7 +1,7 @@
 import React from "react";
 import Spinner from "../src/custom-components/LoadingVisuals/FullScreen/Spinner";
-import Wave from "../src/custom-components/LoadingVisuals/FullScreen/Wave";
+import RestaurantCard from "../src/custom-components/RestaurantCard";
 
 export default function testError() {
-  return <Spinner />;
+  return <RestaurantCard />;
 }
