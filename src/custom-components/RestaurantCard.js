@@ -4,21 +4,10 @@ import { Typography, Box, Stack } from "@mui/material";
 import { useRouter } from "next/router";
 import { mix } from "../../styles/styleMixins";
 
-export default function RestaurantCard() {
+export default function RestaurantCard({ dataObj }) {
   const router = useRouter();
-  const cardData = {
-    // category: "Canadian (New)",
-    category: "Canadian (New), Japanesu, Teashop, Casino",
-    distance: "3.3 km away",
-    hours: "Open now",
-    image:
-      "https://s3-media2.fl.yelpcdn.com/bphoto/r9TtYxENN_p1e1OlXw2mOg/o.jpg",
-    priceLevel: 4,
-    rating: 2.35,
-    searchIndex: 1,
-    storeID: "1p82CEeIjqmw-ioc4YoibA",
-    storeName: "Frilu Restaurante FilleRRRRRRRRRR",
-  };
+  const cardData = dataObj;
+
   // Turns 4 into "$$$$" for example
   const convertPriceLevel = (int) => {
     let str = "";
@@ -29,11 +18,13 @@ export default function RestaurantCard() {
   const redirect = function (url) {
     router.push(url); //!!! edit the redirect destination when we make the next page
   };
+
   // Choose which color to use on the star rating blurb
   let blurbColor;
-  if(cardData.rating < 3) blurbColor= "#dbac07" // yellow
-  else if(cardData.rating < 4) blurbColor= "#3ab757" // light green
-  else blurbColor= "#267e3e"
+  if (cardData.rating < 3) blurbColor = "#dbac07";
+  else if (cardData.rating < 4) blurbColor = "#3ab757";
+  else if (cardData.rating < 5.1) blurbColor = "#267e3e";
+  else blurbColor = "#7F7D9C";
 
   return (
     <Stack sx={styles.container} onClick={() => redirect("/")}>
@@ -49,14 +40,14 @@ export default function RestaurantCard() {
         <Box
           sx={{
             ...mix.flexRow,
-            background: blurbColor, 
+            background: blurbColor,
             borderRadius: 1,
             px: 0.5,
           }}
         >
           <Typography
             variant="p"
-            sx={{ ...styles.text, fontWeight: 500, color: "white", mb:0 }}
+            sx={{ ...styles.text, fontWeight: 500, color: "white", mb: 0 }}
           >
             {cardData.rating}
           </Typography>
@@ -94,6 +85,7 @@ const styles = {
     gridTemplateColumns: "13.75rem, auto",
     gridTemplateRows: "repeat(4, auto)",
     width: "20.75rem",
+    
     p: 2,
     "&:hover": {
       borderColor: "rgb(232, 232, 232)",
@@ -105,7 +97,10 @@ const styles = {
   image: {
     borderRadius: 4,
     gridColumn: 1 / -1,
+    //!!! Resize image without compression
     width: "100%",
+    height: "14rem",
+    objectFit: 'cover',
   },
   name: {
     fontSize: "1.1rem",
@@ -119,7 +114,6 @@ const styles = {
     lineHeight: "1.3125rem",
     mb: 0.5,
   },
-
   trailingDots: {
     textOverflow: "ellipsis",
     overflow: "hidden",

@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { searchResultActions } from "../../../state-management/store/search/results";
 import { mix } from "../../../styles/styleMixins";
 import NoResults from "../../page-blocks/search/NoResults";
+import RestaurantCard from "../../custom-components/RestaurantCard";
 
 export default function SearchResults(props) {
   // If any of these values are undefined, render nothing (will happen during first few render cycles)
@@ -23,7 +24,7 @@ export default function SearchResults(props) {
         apiString: inp,
       });
       const { numberOfHits, results } = request.data;
-      console.log(results, numberOfHits)
+      console.log(results, numberOfHits);
       // Update redux values in store/search/results
       dispatch(
         searchResultActions.saveRestaurants({
@@ -41,19 +42,24 @@ export default function SearchResults(props) {
     fetchYelpData(apiString);
   }, [apiString, searchHeader, locationObject]);
 
+  // Grab the array of restaurants so you can render Cards with them
+  const restaurantList = useSelector((rs) => rs.searchResults.restaurantList); // prettier-ignore
+
   // POSSIBLE OUTCOMES
   // 1) Render nothing if the values from locationObj or query object are not ready yet ( = undefined at first)
   // 2) Render a msg saying no results were found (if someone searches for something & gets 0 hits, or Yelp API fails)
   // 3) Render a list of restaurant matches for the user's search query
   const showNoResults = useSelector((rs) => rs.searchResults.numberOfHits) == 0; // bool
-  if (!apiString || !searchHeader || !locationObject) return null;
+  if (!apiString || !searchHeader || !locationObject || !restaurantList) return null;
   return (
     <Box sx={{ px: 4 }}>
       <Typography variant="h3" component="h2">
         {searchHeader}
       </Typography>
       {showNoResults && <NoResults msg="No results found" />}
-      {!showNoResults && <div>List of restos</div>}
+      {restaurantList.map((r_data) => (
+        <RestaurantCard dataObj={r_data} />
+      ))}
     </Box>
   );
 }
