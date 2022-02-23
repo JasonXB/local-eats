@@ -50,16 +50,24 @@ export default function SearchResults(props) {
   // 2) Render a msg saying no results were found (if someone searches for something & gets 0 hits, or Yelp API fails)
   // 3) Render a list of restaurant matches for the user's search query
   const showNoResults = useSelector((rs) => rs.searchResults.numberOfHits) == 0; // bool
-  if (!apiString || !searchHeader || !locationObject || !restaurantList) return null;
+  if (!apiString || !searchHeader || !locationObject || !restaurantList)
+    return null;
   return (
     <Box sx={{ px: 4 }}>
-      <Typography variant="h3" component="h2">
+      <Typography variant="h3" component="h2" sx={{mb:4}}>
         {searchHeader}
       </Typography>
       {showNoResults && <NoResults msg="No results found" />}
-      {restaurantList.map((r_data) => (
-        <RestaurantCard dataObj={r_data} />
-      ))}
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(20rem, 1fr))",
+        }}
+      >
+        {restaurantList.map((r_data) => (
+          <RestaurantCard id={r_data.storeID} dataObj={r_data} />
+        ))}
+      </Box>
     </Box>
   );
 }

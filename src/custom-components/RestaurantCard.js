@@ -33,7 +33,7 @@ export default function RestaurantCard({ dataObj }) {
       <Box sx={{ ...mix.flexRow, justifyContent: "space-between" }}>
         <Typography
           variant="p"
-          sx={{ ...styles.name, ...styles.trailingDots, width: "210px" }}
+          sx={{ ...styles.name, ...styles.trailingDots, width: "13.125rem" }}
         >
           {cardData.storeName}
         </Typography>
@@ -85,7 +85,6 @@ const styles = {
     gridTemplateColumns: "13.75rem, auto",
     gridTemplateRows: "repeat(4, auto)",
     width: "20.75rem",
-    
     p: 2,
     "&:hover": {
       borderColor: "rgb(232, 232, 232)",
@@ -100,7 +99,7 @@ const styles = {
     //!!! Resize image without compression
     width: "100%",
     height: "14rem",
-    objectFit: 'cover',
+    objectFit: "cover",
   },
   name: {
     fontSize: "1.1rem",
@@ -117,7 +116,7 @@ const styles = {
   trailingDots: {
     textOverflow: "ellipsis",
     overflow: "hidden",
-    width: "210px", // must apply a hardcoded width to know where ellipses start
+    width: "13.125rem", // must apply a hardcoded width to know where ellipses start
     whiteSpace: "nowrap",
   },
 };
