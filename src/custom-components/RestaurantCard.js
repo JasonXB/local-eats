@@ -8,13 +8,6 @@ export default function RestaurantCard({ dataObj }) {
   const router = useRouter();
   const cardData = dataObj;
 
-  // Turns 4 into "$$$$" for example
-  const convertPriceLevel = (int) => {
-    let str = "";
-    for (let i = 0; i < int; i++) str = str + "$";
-    return str;
-  };
-
   const redirect = function (url) {
     router.push(url); //!!! edit the redirect destination when we make the next page
   };
@@ -63,7 +56,7 @@ export default function RestaurantCard({ dataObj }) {
           {cardData.category}
         </Typography>
         <Typography variant="p" sx={styles.text}>
-          Price: {convertPriceLevel(cardData.priceLevel)}
+          Price: {cardData.price}
         </Typography>
       </Box>
 

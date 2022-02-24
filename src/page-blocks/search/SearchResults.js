@@ -24,8 +24,13 @@ export default function SearchResults(props) {
         apiString: inp,
       });
       const { numberOfHits, results } = request.data;
-      console.log(results, numberOfHits);
-      // Update redux values in store/search/results
+      console.log(results);
+      // If we got no search results, render a message saying so by changing some Redux vals
+      if (numberOfHits === 0) {
+        dispatch(searchResultActions.showNoResults());
+        return;
+      }
+      // If we do get results, save them to Redux
       dispatch(
         searchResultActions.saveRestaurants({
           list: results,
@@ -33,7 +38,7 @@ export default function SearchResults(props) {
         })
       );
     } catch (error) {
-      dispatch(searchResultActions.showNoResults());
+      dispatch(searchResultActions.showError()); //!!! code JSX for showError= true
     }
   };
 
@@ -50,19 +55,27 @@ export default function SearchResults(props) {
   // 2) Render a msg saying no results were found (if someone searches for something & gets 0 hits, or Yelp API fails)
   // 3) Render a list of restaurant matches for the user's search query
   const showNoResults = useSelector((rs) => rs.searchResults.numberOfHits) == 0; // bool
-  if (!apiString || !searchHeader || !locationObject || !restaurantList)
-    return null;
+  const showError = useSelector((rs) => rs.searchResults.showError); // bool
+  if (!apiString || !searchHeader || !locationObject || !restaurantList) return null; // prettier-ignore
+
   return (
     <Box sx={{ px: 4 }}>
       <Typography variant="h3" component="h2" sx={{ mb: 4 }}>
         {searchHeader}
       </Typography>
-      {/* {showNoResults && <NoResults msg="No results found" />} */}
-      <Box id="desktopList" sx={styles.desktopParent}>
-        {restaurantList.map((r_data) => (
-          <RestaurantCard key={r_data.storeID} dataObj={r_data} />
-        ))}
-      </Box>
+      {showNoResults && (
+        <NoResults msg="No results found! Try changing your filters and search term" />
+      )}
+      {showError && (
+        <NoResults msg="Something has gone wrong on our end. Please try again" />
+      )}
+      {showNoResults || showError || (
+        <Box id="desktopList" sx={styles.desktopParent}>
+          {restaurantList.map((r_data) => (
+            <RestaurantCard key={r_data.storeID} dataObj={r_data} />
+          ))}
+        </Box>
+      )}
     </Box>
   );
 }
@@ -73,10 +86,10 @@ const styles = {
     ["@media (min-width: 400px)"]: {
       display: "grid",
       width: "100%",
-      gap: 2.5,
+      gap: 1.5,
       justifyItems: "center",
     },
-    
+
     ["@media (min-width: 1100px)"]: {
       justifyItems: "start",
     },
