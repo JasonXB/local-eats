@@ -52,7 +52,7 @@ export default function RestaurantCard({ dataObj }) {
       >
         <Typography
           variant="p"
-          sx={{ ...styles.name, ...styles.trailingDots, width: "13.125rem" }}
+          sx={{ ...styles.name, ...styles.trailingDots }}
         >
           {cardData.storeName}
         </Typography>

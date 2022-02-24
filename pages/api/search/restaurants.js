@@ -22,27 +22,24 @@ export default async function handler(req, res) {
     }
     // If we do have matches...query the each restauarant object for data needed on Restauarant Cards
     const editedResults = rawResults.map((value, index) => {
-      // Calculate distance in km
-      const meterDistance = value.distance;
-      const kmDistance = (meterDistance / 1000).toFixed(1); // rounded to 1 decimal place
       // Concatenate strings to form a list of categories
       const listOfCategories = value.categories.map((obj) => obj.title); // array
       const categoryString = listOfCategories.join(", ");
-      console.log(value.is_closed);
       // Decide if the store is closed, open, or unknown
       let hours;
       if (value.is_closed === false) hours = "Open now";
       else if (value.is_closed === true) hours = "Closed for now";
-
-      else hours = "Hours unknown";
+      else hours = "(Hours unknown)";
       const relevantData = {
         searchIndex: index,
         storeID: value.id,
         image: value.image_url || "/images/noIMG.png",
         storeName: value.name,
-        category: categoryString,
-        distance: `${kmDistance} km away`,
-        rating: value.rating || "N/A",
+        category: categoryString || "(No description)",
+        distance: value.distance
+          ? `${(value.distance / 1000).toFixed(1)} km away`
+          : "Distance: N/A", // return distance in km (we convert from meters) or "Distance unknown"
+        rating: value.rating || "?",
         price: value.price || "N/A", // "$$$"
         hours,
       };
