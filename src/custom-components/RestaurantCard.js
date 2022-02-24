@@ -3,13 +3,16 @@ import StarRateIcon from "@mui/icons-material/StarRate";
 import { Typography, Box, Stack } from "@mui/material";
 import { useRouter } from "next/router";
 import { mix } from "../../styles/styleMixins";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
 
 export default function RestaurantCard({ dataObj }) {
   const router = useRouter();
   const cardData = dataObj;
 
   const redirect = function (url) {
-    router.push(url); //!!! edit the redirect destination when we make the next page
+    router.push(url); 
+    //!!! edit the redirect destination when we make the next page
+    //!!! CTRL F every onClick on this page
   };
 
   // Choose which color to use on the star rating blurb
@@ -19,11 +22,26 @@ export default function RestaurantCard({ dataObj }) {
   else if (cardData.rating < 5.1) blurbColor = "#267e3e";
   else blurbColor = "#7F7D9C";
 
-  return (
-    <Stack sx={styles.container} onClick={() => redirect("/")}>
-      <Box component="img" src={cardData.image} sx={styles.image} />
+  // Choose what color the bookmark Icons should be
+  const iconColor = {
+    default: "rgba(232, 232, 232, 0.9)",
+    selected: "rgb(255,215,0)",
+  };
 
-      <Box sx={{ ...mix.flexRow, justifyContent: "space-between" }}>
+  return (
+    <Stack sx={styles.container}>
+      <Box sx={styles.imageParent}>
+        <Box component="img" src={cardData.image} sx={styles.image}  onClick={() => redirect("/")} />
+        <BookmarkIcon
+          sx={{
+            ...styles.bookmark,
+            color: iconColor.default,
+            "&:hover": { color: iconColor.selected },
+          }}
+        />
+      </Box>
+
+      <Box sx={{ ...mix.flexRow, justifyContent: "space-between" }} onClick={() => redirect("/")}>
         <Typography
           variant="p"
           sx={{ ...styles.name, ...styles.trailingDots, width: "13.125rem" }}
@@ -51,7 +69,7 @@ export default function RestaurantCard({ dataObj }) {
         </Box>
       </Box>
 
-      <Box sx={{ ...mix.flexRow, justifyContent: "space-between" }}>
+      <Box sx={{ ...mix.flexRow, justifyContent: "space-between" }} onClick={() => redirect("/")}>
         <Typography variant="p" sx={{ ...styles.text, ...styles.trailingDots }}>
           {cardData.category}
         </Typography>
@@ -60,7 +78,7 @@ export default function RestaurantCard({ dataObj }) {
         </Typography>
       </Box>
 
-      <Box sx={{ ...mix.flexRow, justifyContent: "space-between" }}>
+      <Box sx={{ ...mix.flexRow, justifyContent: "space-between" }} onClick={() => redirect("/")}>
         <Typography variant="p" sx={styles.text}>
           {cardData.hours}
         </Typography>
@@ -75,6 +93,7 @@ export default function RestaurantCard({ dataObj }) {
 const styles = {
   container: {
     display: "grid",
+
     p: 0,
     mb: 6,
     width: "100%",
@@ -91,12 +110,25 @@ const styles = {
       },
     },
   },
+  bookmark: {
+    position: "absolute",
+    fontSize: "2.5rem",
+    right: "5%",
+    top: "5%",
+    p: 0.5,
+    borderRadius: 2,
+    background: "black",
+  },
+  imageParent: {
+    position: "relative",
+    height: "14rem",
+  },
   image: {
     borderRadius: 4,
     gridColumn: 1 / -1,
     // Resize image without compression
     width: "100%",
-    height: "14rem",
+    height: "100%",
     objectFit: "cover",
   },
   name: {

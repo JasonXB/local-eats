@@ -66,7 +66,7 @@ export default function SearchResults(props) {
         {searchHeader}
       </Typography>
       {showNoResults && (
-        <NoResults msg="No results found! Try changing your filters and search term" />
+        <NoResults msg="No results found on this page! Try changing your filters and/or search terms" />
       )}
       {showError && (
         <NoResults msg="Something has gone wrong on our end. Please try again" />
