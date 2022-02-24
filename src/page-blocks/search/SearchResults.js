@@ -7,6 +7,7 @@ import { searchResultActions } from "../../../state-management/store/search/resu
 import { mix } from "../../../styles/styleMixins";
 import NoResults from "../../page-blocks/search/NoResults";
 import RestaurantCard from "../../custom-components/RestaurantCard";
+import Pagination from "@mui/material/Pagination";
 
 export default function SearchResults(props) {
   // If any of these values are undefined, render nothing (will happen during first few render cycles)
@@ -56,6 +57,7 @@ export default function SearchResults(props) {
   // 3) Render a list of restaurant matches for the user's search query
   const showNoResults = useSelector((rs) => rs.searchResults.numberOfHits) == 0; // bool
   const showError = useSelector((rs) => rs.searchResults.showError); // bool
+  const numberOfHits = useSelector((rs) => rs.searchResults.numberOfHits);
   if (!apiString || !searchHeader || !locationObject || !restaurantList) return null; // prettier-ignore
 
   return (
@@ -70,11 +72,24 @@ export default function SearchResults(props) {
         <NoResults msg="Something has gone wrong on our end. Please try again" />
       )}
       {showNoResults || showError || (
-        <Box id="desktopList" sx={styles.desktopParent}>
-          {restaurantList.map((r_data) => (
-            <RestaurantCard key={r_data.storeID} dataObj={r_data} />
-          ))}
-        </Box>
+        <>
+          <Box id="desktopList" sx={styles.desktopParent}>
+            {restaurantList.map((r_data) => (
+              <RestaurantCard key={r_data.storeID} dataObj={r_data} />
+            ))}
+          </Box>
+          <Box sx={{ ...mix.flexRow }}>
+            <Pagination
+              count={(numberOfHits % 50) + 1}
+              variant="outlined"
+              color="secondary"
+              size="large"
+              siblingCount={0}
+              boundaryCount={0}
+              sx={{ mx: "auto" }}
+            />
+          </Box>
+        </>
       )}
     </Box>
   );
@@ -89,7 +104,6 @@ const styles = {
       gap: 1.5,
       justifyItems: "center",
     },
-
     ["@media (min-width: 1100px)"]: {
       justifyItems: "start",
     },
