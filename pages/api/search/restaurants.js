@@ -28,19 +28,26 @@ export default async function handler(req, res) {
       // Concatenate strings to form a list of categories
       const listOfCategories = value.categories.map((obj) => obj.title); // array
       const categoryString = listOfCategories.join(", ");
+      console.log(value.is_closed);
+      // Decide if the store is closed, open, or unknown
+      let hours;
+      if (value.is_closed === false) hours = "Open now";
+      else if (value.is_closed === true) hours = "Closed for now";
+
+      else hours = "Hours unknown";
       const relevantData = {
         searchIndex: index,
         storeID: value.id,
-        image: value.image_url, //!!! may need a fallback
+        image: value.image_url || "/images/noIMG.png",
         storeName: value.name,
         category: categoryString,
         distance: `${kmDistance} km away`,
         rating: value.rating || "N/A",
         price: value.price || "N/A", // "$$$"
-        hours: value.is_closed ? "Closed for now" : "Open now", //!!! may need a fallback for unspecified
+        hours,
       };
       return relevantData;
-    });
+    }); // we've added fallbacks for bits of data that aren't guaranteed to be returned
     res
       .status(201)
       .json({ message: "Data fetched", results: editedResults, numberOfHits });

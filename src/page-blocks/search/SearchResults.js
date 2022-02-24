@@ -53,46 +53,59 @@ export default function SearchResults(props) {
 
   // POSSIBLE OUTCOMES
   // 1) Render nothing if the values from locationObj or query object are not ready yet ( = undefined at first)
-  // 2) Render a msg saying no results were found (if someone searches for something & gets 0 hits, or Yelp API fails)
-  // 3) Render a list of restaurant matches for the user's search query
+  // apiString and searchHeader are dependent on the query obj from the component above this one
+  // 2) Render a msg saying no results were found if someone searches for something & gets 0 hits
+  // 3) Render a list of restaurant matches for the user's successful search
   const showNoResults = useSelector((rs) => rs.searchResults.numberOfHits) == 0; // bool
   const showError = useSelector((rs) => rs.searchResults.showError); // bool
   const numberOfHits = useSelector((rs) => rs.searchResults.numberOfHits);
-  if (!apiString || !searchHeader || !locationObject || !restaurantList) return null; // prettier-ignore
-
-  return (
-    <Box sx={{ px: 4 }}>
-      <Typography variant="h3" component="h2" sx={{ mb: 4 }}>
-        {searchHeader}
-      </Typography>
-      {showNoResults && (
-        <NoResults msg="No results found on this page! Try changing your filters and/or search terms" />
-      )}
-      {showError && (
+  console.log("hits:", numberOfHits);
+  if (!apiString || !searchHeader || !locationObject) return null;
+  else if (showError) {
+    return (
+      <Box sx={{ px: 4 }}>
+        <Typography variant="h3" component="h2" sx={{ mb: 4 }}>
+          {searchHeader}
+        </Typography>
         <NoResults msg="Something has gone wrong on our end. Please try again" />
-      )}
-      {showNoResults || showError || (
-        <>
-          <Box id="desktopList" sx={styles.desktopParent}>
-            {restaurantList.map((r_data) => (
+      </Box>
+    );
+  } else if (showNoResults) {
+    return (
+      <Box sx={{ px: 4 }}>
+        <Typography variant="h3" component="h2" sx={{ mb: 4 }}>
+          {searchHeader}
+        </Typography>
+        <NoResults msg="No results found! Try changing your filters and/or search terms" />
+      </Box>
+    );
+  } else {
+    // If we have actual search results to show and no errors...
+    return (
+      <Box sx={{ px: 4 }}>
+        <Typography variant="h3" component="h2" sx={{ mb: 4 }}>
+          {searchHeader}
+        </Typography>
+        <Box id="desktopList" sx={styles.desktopParent}>
+          {restaurantList &&
+            restaurantList.map((r_data) => (
               <RestaurantCard key={r_data.storeID} dataObj={r_data} />
             ))}
-          </Box>
-          <Box sx={{ ...mix.flexRow }}>
-            <Pagination
-              count={(numberOfHits % 50) + 1}
-              variant="outlined"
-              color="secondary"
-              size="large"
-              siblingCount={0}
-              boundaryCount={0}
-              sx={{ mx: "auto" }}
-            />
-          </Box>
-        </>
-      )}
-    </Box>
-  );
+        </Box>
+        <Box sx={{ ...mix.flexRow }}>
+          <Pagination
+            count={(numberOfHits % 50) + 1}
+            variant="outlined"
+            color="secondary"
+            size="large"
+            siblingCount={0}
+            boundaryCount={0}
+            sx={{ mx: "auto" }}
+          />
+        </Box>
+      </Box>
+    );
+  }
 }
 
 const styles = {
