@@ -82,15 +82,20 @@ export default function RestaurantCard({ dataObj }) {
 const styles = {
   container: {
     display: "grid",
-    gridTemplateColumns: "13.75rem, auto",
-    gridTemplateRows: "repeat(4, auto)",
-    width: "20.75rem",
-    p: 2,
-    "&:hover": {
-      borderColor: "rgb(232, 232, 232)",
-      boxShadow: "rgb(28 28 28 / 12%) 0px 0.4rem 1.8rem",
-      borderRadius: 4,
-      cursor: "pointer",
+    p: 0,
+    mb: 6,
+    width: "100%",
+    "&:hover": { cursor: "pointer" },
+    ["@media (min-width: 400px)"]: {
+      gridTemplateColumns: "13.75rem, auto",
+      gridTemplateRows: "repeat(4, auto)",
+      width: "20.75rem",
+      p: 2,
+      "&:hover": {
+        borderColor: "rgb(232, 232, 232)",
+        boxShadow: "rgb(28 28 28 / 12%) 0px 0.4rem 1.8rem",
+        borderRadius: 4,
+      },
     },
   },
   image: {
@@ -118,5 +123,9 @@ const styles = {
     overflow: "hidden",
     width: "13.125rem", // must apply a hardcoded width to know where ellipses start
     whiteSpace: "nowrap",
+    // On mobile, decrease the allotted space for text
+    ["@media (max-width: 400px)"]: {
+      width: "11.125rem",
+    },
   },
 };

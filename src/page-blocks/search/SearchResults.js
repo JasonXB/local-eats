@@ -69,17 +69,16 @@ export default function SearchResults(props) {
 
 const styles = {
   desktopParent: {
-    display: "none",
+    gridTemplateColumns: "repeat(auto-fit, minmax(20.75rem, 1fr))",
     ["@media (min-width: 400px)"]: {
       display: "grid",
       width: "100%",
       gap: 2.5,
       justifyItems: "center",
     },
-    gridTemplateColumns: "repeat(auto-fit, minmax(20.75rem, 1fr))",
+    
     ["@media (min-width: 1100px)"]: {
       justifyItems: "start",
     },
   },
-  mobileParent: {},
 };
