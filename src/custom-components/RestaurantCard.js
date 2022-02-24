@@ -10,13 +10,13 @@ export default function RestaurantCard({ dataObj }) {
   const cardData = dataObj;
 
   const redirect = function (url) {
-    router.push(url); 
+    router.push(url);
     //!!! edit the redirect destination when we make the next page
     //!!! CTRL F every onClick on this page
   };
 
   // Choose which color to use on the star rating blurb
-  let blurbColor;
+  let blurbColor; // yellow, lime green, dark green
   if (cardData.rating < 3) blurbColor = "#dbac07";
   else if (cardData.rating < 4) blurbColor = "#3ab757";
   else if (cardData.rating < 5.1) blurbColor = "#267e3e";
@@ -31,7 +31,12 @@ export default function RestaurantCard({ dataObj }) {
   return (
     <Stack sx={styles.container}>
       <Box sx={styles.imageParent}>
-        <Box component="img" src={cardData.image} sx={styles.image}  onClick={() => redirect("/")} />
+        <Box
+          component="img"
+          src={cardData.image}
+          sx={styles.image}
+          onClick={() => redirect("/")}
+        />
         <BookmarkIcon
           sx={{
             ...styles.bookmark,
@@ -41,7 +46,10 @@ export default function RestaurantCard({ dataObj }) {
         />
       </Box>
 
-      <Box sx={{ ...mix.flexRow, justifyContent: "space-between" }} onClick={() => redirect("/")}>
+      <Box
+        sx={{ ...mix.flexRow, justifyContent: "space-between" }}
+        onClick={() => redirect("/")}
+      >
         <Typography
           variant="p"
           sx={{ ...styles.name, ...styles.trailingDots, width: "13.125rem" }}
@@ -69,7 +77,10 @@ export default function RestaurantCard({ dataObj }) {
         </Box>
       </Box>
 
-      <Box sx={{ ...mix.flexRow, justifyContent: "space-between" }} onClick={() => redirect("/")}>
+      <Box
+        sx={{ ...mix.flexRow, justifyContent: "space-between" }}
+        onClick={() => redirect("/")}
+      >
         <Typography variant="p" sx={{ ...styles.text, ...styles.trailingDots }}>
           {cardData.category}
         </Typography>
@@ -78,7 +89,10 @@ export default function RestaurantCard({ dataObj }) {
         </Typography>
       </Box>
 
-      <Box sx={{ ...mix.flexRow, justifyContent: "space-between" }} onClick={() => redirect("/")}>
+      <Box
+        sx={{ ...mix.flexRow, justifyContent: "space-between" }}
+        onClick={() => redirect("/")}
+      >
         <Typography variant="p" sx={styles.text}>
           {cardData.hours}
         </Typography>
