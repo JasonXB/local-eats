@@ -96,7 +96,7 @@ const styles = {
   image: {
     borderRadius: 4,
     gridColumn: 1 / -1,
-    //!!! Resize image without compression
+    // Resize image without compression
     width: "100%",
     height: "14rem",
     objectFit: "cover",

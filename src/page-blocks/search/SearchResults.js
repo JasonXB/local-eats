@@ -54,16 +54,11 @@ export default function SearchResults(props) {
     return null;
   return (
     <Box sx={{ px: 4 }}>
-      <Typography variant="h3" component="h2" sx={{mb:4}}>
+      <Typography variant="h3" component="h2" sx={{ mb: 4 }}>
         {searchHeader}
       </Typography>
-      {showNoResults && <NoResults msg="No results found" />}
-      <Box
-        sx={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(20rem, 1fr))",
-        }}
-      >
+      {/* {showNoResults && <NoResults msg="No results found" />} */}
+      <Box id="desktopList" sx={styles.desktopParent}>
         {restaurantList.map((r_data) => (
           <RestaurantCard id={r_data.storeID} dataObj={r_data} />
         ))}
@@ -71,3 +66,20 @@ export default function SearchResults(props) {
     </Box>
   );
 }
+
+const styles = {
+  desktopParent: {
+    display: "none",
+    ["@media (min-width: 400px)"]: {
+      display: "grid",
+      width: "100%",
+      gap: 2.5,
+      justifyItems: "center",
+    },
+    gridTemplateColumns: "repeat(auto-fit, minmax(20.75rem, 1fr))",
+    ["@media (min-width: 1100px)"]: {
+      justifyItems: "start",
+    },
+  },
+  mobileParent: {},
+};
