@@ -60,7 +60,7 @@ export default function SearchResults(props) {
       {/* {showNoResults && <NoResults msg="No results found" />} */}
       <Box id="desktopList" sx={styles.desktopParent}>
         {restaurantList.map((r_data) => (
-          <RestaurantCard id={r_data.storeID} dataObj={r_data} />
+          <RestaurantCard key={r_data.storeID} dataObj={r_data} />
         ))}
       </Box>
     </Box>

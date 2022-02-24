@@ -17,7 +17,6 @@ export default function Home() {
           variant="h2"
           component="h1"
           color="primary"
-          align="center"
           sx={mobileStyles.title}
         >
           Local Eats
@@ -62,6 +61,9 @@ const mobileStyles = {
   title: {
     ...mix.titleFont,
     ...mix.regMargin("mt"),
+    ml: 2,
+    // Move title to center past this bp
+    ["@media (min-width: 450px)"]: { mx: "auto" },
   },
 };
 

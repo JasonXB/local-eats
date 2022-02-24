@@ -121,11 +121,11 @@ const styles = {
   trailingDots: {
     textOverflow: "ellipsis",
     overflow: "hidden",
-    width: "13.125rem", // must apply a hardcoded width to know where ellipses start
+    width: "11.125rem", // must apply a hardcoded width to know where ellipses start
     whiteSpace: "nowrap",
     // On mobile, decrease the allotted space for text
-    ["@media (max-width: 400px)"]: {
-      width: "11.125rem",
+    ["@media (min-width: 400px)"]: {
+      width: "13.125rem",
     },
   },
 };
