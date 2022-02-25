@@ -130,14 +130,6 @@ const styles = {
     position: "relative",
     height: "14rem",
   },
-  image: {
-    borderRadius: 4,
-    gridColumn: 1 / -1,
-    // Resize image without compression
-    width: "100%",
-    height: "100%",
-    objectFit: "cover",
-  },
   name: {
     fontSize: "1.1rem",
     fontWeight: 600,

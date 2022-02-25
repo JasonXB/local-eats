@@ -1,10 +1,13 @@
 import React from "react";
-import { Typography, Box, Stack } from "@mui/material"; // prettier-ignore
+import { Typography, Box, Stack, Button } from "@mui/material"; // prettier-ignore
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 // Custom Hooks
 import useGetFilters from "../../../../src/utility-functions/search/useGetFilters";
 import useChangeAllFilters from "../../../../src/utility-functions/search/useChangeAllFilters";
+import { mix } from "../../../../styles/styleMixins";
+import { filterActions } from "../../../../state-management/store/search/filters";
+import { useSelector, useDispatch } from "react-redux";
 
 // TERMINOLOGY
 // Local filter values: Values we select in the filter modal which will become true filter values if we hit "Apply" btn
@@ -13,6 +16,7 @@ import useChangeAllFilters from "../../../../src/utility-functions/search/useCha
 export default function ModalMenu() {
   // Get the true filter values in the Redux store using our custom hook
   const trueFilters = useGetFilters(); // object full of filter values
+  const dispatch = useDispatch();
 
   // When we click on new filter values in the modal, save them to this file's local state
   // Do not update the true filter values in Redux until after the user hits the apply button
@@ -23,9 +27,6 @@ export default function ModalMenu() {
     hours: trueFilters.hours,
     modalOpen: trueFilters.modalOpen,
   });
-
-  // Create functions that update your true filter values using our custom hook
-  const setNewTrueFilters = useChangeAllFilters();
 
   const handleDistanceChange = (e, selectedVal) => {
     if (selectedVal === null) return; // do not allow users to set the same filter twice
@@ -38,24 +39,26 @@ export default function ModalMenu() {
   const handleRatingChange = (e, selectedVal) => {
     if (selectedVal === null) return;
     setLocalFilters((prevState) => ({ ...prevState, rating: selectedVal }));
-    // setFilter("rating", selectedVal);
   };
   const handleHoursChange = (e, selectedVal) => {
     if (selectedVal === null) return;
     setLocalFilters((prevState) => ({ ...prevState, hours: selectedVal }));
-    // setFilter("hours", selectedVal);
   };
 
-  //! This function should take all the filter changes we made and apply them
-  //! Should result in a new Yelp API call being made to fetch new data (try useEffect)
-  const applyHandler = () => {
+  // This function should take all the local filter changes we made and apply them
+  const setNewTrueFilters = useChangeAllFilters(); //  updates your true filter values using a custom hook
+  const applyHandler = function () {
     setNewTrueFilters({
       distance: localFilters.distance,
       price: localFilters.price,
       rating: localFilters.rating,
       hours: localFilters.hours,
     });
-  };
+    dispatch(filterActions.closeModal()); // close the filter modal
+  }; //!!! Should result in a new Yelp API call being made to fetch new data (try useEffect)
+  
+  // Reset the filter defaults and close the modal (also a default value)
+  const resetHandler = () => dispatch(filterActions.reset());
 
   return (
     <Stack spacing={1} sx={styles.container}>
@@ -64,7 +67,7 @@ export default function ModalMenu() {
       </Typography>
       <ToggleButtonGroup
         color="secondary"
-        value={trueFilters.distance}
+        value={localFilters.distance}
         exclusive
         onChange={handleDistanceChange}
         sx={styles.btnGroup}
@@ -81,7 +84,7 @@ export default function ModalMenu() {
       </Typography>
       <ToggleButtonGroup
         color="secondary"
-        value={trueFilters.price}
+        value={localFilters.price}
         exclusive
         onChange={handlePriceChange}
         sx={styles.btnGroup}
@@ -98,7 +101,7 @@ export default function ModalMenu() {
       </Typography>
       <ToggleButtonGroup
         color="secondary"
-        value={trueFilters.rating}
+        value={localFilters.rating}
         exclusive
         onChange={handleRatingChange}
         sx={styles.btnGroup}
@@ -108,7 +111,6 @@ export default function ModalMenu() {
         <ToggleButton value={2}>2</ToggleButton>
         <ToggleButton value={3}>3</ToggleButton>
         <ToggleButton value={4}>4</ToggleButton>
-        <ToggleButton value={5}>5</ToggleButton>
       </ToggleButtonGroup>
 
       <Typography variant="h4" sx={styles.tab}>
@@ -116,7 +118,7 @@ export default function ModalMenu() {
       </Typography>
       <ToggleButtonGroup
         color="secondary"
-        value={trueFilters.hours}
+        value={localFilters.hours}
         exclusive
         onChange={handleHoursChange}
         sx={{ ...styles.btnGroup, pb: 2 }}
@@ -124,7 +126,31 @@ export default function ModalMenu() {
         <ToggleButton value={"any"}>Any</ToggleButton>
         <ToggleButton value={"open now"}>Open now</ToggleButton>
       </ToggleButtonGroup>
-      <Box sx={{ m: 0 }}></Box>
+      <div></div>
+      <Box sx={{ width: "100%", ...mix.flexRow, justifyContent: "flex-end" }}>
+        <Button
+          onClick={resetHandler}
+          size="large"
+          sx={{
+            fontSize: "1rem",
+            mr: 2,
+            "&:hover": { background: "white" },
+          }}
+        >
+          Reset to defaults
+        </Button>
+        <Button
+          onClick={applyHandler}
+          size="large"
+          sx={{
+            fontSize: "1rem",
+            mr: 2,
+            "&:hover": { background: "white" },
+          }}
+        >
+          Apply
+        </Button>
+      </Box>
     </Stack>
   );
 }

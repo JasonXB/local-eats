@@ -27,10 +27,10 @@ export default function RestauarantFilters() {
     hours: () => useSelector((r) => r.searchFilters.hours),
   };
 
-  // Function that opens the filters modal which affects your search results
+  // Function that opens/closes the filter modal which affects your search results
   const dispatch = useDispatch();
   const openFilterModal = () => dispatch(filterActions.openModal());
-
+  
   return (
     <Box sx={styles.container}>
       <Button

@@ -2,26 +2,17 @@ import { useSelector, useDispatch } from "react-redux";
 import { filterActions } from "../../../state-management/store/search/filters";
 
 // Use to edit all Redux search filters at once (specifically for the Filter ModalMenu)
-export default function useChangeFilter() {
+export default function useChangeAllFilters() {
   const dispatch = useDispatch();
   // We return this function to use wherever we want
-  const editFilter = function (filterName, newValue) {
-    switch (filterName) {
-      case "distance":
-        dispatch(filterActions.setDistanceFilter(newValue));
-        break;
-      case "price":
-        dispatch(filterActions.setPriceFilter(newValue));
-        break;
-      case "rating":
-        dispatch(filterActions.setRatingFilter(newValue));
-        break;
-      case "hours":
-        dispatch(filterActions.setHoursFilter(newValue));
-        break;
-      default:
-        break;
-    }
+  const changeAllFilters = function (payloadObject) {
+    dispatch(filterActions.updateAllFilters(payloadObject));
+    /* payloadObject = {
+          distance: localFilters.distance,
+          price: localFilters.price,
+          rating: localFilters.rating,
+          hours: localFilters.hours,
+    } */
   };
-  return editFilter;
+  return changeAllFilters;
 }

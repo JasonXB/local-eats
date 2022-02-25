@@ -12,6 +12,12 @@ const filterSlice = createSlice({
   name: "restaurantFilters", // expected built-in KVP
   initialState: starterFilters,
   reducers: {
+    updateAllFilters(state, action) {
+      state.distance = action.payload.distance;
+      state.price = action.payload.price;
+      state.rating = action.payload.rating;
+      state.hours = action.payload.hours;
+    },
     setDistanceFilter(state, action) {
       state.distance = action.payload;
     },
