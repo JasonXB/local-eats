@@ -4,8 +4,9 @@ import { Typography, Box, Stack } from "@mui/material";
 import { useRouter } from "next/router";
 import { mix } from "../../styles/styleMixins";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
+import LazyImage from "../custom-components/LazyImage";
 
-export default function RestaurantCard({ dataObj }) {
+export default function RestaurantCard({ dataObj, scrollPosition }) {
   const router = useRouter();
   const cardData = dataObj;
 
@@ -31,12 +32,7 @@ export default function RestaurantCard({ dataObj }) {
   return (
     <Stack sx={styles.container}>
       <Box sx={styles.imageParent}>
-        <Box
-          component="img"
-          src={cardData.image}
-          sx={styles.image}
-          onClick={() => redirect("/")}
-        />
+        <LazyImage src={cardData.image} scrollPosition={scrollPosition} />
         <BookmarkIcon
           sx={{
             ...styles.bookmark,
@@ -50,10 +46,7 @@ export default function RestaurantCard({ dataObj }) {
         sx={{ ...mix.flexRow, justifyContent: "space-between" }}
         onClick={() => redirect("/")}
       >
-        <Typography
-          variant="p"
-          sx={{ ...styles.name, ...styles.trailingDots }}
-        >
+        <Typography variant="p" sx={{ ...styles.name, ...styles.trailingDots }}>
           {cardData.storeName}
         </Typography>
         <Box

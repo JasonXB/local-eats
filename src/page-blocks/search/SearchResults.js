@@ -1,17 +1,18 @@
 import React, { useEffect } from "react";
 import axios from "axios";
 import { useLocationContext } from "../../../state-management/locationContext";
-import { Typography, Box, Stack, Container, Button } from "@mui/material"; // prettier-ignore
+import { Typography, Box } from "@mui/material"; // prettier-ignore
 import { useSelector, useDispatch } from "react-redux";
 import { searchResultActions } from "../../../state-management/store/search/results";
 import { mix } from "../../../styles/styleMixins";
 import NoResults from "../../page-blocks/search/NoResults";
 import RestaurantCard from "../../custom-components/RestaurantCard";
 import Pagination from "@mui/material/Pagination";
+import { trackWindowScroll } from "react-lazy-load-image-component";
 
-export default function SearchResults(props) {
+function SearchResults(props) {
   // If any of these values are undefined, render nothing (will happen during first few render cycles)
-  const { apiString, searchHeader } = props;
+  const { apiString, searchHeader, scrollPosition } = props; // scrollPosition from trackWindowScroll
   const { locationObject } = useLocationContext();
 
   // Fetch Yelp API data as soon as we arrive to the page
@@ -89,7 +90,12 @@ export default function SearchResults(props) {
         <Box id="desktopList" sx={styles.desktopParent}>
           {restaurantList &&
             restaurantList.map((r_data) => (
-              <RestaurantCard key={r_data.storeID} dataObj={r_data} />
+              <RestaurantCard
+                key={r_data.storeID}
+                dataObj={r_data}
+                // pass scrollPosition to each resto_card (for performance's sake)
+                scrollPosition={scrollPosition} 
+              />
             ))}
         </Box>
         <Box sx={{ ...mix.flexRow }}>
@@ -107,6 +113,7 @@ export default function SearchResults(props) {
     );
   }
 }
+export default trackWindowScroll(SearchResults);
 
 const styles = {
   desktopParent: {
