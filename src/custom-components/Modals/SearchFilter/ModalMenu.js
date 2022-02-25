@@ -6,28 +6,55 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import useGetFilters from "../../../../src/utility-functions/search/useGetFilters";
 import useChangeFilter from "../../../../src/utility-functions/search/useChangeFilter";
 
+// TERM EXPLANATIONS
+// True filter values: The filter values saved in Redux which were used to fetch the data currently being shown
+// Local filter values: Values we select in the filter modal which will become true filter values if we hit "Apply" btn
+
 export default function ModalMenu() {
-  // Get the existing filter values in the Redux store using our custom hook
+  // Get the existing true filter values in the Redux store using our custom hook
   const filterValues = useGetFilters(); // object full of filter values
+
+  // When we click on new filter values in the modal, save them to this file's local state
+  // Do not update the true filter values in Redux until after the user hits the apply button
+  const [filterUpdates, setFilterUpdates] = React.useState({
+    distance: filterValues.distance, // starting state values are decided based on what the true state va
+    price: filterValues.price,
+    rating: filterValues.rating,
+    hours: filterValues.hours,
+    modalOpen: filterValues.modalOpen,
+  });
 
   // Create functions that update your filter Redux values using our custom hook
   const setFilter = useChangeFilter(); // function(filterName, newValue)
 
   const handleDistanceChange = (e, selectedVal) => {
     if (selectedVal === null) return; // do not allow users to set the same filter twice
-    setFilter("distance", selectedVal);
+    setFilterUpdates((prevState) => ({ ...prevState, distance: selectedVal }));
   };
   const handlePriceChange = (e, selectedVal) => {
     if (selectedVal === null) return;
-    setFilter("price", selectedVal);
+    setFilterUpdates((prevState) => ({ ...prevState, price: selectedVal }));
   };
   const handleRatingChange = (e, selectedVal) => {
     if (selectedVal === null) return;
-    setFilter("rating", selectedVal);
+    setFilterUpdates((prevState) => ({ ...prevState, rating: selectedVal }));
+    // setFilter("rating", selectedVal);
   };
   const handleHoursChange = (e, selectedVal) => {
     if (selectedVal === null) return;
-    setFilter("hours", selectedVal);
+    setFilterUpdates((prevState) => ({ ...prevState, hours: selectedVal }));
+    // setFilter("hours", selectedVal);
+  };
+
+  //! This function should take all the filter changes we made and apply them
+  //! Should result in a new Yelp API call being made to fetch new data (try useEffect)
+  const applyFilters = () => {
+    setFilter({
+      distance: filterUpdates.distance,
+      price: filterUpdates.price,
+      rating: filterUpdates.rating,
+      hours: filterUpdates.hours,
+    });
   };
 
   return (

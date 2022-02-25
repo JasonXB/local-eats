@@ -2,9 +2,9 @@ import React from "react";
 import StarRateIcon from "@mui/icons-material/StarRate";
 import { Typography, Box, Stack } from "@mui/material";
 import { useRouter } from "next/router";
-import { mix } from "../../styles/styleMixins";
+import { mix } from "../../../styles/styleMixins";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
-import LazyImage from "../custom-components/LazyImage";
+import LazyImage from "./LazyImage";
 
 export default function RestaurantCard({ dataObj, scrollPosition }) {
   const router = useRouter();

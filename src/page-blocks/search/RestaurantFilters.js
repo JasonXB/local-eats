@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { filterActions } from "../../../state-management/store/search/filters";
 
 export default function RestauarantFilters() {
-  const filterValues = {
+  const getFilterValues = {
     distance: () => {
       const meters = useSelector((r) => r.searchFilters.distance);
       return String(meters / 1000) + "km";
@@ -50,16 +50,31 @@ export default function RestauarantFilters() {
         startIcon={<SocialDistanceIcon />}
         disabled
       >
-        Max Distance: {filterValues.distance()}
+        Max Distance: {getFilterValues.distance()}
       </Button>
-      <Button sx={styles.price} size="large" startIcon={<AttachMoneyIcon />} disabled>
-        Max Price Lvl: {filterValues.price()}
+      <Button
+        sx={styles.price}
+        size="large"
+        startIcon={<AttachMoneyIcon />}
+        disabled
+      >
+        Max Price Lvl: {getFilterValues.price()}
       </Button>
-      <Button sx={styles.rating} size="large" startIcon={<LockOpenIcon />} disabled>
-        Min Rating: {filterValues.rating()}
+      <Button
+        sx={styles.rating}
+        size="large"
+        startIcon={<LockOpenIcon />}
+        disabled
+      >
+        Min Rating: {getFilterValues.rating()}
       </Button>
-      <Button sx={styles.hours} size="large" startIcon={<LockOpenIcon />} disabled>
-        Hours: {filterValues.hours()}
+      <Button
+        sx={styles.hours}
+        size="large"
+        startIcon={<LockOpenIcon />}
+        disabled
+      >
+        Hours: {getFilterValues.hours()}
       </Button>
     </Box>
   );
@@ -72,15 +87,15 @@ const styles = {
     mb: "1.625rem",
     display: "grid",
     gridTemplateColumns: "1fr",
-    ["@media (min-width: 525px)"]: { 
-      gridTemplateColumns: "repeat(2, 1fr)" 
+    ["@media (min-width: 525px)"]: {
+      gridTemplateColumns: "repeat(2, 1fr)",
     },
     ["@media (min-width: 750px)"]: {
       gridTemplateColumns: "repeat(3, 1fr)",
       mt: 4,
     },
-    ["@media (min-width: 1200px)"]: { 
-      gridTemplateColumns: "repeat(5, 1fr)" 
+    ["@media (min-width: 1200px)"]: {
+      gridTemplateColumns: "repeat(5, 1fr)",
     },
   },
 };

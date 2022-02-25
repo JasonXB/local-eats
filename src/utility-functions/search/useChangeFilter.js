@@ -1,9 +1,10 @@
 import { useSelector, useDispatch } from "react-redux";
 import { filterActions } from "../../../state-management/store/search/filters";
 
-// Use to edit the restaurant search filters inside the dedicated slice on the Redux store
+// Use to edit individual restaurant search filters inside the dedicated slice on the Redux store
 export default function useChangeFilter() {
   const dispatch = useDispatch();
+  // We return this function to use wherever we want
   const editFilter = function (filterName, newValue) {
     switch (filterName) {
       case "distance":

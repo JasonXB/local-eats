@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { searchResultActions } from "../../../state-management/store/search/results";
 import { mix } from "../../../styles/styleMixins";
 import NoResults from "../../page-blocks/search/NoResults";
-import RestaurantCard from "../../custom-components/RestaurantCard";
+import RestaurantCard from "../../custom-components/SearchResults/RestaurantCard";
 import Pagination from "@mui/material/Pagination";
 import { trackWindowScroll } from "react-lazy-load-image-component";
 
