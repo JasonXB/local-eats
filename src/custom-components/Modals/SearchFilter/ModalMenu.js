@@ -4,56 +4,56 @@ import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 // Custom Hooks
 import useGetFilters from "../../../../src/utility-functions/search/useGetFilters";
-import useChangeFilter from "../../../../src/utility-functions/search/useChangeFilter";
+import useChangeAllFilters from "../../../../src/utility-functions/search/useChangeAllFilters";
 
-// TERM EXPLANATIONS
-// True filter values: The filter values saved in Redux which were used to fetch the data currently being shown
+// TERMINOLOGY
 // Local filter values: Values we select in the filter modal which will become true filter values if we hit "Apply" btn
+// True filter values: The filter values saved in Redux which were used to fetch the data currently being shown
 
 export default function ModalMenu() {
-  // Get the existing true filter values in the Redux store using our custom hook
-  const filterValues = useGetFilters(); // object full of filter values
+  // Get the true filter values in the Redux store using our custom hook
+  const trueFilters = useGetFilters(); // object full of filter values
 
   // When we click on new filter values in the modal, save them to this file's local state
   // Do not update the true filter values in Redux until after the user hits the apply button
-  const [filterUpdates, setFilterUpdates] = React.useState({
-    distance: filterValues.distance, // starting state values are decided based on what the true state va
-    price: filterValues.price,
-    rating: filterValues.rating,
-    hours: filterValues.hours,
-    modalOpen: filterValues.modalOpen,
+  const [localFilters, setLocalFilters] = React.useState({
+    distance: trueFilters.distance, // starting state values are decided based on what the true state va
+    price: trueFilters.price,
+    rating: trueFilters.rating,
+    hours: trueFilters.hours,
+    modalOpen: trueFilters.modalOpen,
   });
 
-  // Create functions that update your filter Redux values using our custom hook
-  const setFilter = useChangeFilter(); // function(filterName, newValue)
+  // Create functions that update your true filter values using our custom hook
+  const setNewTrueFilters = useChangeAllFilters();
 
   const handleDistanceChange = (e, selectedVal) => {
     if (selectedVal === null) return; // do not allow users to set the same filter twice
-    setFilterUpdates((prevState) => ({ ...prevState, distance: selectedVal }));
+    setLocalFilters((prevState) => ({ ...prevState, distance: selectedVal }));
   };
   const handlePriceChange = (e, selectedVal) => {
     if (selectedVal === null) return;
-    setFilterUpdates((prevState) => ({ ...prevState, price: selectedVal }));
+    setLocalFilters((prevState) => ({ ...prevState, price: selectedVal }));
   };
   const handleRatingChange = (e, selectedVal) => {
     if (selectedVal === null) return;
-    setFilterUpdates((prevState) => ({ ...prevState, rating: selectedVal }));
+    setLocalFilters((prevState) => ({ ...prevState, rating: selectedVal }));
     // setFilter("rating", selectedVal);
   };
   const handleHoursChange = (e, selectedVal) => {
     if (selectedVal === null) return;
-    setFilterUpdates((prevState) => ({ ...prevState, hours: selectedVal }));
+    setLocalFilters((prevState) => ({ ...prevState, hours: selectedVal }));
     // setFilter("hours", selectedVal);
   };
 
   //! This function should take all the filter changes we made and apply them
   //! Should result in a new Yelp API call being made to fetch new data (try useEffect)
-  const applyFilters = () => {
-    setFilter({
-      distance: filterUpdates.distance,
-      price: filterUpdates.price,
-      rating: filterUpdates.rating,
-      hours: filterUpdates.hours,
+  const applyHandler = () => {
+    setNewTrueFilters({
+      distance: localFilters.distance,
+      price: localFilters.price,
+      rating: localFilters.rating,
+      hours: localFilters.hours,
     });
   };
 
@@ -64,7 +64,7 @@ export default function ModalMenu() {
       </Typography>
       <ToggleButtonGroup
         color="secondary"
-        value={filterValues.distance}
+        value={trueFilters.distance}
         exclusive
         onChange={handleDistanceChange}
         sx={styles.btnGroup}
@@ -81,7 +81,7 @@ export default function ModalMenu() {
       </Typography>
       <ToggleButtonGroup
         color="secondary"
-        value={filterValues.price}
+        value={trueFilters.price}
         exclusive
         onChange={handlePriceChange}
         sx={styles.btnGroup}
@@ -98,7 +98,7 @@ export default function ModalMenu() {
       </Typography>
       <ToggleButtonGroup
         color="secondary"
-        value={filterValues.rating}
+        value={trueFilters.rating}
         exclusive
         onChange={handleRatingChange}
         sx={styles.btnGroup}
@@ -116,7 +116,7 @@ export default function ModalMenu() {
       </Typography>
       <ToggleButtonGroup
         color="secondary"
-        value={filterValues.hours}
+        value={trueFilters.hours}
         exclusive
         onChange={handleHoursChange}
         sx={{ ...styles.btnGroup, pb: 2 }}
