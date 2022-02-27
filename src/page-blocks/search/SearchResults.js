@@ -40,7 +40,7 @@ function SearchResults(props) {
         })
       );
     } catch (error) {
-      dispatch(searchResultActions.showError()); //!!! code JSX for showError= true
+      dispatch(searchResultActions.showError()); 
     }
   };
 

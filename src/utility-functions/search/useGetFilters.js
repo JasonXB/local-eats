@@ -5,7 +5,6 @@ export default function useGetFilters(){
   return {
     distance: useSelector((r) => r.searchFilters.distance),
     price: useSelector((r) => r.searchFilters.price),
-    rating: useSelector((r) => r.searchFilters.rating),
     hours: useSelector((r) => r.searchFilters.hours),
   };
 }

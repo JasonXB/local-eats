@@ -26,9 +26,6 @@ const cuisineList = {
 
 export default function Cuisines() {
   const { checkForSavedLocation } = useLocationContext(); // prettier-ignore
-  const pushToNewPage = function () {
-    checkForSavedLocation();
-  };
   return (
     <>
       <Box sx={{ ...mix.responsiveLayout }}>
@@ -55,7 +52,9 @@ export default function Cuisines() {
           return (
             <ButtonBase
               key={index}
-              onClick={() => checkForSavedLocation(`/search?term=${key.toLowerCase()}`)}
+              onClick={() =>
+                checkForSavedLocation(`/search?term=${key.toLowerCase()}`)
+              }
               sx={{
                 display: "grid",
                 gridTemplateColumns: "auto 1fr auto",

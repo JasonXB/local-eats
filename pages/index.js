@@ -34,7 +34,7 @@ export default function HomePage() {
         <Footer />
       </LayoutContainer>
       {/* These fixed position Modals are on standby and will pop up depending on Redux state values */}
-      <SearchbarModals/>
+      <SearchbarModals />
     </>
   );
 }

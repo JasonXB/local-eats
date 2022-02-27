@@ -10,7 +10,6 @@ export default function useChangeAllFilters() {
     /* payloadObject = {
           distance: localFilters.distance,
           price: localFilters.price,
-          rating: localFilters.rating,
           hours: localFilters.hours,
     } */
   };

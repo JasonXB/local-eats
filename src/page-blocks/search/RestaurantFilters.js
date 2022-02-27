@@ -18,12 +18,7 @@ export default function RestauarantFilters() {
       if (priceNumber === "any") return "any";
       else return `${priceNumber} of 4`;
     },
-    rating: () => {
-      const numberStars = useSelector((r) => r.searchFilters.rating);
-      if (numberStars === "any") return "any";
-      else if (numberStars == "1") return "1 star";
-      else return `${numberStars} stars`;
-    },
+
     hours: () => useSelector((r) => r.searchFilters.hours),
   };
 
@@ -59,14 +54,6 @@ export default function RestauarantFilters() {
         disabled
       >
         Max Price Lvl: {getFilterValues.price()}
-      </Button>
-      <Button
-        sx={styles.rating}
-        size="large"
-        startIcon={<LockOpenIcon />}
-        disabled
-      >
-        Min Rating: {getFilterValues.rating()}
       </Button>
       <Button
         sx={styles.hours}

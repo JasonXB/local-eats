@@ -23,7 +23,6 @@ export default function ModalMenu() {
   const [localFilters, setLocalFilters] = React.useState({
     distance: trueFilters.distance, // starting state values are decided based on what the true state va
     price: trueFilters.price,
-    rating: trueFilters.rating,
     hours: trueFilters.hours,
     modalOpen: trueFilters.modalOpen,
   });
@@ -36,10 +35,7 @@ export default function ModalMenu() {
     if (selectedVal === null) return;
     setLocalFilters((prevState) => ({ ...prevState, price: selectedVal }));
   };
-  const handleRatingChange = (e, selectedVal) => {
-    if (selectedVal === null) return;
-    setLocalFilters((prevState) => ({ ...prevState, rating: selectedVal }));
-  };
+
   const handleHoursChange = (e, selectedVal) => {
     if (selectedVal === null) return;
     setLocalFilters((prevState) => ({ ...prevState, hours: selectedVal }));
@@ -51,12 +47,11 @@ export default function ModalMenu() {
     setNewTrueFilters({
       distance: localFilters.distance,
       price: localFilters.price,
-      rating: localFilters.rating,
       hours: localFilters.hours,
     });
     dispatch(filterActions.closeModal()); // close the filter modal
   }; //!!! Should result in a new Yelp API call being made to fetch new data (try useEffect)
-  
+
   // Reset the filter defaults and close the modal (also a default value)
   const resetHandler = () => dispatch(filterActions.reset());
 
@@ -94,23 +89,6 @@ export default function ModalMenu() {
         <ToggleButton value={2}>$$</ToggleButton>
         <ToggleButton value={3}>$$$</ToggleButton>
         <ToggleButton value={4}>$$$$</ToggleButton>
-      </ToggleButtonGroup>
-
-      <Typography variant="h4" sx={styles.tab}>
-        Min Rating
-      </Typography>
-      <ToggleButtonGroup
-        color="secondary"
-        value={localFilters.rating}
-        exclusive
-        onChange={handleRatingChange}
-        sx={styles.btnGroup}
-      >
-        <ToggleButton value={"any"}>Any</ToggleButton>
-        <ToggleButton value={1}>1</ToggleButton>
-        <ToggleButton value={2}>2</ToggleButton>
-        <ToggleButton value={3}>3</ToggleButton>
-        <ToggleButton value={4}>4</ToggleButton>
       </ToggleButtonGroup>
 
       <Typography variant="h4" sx={styles.tab}>
@@ -166,7 +144,6 @@ const styles = {
     // Quash a few auto-applied margins
     "h4.MuiTypography-root": { margin: 0 },
     "div.MuiBox-root": { margin: 0 },
-    "span.MuiRating-root": { margin: 0 },
     "span.MuiSlider-colorPrimary": { margin: 0 },
     "div.MuiToggleButtonGroup-root": { margin: 0 },
     ["@media (min-width: 700px)"]: {

@@ -68,13 +68,14 @@ export default function LocationContextProvider(props) {
   };
 
   //@ Use to check if we have a saved location in our project state / localStorage
-  const checkForSavedLocation = async function (redirectURL) {
+  const checkForSavedLocation = async function () {
     const redirectAuthorized = checkForSaved(
       state.savedLocation,
       () => reducerDispatch({ type: "OPEN_SEARCHBAR_MENU" }),
       () => reducerDispatch({ type: "OPEN_SNACKBAR" })
-    ); // if this function returns true, we should redirect to a dynamic search page
-    if (redirectAuthorized) return router.push(redirectURL);
+    );
+    if (redirectAuthorized) return true;
+    else return false; // the checkForSaved function already renders user feedback when we have no location saved
   };
 
   // ——————————————————  GATHER EVERYTHING YOU WANT TO DISTRIBUTE   ————————————————————————————————————

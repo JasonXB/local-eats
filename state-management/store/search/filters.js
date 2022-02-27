@@ -4,7 +4,6 @@ export const starterFilters = {
   // RELATED TO FILTERS
   distance: 20000, // options should be 5000, 10000, 20000, 25000, 30000 (5km-30km)
   price: "any", // "any", or 1-4 (integers only)
-  rating: "any", // "any", or 1-5 with 0.5 increments
   hours: "any", // "any" or "open now"
   modalOpen: false,
 };
@@ -15,7 +14,6 @@ const filterSlice = createSlice({
     updateAllFilters(state, action) {
       state.distance = action.payload.distance;
       state.price = action.payload.price;
-      state.rating = action.payload.rating;
       state.hours = action.payload.hours;
     },
     setDistanceFilter(state, action) {
@@ -23,9 +21,6 @@ const filterSlice = createSlice({
     },
     setPriceFilter(state, action) {
       state.price = action.payload;
-    },
-    setRatingFilter(state, action) {
-      state.rating = action.payload;
     },
     setHoursFilter(state, action) {
       state.hours = action.payload;
@@ -37,9 +32,8 @@ const filterSlice = createSlice({
       state.modalOpen = false;
     },
     reset(state, action) {
-      state.distance = 20000; //!? if you decide to let the filter persist, you'll need to edit the string generator
+      state.distance = 20000;
       state.price = "any";
-      state.rating = "any";
       state.hours = "any";
       state.modalOpen = false;
     },

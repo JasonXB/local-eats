@@ -13,9 +13,6 @@ export default function useChangeFilter() {
       case "price":
         dispatch(filterActions.setPriceFilter(newValue));
         break;
-      case "rating":
-        dispatch(filterActions.setRatingFilter(newValue));
-        break;
       case "hours":
         dispatch(filterActions.setHoursFilter(newValue));
         break;

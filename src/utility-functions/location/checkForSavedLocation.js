@@ -32,6 +32,7 @@ export const checkForSaved = function (
     openSnackbar();
     return;
   }
-  // If we do have a saved location, then navigate to a new dynamic page
+  // If we do have a saved location, return true 
+  // A f() in locationContext will then nav us to a new page
   return true
 };
