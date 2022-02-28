@@ -22,7 +22,6 @@ export default async function handler(req, res) {
     }
     // If we do have matches...query the each restauarant object for data needed on Restauarant Cards
     const editedResults = rawResults.map((value, index) => {
-      console.log(value);
       // Concatenate strings to form a list of categories
       const listOfCategories = value.categories.map((obj) => obj.title); // array
       const categoryString = listOfCategories.join(", ");

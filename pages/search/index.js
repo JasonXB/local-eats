@@ -2,7 +2,6 @@ import React, { useReducer, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useLocationContext } from "../../state-management/locationContext";
 import { getSearchHeader } from "../../src/utility-functions/search/searchStrings"; // prettier-ignore
-import useChangeFilter from "../../src/utility-functions/search/useChangeFilter";
 import LayoutContainer from "../../src/custom-components/LayoutContainer";
 import HeaderSection from "../../src/page-blocks/search/HeaderSection";
 import SearchbarModals from "../../src/custom-components/Searchbar/SearchbarModals";
@@ -15,7 +14,6 @@ import useCreateYelpString from "../../src/utility-functions/search/useCreateYel
 
 export default function Restaurants() {
   const router = useRouter();
-  const setFilter = useChangeFilter();
   const makeYelpEndpoint = useCreateYelpString(); // feed this function a query object
   // Make the object of filters a state object //!!! may not work
   const [activeFilters, setActiveFilters] = useState(useGetFilters());

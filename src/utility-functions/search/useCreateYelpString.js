@@ -22,7 +22,6 @@ export default function useCreateYelpString() {
     const qs = Object.keys(queryParams)
       .map((key) => `${key}=${queryParams[key]}`)
       .join("&"); // convert object to a query string
-    console.log(`https://api.yelp.com/v3/businesses/search?limit=50&${qs}`);
     return `https://api.yelp.com/v3/businesses/search?limit=50&${qs}`;
   }
   return generate;

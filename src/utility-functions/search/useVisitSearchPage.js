@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { filterActions } from "../../../state-management/store/search/filters";
 import { useRouter } from "next/router";
-import { removeEmptyKVPs } from "../general/removeEmptyKVPs";
+import { removeEmptyKVPs, removeFalsyKVPs } from "../general/removeEmptyKVPs";
 import { useLocationContext } from "../../../state-management/locationContext";
 import useGetFilters from "./useGetFilters";
 import useChangeFilter from "./useChangeFilter";
@@ -16,7 +16,7 @@ export default function useVisitSearchPage() {
   function navToSearchPage(searchParams) {
     // Step 1. Check if the user has a saved location and render feedback if they don't
     const locationSaved = checkForSavedLocation(); // bool
-    if (!locationSaved) return; // end function here if we don't have one
+    if (!locationSaved || !locationObject) return; // end function here if we don't have one
 
     // Step 2. Update the filters based on what the user searched for
     // On the homepage, we can specify term or price when we click on a Card or use the searchbar
@@ -25,14 +25,10 @@ export default function useVisitSearchPage() {
     const { term, price } = searchParams; // one of these may equal undefined
     if (term && term != activeFilters.term) setFilter("term", term);
     if (price && price != activeFilters.price) setFilter("price", price);
-    /*
-    if (term) setFilter("term", term);
-    if (price) setFilter("price", price);
-    */
-
+    
     // Step 3. Create an object of URL parameters using filter values
     // If any values = undefined, our utility f() will remove them (so it won't mess up the string)
-    const queryParams = removeEmptyKVPs({
+    const queryParams = removeFalsyKVPs({
       radius: activeFilters.distance,
       hours: activeFilters.hours,
       latitude: locationObject.latitude,
