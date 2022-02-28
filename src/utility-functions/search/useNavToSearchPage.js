@@ -18,7 +18,7 @@ export default function useNavToSearchPage(searchParams) {
   // On the homepage, we can specify term or price when we click on a Card or use the searchbar
   // Override any existing filters to adhere to what they user asks for
   const { term, price } = searchParams; // one of these may equal undefined
-
+  // if( term != )
   // Step 2. Create an object of URL parameters using filter values
   // If any values = undefined, our utility f() will remove them (so it won't mess up the string)
 

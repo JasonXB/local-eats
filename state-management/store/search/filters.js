@@ -3,8 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 export const starterFilters = {
   // RELATED TO FILTERS
   distance: 20000, // options should be 5000, 10000, 20000, 25000, 30000 (5km-30km)
-  price: "any", // "any", or 1-4 (integers only)
-  hours: "any", // "any" or "open now"
+  price: undefined, // "any", or 1-4 (integers only)
+  hours: undefined, // "any" or "open now"
+  term: undefined,
   modalOpen: false,
 };
 const filterSlice = createSlice({
@@ -15,6 +16,7 @@ const filterSlice = createSlice({
       state.distance = action.payload.distance;
       state.price = action.payload.price;
       state.hours = action.payload.hours;
+      state.term = action.payload.term;
     },
     setDistanceFilter(state, action) {
       state.distance = action.payload;
@@ -24,6 +26,9 @@ const filterSlice = createSlice({
     },
     setHoursFilter(state, action) {
       state.hours = action.payload;
+    },
+    setTermFilter(state, action) {
+      state.term = action.payload;
     },
     openModal(state, action) {
       state.modalOpen = true;

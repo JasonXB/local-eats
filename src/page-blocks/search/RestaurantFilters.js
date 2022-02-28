@@ -14,18 +14,22 @@ export default function RestauarantFilters() {
       return String(meters / 1000) + "km";
     },
     price: () => {
-      const priceNumber = useSelector((r) => r.searchFilters.price); // 1 2 3 4
-      if (priceNumber === "any") return "any";
+      const priceNumber = useSelector((r) => r.searchFilters.price); // undefined, 1 2 3 4
+      if (!priceNumber) return "any";
       else return `${priceNumber} of 4`;
     },
 
-    hours: () => useSelector((r) => r.searchFilters.hours),
+    hours: () => {
+      const hoursFilterVal= useSelector((r) => r.searchFilters.hours);
+      if(!hoursFilterVal) return "any"
+      else return hoursFilterVal
+    },
   };
 
   // Function that opens/closes the filter modal which affects your search results
   const dispatch = useDispatch();
   const openFilterModal = () => dispatch(filterActions.openModal());
-  
+
   return (
     <Box sx={styles.container}>
       <Button
