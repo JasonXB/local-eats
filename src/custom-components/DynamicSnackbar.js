@@ -6,7 +6,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useLocationContext } from "../../state-management/locationContext";
 
 export default function DynamicSnackbar(props) {
-  const { checkForSavedLocation, snackbarOpen, closeSnackbar } = useLocationContext(); // prettier-ignore
+  const { snackbarOpen, closeSnackbar } = useLocationContext(); // prettier-ignore
 
   const handleClose = (event, reason) => {
     // if (reason === "clickaway") return; // makes it so clicking off wont close this

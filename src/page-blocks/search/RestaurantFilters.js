@@ -19,7 +19,6 @@ export default function RestauarantFilters() {
       if (!priceNumber) return "any";
       else return `${priceNumber} of 4`;
     },
-
     hours: () => {
       const hoursFilterVal = useSelector((r) => r.searchFilters.hours);
       if (!hoursFilterVal) return "any";

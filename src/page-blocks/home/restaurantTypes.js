@@ -1,11 +1,11 @@
 import React from "react";
 //  prettier-ignore
-import { Typography, ButtonBase, Button ,Box, CardContent, CardMedia , Container, Card} from '@mui/material';
-import LayoutContainer from "../../custom-components/LayoutContainer";
+import { Typography, Button ,Box, CardMedia , Container, Card} from '@mui/material';
 import { mix } from "../../../styles/styleMixins";
-import { useLocationContext } from "../../../state-management/locationContext";
+import useVisitSearchPage from "../../utility-functions/search/useVisitSearchPage";
+
 export default function RestaurantTypes() {
-  const { checkForSavedLocation } = useLocationContext(); // prettier-ignore
+  const navToSearchPage = useVisitSearchPage();
   return (
     <>
       <Typography variant="h2" sx={{ pl: 2 }}>
@@ -53,9 +53,7 @@ export default function RestaurantTypes() {
                       key={ind}
                       variant="outlined"
                       onClick={() =>
-                        checkForSavedLocation(
-                          `/search?term=${shopType.toLowerCase()}`
-                        )
+                        navToSearchPage({term: shopType.toLowerCase()})
                       }
                       sx={{ fontSize: "1rem", borderRadius: 0, mr: 1, mb: 1 }}
                     >

@@ -13,11 +13,13 @@ import { homepageModalActions } from "../../../state-management/store/homepage/M
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { lengthNoSpaces } from "../../utility-functions/general/lengthNoSpaces";
+import useVisitSearchPage from "../../utility-functions/search/useVisitSearchPage";
 
 export default function SearchbarDesktop({ applyShadow }) {
   const router = useRouter();
   const anchorEl = useRef();
   const searchbarRef = useRef();
+  const navToSearchPage = useVisitSearchPage();
   //^ Import the LocationContext variables and functions that control the Searchbar drop down menu
   const { searchbarMenuOpen, openSearchbarMenu, closeSearchbarMenu } = useLocationContext(); // prettier-ignore
   const [arrowIcon, setArrowIcon] = useState(<ArrowDropDownIcon />);
@@ -37,8 +39,7 @@ export default function SearchbarDesktop({ applyShadow }) {
   };
 
   //@ Import location data found at startup, and a detect location function fr/ Context API
-  const { detectLocationHandler, locationObject, checkForSavedLocation } =
-    useLocationContext();
+  const { detectLocationHandler, locationObject } = useLocationContext();
   // Decide on what message to show on the searchbar based on saved location data on LocalStorage
   const [desktopMSG, setDesktopMSG] = useState("Pick a location");
   useEffect(() => {
@@ -68,7 +69,7 @@ export default function SearchbarDesktop({ applyShadow }) {
     const typedInput = searchbarRef.current.value;
     const inputLength = lengthNoSpaces(typedInput);
     if (inputLength === 0) return;
-    checkForSavedLocation(`/search?term=${typedInput.toLowerCase()}`);
+    navToSearchPage({ term: typedInput.toLowerCase() });
   };
   // We have a default style for the Homepage, and a secondary style for the search/restuarant pages
   const stylesNoShadow = { width: "90%", maxWidth: "50rem" };

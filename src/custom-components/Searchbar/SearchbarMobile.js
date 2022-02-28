@@ -11,11 +11,13 @@ import { homepageModalActions } from "../../../state-management/store/homepage/M
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { lengthNoSpaces } from "../../utility-functions/general/lengthNoSpaces";
+import useVisitSearchPage from "../../utility-functions/search/useVisitSearchPage";
 
 export default function SearchbarMobile() {
   const router = useRouter();
   const searchbarRef = useRef();
-  const { detectLocationHandler, locationObject, checkForSavedLocation } = useLocationContext(); // prettier-ignore
+  const navToSearchPage = useVisitSearchPage();
+  const { detectLocationHandler, locationObject } = useLocationContext(); // prettier-ignore
   // Decide on what message to show on the searchbar based on whether the project has a saved location or not
   let mobileMSG;
   if (!locationObject) mobileMSG = "none";
@@ -32,7 +34,7 @@ export default function SearchbarMobile() {
     const typedInput = searchbarRef.current.value;
     const inputLength = lengthNoSpaces(typedInput);
     if (inputLength === 0) return;
-    checkForSavedLocation(`/search?term=${typedInput.toLowerCase()}`);
+    navToSearchPage({ term: typedInput.toLowerCase() });
   };
 
   return (

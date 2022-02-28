@@ -4,6 +4,7 @@ import { Typography, ButtonBase, Box } from '@mui/material'; // prettier-ignore
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import LayoutContainer from "../../custom-components/LayoutContainer";
 import { useLocationContext } from "../../../state-management/locationContext";
+import useVisitSearchPage from "../../utility-functions/search/useVisitSearchPage";
 import { Ca, Cn, Fr, Gr, In, It, Jp, Mx, Pe, Es, Lk, Sy, Th, Us, Vn} from "react-flags-select"; // prettier-ignore
 
 const cuisineList = {
@@ -25,7 +26,7 @@ const cuisineList = {
 };
 
 export default function Cuisines() {
-  const { checkForSavedLocation } = useLocationContext(); // prettier-ignore
+  const navToSearchPage = useVisitSearchPage();
   return (
     <>
       <Box sx={{ ...mix.responsiveLayout }}>
@@ -52,9 +53,7 @@ export default function Cuisines() {
           return (
             <ButtonBase
               key={index}
-              onClick={() =>
-                checkForSavedLocation(`/search?term=${key.toLowerCase()}`)
-              }
+              onClick={() => navToSearchPage({ term: key.toLowerCase() })}
               sx={{
                 display: "grid",
                 gridTemplateColumns: "auto 1fr auto",

@@ -3,16 +3,11 @@ import Card from "@mui/material/Card";
 import { CardContent, CardMedia } from "@mui/material";
 import { Typography, Container } from "@mui/material";
 import { mix } from "../../../styles/styleMixins";
-import { useLocationContext } from "../../../state-management/locationContext";
+import useVisitSearchPage from "../../utility-functions/search/useVisitSearchPage";
 
 export default function SearchOptions1() {
-  const { checkForSavedLocation } = useLocationContext(); // prettier-ignore
-
-  // Clicking on a card should trigger a function that redirects us to a dynamic page
-  // We need a locationObject before doing so (why React Context houses that function)
-  const cardHandler1 = async () => checkForSavedLocation("/search?price=1");
-  const cardHandler2 = async () => checkForSavedLocation("/search?price=4");
-
+  // Function that navs us to the search page while letting us set a term or price parameter for the URL
+  const navToSearchPage = useVisitSearchPage();
   return (
     <>
       <Container
@@ -34,7 +29,7 @@ export default function SearchOptions1() {
             [`@media (max-width: 570px)`]: { borderRadius: 0 },
             ...mix.hoverShadow,
           }}
-          onClick={cardHandler1}
+          onClick={() => navToSearchPage({ price: 1 })}
         >
           <CardMedia
             component="img"
@@ -62,7 +57,7 @@ export default function SearchOptions1() {
             },
             ...mix.hoverShadow,
           }}
-          onClick={cardHandler2}
+          onClick={() => navToSearchPage({ price: 4 })}
         >
           <CardMedia
             component="img"

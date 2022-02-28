@@ -3,9 +3,11 @@ import { Typography, Box, Stack, Divider } from "@mui/material";
 import { mix } from "../../styles/styleMixins";
 import FooterMobile from "./FooterMobile";
 import { useLocationContext } from "../../state-management/locationContext";
+import useVisitSearchPage from "../utility-functions/search/useVisitSearchPage";
 
 export default function Footer() {
-  const { checkForSavedLocation } = useLocationContext();
+  const navToSearchPage = useVisitSearchPage();
+
 
   return (
     <>
@@ -50,9 +52,9 @@ export default function Footer() {
                       component="a"
                       key={i}
                       onClick={() =>
-                        checkForSavedLocation(
-                          footerAnchors[headerText][anchorText]
-                        )
+                        navToSearchPage({
+                          term: footerAnchors[headerText][anchorText]
+                        })
                       }
                       sx={{ mb: 0.8, ...mix.anchorStyling }}
                     >
@@ -78,52 +80,52 @@ export default function Footer() {
 // Round 2: To create anchor tags that navigate users to a new page
 export const footerAnchors = {
   "Large Chains": {
-    Malls: "/search?term=mall",
-    Pharmacies: "/search?term=pharmacy",
-    Superstores: "/search?term=superstore",
-    Grocery: "/search?term=grocery",
-    Furniture: "/search?term=furniture",
-    "Men's Clothing": "/search?term=menscloth",
-    "Women's Clothing": "/search?term=womenscloth",
+    Malls: "mall",
+    Pharmacies: "pharmacy",
+    Grocery: "grocery",
+    Furniture: "furniture",
+    Banks: "banks",
+    "Men's Clothing": "men's clothing",
+    "Women's Clothing": "women's clothing",
   },
   Tech: {
-    Arcades: "/search?term=arcades",
-    "Video Game Stores": "/search?term=videogamestores",
-    "Virtual Reality": "/search?term=virtualrealitycenters",
-    Computers: "/search?term=computers",
-    Electronics: "/search?term=electronics",
-    "Electronics Repair": "/search?term=electronicsrepair",
-    "IT Services": "/search?term=itservices",
+    Arcades: "arcades",
+    "Video Game Stores": "video games",
+    "Virtual Reality": "virtual reality",
+    Computers: "computers",
+    Electronics: "electronics",
+    "Electronics Repair": "electronics repair",
+    "IT Services": "IT services",
   },
   Fitness: {
-    Gyms: "/search?term=gyms",
-    "Sports Equipment": "/search?term=sportswear",
-    Supplements: "/search?term=vitaminssupplements",
-    "Swimming Pools": "/search?term=swimmingpools",
-    "Rock Climbing": "/search?term=rock_climbing",
-    Skiing: "/search?term=skiing",
-    "Martial Arts": "/search?term=martialarts",
+    Gyms: "gyms",
+    "Sports Equipment": "sportswear",
+    Supplements: "vitamins supplements",
+    "Swimming Pools": "swimming pools",
+    "Rock Climbing": "rock climbing",
+    Skiing: "skiing",
+    "Martial Arts": "martial arts",
   },
   Automotive: {
-    "Driving Schools": "/search?term=driving_schools",
-    "Car Dealerships": "/search?term=car_dealers",
-    "Auto Repair": "/search?term=autorepair",
-    "Auto Detailing": "/search?term=auto_detailing",
-    "Gas Stations": "/search?term=servicestations",
+    "Driving Schools": "driving schools",
+    "Car Dealerships": "car dealers",
+    "Auto Repair": "auto repair",
+    "Auto Detailing": "auto detailing",
+    "Gas Stations": "service stations",
   },
   Educational: {
-    Preschool: "/search?term=preschools",
-    "Elementary School": "/search?term=elementaryschools",
-    "High school": "/search?term=highschools",
-    "Higher Education": "/search?term=collegeuniv",
-    Tutoring: "/search?term=privatetutors",
+    Preschool: "preschools",
+    "Elementary School": "elementary schools",
+    "High school": "highschools",
+    "Higher Education": "college",
+    Tutoring: "private tutors",
   },
   Miscellaneous: {
-    "Pawn Shops": "/search?term=pawn",
-    "Thrift Stores": "/search?term=thrift_stores",
-    Massage: "/search?term=massage",
-    Dispensaries: "/search?term=cannabisdispensaries",
-    "Pet stores": "/search?term=petstore",
-    Casinos: "/search?term=casinos",
+    "Pawn Shops": "pawn",
+    "Thrift Stores": "thrift stores",
+    Massage: "massage",
+    Dispensaries: "cannabis",
+    "Pet stores": "petstore",
+    Casinos: "casinos",
   },
 };
