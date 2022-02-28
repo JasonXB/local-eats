@@ -86,8 +86,8 @@ export default function RestaurantCard({ dataObj, scrollPosition }) {
         sx={{ ...mix.flexRow, justifyContent: "space-between" }}
         onClick={() => redirect("/")}
       >
-        <Typography variant="p" sx={styles.text}>
-          {cardData.hours}
+        <Typography variant="p" sx={{ ...styles.text, ...styles.trailingDots }}>
+          {cardData.address}
         </Typography>
         <Typography variant="p" sx={styles.text}>
           {cardData.distance}

@@ -1,14 +1,14 @@
 import { removeEmptyKVPs } from "../general/removeEmptyKVPs";
 import useGetFilters from "./useGetFilters";
+import { useLocationContext } from "../../../state-management/locationContext";
 
+//!!! use this to replace generateYelpString
+//! If we have no locationObj, set it equal to the lat and long from the URL and geolocate new data
 // This function should create a new URL using active filters and search terms submitted by the user
 export default function useCreateYelpString() {
   const activeFilters = useGetFilters();
-
-  function generate(locationObject, queryObject) {
-    // End this function early if Reacts prerendering gives us falsy values on mount
-    if (!queryObject) return;
-    if (!queryObject.term && !queryObject.price) return; //!!! maybe don't need either
+  const { locationObject } = useLocationContext();
+  function generate(queryObject) {
     // Create an object full of query parameters extracted from our URL
     const queryParams = removeEmptyKVPs({
       radius: queryObject.radius,
@@ -21,6 +21,7 @@ export default function useCreateYelpString() {
     const qs = Object.keys(queryParams)
       .map((key) => `${key}=${queryParams[key]}`)
       .join("&"); // convert object to a query string
+    console.log(`https://api.yelp.com/v3/businesses/search?limit=50&${qs}`);
     return `https://api.yelp.com/v3/businesses/search?limit=50&${qs}`;
   }
   return generate;

@@ -26,11 +26,6 @@ export default async function handler(req, res) {
       // Concatenate strings to form a list of categories
       const listOfCategories = value.categories.map((obj) => obj.title); // array
       const categoryString = listOfCategories.join(", ");
-      // Decide if the store is closed, open, or unknown
-      let hours;
-      if (value.open_now === true) hours = "Open now";
-      else if (value.open_now === false) hours = "Closed for now";
-      else hours = "(Hours unknown)";
       const relevantData = {
         searchIndex: index,
         storeID: value.id,
@@ -38,11 +33,11 @@ export default async function handler(req, res) {
         storeName: value.name,
         category: categoryString || "(No description)",
         distance: value.distance
-          ? `${(value.distance / 1000).toFixed(1)} km away`
+          ? `${(value.distance / 1000).toFixed(1)} km`
           : "Distance: N/A", // return distance in km (we convert from meters) or "Distance unknown"
         rating: value.rating || "?",
         price: value.price || "N/A", // "$$$"
-        hours,
+        address: value.location.address1,
       };
       return relevantData;
     }); // we've added fallbacks for bits of data that aren't guaranteed to be returned

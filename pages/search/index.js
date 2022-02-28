@@ -1,7 +1,7 @@
 import React, { useReducer, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useLocationContext } from "../../state-management/locationContext";
-import { generateYelpString, getSearchHeader } from "../../src/utility-functions/search/searchStrings"; // prettier-ignore
+import { getSearchHeader } from "../../src/utility-functions/search/searchStrings"; // prettier-ignore
 import useChangeFilter from "../../src/utility-functions/search/useChangeFilter";
 import LayoutContainer from "../../src/custom-components/LayoutContainer";
 import HeaderSection from "../../src/page-blocks/search/HeaderSection";
@@ -11,12 +11,14 @@ import SearchResults from "../../src/page-blocks/search/SearchResults";
 import FiltersModal from "../../src/custom-components/Modals/SearchFilter/FiltersModal";
 import NoResults from "../../src/page-blocks/search/NoResults";
 import useGetFilters from "../../src/utility-functions/search/useGetFilters";
+import useCreateYelpString from "../../src/utility-functions/search/useCreateYelpString"
 
 export default function Restaurants() {
   const router = useRouter();
   const setFilter = useChangeFilter();
-  // Make the object of filters a state object
-  const [activeFilters, setActiveFilters]= useState(useGetFilters())
+  const makeYelpEndpoint = useCreateYelpString(); // feed this function a query object
+  // Make the object of filters a state object //!!! may not work
+  const [activeFilters, setActiveFilters] = useState(useGetFilters());
   // Get query parameters from URL + current location object to make a YelpAPI string
   const { query } = useRouter();
   const { locationObject } = useLocationContext();
@@ -27,13 +29,12 @@ export default function Restaurants() {
 
   useEffect(() => {
     // These both equal undefined during first few render cycles
-    if (!query) return;
+    if (!query || !locationObject) return;
     // Generate a Yelp API string to request restaurant data
-    setApiString(generateYelpString(query));
+    setApiString(makeYelpEndpoint(query));
     // Generate a search header to show before our search results
     setSearchHeader(
-      // `${getSearchHeader(query)} near ${locationObject.locationString}` //!!!? problematic if we have no locationObj
-      `${getSearchHeader(query)} nearby`
+      `${getSearchHeader(query)} near ${locationObject.locationString}`
     );
   }, [query, locationObject, activeFilters]); //!!! filters prob don't override queryObj yet (use override on ModalMenu)
 

@@ -17,3 +17,7 @@ We made it extra safe since users can search URL's without actully having a loca
 Visiting a URL should probably override some searchFilters on arrival
 
 Filters don't re-send Yelp API calls yet
+
+DURING LOADING PHASE OF YELP FETCHING
+The message that something has gone wrong on our end pops up
+Use a load spinner instead

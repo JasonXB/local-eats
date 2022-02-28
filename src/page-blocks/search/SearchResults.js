@@ -26,7 +26,6 @@ function SearchResults(props) {
         apiString: inp,
       });
       const { numberOfHits, results } = request.data;
-      console.log(results);
       // If we got no search results, render a message saying so by changing some Redux vals
       if (numberOfHits === 0) {
         dispatch(searchResultActions.showNoResults());
