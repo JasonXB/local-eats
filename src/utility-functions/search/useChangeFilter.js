@@ -16,6 +16,9 @@ export default function useChangeFilter() {
       case "hours":
         dispatch(filterActions.setHoursFilter(newValue));
         break;
+      case "term":
+        dispatch(filterActions.setTermFilter(newValue));
+        break;
       default:
         break;
     }

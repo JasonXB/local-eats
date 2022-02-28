@@ -14,6 +14,7 @@ export default function useCreateYelpString() {
       radius: queryObject.radius,
       latitude: queryObject.latitude,
       longitude: queryObject.longitude,
+      open_now: queryObject.hours,
       price: queryObject.price, // may equal undefined (could be removed)
       term: queryObject.term, // may equal undefined (could be removed)
     });

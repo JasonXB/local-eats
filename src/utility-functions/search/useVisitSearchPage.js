@@ -25,12 +25,16 @@ export default function useVisitSearchPage() {
     const { term, price } = searchParams; // one of these may equal undefined
     if (term && term != activeFilters.term) setFilter("term", term);
     if (price && price != activeFilters.price) setFilter("price", price);
+    /*
+    if (term) setFilter("term", term);
+    if (price) setFilter("price", price);
+    */
 
     // Step 3. Create an object of URL parameters using filter values
     // If any values = undefined, our utility f() will remove them (so it won't mess up the string)
     const queryParams = removeEmptyKVPs({
       radius: activeFilters.distance,
-      open_now: activeFilters.hours,
+      hours: activeFilters.hours,
       latitude: locationObject.latitude,
       longitude: locationObject.longitude,
       // Could be decided by what we click on the homepage

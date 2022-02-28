@@ -3,7 +3,6 @@ import { useLocationContext } from "../../../state-management/locationContext";
 //  prettier-ignore
 import { Typography, Button, Box, Stack, InputBase, Menu, MenuItem, IconButton } from "@mui/material"; // prettier-ignore
 import SearchIcon from "@mui/icons-material/Search";
-import GpsFixedIcon from "@mui/icons-material/GpsFixed";
 import LocationOffIcon from "@mui/icons-material/LocationOff";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { mix } from "../../../styles/styleMixins";
