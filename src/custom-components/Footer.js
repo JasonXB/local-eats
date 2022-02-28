@@ -8,7 +8,6 @@ import useVisitSearchPage from "../utility-functions/search/useVisitSearchPage";
 export default function Footer() {
   const navToSearchPage = useVisitSearchPage();
 
-
   return (
     <>
       {/* Only appears on screen sizes below sm (700px) */}
@@ -53,7 +52,7 @@ export default function Footer() {
                       key={i}
                       onClick={() =>
                         navToSearchPage({
-                          term: footerAnchors[headerText][anchorText]
+                          term: footerAnchors[headerText][anchorText],
                         })
                       }
                       sx={{ mb: 0.8, ...mix.anchorStyling }}

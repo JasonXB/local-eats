@@ -40,7 +40,7 @@ function SearchResults(props) {
         })
       );
     } catch (error) {
-      dispatch(searchResultActions.showError()); 
+      dispatch(searchResultActions.showError());
     }
   };
 
@@ -94,7 +94,7 @@ function SearchResults(props) {
                 key={r_data.storeID}
                 dataObj={r_data}
                 // pass scrollPosition to each resto_card (for performance's sake)
-                scrollPosition={scrollPosition} 
+                scrollPosition={scrollPosition}
               />
             ))}
         </Box>

@@ -10,10 +10,13 @@ import RestaurantFilters from "../../src/page-blocks/search/RestaurantFilters";
 import SearchResults from "../../src/page-blocks/search/SearchResults";
 import FiltersModal from "../../src/custom-components/Modals/SearchFilter/FiltersModal";
 import NoResults from "../../src/page-blocks/search/NoResults";
+import useGetFilters from "../../src/utility-functions/search/useGetFilters";
 
 export default function Restaurants() {
   const router = useRouter();
   const setFilter = useChangeFilter();
+  // Make the object of filters a state object
+  const [activeFilters, setActiveFilters]= useState(useGetFilters())
   // Get query parameters from URL + current location object to make a YelpAPI string
   const { query } = useRouter();
   const { locationObject } = useLocationContext();
@@ -21,16 +24,18 @@ export default function Restaurants() {
   // Generate strings for the Yelp API and the search header
   const [apiString, setApiString] = useState(undefined);
   const [searchHeader, setSearchHeader] = useState(undefined);
+
   useEffect(() => {
     // These both equal undefined during first few render cycles
-    if (!locationObject || !query) return;
+    if (!query) return;
     // Generate a Yelp API string to request restaurant data
-    setApiString(generateYelpString(locationObject, query));
+    setApiString(generateYelpString(query));
     // Generate a search header to show before our search results
     setSearchHeader(
-      `${getSearchHeader(query)} near ${locationObject.locationString}`
+      // `${getSearchHeader(query)} near ${locationObject.locationString}` //!!!? problematic if we have no locationObj
+      `${getSearchHeader(query)} nearby`
     );
-  }, [query, locationObject]);
+  }, [query, locationObject, activeFilters]); //!!! filters prob don't override queryObj yet (use override on ModalMenu)
 
   // If we have no locationObject and arrive on this page, render this
   if (!locationObject)

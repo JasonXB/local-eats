@@ -113,7 +113,7 @@ export default function ModalMenu() {
         sx={{ ...styles.btnGroup }}
       >
         <ToggleButton value={0}>Any</ToggleButton>
-        <ToggleButton value={"open now"}>Open now</ToggleButton>
+        <ToggleButton value={true}>Open now</ToggleButton>
       </ToggleButtonGroup>
       <Typography variant="h4" sx={styles.tab}>
         Search Term

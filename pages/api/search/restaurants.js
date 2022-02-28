@@ -22,13 +22,14 @@ export default async function handler(req, res) {
     }
     // If we do have matches...query the each restauarant object for data needed on Restauarant Cards
     const editedResults = rawResults.map((value, index) => {
+      console.log(value);
       // Concatenate strings to form a list of categories
       const listOfCategories = value.categories.map((obj) => obj.title); // array
       const categoryString = listOfCategories.join(", ");
       // Decide if the store is closed, open, or unknown
       let hours;
-      if (value.is_closed === false) hours = "Open now";
-      else if (value.is_closed === true) hours = "Closed for now";
+      if (value.open_now === true) hours = "Open now";
+      else if (value.open_now === false) hours = "Closed for now";
       else hours = "(Hours unknown)";
       const relevantData = {
         searchIndex: index,

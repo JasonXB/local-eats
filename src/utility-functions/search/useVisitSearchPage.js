@@ -29,7 +29,7 @@ export default function useVisitSearchPage() {
     // Step 3. Create an object of URL parameters using filter values
     // If any values = undefined, our utility f() will remove them (so it won't mess up the string)
     const queryParams = removeEmptyKVPs({
-      radius: activeFilters.radius,
+      radius: activeFilters.distance,
       open_now: activeFilters.hours,
       latitude: locationObject.latitude,
       longitude: locationObject.longitude,
