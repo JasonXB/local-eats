@@ -47,13 +47,13 @@ export default function ModalMenu() {
 
   // This function should take all the local filter changes we made and apply them
   const setNewTrueFilters = useChangeAllFilters(); //  updates your true filter values using a custom hook
-  
+
   const applyHandler = function () {
     const typed = termRef.current.value;
     // If user types nothing, set term to undefined
     let term = typed;
     if (lengthNoSpaces(typed) === 0) term = undefined;
-    
+
     setNewTrueFilters({
       distance: localFilters.distance,
       price: localFilters.price,
@@ -86,7 +86,7 @@ export default function ModalMenu() {
       </ToggleButtonGroup>
 
       <Typography variant="h4" sx={styles.tab}>
-        Max Price Level
+        Price Level
       </Typography>
       <ToggleButtonGroup
         color="secondary"
