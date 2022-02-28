@@ -4,6 +4,7 @@ import EqualizerIcon from "@mui/icons-material/Equalizer";
 import SocialDistanceIcon from "@mui/icons-material/SocialDistance";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
+import SearchIcon from '@mui/icons-material/Search';
 import { useSelector, useDispatch } from "react-redux";
 import { filterActions } from "../../../state-management/store/search/filters";
 
@@ -20,9 +21,14 @@ export default function RestauarantFilters() {
     },
 
     hours: () => {
-      const hoursFilterVal= useSelector((r) => r.searchFilters.hours);
-      if(!hoursFilterVal) return "any"
-      else return hoursFilterVal
+      const hoursFilterVal = useSelector((r) => r.searchFilters.hours);
+      if (!hoursFilterVal) return "any";
+      else return hoursFilterVal;
+    },
+    term: () => {
+      const term = useSelector((r) => r.searchFilters.term);
+      if (!term) return "any";
+      else return term;
     },
   };
 
@@ -33,7 +39,6 @@ export default function RestauarantFilters() {
   return (
     <Box sx={styles.container}>
       <Button
-        sx={styles.adjustFilters}
         size="large"
         variant="outlined"
         fullWidth
@@ -44,7 +49,6 @@ export default function RestauarantFilters() {
       </Button>
 
       <Button
-        sx={styles.distance}
         size="large"
         startIcon={<SocialDistanceIcon />}
         disabled
@@ -52,7 +56,6 @@ export default function RestauarantFilters() {
         Max Distance: {getFilterValues.distance()}
       </Button>
       <Button
-        sx={styles.price}
         size="large"
         startIcon={<AttachMoneyIcon />}
         disabled
@@ -60,12 +63,18 @@ export default function RestauarantFilters() {
         Max Price Lvl: {getFilterValues.price()}
       </Button>
       <Button
-        sx={styles.hours}
         size="large"
         startIcon={<LockOpenIcon />}
         disabled
       >
         Hours: {getFilterValues.hours()}
+      </Button>
+      <Button
+        size="large"
+        startIcon={<SearchIcon />}
+        disabled
+      >
+        Term: {getFilterValues.term()}
       </Button>
     </Box>
   );

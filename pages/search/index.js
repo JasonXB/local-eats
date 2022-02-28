@@ -31,7 +31,7 @@ export default function Restaurants() {
       `${getSearchHeader(query)} near ${locationObject.locationString}`
     );
     // Change the price filter parameter if we used the search based on cheap/lavish prices (store/search/filters)
-    if (query.price) setFilter("price", Number(query.price));
+    if (query.price) setFilter("price", Number(query.price)); //!!! may need to remove (our nav FN takes care of this)
   }, [query, locationObject]);
 
   // If we have no locationObject and arrive on this page, render this

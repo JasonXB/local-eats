@@ -2,13 +2,16 @@ import React from "react";
 import { Typography, Box, Stack, Button } from "@mui/material"; // prettier-ignore
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import FormControl, { useFormControl } from "@mui/material/FormControl";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import FormHelperText from "@mui/material/FormHelperText";
 // Custom Hooks
 import useGetFilters from "../../../../src/utility-functions/search/useGetFilters";
 import useChangeAllFilters from "../../../../src/utility-functions/search/useChangeAllFilters";
 import { mix } from "../../../../styles/styleMixins";
 import { filterActions } from "../../../../state-management/store/search/filters";
 import { useSelector, useDispatch } from "react-redux";
-
+import { lengthNoSpaces } from "../../../utility-functions/general/lengthNoSpaces";
 // TERMINOLOGY
 // Local filter values: Values we select in the filter modal which will become true filter values if we hit "Apply" btn
 // True filter values: The filter values saved in Redux which were used to fetch the data currently being shown
@@ -26,6 +29,7 @@ export default function ModalMenu() {
     hours: trueFilters.hours,
     modalOpen: trueFilters.modalOpen,
   });
+  const termRef = React.useRef();
 
   const handleDistanceChange = (e, selectedVal) => {
     if (selectedVal === null) return; // do not allow users to set the same filter twice
@@ -43,11 +47,18 @@ export default function ModalMenu() {
 
   // This function should take all the local filter changes we made and apply them
   const setNewTrueFilters = useChangeAllFilters(); //  updates your true filter values using a custom hook
+  
   const applyHandler = function () {
+    const typed = termRef.current.value;
+    // If user types nothing, set term to undefined
+    let term = typed;
+    if (lengthNoSpaces(typed) === 0) term = undefined;
+    
     setNewTrueFilters({
       distance: localFilters.distance,
       price: localFilters.price,
       hours: localFilters.hours,
+      term,
     });
     dispatch(filterActions.closeModal()); // close the filter modal
   }; //!!! Should result in a new Yelp API call being made to fetch new data (try useEffect)
@@ -84,7 +95,7 @@ export default function ModalMenu() {
         onChange={handlePriceChange}
         sx={styles.btnGroup}
       >
-        <ToggleButton value={"any"}>Any</ToggleButton>
+        <ToggleButton value={0}>Any</ToggleButton>
         <ToggleButton value={1}>$</ToggleButton>
         <ToggleButton value={2}>$$</ToggleButton>
         <ToggleButton value={3}>$$$</ToggleButton>
@@ -99,11 +110,22 @@ export default function ModalMenu() {
         value={localFilters.hours}
         exclusive
         onChange={handleHoursChange}
-        sx={{ ...styles.btnGroup, pb: 2 }}
+        sx={{ ...styles.btnGroup }}
       >
-        <ToggleButton value={"any"}>Any</ToggleButton>
+        <ToggleButton value={0}>Any</ToggleButton>
         <ToggleButton value={"open now"}>Open now</ToggleButton>
       </ToggleButtonGroup>
+      <Typography variant="h4" sx={styles.tab}>
+        Search Term
+      </Typography>
+      <FormControl>
+        <OutlinedInput
+          sx={{ mx: 2 }}
+          placeholder="Restaurant, cuisine, dish..."
+          defaultValue={trueFilters.term}
+          inputRef={termRef}
+        />
+      </FormControl>
       <div></div>
       <Box sx={{ width: "100%", ...mix.flexRow, justifyContent: "flex-end" }}>
         <Button
@@ -112,6 +134,7 @@ export default function ModalMenu() {
           sx={{
             fontSize: "1rem",
             mr: 2,
+            mt: 2,
             "&:hover": { background: "white" },
           }}
         >
@@ -123,6 +146,7 @@ export default function ModalMenu() {
           sx={{
             fontSize: "1rem",
             mr: 2,
+            mt: 2,
             "&:hover": { background: "white" },
           }}
         >
