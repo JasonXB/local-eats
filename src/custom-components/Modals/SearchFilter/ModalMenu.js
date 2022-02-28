@@ -95,7 +95,7 @@ export default function ModalMenu() {
         onChange={handlePriceChange}
         sx={styles.btnGroup}
       >
-        <ToggleButton value={0}>Any</ToggleButton>
+        <ToggleButton value={false}>Any</ToggleButton>
         <ToggleButton value={1}>$</ToggleButton>
         <ToggleButton value={2}>$$</ToggleButton>
         <ToggleButton value={3}>$$$</ToggleButton>
@@ -112,7 +112,7 @@ export default function ModalMenu() {
         onChange={handleHoursChange}
         sx={{ ...styles.btnGroup }}
       >
-        <ToggleButton value={0}>Any</ToggleButton>
+        <ToggleButton value={false}>Any</ToggleButton>
         <ToggleButton value={true}>Open now</ToggleButton>
       </ToggleButtonGroup>
       <Typography variant="h4" sx={styles.tab}>
