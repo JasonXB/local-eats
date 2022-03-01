@@ -64,7 +64,7 @@ export default function ModalMenu() {
     setNewTrueFilters(currentFilters);
     dispatch(filterActions.closeModal()); // close the filter modal
     updateSearchPage(currentFilters);
-  }; //!!! Should result in a new Yelp API call being made to fetch new data (try useEffect)
+  };
 
   // Reset the filter defaults and close the modal (also a default value)
   const resetHandler = () => dispatch(filterActions.reset());

@@ -1,7 +1,6 @@
 import React, { useReducer, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useLocationContext } from "../../state-management/locationContext";
-import { getSearchHeader } from "../../src/utility-functions/search/searchStrings"; // prettier-ignore
 import LayoutContainer from "../../src/custom-components/LayoutContainer";
 import HeaderSection from "../../src/page-blocks/search/HeaderSection";
 import SearchbarModals from "../../src/custom-components/Searchbar/SearchbarModals";
@@ -32,7 +31,7 @@ export default function Restaurants() {
     setApiString(makeYelpEndpoint(query));
     // Generate a search header to show before our search results
     setSearchHeader(
-      `${getSearchHeader(query)} near ${locationObject.locationString}`
+      `Results for ${locationObject.locationString}`
     );
   }, [query, locationObject, activeFilters]); //!!! filters prob don't override queryObj yet (use override on ModalMenu)
 
