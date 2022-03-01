@@ -1,19 +1,17 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { useLocationContext } from "../../../state-management/locationContext";
 //  prettier-ignore
-import { Typography, Button, Box, Stack, InputBase, Menu, MenuItem, IconButton } from "@mui/material"; // prettier-ignore
+import { Typography, Button, Box, Stack, InputBase, IconButton } from "@mui/material"; // prettier-ignore
 import SearchIcon from "@mui/icons-material/Search";
 import LocationOffIcon from "@mui/icons-material/LocationOff";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { mix } from "../../../styles/styleMixins";
 import { homepageModalActions } from "../../../state-management/store/homepage/ModalVisibility";
-import { useSelector, useDispatch } from "react-redux";
-import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
 import { lengthNoSpaces } from "../../utility-functions/general/lengthNoSpaces";
 import useVisitSearchPage from "../../utility-functions/search/useVisitSearchPage";
 
 export default function SearchbarMobile() {
-  const router = useRouter();
   const searchbarRef = useRef();
   const navToSearchPage = useVisitSearchPage();
   const { detectLocationHandler, locationObject } = useLocationContext(); // prettier-ignore

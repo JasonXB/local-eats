@@ -67,7 +67,7 @@ function SearchResults(props) {
         <Typography variant="h3" component="h2" sx={{ mb: 4 }}>
           {searchHeader}
         </Typography>
-        <NoResults msg="Something has gone wrong on our end. Please try again" />
+        <NoResults msg="Something has gone wrong on our end. Please reload the page and try again" />
       </Box>
     );
   } else if (showNoResults) {

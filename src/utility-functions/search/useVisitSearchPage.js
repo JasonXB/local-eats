@@ -24,17 +24,17 @@ export default function useVisitSearchPage() {
     const { term, price, hours, distance } = searchParams; // one of these may equal undefined
     if (term && term != activeFilters.term) setFilter("term", term);
     if (price && price != activeFilters.price) setFilter("price", price);
-    if (distance && distance != activeFilters.distance) setFilter("distance", distance);
+    if (distance && distance != activeFilters.distance) setFilter("distance", distance); // prettier-ignore
     if (hours && hours != activeFilters.hours) setFilter("hours", hours);
-    
+
     // Step 3. Create an object of URL parameters using filter values
     const queryParams = removeEmptyKVPs({
-      radius: distance || activeFilters.distance,
-      hours: hours || activeFilters.hours,
+      radius: distance ?? activeFilters.distance,
+      hours: hours ?? activeFilters.hours,
       latitude: locationObject.latitude,
       longitude: locationObject.longitude,
-      price: price || activeFilters.price,
-      term: term || activeFilters.term,
+      price: price ?? activeFilters.price,
+      term: term ?? activeFilters.term, //!!! may have problems with 'any'
     });
 
     // Step 4. Generate new URL to navigate to, then go
