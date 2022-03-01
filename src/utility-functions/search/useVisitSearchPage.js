@@ -19,24 +19,24 @@ export default function useVisitSearchPage() {
     if (!locationSaved || !locationObject) return; // end function here if we don't have one
 
     // Step 2. Update the filters based on what the user searched for
-    // On the homepage, we can specify term or price when we click on a Card or use the searchbar
-    // The price/term parameter for this function and our existing filter values may differ
-    // Give priority to the parameter values
-    const { term, price } = searchParams; // one of these may equal undefined
+    // searchParams may be supplied to this function, and they have priority over the current filters
+    // Ex. If Redux price filter value is 4, but we use this hook with filter=3, set the official filter value to 3
+    const { term, price, hours, distance } = searchParams; // one of these may equal undefined
     if (term && term != activeFilters.term) setFilter("term", term);
     if (price && price != activeFilters.price) setFilter("price", price);
+    if (distance && distance != activeFilters.distance) setFilter("distance", distance);
+    if (hours && hours != activeFilters.hours) setFilter("hours", hours);
     
     // Step 3. Create an object of URL parameters using filter values
-    // If any values = undefined, our utility f() will remove them (so it won't mess up the string)
     const queryParams = removeEmptyKVPs({
-      radius: activeFilters.distance,
-      hours: activeFilters.hours,
+      radius: distance || activeFilters.distance,
+      hours: hours || activeFilters.hours,
       latitude: locationObject.latitude,
       longitude: locationObject.longitude,
-      // Could be decided by what we click on the homepage
-      price: price ? price : activeFilters.price, // priority given to the hook parameter
-      term: term ? term : activeFilters.term,
+      price: price || activeFilters.price,
+      term: term || activeFilters.term,
     });
+
     // Step 4. Generate new URL to navigate to, then go
     const qs = Object.keys(queryParams)
       .map((key) => `${key}=${queryParams[key]}`)

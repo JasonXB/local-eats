@@ -17,7 +17,7 @@ export default function RestauarantFilters() {
     price: () => {
       const priceNumber = useSelector((r) => r.searchFilters.price); // undefined, 1 2 3 4
       if (!priceNumber) return "any";
-      else return `${priceNumber} of 4`;
+      else return `${priceNumber} of 4`; //!!! any of 4 still appears (check all)
     },
     hours: () => {
       const hoursFilterVal = useSelector((r) => r.searchFilters.hours);
@@ -51,7 +51,7 @@ export default function RestauarantFilters() {
         Max Distance: {getFilterValues.distance()}
       </Button>
       <Button size="large" startIcon={<AttachMoneyIcon />} disabled>
-        Max Price Lvl: {getFilterValues.price()}
+        Price Lvl: {getFilterValues.price()}
       </Button>
       <Button size="large" startIcon={<LockOpenIcon />} disabled>
         Hours: {getFilterValues.hours()}

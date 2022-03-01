@@ -1,16 +1,17 @@
 import { removeEmptyKVPs } from "../general/removeEmptyKVPs";
 
 export default function useCreateYelpString() {
-
   function generate(queryObject) {
     // Create an object full of query parameters extracted from our URL
     // We have to change a few values to create a valid endpoint for Yelp Fusion's API
+    let price = queryObject.price;
+    if (price == "false" || price == false) price = undefined;
     const queryParams = removeEmptyKVPs({
       radius: queryObject.radius,
       latitude: queryObject.latitude,
       longitude: queryObject.longitude,
       open_now: queryObject.hours,
-      price: queryObject.price === 'false' && undefined, // remove fr/ the string if equal to "false" in queryObj
+      price,
       term: queryObject.term, // may equal undefined (would get removed)
     });
     // Return API string

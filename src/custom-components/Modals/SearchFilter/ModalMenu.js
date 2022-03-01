@@ -12,6 +12,8 @@ import { mix } from "../../../../styles/styleMixins";
 import { filterActions } from "../../../../state-management/store/search/filters";
 import { useSelector, useDispatch } from "react-redux";
 import { lengthNoSpaces } from "../../../utility-functions/general/lengthNoSpaces";
+import useVisitSearchPage from "../../../utility-functions/search/useVisitSearchPage";
+
 // TERMINOLOGY
 // Local filter values: Values we select in the filter modal which will become true filter values if we hit "Apply" btn
 // True filter values: The filter values saved in Redux which were used to fetch the data currently being shown
@@ -47,24 +49,26 @@ export default function ModalMenu() {
 
   // This function should take all the local filter changes we made and apply them
   const setNewTrueFilters = useChangeAllFilters(); //  updates your true filter values using a custom hook
-
+  const updateSearchPage = useVisitSearchPage();
   const applyHandler = function () {
-    const typed = termRef.current.value;
+    const fieldInput = termRef.current.value;
     // If user types nothing, set term to undefined
-    let term = typed;
-    if (lengthNoSpaces(typed) === 0) term = undefined;
-    setNewTrueFilters({
+    let term = fieldInput;
+    if (lengthNoSpaces(fieldInput) === 0) term = undefined;
+    const currentFilters = {
       distance: localFilters.distance,
       price: localFilters.price,
       hours: localFilters.hours,
       term,
-    });
+    };
+    setNewTrueFilters(currentFilters);
     dispatch(filterActions.closeModal()); // close the filter modal
+    updateSearchPage(currentFilters);
   }; //!!! Should result in a new Yelp API call being made to fetch new data (try useEffect)
 
   // Reset the filter defaults and close the modal (also a default value)
   const resetHandler = () => dispatch(filterActions.reset());
-  
+
   return (
     <Stack spacing={1} sx={styles.container}>
       <Typography variant="h4" sx={styles.tab}>
