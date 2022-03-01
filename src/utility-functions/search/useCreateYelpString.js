@@ -1,10 +1,7 @@
 import { removeEmptyKVPs } from "../general/removeEmptyKVPs";
-import useGetFilters from "./useGetFilters";
-import { useLocationContext } from "../../../state-management/locationContext";
 
 export default function useCreateYelpString() {
-  const activeFilters = useGetFilters();
-  const { locationObject } = useLocationContext();
+
   function generate(queryObject) {
     // Create an object full of query parameters extracted from our URL
     // We have to change a few values to create a valid endpoint for Yelp Fusion's API

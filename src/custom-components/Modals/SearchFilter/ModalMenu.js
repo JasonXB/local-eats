@@ -53,7 +53,6 @@ export default function ModalMenu() {
     // If user types nothing, set term to undefined
     let term = typed;
     if (lengthNoSpaces(typed) === 0) term = undefined;
-
     setNewTrueFilters({
       distance: localFilters.distance,
       price: localFilters.price,
@@ -65,7 +64,7 @@ export default function ModalMenu() {
 
   // Reset the filter defaults and close the modal (also a default value)
   const resetHandler = () => dispatch(filterActions.reset());
-
+  
   return (
     <Stack spacing={1} sx={styles.container}>
       <Typography variant="h4" sx={styles.tab}>
