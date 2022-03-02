@@ -17,7 +17,7 @@ export default function RestauarantFilters() {
     price: () => {
       const priceNumber = useSelector((r) => r.searchFilters.price); // undefined, 1 2 3 4
       if (!priceNumber) return "any";
-      else return `${priceNumber} of 4`; //!!! any of 4 still appears (check all)
+      else return `${priceNumber} of 4`; 
     },
     hours: () => {
       const hoursFilterVal = useSelector((r) => r.searchFilters.hours);

@@ -57,10 +57,10 @@ export default function ModalWrapper(props) {
       if (yelpCitiesCA.includes(chosenCityCA)) {
         removeErrorCA();
         console.log("SUCCESS CANADA");
-        //! save to localStorage and ContextAPI, then reset the state
+        // save to localStorage and ContextAPI, then reset the state
         const areaName = `${chosenCityCA}, Canada`;
         const response = await predeterminedHandler(areaName);
-        //! if it fails, it should return a falsy
+        // if it fails, it should return a falsy
         closeModal();
         return;
       }
@@ -81,11 +81,11 @@ export default function ModalWrapper(props) {
       // Past this point, the entries for Menu1 and Menu2 should be valid
       removeErrorUS_M1(); // remove red error text if any
       removeErrorUS_M2();
-      //! Save to localStorage and ContextAPI, then reset the state
+      // Save to localStorage and ContextAPI, then reset the state
       console.log("SUCCESS FOR USA");
       const areaName = `${chosenCityUSA}, ${chosenStateUSA}, United States`;
       const response = await predeterminedHandler(areaName);
-      //! if it fails, it should return a falsy
+      // if it fails, it should return a falsy
       closeModal();
       return;
     }

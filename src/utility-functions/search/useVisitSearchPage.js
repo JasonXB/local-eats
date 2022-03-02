@@ -34,7 +34,7 @@ export default function useVisitSearchPage() {
       latitude: locationObject.latitude,
       longitude: locationObject.longitude,
       price: price ?? activeFilters.price,
-      term: term ?? activeFilters.term, //!!! may have problems with 'any'
+      term, 
     });
 
     // Step 4. Generate new URL to navigate to, then go
