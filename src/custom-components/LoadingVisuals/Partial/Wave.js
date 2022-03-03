@@ -12,7 +12,7 @@ export default function FullscreenSpinner() {
         alignItems: "center",
       }}
     >
-      <div class="dots-flow"></div>
+      <div className="dots-flow"></div>
     </Box>
   );
 }

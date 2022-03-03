@@ -7,8 +7,8 @@ import { searchResultActions } from "../../../state-management/store/search/resu
 import { mix } from "../../../styles/styleMixins";
 import NoResults from "../../page-blocks/search/NoResults";
 import RestaurantCard from "../../custom-components/SearchResults/RestaurantCard";
-import Pagination from "@mui/material/Pagination";
 import { trackWindowScroll } from "react-lazy-load-image-component";
+import PaginationRow from "./sub/PaginationRow";
 
 function SearchResults(props) {
   // If any of these values are undefined, render nothing (will happen during first few render cycles)
@@ -60,7 +60,13 @@ function SearchResults(props) {
   const showError = useSelector((rs) => rs.searchResults.showError); // bool
   const numberOfHits = useSelector((rs) => rs.searchResults.numberOfHits);
   console.log("hits:", numberOfHits);
-  if (!apiString || !searchHeader || !locationObject) return null;
+  if (
+    !apiString ||
+    !searchHeader ||
+    !locationObject ||
+    numberOfHits === undefined
+  )
+    return null;
   else if (showError) {
     return (
       <Box sx={{ px: 4 }}>
@@ -98,15 +104,7 @@ function SearchResults(props) {
             ))}
         </Box>
         <Box sx={{ ...mix.flexRow }}>
-          <Pagination
-            count={(numberOfHits % 50) + 1}
-            variant="outlined"
-            color="secondary"
-            size="large"
-            siblingCount={0}
-            boundaryCount={0}
-            sx={{ mx: "auto" }}
-          />
+          {/* <PaginationRow numberOfHits={numberOfHits}/> */}
         </Box>
       </Box>
     );
