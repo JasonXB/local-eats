@@ -9,6 +9,7 @@ import NoResults from "../../page-blocks/search/NoResults";
 import RestaurantCard from "../../custom-components/SearchResults/RestaurantCard";
 import { trackWindowScroll } from "react-lazy-load-image-component";
 import PaginationRow from "./sub/PaginationRow";
+import Footer from "../../custom-components/Footer";
 
 function SearchResults(props) {
   // If any of these values are undefined, render nothing (will happen during first few render cycles)
@@ -103,9 +104,10 @@ function SearchResults(props) {
               />
             ))}
         </Box>
-        <Box sx={{ ...mix.flexRow }}>
-          {/* <PaginationRow numberOfHits={numberOfHits}/> */}
+        <Box sx={{ ...mix.flexColumn }}>
+          <PaginationRow numberOfHits={numberOfHits}/>
         </Box>
+        <Footer/>
       </Box>
     );
   }

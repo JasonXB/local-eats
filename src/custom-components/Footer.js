@@ -2,7 +2,6 @@ import React from "react";
 import { Typography, Box, Stack, Divider } from "@mui/material";
 import { mix } from "../../styles/styleMixins";
 import FooterMobile from "./FooterMobile";
-import { useLocationContext } from "../../state-management/locationContext";
 import useVisitSearchPage from "../utility-functions/search/useVisitSearchPage";
 
 export default function Footer() {
