@@ -17,7 +17,7 @@ export default function RestauarantFilters() {
     price: () => {
       const priceNumber = useSelector((r) => r.searchFilters.price); // undefined, 1 2 3 4
       if (!priceNumber) return "any";
-      else return `${priceNumber} of 4`; 
+      else return `${priceNumber} of 4`;
     },
     hours: () => {
       const hoursFilterVal = useSelector((r) => r.searchFilters.hours);
@@ -56,9 +56,10 @@ export default function RestauarantFilters() {
       <Button size="large" startIcon={<LockOpenIcon />} disabled>
         Hours: {getFilterValues.hours()}
       </Button>
-      <Button size="large" startIcon={<SearchIcon />} disabled>
+      {/* Comment in the term value for dev purposes only */}
+      {/* <Button size="large" startIcon={<SearchIcon />} disabled>
         Term: {getFilterValues.term()}
-      </Button>
+      </Button> */}
     </Box>
   );
 }
@@ -81,4 +82,5 @@ const styles = {
       gridTemplateColumns: "repeat(5, 1fr)",
     },
   },
+
 };

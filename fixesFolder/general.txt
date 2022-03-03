@@ -29,3 +29,4 @@ If results are bad, disable the ability to use your true location as a locationO
 CTRL F your dev notes for local-eats and local eats
 We reference our project when we explain things, and you can link to exact github page URL's
 
+Make the Tab Title "Local Eats"
