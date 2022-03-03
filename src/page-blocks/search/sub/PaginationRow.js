@@ -9,9 +9,13 @@ import { mix } from "../../../../styles/styleMixins";
 import useVisitSearchPage from "../../../utility-functions/search/useVisitSearchPage";
 import useGetFilters from "../../../utility-functions/search/useGetFilters";
 export default function PaginationRow({ numberOfHits }) {
-  const inputRef = React.useRef(); // refers to the pagination text field
   const { query } = useRouter(); // grab query parameters from URL
   const nextSearchPage = useVisitSearchPage(); // function that updates search results for pagination
+
+  // States and functions to control the pagination components
+  const inputRef = React.useRef(); // for input field
+  const [error, setError] = React.useState(false); // to render error visuals on the input field
+  const [pageNumber, setPageNumber] = React.useState(1); // pg user is currently viewing
 
   // Decide how many pages are required to showcase your search results
   let requiredPages = calcPgRequirements(numberOfHits);
@@ -19,18 +23,27 @@ export default function PaginationRow({ numberOfHits }) {
   // 2 functions that update the search page when we use the pagination feature
   // Visit a new webpage with an offset parameter in the URL to make a bumped Yelp API call
   // If offset=50, we pull a list of data objects for restauarants who were 50-99th in the array of all of them
+  const resetPaginationField = () => {
+    inputRef.current.value = ""; // erase the field text
+    setError(false); // remove the error visuals
+  };
   const paginationButtonHandler = function (e, page) {
+    setPageNumber(page);
     nextSearchPage({ offset: (page - 1) * 50, term: query.term });
+    resetPaginationField();
   };
   const pageJumpHandler = function () {
-    // If the user inputs a non-number, this validation FN returns a falsy
+    // If the user inputs a non-number, this validation FN returns a falsy which renders a red input field
     const inputVal = validateJumpNumber(requiredPages, inputRef.current.value); // false, null, or an integer
-    if (inputVal === false) return alert("Invalid entry"); //!!!
-    else if(inputVal === null) return alert("Number is too high")
+    if (!inputVal) return setError(true);
+    // If the user submits something valid, our search page gets updated
+    setPageNumber(inputVal); // update page # state as well
     nextSearchPage({ offset: (inputVal - 1) * 50, term: query.term });
+    resetPaginationField();
   };
 
-  if (requiredPages < 2) return null; // render no pagination btns if we only have 1 pg of results
+  // Render no pagination btns if we only have 1 pg of results
+  if (requiredPages < 2) return null;
   return (
     <>
       <Pagination
@@ -41,6 +54,7 @@ export default function PaginationRow({ numberOfHits }) {
         defaultPage={1} // which page we start on
         siblingCount={0} // how many buttons surround the pg we're on currently
         boundaryCount={0} // how many pages shown at start and end
+        page={pageNumber}
         onChange={paginationButtonHandler}
         sx={{ mx: "auto" }}
       />
@@ -56,6 +70,7 @@ export default function PaginationRow({ numberOfHits }) {
             placeholder="page #"
             sx={{ width: 80, mt: 2, height: 42 }}
             inputRef={inputRef}
+            error={error}
           />
           <IconButton
             aria-label="jump to page"
@@ -88,6 +103,6 @@ function validateJumpNumber(totalPages, userInput) {
   // Truncate any decimals and remove the negative if the user tries to mess around
   const roundedInput = Math.abs(Math.trunc(+userInput));
   if (roundedInput === 0) return 1;
-  if(roundedInput > totalPages) return null;
+  if (roundedInput > totalPages) return null;
   return roundedInput;
 }
