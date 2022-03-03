@@ -8,6 +8,7 @@ export default function useCreateYelpString() {
     if (price == "false" || price == false) price = undefined;
     const queryParams = removeEmptyKVPs({
       radius: queryObject.radius,
+      offset: queryObject.offset,
       latitude: queryObject.latitude,
       longitude: queryObject.longitude,
       open_now: queryObject.hours,
