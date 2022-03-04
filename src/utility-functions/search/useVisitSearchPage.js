@@ -29,7 +29,7 @@ export default function useVisitSearchPage() {
     const queryParams = removeEmptyKVPs({
       radius: distance ?? activeFilters.distance,
       offset: offset ? offset : 0,
-      sort_by: sort_by ? sort_by : "best_match", //!?
+      sort_by: sort_by ? sort_by : "best_match", 
       hours: hours ?? activeFilters.hours,
       latitude: locationObject.latitude,
       longitude: locationObject.longitude,

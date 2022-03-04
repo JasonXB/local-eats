@@ -44,7 +44,7 @@ export default async function handler(req, res) {
 
     // Sort results by rating if the API string tells us to
     if (sortByRating) editedResults.sort((a, b) => b.rating - a.rating);
-
+    
     res
       .status(201)
       .json({ message: "Data fetched", results: editedResults, numberOfHits });
