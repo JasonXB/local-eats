@@ -1,12 +1,15 @@
 import { useRouter } from "next/router";
+import { useSelector, useDispatch } from "react-redux";
 import { removeEmptyKVPs } from "../general/removeEmptyKVPs";
 import { useLocationContext } from "../../../state-management/locationContext";
 import useGetFilters from "./useGetFilters";
 import useChangeFilter from "./useChangeFilter";
+import { searchResultActions } from "../../../state-management/store/search/results";
 
 // This function should create a new URL using active filters and search terms submitted by the user
 export default function useVisitSearchPage() {
   const router = useRouter();
+  const dispatch = useDispatch();
   const { locationObject, checkForSavedLocation } = useLocationContext();
   const activeFilters = useGetFilters(); // filter state values
   const setFilter = useChangeFilter(); // util function that helps you set filter vals 1 by 1
@@ -25,11 +28,14 @@ export default function useVisitSearchPage() {
     if (distance && distance != activeFilters.distance) setFilter("distance", distance); // prettier-ignore
     if (hours && hours != activeFilters.hours) setFilter("hours", hours);
 
+    // If no offset is specified, reset the pagiantion components so we revert back to page 1
+    if (!offset) dispatch(searchResultActions.reset());
+    
     // Step 3. Create an object of URL parameters using filter values
     const queryParams = removeEmptyKVPs({
       radius: distance ?? activeFilters.distance,
       offset: offset ? offset : 0,
-      sort_by: sort_by ? sort_by : "best_match", 
+      sort_by: sort_by ? sort_by : "best_match",
       hours: hours ?? activeFilters.hours,
       latitude: locationObject.latitude,
       longitude: locationObject.longitude,
