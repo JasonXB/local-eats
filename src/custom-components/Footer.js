@@ -3,8 +3,10 @@ import { Typography, Box, Stack, Divider } from "@mui/material";
 import { mix } from "../../styles/styleMixins";
 import FooterMobile from "./FooterMobile";
 import useVisitSearchPage from "../utility-functions/search/useVisitSearchPage";
+import useGetFilters from "../utility-functions/search/useGetFilters";
 
 export default function Footer() {
+  const filters = useGetFilters();
   const navToSearchPage = useVisitSearchPage();
 
   return (
@@ -52,6 +54,7 @@ export default function Footer() {
                       onClick={() =>
                         navToSearchPage({
                           term: footerAnchors[headerText][anchorText],
+                          sort_by: filters.sort_by,
                         })
                       }
                       sx={{ mb: 0.8, ...mix.anchorStyling }}

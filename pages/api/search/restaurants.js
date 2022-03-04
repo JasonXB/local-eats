@@ -3,6 +3,7 @@ import axios from "axios";
 export default async function handler(req, res) {
   // Grab data from .env.local and the request body
   const { apiString } = req.body;
+  const sortByRating = apiString.includes("sort_by=rating"); // Bool
   const authKey = process.env.YELP_API_KEY;
   // Make a GET request to Yelp Fusion and return the data
   try {
@@ -34,12 +35,16 @@ export default async function handler(req, res) {
         distance: value.distance
           ? `${(value.distance / 1000).toFixed(1)} km`
           : "Distance: N/A", // return distance in km (we convert from meters) or "Distance unknown"
-        rating: value.rating || "?",
+        rating: value.rating || 0,
         price: value.price || "N/A", // "$$$"
         address: value.location.address1,
       };
       return relevantData;
     }); // we've added fallbacks for bits of data that aren't guaranteed to be returned
+
+    // Sort results by rating if the API string tells us to
+    if (sortByRating) editedResults.sort((a, b) => b.rating - a.rating);
+
     res
       .status(201)
       .json({ message: "Data fetched", results: editedResults, numberOfHits });

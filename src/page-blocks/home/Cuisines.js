@@ -1,9 +1,8 @@
 import React from "react";
 import { mix } from "../../../styles/styleMixins";
-import { Typography, ButtonBase, Box } from '@mui/material'; // prettier-ignore
+import { Typography, ButtonBase, Box } from '@mui/material'; 
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import LayoutContainer from "../../custom-components/LayoutContainer";
-import { useLocationContext } from "../../../state-management/locationContext";
+import useGetFilters from "../../utility-functions/search/useGetFilters";
 import useVisitSearchPage from "../../utility-functions/search/useVisitSearchPage";
 import { Ca, Cn, Fr, Gr, In, It, Jp, Mx, Pe, Es, Lk, Sy, Th, Us, Vn} from "react-flags-select"; // prettier-ignore
 
@@ -26,6 +25,7 @@ const cuisineList = {
 };
 
 export default function Cuisines() {
+  const filters= useGetFilters()
   const navToSearchPage = useVisitSearchPage();
   return (
     <>
@@ -53,7 +53,7 @@ export default function Cuisines() {
           return (
             <ButtonBase
               key={index}
-              onClick={() => navToSearchPage({ term: key.toLowerCase() })}
+              onClick={() => navToSearchPage({ term: key.toLowerCase(), sort_by: filters.sort_by })}
               sx={{
                 display: "grid",
                 gridTemplateColumns: "auto 1fr auto",

@@ -43,7 +43,7 @@ const filterSlice = createSlice({
       state.price = false;
       state.hours = false;
       state.modalOpen = false;
-      state.sort_by = false;
+      state.sort_by = "best_match";
     },
   },
 });

@@ -33,7 +33,7 @@ export default function ModalMenu() {
     modalOpen: trueFilters.modalOpen,
   });
   const termRef = React.useRef();
-  console.log(localFilters)
+  
   const handleDistanceChange = (e, selectedVal) => {
     if (selectedVal === null) return; // do not allow users to set the same filter twice
     setLocalFilters((prevState) => ({ ...prevState, distance: selectedVal }));

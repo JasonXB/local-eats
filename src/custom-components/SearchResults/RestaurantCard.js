@@ -61,7 +61,7 @@ export default function RestaurantCard({ dataObj, scrollPosition }) {
             variant="p"
             sx={{ ...styles.text, fontWeight: 500, color: "white", mb: 0 }}
           >
-            {cardData.rating}
+            {cardData.rating ? cardData.rating : "?"}
           </Typography>
           <StarRateIcon
             fontSize="small"

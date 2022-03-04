@@ -26,7 +26,6 @@ function SearchResults(props) {
       const request = await axios.post("/api/search/restaurants", {
         apiString: inp,
       });
-      console.log("fetched more data")
       const { numberOfHits, results } = request.data;
       // If we got no search results, render a message saying so by changing some Redux vals
       if (numberOfHits === 0) {
@@ -61,7 +60,6 @@ function SearchResults(props) {
   const showNoResults = useSelector((rs) => rs.searchResults.numberOfHits) == 0; // bool
   const showError = useSelector((rs) => rs.searchResults.showError); // bool
   const numberOfHits = useSelector((rs) => rs.searchResults.numberOfHits);
-  console.log("hits:", numberOfHits);
   if (
     !apiString ||
     !searchHeader ||

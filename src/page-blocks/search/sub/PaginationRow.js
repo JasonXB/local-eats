@@ -1,5 +1,4 @@
 import React from "react";
-import { useRouter } from "next/router";
 import Pagination from "@mui/material/Pagination";
 import { Typography, Box, Button } from "@mui/material";
 import OutlinedInput from "@mui/material/OutlinedInput";
@@ -8,9 +7,10 @@ import IconButton from "@mui/material/IconButton";
 import { mix } from "../../../../styles/styleMixins";
 import useVisitSearchPage from "../../../utility-functions/search/useVisitSearchPage";
 import useGetFilters from "../../../utility-functions/search/useGetFilters";
+
 export default function PaginationRow({ numberOfHits }) {
-  const { query } = useRouter(); // grab query parameters from URL
-  const nextSearchPage = useVisitSearchPage(); // function that updates search results for pagination
+  const filters = useGetFilters()
+  const navToSearchPage = useVisitSearchPage(); // function that updates search results for pagination
 
   // States and functions to control the pagination components
   const inputRef = React.useRef(); // for input field
@@ -24,12 +24,12 @@ export default function PaginationRow({ numberOfHits }) {
   // Visit a new webpage with an offset parameter in the URL to make a bumped Yelp API call
   // If offset=50, we pull a list of data objects for restauarants who were 50-99th in the array of all of them
   const resetPaginationField = () => {
-    inputRef.current.value = ""; // erase the field text
     setError(false); // remove the error visuals
+    if (inputRef.current) inputRef.current.value = ""; // erase the field text
   };
   const paginationButtonHandler = function (e, page) {
     setPageNumber(page);
-    nextSearchPage({ offset: (page - 1) * 50, term: query.term });
+    navToSearchPage({ offset: (page - 1) * 50, term: filters.term, sort_by: filters.sort_by }); // prettier-ignore
     resetPaginationField();
   };
   const pageJumpHandler = function () {
@@ -38,7 +38,7 @@ export default function PaginationRow({ numberOfHits }) {
     if (!inputVal) return setError(true);
     // If the user submits something valid, our search page gets updated
     setPageNumber(inputVal); // update page # state as well
-    nextSearchPage({ offset: (inputVal - 1) * 50, term: query.term });
+    navToSearchPage({ offset: (inputVal - 1) * 50, term: filters.term, sort_by: filters.sort_by }); // prettier-ignore
     resetPaginationField();
   };
 

@@ -9,9 +9,11 @@ import { mix } from "../../../styles/styleMixins";
 import { homepageModalActions } from "../../../state-management/store/homepage/ModalVisibility";
 import { useDispatch } from "react-redux";
 import { lengthNoSpaces } from "../../utility-functions/general/lengthNoSpaces";
+import useGetFilters from "../../utility-functions/search/useGetFilters";
 import useVisitSearchPage from "../../utility-functions/search/useVisitSearchPage";
 
 export default function SearchbarMobile() {
+  const filters = useGetFilters()
   const searchbarRef = useRef();
   const navToSearchPage = useVisitSearchPage();
   const { detectLocationHandler, locationObject } = useLocationContext(); // prettier-ignore
@@ -31,7 +33,7 @@ export default function SearchbarMobile() {
     const typedInput = searchbarRef.current.value;
     const inputLength = lengthNoSpaces(typedInput);
     if (inputLength === 0) return;
-    navToSearchPage({ term: typedInput.toLowerCase() });
+    navToSearchPage({ term: typedInput.toLowerCase(), sort_by: filters.sort_by });
   };
 
   return (

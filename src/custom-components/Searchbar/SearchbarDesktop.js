@@ -11,12 +11,12 @@ import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import PublicIcon from "@mui/icons-material/Public";
 import { homepageModalActions } from "../../../state-management/store/homepage/ModalVisibility";
 import { useSelector, useDispatch } from "react-redux";
-import { useRouter } from "next/router";
 import { lengthNoSpaces } from "../../utility-functions/general/lengthNoSpaces";
+import useGetFilters from "../../utility-functions/search/useGetFilters";
 import useVisitSearchPage from "../../utility-functions/search/useVisitSearchPage";
 
 export default function SearchbarDesktop({ applyShadow }) {
-  const router = useRouter();
+  const filters = useGetFilters()
   const anchorEl = useRef();
   const searchbarRef = useRef();
   const navToSearchPage = useVisitSearchPage();
@@ -69,7 +69,7 @@ export default function SearchbarDesktop({ applyShadow }) {
     const typedInput = searchbarRef.current.value;
     const inputLength = lengthNoSpaces(typedInput);
     if (inputLength === 0) return;
-    navToSearchPage({ term: typedInput.toLowerCase() });
+    navToSearchPage({ term: typedInput.toLowerCase(), sort_by: filters.sort_by });
   };
   // We have a default style for the Homepage, and a secondary style for the search/restuarant pages
   const stylesNoShadow = { width: "90%", maxWidth: "50rem" };
