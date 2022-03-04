@@ -84,8 +84,8 @@ export default function ModalMenu() {
         <ToggleButton value={10000}>10 km</ToggleButton>
         <ToggleButton value={15000}>15 km</ToggleButton>
         <ToggleButton value={20000}>20 km</ToggleButton>
-        <ToggleButton value={25000}>25 km</ToggleButton>
         <ToggleButton value={30000}>30 km</ToggleButton>
+        <ToggleButton value={40000}>40 km</ToggleButton>
       </ToggleButtonGroup>
 
       <Typography variant="h4" sx={styles.tab}>
