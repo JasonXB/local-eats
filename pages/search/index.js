@@ -9,7 +9,7 @@ import SearchResults from "../../src/page-blocks/search/SearchResults";
 import FiltersModal from "../../src/custom-components/Modals/SearchFilter/FiltersModal";
 import NoResults from "../../src/page-blocks/search/NoResults";
 import useCreateYelpString from "../../src/utility-functions/search/useCreateYelpString";
-import {makeSearchHeader} from "../../src/utility-functions/search/makeSearchHeader"
+import { makeSearchHeader } from "../../src/utility-functions/search/makeSearchHeader";
 
 export default function Restaurants() {
   const makeYelpEndpoint = useCreateYelpString(); // feed this function a query object
@@ -50,7 +50,7 @@ export default function Restaurants() {
       <HeaderSection />
       <RestaurantFilters />
       <SearchResults apiString={apiString} searchHeader={searchHeader} />
-      
+
       {/* These fixed position Modals are on standby and will pop up depending on (Redux) state values */}
       <SearchbarModals />
       <FiltersModal />
@@ -62,4 +62,3 @@ export default function Restaurants() {
 // To not get redirected off this component, the user must have...
 // A) Location Object stored in the Project state
 // B) A search term or price level used to perform a request on Yelp's API
-

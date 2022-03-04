@@ -9,7 +9,7 @@ function LayoutContainer(props) {
   return (
     <Box
       sx={{
-        width: "100vw",
+        width: 'calc(100vw - (100vw - 100%))',
         background: props.bg || "white",
       }}
     >
