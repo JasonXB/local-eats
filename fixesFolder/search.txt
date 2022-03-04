@@ -4,13 +4,4 @@ Cut off the maximum amount of characters shown for the header title
 If a user pastes and visits a search link without having a locationObject..do not render any resto_data
 Render a message saying you must specify a location first using the searchbar
 
-We have a bug where (Hours Unknown) restauarants get listed when we search for places open now
-Easy to test late at night- and delivers results we wouldn't want if we have late night munchies
-
-Filters don't re-send Yelp API calls yet
-
-DURING LOADING PHASE OF YELP FETCHING
-The message that something has gone wrong on our end pops up
-Use a load spinner instead
-
 REMOVE BOOKMARKS WHEN PEOPLE ARE NOT LOGGED IN

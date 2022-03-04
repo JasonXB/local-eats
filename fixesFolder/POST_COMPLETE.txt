@@ -1,0 +1,18 @@
+Quickly skim the optimization chapter for React/Next that you skipped in your course
+Scour each file and refactor bloated code + eliminate unrequired imports + Optimize
+Be sure to test the website fully after any changes that may potentially break the app
+
+See how your website performs using dev tools
+See how the color contrast ranks using some software
+Test site on different browsers after you deploy
+
+Optimize the site, improve performance where possible, ARIA...etc
+Get the site professionally reviewed by a friend for $$$
+
+Write custom documentation for the app
+Explain how each feature works using plain english, and reference files that do what you're explaining
+Consider using a visual PDF to illustrate how the site works for your Github later on
+
+Deploy! Get your friends to help locate any errors. 
+See if they can use recording browser extensions so you know what triggers a crash
+

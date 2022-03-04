@@ -11,6 +11,7 @@ import { signOut } from "next-auth/react";
 import { styles } from "../../../styles/auth/manageAccount";
 import GeneralErrorModal from "../../custom-components/Modals/GeneralError";
 import ReturnHomeBtn from "../../custom-components/ReturnHomeBtn";
+import Wave from "../../custom-components/LoadingVisuals/FullScreen/Wave"
 
 // Redirect users to homepage if they come here offline
 export async function getServerSideProps(context) {
