@@ -2,6 +2,7 @@ import { removeEmptyKVPs } from "../general/removeEmptyKVPs";
 
 export default function useCreateYelpString() {
   function generate(queryObject) {
+    console.log(queryObject)
     // Create an object full of query parameters extracted from our URL
     // We have to change a few values to create a valid endpoint for Yelp Fusion's API
     let price = queryObject.price;

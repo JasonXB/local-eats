@@ -33,7 +33,7 @@ export default function ModalMenu() {
     modalOpen: trueFilters.modalOpen,
   });
   const termRef = React.useRef();
-  
+
   const handleDistanceChange = (e, selectedVal) => {
     if (selectedVal === null) return; // do not allow users to set the same filter twice
     setLocalFilters((prevState) => ({ ...prevState, distance: selectedVal }));
@@ -72,7 +72,22 @@ export default function ModalMenu() {
   };
 
   // Reset the filter defaults and close the modal (also a default value)
-  const resetHandler = () => dispatch(filterActions.reset());
+  const resetHandler = () => {
+    const fieldInput = termRef.current.value;
+    // If user types nothing, set term to undefined
+    let term = fieldInput;
+    if (lengthNoSpaces(fieldInput) === 0) term = undefined;
+    dispatch(filterActions.reset());
+    const currentFilters = {
+      distance: 20000,
+      price: false,
+      hours: false,
+      sort_by: "best_match",
+      modalOpen: false,
+      term,
+    };
+    updateSearchPage(currentFilters);
+  };
 
   return (
     <Stack spacing={1} sx={styles.container}>
