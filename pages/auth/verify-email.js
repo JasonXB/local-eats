@@ -7,7 +7,7 @@ import { signIn } from "next-auth/react";
 import { getSession } from "next-auth/react";
 import AuthHeader from "../../src/page-blocks/authForms/HeaderHelper";
 import { styles } from "../../styles/auth/verifyPIN";
-import Spinner from "../../src/custom-components/LoadingVisuals/FullScreen/Spinner";
+import Wave from "../../src/custom-components/LoadingVisuals/FullScreen/Wave";
 
 // Redirect users to homepage if they come here online
 export async function getServerSideProps(context) {
@@ -91,7 +91,7 @@ export default function verifyEmail() {
     }
   };
 
-  if (spinner) return <Spinner />;
+  if (spinner) return <Wave />;
   return (
     <Stack sx={styles.parentContainer}>
       <AuthHeader titleText={"Verify Email"} descriptionText={""} />
