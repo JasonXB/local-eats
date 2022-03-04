@@ -11,7 +11,7 @@ import { signOut } from "next-auth/react";
 import { styles } from "../../../styles/auth/manageAccount";
 import GeneralErrorModal from "../../custom-components/Modals/GeneralError";
 import ReturnHomeBtn from "../../custom-components/ReturnHomeBtn";
-import Wave from "../../custom-components/LoadingVisuals/FullScreen/Wave"
+import Wave from "../../custom-components/LoadingVisuals/FullScreen/Wave";
 
 // Redirect users to homepage if they come here offline
 export async function getServerSideProps(context) {
@@ -42,6 +42,7 @@ function reducer(state, action) {
 export default function DeleteAccount(props) {
   const router = useRouter();
   const passwordRef = useRef();
+  const [loading, setLoading] = useState(false);
 
   const [formState, dispatch] = useReducer(reducer, {
     passwordText: " ",
@@ -53,18 +54,20 @@ export default function DeleteAccount(props) {
   const revealErrorModal = () => setModalVisible(true);
 
   const submitHandler = async function () {
+    setLoading(true);
     const typedPassword = passwordRef.current.value;
     try {
       // Verify password to allow user to delete their account
       await axios.post("/api/auth/deleteAccount", {
         submittedPassword: typedPassword,
       }); // past this point, account deletion has succeeded
-      router.replace("/auth/account-deleted"); 
+      router.replace("/auth/account-deleted");
+      setLoading(false); // end loading animation
       //## redirect to this page that instantly logs you out and tells users the account deletion succeeded
       //## We could log users out here, but the SSR page guards on [panel].js would reroute us to a sign in page
       //## That makes no sense if the user just deleted their account
     } catch (error) {
-      if(!error.response || !error.response.data) return revealErrorModal();
+      if (!error.response || !error.response.data) return revealErrorModal();
       const errorMSG = error.response.data.message;
       switch (errorMSG) {
         case "Incorrect password":
@@ -74,9 +77,11 @@ export default function DeleteAccount(props) {
           revealErrorModal();
           break;
       }
+      setLoading(false); // end loading animation
     }
   };
 
+  if (loading) return <Wave />;
   return (
     <Stack sx={styles.parentContainer}>
       <AuthHeader
@@ -110,7 +115,7 @@ export default function DeleteAccount(props) {
       >
         Delete account
       </Button>
-      <ReturnHomeBtn/>
+      <ReturnHomeBtn />
       <GeneralErrorModal modalVisible={modalVisible} />
     </Stack>
   );
