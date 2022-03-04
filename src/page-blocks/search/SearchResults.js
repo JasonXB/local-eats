@@ -26,6 +26,7 @@ function SearchResults(props) {
       const request = await axios.post("/api/search/restaurants", {
         apiString: inp,
       });
+      console.log("fetched more data")
       const { numberOfHits, results } = request.data;
       // If we got no search results, render a message saying so by changing some Redux vals
       if (numberOfHits === 0) {
@@ -105,9 +106,9 @@ function SearchResults(props) {
             ))}
         </Box>
         <Box sx={{ ...mix.flexColumn }}>
-          <PaginationRow numberOfHits={numberOfHits}/>
+          <PaginationRow numberOfHits={numberOfHits} />
         </Box>
-        <Footer/>
+        <Footer />
       </Box>
     );
   }

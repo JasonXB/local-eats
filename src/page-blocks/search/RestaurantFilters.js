@@ -29,6 +29,9 @@ export default function RestauarantFilters() {
       if (!term) return "any";
       else return term;
     },
+    sort_by: () => {
+      return useSelector((r) => r.searchFilters.sort_by);
+    },
   };
 
   // Function that opens/closes the filter modal which affects your search results
@@ -56,6 +59,10 @@ export default function RestauarantFilters() {
       <Button size="large" startIcon={<LockOpenIcon />} disabled>
         Hours: {getFilterValues.hours()}
       </Button>
+      <Button size="large" startIcon={<LockOpenIcon />} disabled>
+        Sort by: {getFilterValues.sort_by()}
+      </Button>
+
       {/* Comment in the term value for dev purposes only */}
       {/* <Button size="large" startIcon={<SearchIcon />} disabled>
         Term: {getFilterValues.term()}

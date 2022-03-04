@@ -12,6 +12,7 @@ export default function useCreateYelpString() {
       latitude: queryObject.latitude,
       longitude: queryObject.longitude,
       open_now: queryObject.hours,
+      sort_by: queryObject.sort_by,
       price,
       term: queryObject.term, // may equal undefined (would get removed)
     });
@@ -19,6 +20,7 @@ export default function useCreateYelpString() {
     const qs = Object.keys(queryParams)
       .map((key) => `${key}=${queryParams[key]}`)
       .join("&"); // convert object to a query string
+    console.log(`https://api.yelp.com/v3/businesses/search?limit=50&${qs}`)
     return `https://api.yelp.com/v3/businesses/search?limit=50&${qs}`;
   }
   return generate;

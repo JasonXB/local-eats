@@ -29,10 +29,11 @@ export default function ModalMenu() {
     distance: trueFilters.distance, // starting state values are decided based on what the true state va
     price: trueFilters.price,
     hours: trueFilters.hours,
+    sort_by: trueFilters.sort_by,
     modalOpen: trueFilters.modalOpen,
   });
   const termRef = React.useRef();
-
+  console.log(localFilters)
   const handleDistanceChange = (e, selectedVal) => {
     if (selectedVal === null) return; // do not allow users to set the same filter twice
     setLocalFilters((prevState) => ({ ...prevState, distance: selectedVal }));
@@ -41,10 +42,13 @@ export default function ModalMenu() {
     if (selectedVal === null) return;
     setLocalFilters((prevState) => ({ ...prevState, price: selectedVal }));
   };
-
   const handleHoursChange = (e, selectedVal) => {
     if (selectedVal === null) return;
     setLocalFilters((prevState) => ({ ...prevState, hours: selectedVal }));
+  };
+  const handleSortChange = (e, selectedVal) => {
+    if (selectedVal === null) return;
+    setLocalFilters((prevState) => ({ ...prevState, sort_by: selectedVal }));
   };
 
   // This function should take all the local filter changes we made and apply them
@@ -59,6 +63,7 @@ export default function ModalMenu() {
       distance: localFilters.distance,
       price: localFilters.price,
       hours: localFilters.hours,
+      sort_by: localFilters.sort_by,
       term,
     };
     setNewTrueFilters(currentFilters);
@@ -118,6 +123,22 @@ export default function ModalMenu() {
         <ToggleButton value={false}>Any</ToggleButton>
         <ToggleButton value={true}>Open now</ToggleButton>
       </ToggleButtonGroup>
+
+      <Typography variant="h4" sx={styles.tab}>
+        Sort by
+      </Typography>
+      <ToggleButtonGroup
+        color="secondary"
+        value={localFilters.sort_by}
+        exclusive
+        onChange={handleSortChange}
+        sx={styles.btnGroup}
+      >
+        <ToggleButton value={"best_match"}>Best match</ToggleButton>
+        <ToggleButton value={"distance"}>Distance</ToggleButton>
+        <ToggleButton value={"rating"}>Rating</ToggleButton>
+      </ToggleButtonGroup>
+
       <Typography variant="h4" sx={styles.tab}>
         Search Term
       </Typography>

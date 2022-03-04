@@ -16,3 +16,6 @@ Consider using a visual PDF to illustrate how the site works for your Github lat
 Deploy! Get your friends to help locate any errors. 
 See if they can use recording browser extensions so you know what triggers a crash
 
+Create a boiler plate folder for MUI with Next.js
+CTRL F Starting Project Folders (1 of 2)
+
