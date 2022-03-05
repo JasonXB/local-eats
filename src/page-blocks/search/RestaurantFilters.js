@@ -1,10 +1,10 @@
 import React from "react";
-import { Typography, Box, Stack, Container, Button } from "@mui/material"; // prettier-ignore
+import {Box, Button } from "@mui/material"; // prettier-ignore
 import EqualizerIcon from "@mui/icons-material/Equalizer";
 import SocialDistanceIcon from "@mui/icons-material/SocialDistance";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
-import SearchIcon from "@mui/icons-material/Search";
+import SortIcon from '@mui/icons-material/Sort';
 import { useSelector, useDispatch } from "react-redux";
 import { filterActions } from "../../../state-management/store/search/filters";
 
@@ -59,7 +59,7 @@ export default function RestauarantFilters() {
       <Button size="large" startIcon={<LockOpenIcon />} disabled>
         Hours: {getFilterValues.hours()}
       </Button>
-      <Button size="large" startIcon={<LockOpenIcon />} disabled>
+      <Button size="large" startIcon={<SortIcon />} disabled>
         Sort by: {getFilterValues.sort_by()}
       </Button>
 
