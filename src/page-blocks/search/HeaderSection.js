@@ -8,10 +8,34 @@ import BurgerBtn from "../../custom-components/Navbar/BurgerBtn";
 import SearchbarMobile from "../../custom-components/Searchbar/SearchbarMobile";
 import { useSession } from "next-auth/react";
 
-export default function HeaderSection() {
+export default function HeaderSection({ parent, breakpoint }) {
   // Feed the BurgerBtn our authStatus as a prop in JSX so it knows what buttons to render
   const { data: session, status } = useSession();
 
+  let breadcrumbs;
+  if (parent === "searchPage") {
+    breadcrumbs = (
+      <Breadcrumbs aria-label="breadcrumb">
+        <Link underline="hover" color="inherit" href="/">
+          Homepage
+        </Link>
+        <Typography color="text.primary">Search</Typography>
+      </Breadcrumbs>
+    );
+  }
+  if (parent === "businessPage") {
+    breadcrumbs = (
+      <Breadcrumbs aria-label="breadcrumb">
+        <Link underline="hover" color="inherit" href="/">
+          Homepage
+        </Link>
+        <Link underline="hover" color="inherit" href="/search">
+          Search
+        </Link>
+        <Typography color="text.primary">Business Info</Typography>
+      </Breadcrumbs>
+    );
+  }
   return (
     <>
       {/*For before 600px */}
@@ -20,7 +44,7 @@ export default function HeaderSection() {
           ...mix.responsiveLayout,
           mt: 2,
           display: "block",
-          ["@media (min-width: 700px)"]: { display: "none" },
+          [`@media (min-width: ${breakpoint}px)`]: { display: "none" },
         }}
       >
         <Box sx={{ ...mix.flexRow, mb: 2 }}>
@@ -29,7 +53,7 @@ export default function HeaderSection() {
             component="h1"
             sx={{ ...mix.titleFont, ml: 2 }}
           >
-            Local Search
+            Local Eats
           </Typography>
           <BurgerBtn
             searchpage={true}
@@ -43,9 +67,9 @@ export default function HeaderSection() {
       {/*For 600px and higher*/}
       <Stack
         sx={{
-          px:4,
+          px: 4,
           display: "none",
-          ["@media (min-width: 700px)"]: { display: "block" },
+          [`@media (min-width: ${breakpoint}px)`]: { display: "block" },
         }}
       >
         <Box
@@ -55,7 +79,7 @@ export default function HeaderSection() {
           }}
         >
           <Typography variant="h3" component="h1" sx={{ ...mix.titleFont }}>
-            Local Search
+            Local Eats
           </Typography>
           <NavbarRow />
         </Box>
@@ -68,15 +92,9 @@ export default function HeaderSection() {
           }}
         >
           <SearchbarDesktop applyShadow={true} />
-          <Breadcrumbs aria-label="breadcrumb">
-            <Link underline="hover" color="inherit" href="/">
-              Homepage
-            </Link>
-            <Typography color="text.primary">Search</Typography>
-          </Breadcrumbs>
+          {breadcrumbs}
         </Box>
       </Stack>
     </>
   );
 }
-

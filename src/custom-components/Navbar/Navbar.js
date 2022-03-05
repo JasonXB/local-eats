@@ -13,7 +13,7 @@ export default function Navbar() {
     }
     if (status === "authenticated") setLoggedIn(true);
   }, [status]);
-  
+
   return (
     <>
       <BurgerBtn currentlyOnline={loggedIn} />

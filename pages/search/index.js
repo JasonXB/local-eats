@@ -47,7 +47,7 @@ export default function Restaurants() {
   // If we have search results and a location object, render the following
   return (
     <LayoutContainer>
-      <HeaderSection />
+      <HeaderSection parent={"searchPage"} breakpoint={800} />
       <RestaurantFilters />
       <SearchResults apiString={apiString} searchHeader={searchHeader} />
 
