@@ -3,12 +3,14 @@ import StarRateIcon from "@mui/icons-material/StarRate";
 import { Typography, Box, Stack } from "@mui/material";
 import { useRouter } from "next/router";
 import { mix } from "../../../styles/styleMixins";
+import { useSession } from "next-auth/react"
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import LazyImage from "./LazyImage";
 
 export default function RestaurantCard({ dataObj, scrollPosition }) {
   const router = useRouter();
   const cardData = dataObj;
+  const { status } = useSession(); //hide bookmarks for non logged in users
 
   const redirect = function (url) {
     router.push(url);
@@ -33,13 +35,13 @@ export default function RestaurantCard({ dataObj, scrollPosition }) {
     <Stack sx={styles.container}>
       <Box sx={styles.imageParent}>
         <LazyImage src={cardData.image} scrollPosition={scrollPosition} />
-        <BookmarkIcon
+        {status === "authenticated" && <BookmarkIcon
           sx={{
             ...styles.bookmark,
             color: iconColor.default,
             "&:hover": { color: iconColor.selected },
           }}
-        />
+        />}
       </Box>
 
       <Box

@@ -18,7 +18,7 @@ const filterSlice = createSlice({
       state.price = action.payload.price;
       state.hours = action.payload.hours;
       state.term = action.payload.term;
-      state.sort_by = action.payload.sort_by; //!? new
+      state.sort_by = action.payload.sort_by; 
     },
     setDistanceFilter(state, action) {
       state.distance = action.payload;

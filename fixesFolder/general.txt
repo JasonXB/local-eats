@@ -20,9 +20,6 @@ Check console logs on Firefox browser
 REFACTOR STYLING:
 Refactor all your MUI styling so most of it isn't inline
 
-ASK SHADID
-Why this site looks perfectly responsive in dev tools mobile mode but looks questionable when you slide the dev tools share screen further instead
-
 TEST SITE IN OTHER COUNTRIES
 If results are bad, disable the ability to use your true location as a locationObj if you're in another country
 
