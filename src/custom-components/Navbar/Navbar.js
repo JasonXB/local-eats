@@ -3,7 +3,7 @@ import NavbarDesktop from "./DesktopVersion";
 import BurgerBtn from "./BurgerBtn";
 import { useSession } from "next-auth/react";
 
-export default function Navbar() {
+export default function Navbar({burgerBP}) {
   // Feed each component our logged in status (appearance changes depending on value)
   const { status } = useSession();
   const [loggedIn, setLoggedIn] = useState(false);
@@ -16,7 +16,7 @@ export default function Navbar() {
 
   return (
     <>
-      <BurgerBtn currentlyOnline={loggedIn} />
+      <BurgerBtn currentlyOnline={loggedIn} burgerBP={burgerBP}/>
       <NavbarDesktop currentlyOnline={loggedIn} />
     </>
   );

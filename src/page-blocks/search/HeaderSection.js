@@ -17,7 +17,7 @@ export default function HeaderSection({ parent, breakpoint }) {
     breadcrumbs = (
       <Breadcrumbs aria-label="breadcrumb">
         <Link underline="hover" color="inherit" href="/">
-          Homepage
+          Home
         </Link>
         <Typography color="text.primary">Search</Typography>
       </Breadcrumbs>
@@ -27,7 +27,7 @@ export default function HeaderSection({ parent, breakpoint }) {
     breadcrumbs = (
       <Breadcrumbs aria-label="breadcrumb">
         <Link underline="hover" color="inherit" href="/">
-          Homepage
+          Home
         </Link>
         <Link underline="hover" color="inherit" href="/search">
           Search
@@ -59,6 +59,7 @@ export default function HeaderSection({ parent, breakpoint }) {
             searchpage={true}
             currentlyOnline={status === "authenticated" ? true : false}
             addHomepageButton={true}
+            burgerBP={breakpoint}
           />
         </Box>
         <SearchbarMobile />

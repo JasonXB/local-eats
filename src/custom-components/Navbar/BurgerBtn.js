@@ -91,7 +91,7 @@ export default function TemporaryDrawer(props) {
             position: "absolute",
             right: 0,
             ...burgerMargins,
-            ...mix.hideAfterBP("sm", theme),
+            ...mix.hideAfter(props.burgerBP),
             "& .MuiSvgIcon-root": { fontSize: "2.5rem" },
             "&:hover": { cursor: "pointer" },
           };

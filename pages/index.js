@@ -19,7 +19,7 @@ export async function getStaticProps() {
 export default function HomePage() {
   return (
     <>
-      <Navbar />
+      <Navbar burgerBP={700}/>
       <MissionStatement />
       <LayoutContainer marginAbove="2.25rem">
         <SearchOptionsRow1 />
