@@ -78,15 +78,14 @@ export default function ModalMenu() {
     let term = fieldInput;
     if (lengthNoSpaces(fieldInput) === 0) term = undefined;
     dispatch(filterActions.reset());
-    const currentFilters = {
+    updateSearchPage({
       distance: 20000,
       price: false,
       hours: false,
       sort_by: "best_match",
       modalOpen: false,
       term,
-    };
-    updateSearchPage(currentFilters);
+    });
   };
 
   return (
