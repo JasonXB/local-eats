@@ -5,6 +5,7 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import FormControl, { useFormControl } from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import FormHelperText from "@mui/material/FormHelperText";
+import isEqual from "lodash.isequal";
 // Custom Hooks
 import useGetFilters from "../../../../src/utility-functions/search/useGetFilters";
 import useChangeAllFilters from "../../../../src/utility-functions/search/useChangeAllFilters";
@@ -73,19 +74,25 @@ export default function ModalMenu() {
 
   // Reset the filter defaults and close the modal (also a default value)
   const resetHandler = () => {
-    const fieldInput = termRef.current.value;
-    // If user types nothing, set term to undefined
-    let term = fieldInput;
-    if (lengthNoSpaces(fieldInput) === 0) term = undefined;
-    dispatch(filterActions.reset());
-    updateSearchPage({
+    // If the filters have not been edited, just close the modal (or else a visual bug occurs)
+    const clone = { ...trueFilters };
+    delete clone.term; // remove the term filter from our cloned object
+    delete clone.modalOpen; // modalOpen KVP as well
+    const defaultParams = {
       distance: 20000,
       price: false,
       hours: false,
       sort_by: "best_match",
-      modalOpen: false,
-      term,
-    });
+    };
+    const filtersUnchanged = isEqual(defaultParams, clone); // if true, the objects are the same
+    if (filtersUnchanged) return dispatch(filterActions.closeModal());
+    
+    // If the user is resetting to defaults when the filters have been changed...do the following
+    const fieldInput = termRef.current.value;
+    let term = fieldInput;
+    if (lengthNoSpaces(fieldInput) === 0) term = undefined;
+    dispatch(filterActions.reset());
+    updateSearchPage({ ...defaultParams, term });
   };
 
   return (
