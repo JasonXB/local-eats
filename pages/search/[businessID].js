@@ -9,7 +9,7 @@ export async function getServerSideProps(context) {
   const response = await getBusinessData(id); // we make a request to Yelp API in here
   // Pass the Yelp Data to our component via props, or pass null if the op fails
   if (response.status === "error") return { props: { info: null } };
-  return { props: { yelpData: "response6" } };
+  return { props: { yelpData: response } };
 }
 
 export default function Business(props) {

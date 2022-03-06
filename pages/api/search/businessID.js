@@ -10,14 +10,14 @@ export async function getBusinessData(id) {
 
   try {
     // Make a request to get specific business data from Yelp's API
-    const response = await axios.get(endpoint, { headers });
+    const r = await axios.get(endpoint, { headers });
+    const response = r.data;
     const diff = response.hours[0].open; // hours object
     // Organize the data and remove info you don't need
     const relevantInfo = {
       companyID: response.id,
       name: response.name,
       rating: response.rating,
-      priceLvl: response.price,
       mainImg: response.image_url,
       phoneNumber: response.display_phone,
       reviewQty: response.review_count,
@@ -32,12 +32,12 @@ export async function getBusinessData(id) {
         zipCode: response.location.zip_code,
       },
       coordinates: {
-        latitude: response.latitude,
-        longitude: response.longitude,
+        latitude: response.coordinates.latitude,
+        longitude: response.coordinates.longitude,
       },
       // Take the string the API returns for open hours, then convert its format
       hours: {
-        open_now: response.hours.is_open_now,
+        open_now: response.hours[0].is_open_now,
         Monday: [convertTime(diff[0].start), convertTime(diff[0].end)],
         Tuesday: [convertTime(diff[1].start), convertTime(diff[1].end)],
         Wednesday: [convertTime(diff[2].start), convertTime(diff[2].end)],
@@ -46,7 +46,6 @@ export async function getBusinessData(id) {
         Saturday: [convertTime(diff[5].start), convertTime(diff[5].end)],
         Sunday: [convertTime(diff[6].start), convertTime(diff[6].end)],
       },
-      
     };
     return { status: "success", info: relevantInfo };
   } catch (error) {
