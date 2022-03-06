@@ -12,8 +12,7 @@ export async function getBusinessData(id) {
     // Make a request to get specific business data from Yelp's API
     const r = await axios.get(endpoint, { headers });
     const response = r.data;
-    console.log(response.hours[0].open);
-    const diff = response.hours[0].open; // hours object
+    console.log(response);
     // Organize the data and remove info you don't need
     const relevantInfo = {
       companyID: response.id,
@@ -23,7 +22,9 @@ export async function getBusinessData(id) {
       phoneNumber: response.display_phone,
       reviewQty: response.review_count,
       photos: response.photos,
-      categories: response.categories.map((obj) => obj.title),
+      categories: response.categories
+        ? response.categories.map((obj) => obj.title)
+        : null,
       yelpURL: response.url, // link to the business' dedicated page on Yelp
       address: {
         address: response.location.address1,
@@ -37,15 +38,14 @@ export async function getBusinessData(id) {
         longitude: response.coordinates.longitude,
       },
       // Take the string the API returns for open hours, then convert its format
-      open_now: response.hours[0].is_open_now,
-      hours: makeHoursObject(response.hours[0].open), 
+      open_now: response.hours ? response.hours[0].is_open_now : null,
+      hours: response.hours ? makeHoursObject(response.hours[0].open) : null,
     };
     return { status: "success", info: relevantInfo };
   } catch (error) {
     return { status: "error", message: "Business not found" };
   }
 }
-//!!!? test http://localhost:3000/search/0cFLGS7cLdBv3-CRrv2rQg
 
 export async function getBusinessReviews(id) {
   const endpoint = `https://api.yelp.com/v3/businesses/${id}/reviews`;

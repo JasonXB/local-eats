@@ -28,3 +28,6 @@ export default function Business(props) {
     </LayoutContainer>
   );
 }
+
+//! test for no hours available example http://localhost:3000/search/0cFLGS7cLdBv3-CRrv2rQg
+//! code fallbacks in case an resto_data KVP's equal a falsy where they shouldn't
