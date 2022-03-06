@@ -3,7 +3,7 @@ import { Typography, Box, Stack } from "@mui/material";
 import { mix } from "../../../styles/styleMixins";
 import Wave from "../../custom-components/LoadingVisuals/FullScreen/Wave";
 
-export default function NoLocation(props) {
+export default function NoResults(props) {
   // At first, render a loading animation for a max of 10 seconds
   // Afterwards, render a message (whichever we fed to this component via props)
   const [loading, setLoading] = React.useState(true);
@@ -24,6 +24,7 @@ export default function NoLocation(props) {
           ...mix.flexRow,
           pt: 5,
           textAlign: "center",
+          px: 2,
           [theme.breakpoints.up("sm")]: { pt: 15 },
         };
       }}

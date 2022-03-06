@@ -38,7 +38,7 @@ export default function HeaderSection({ parent, breakpoint }) {
   }
   return (
     <>
-      {/*For before 600px */}
+      {/*Before the breakpoint, render the following */}
       <Stack
         sx={{
           ...mix.responsiveLayout,
@@ -65,7 +65,7 @@ export default function HeaderSection({ parent, breakpoint }) {
         <SearchbarMobile />
       </Stack>
 
-      {/*For 600px and higher*/}
+      {/*Past the breakpoint*/}
       <Stack
         sx={{
           px: 4,

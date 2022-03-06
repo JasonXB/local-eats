@@ -34,9 +34,9 @@ export default async function handler(req, res) {
         category: categoryString || "(No description)",
         distance: value.distance
           ? `${(value.distance / 1000).toFixed(1)} km`
-          : "Distance: N/A", // return distance in km (we convert from meters) or "Distance unknown"
+          : "Distance: ???", // return distance in km (we convert from meters) or "Distance unknown"
         rating: value.rating || 0,
-        price: value.price || "N/A", // "$$$"
+        price: value.price || "???", // "$$$"
         address: value.location.address1,
       };
       return relevantData;

@@ -1,8 +1,11 @@
 import React from "react";
+import { useRouter } from "next/router";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
-export default function LazyImage({src, scrollPosition}) {
+export default function LazyImage({src, scrollPosition, id}) {
+  const router = useRouter();
+  const redirect = () => router.push(`/search/${id}`);
   return (
     <LazyLoadImage
       alt="/images/noIMG.png"
@@ -11,7 +14,7 @@ export default function LazyImage({src, scrollPosition}) {
       height={"100%"} 
       width={"100%"}
       src={src}
-      onClick={() => redirect("/")} //!!! fix later
+      onClick={redirect} 
       scrollPosition={scrollPosition}
       style={{
         borderRadius: 14,

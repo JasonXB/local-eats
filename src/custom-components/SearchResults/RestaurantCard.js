@@ -1,9 +1,9 @@
 import React from "react";
+import { useRouter } from "next/router";
 import StarRateIcon from "@mui/icons-material/StarRate";
 import { Typography, Box, Stack } from "@mui/material";
-import { useRouter } from "next/router";
 import { mix } from "../../../styles/styleMixins";
-import { useSession } from "next-auth/react"
+import { useSession } from "next-auth/react";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import LazyImage from "./LazyImage";
 
@@ -12,11 +12,7 @@ export default function RestaurantCard({ dataObj, scrollPosition }) {
   const cardData = dataObj;
   const { status } = useSession(); //hide bookmarks for non logged in users
 
-  const redirect = function (url) {
-    router.push(url);
-    //!!! edit the redirect destination when we make the next page
-    //!!! CTRL F every onClick on this page
-  };
+  const redirect = () => router.push(`/search/${dataObj.storeID}`);
 
   // Choose which color to use on the star rating blurb
   let blurbColor; // yellow, lime green, dark green
@@ -34,19 +30,21 @@ export default function RestaurantCard({ dataObj, scrollPosition }) {
   return (
     <Stack sx={styles.container}>
       <Box sx={styles.imageParent}>
-        <LazyImage src={cardData.image} scrollPosition={scrollPosition} />
-        {status === "authenticated" && <BookmarkIcon
-          sx={{
-            ...styles.bookmark,
-            color: iconColor.default,
-            "&:hover": { color: iconColor.selected },
-          }}
-        />}
+        <LazyImage src={cardData.image} scrollPosition={scrollPosition} id={dataObj.storeID} />
+        {status === "authenticated" && (
+          <BookmarkIcon
+            sx={{
+              ...styles.bookmark,
+              color: iconColor.default,
+              "&:hover": { color: iconColor.selected },
+            }}
+          />
+        )}
       </Box>
 
       <Box
         sx={{ ...mix.flexRow, justifyContent: "space-between" }}
-        onClick={() => redirect("/")}
+        onClick={redirect}
       >
         <Typography variant="p" sx={{ ...styles.name, ...styles.trailingDots }}>
           {cardData.storeName}
@@ -74,7 +72,7 @@ export default function RestaurantCard({ dataObj, scrollPosition }) {
 
       <Box
         sx={{ ...mix.flexRow, justifyContent: "space-between" }}
-        onClick={() => redirect("/")}
+        onClick={redirect}
       >
         <Typography variant="p" sx={{ ...styles.text, ...styles.trailingDots }}>
           {cardData.category}
@@ -86,7 +84,7 @@ export default function RestaurantCard({ dataObj, scrollPosition }) {
 
       <Box
         sx={{ ...mix.flexRow, justifyContent: "space-between" }}
-        onClick={() => redirect("/")}
+        onClick={redirect}
       >
         <Typography variant="p" sx={{ ...styles.text, ...styles.trailingDots }}>
           {cardData.address}
