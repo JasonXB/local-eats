@@ -8,6 +8,7 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import LazyImage from "./LazyImage";
 
 export default function RestaurantCard({ dataObj, scrollPosition }) {
+  
   const router = useRouter();
   const cardData = dataObj;
   const { status } = useSession(); //hide bookmarks for non logged in users

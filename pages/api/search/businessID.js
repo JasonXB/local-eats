@@ -12,6 +12,7 @@ export async function getBusinessData(id) {
     // Make a request to get specific business data from Yelp's API
     const r = await axios.get(endpoint, { headers });
     const response = r.data;
+    console.log(response.hours[0].open);
     const diff = response.hours[0].open; // hours object
     // Organize the data and remove info you don't need
     const relevantInfo = {
@@ -36,22 +37,15 @@ export async function getBusinessData(id) {
         longitude: response.coordinates.longitude,
       },
       // Take the string the API returns for open hours, then convert its format
-      hours: {
-        open_now: response.hours[0].is_open_now,
-        Monday: [convertTime(diff[0].start), convertTime(diff[0].end)],
-        Tuesday: [convertTime(diff[1].start), convertTime(diff[1].end)],
-        Wednesday: [convertTime(diff[2].start), convertTime(diff[2].end)],
-        Thursday: [convertTime(diff[3].start), convertTime(diff[3].end)],
-        Friday: [convertTime(diff[4].start), convertTime(diff[4].end)],
-        Saturday: [convertTime(diff[5].start), convertTime(diff[5].end)],
-        Sunday: [convertTime(diff[6].start), convertTime(diff[6].end)],
-      },
+      open_now: response.hours[0].is_open_now,
+      hours: makeHoursObject(response.hours[0].open), 
     };
     return { status: "success", info: relevantInfo };
   } catch (error) {
     return { status: "error", message: "Business not found" };
   }
 }
+//!!!? test http://localhost:3000/search/0cFLGS7cLdBv3-CRrv2rQg
 
 export async function getBusinessReviews(id) {
   const endpoint = `https://api.yelp.com/v3/businesses/${id}/reviews`;
@@ -67,6 +61,47 @@ export async function getBusinessReviews(id) {
   } catch (error) {
     return { status: "Error", message: "Reviews not available at this time" };
   }
+}
+
+// UTILITY FUNCTIONS FOR SORTING OUR RESPONSE DATA
+
+function makeHoursObject(origArray) {
+  const hours = {
+    Monday: "",
+    Tuesday: "",
+    Wednesday: "",
+    Thursday: "",
+    Friday: "",
+    Saturday: "",
+    Sunday: "",
+  };
+  // Check which days the restaurant is closed
+  [0, 1, 2, 3, 4, 5, 6].forEach((val, ind) => {
+    const hoursAvail = origArray.find((obj) => obj["day"] === ind);
+    // If the array has no object dedicated to a day, the restaurant is closed that day
+    if (!hoursAvail) hours[integerDay(ind)] = "closed";
+  });
+  // Create open hours strings for each day the restaurant is not closed
+  origArray.forEach((obj, ind) => {
+    const start = convertTime(obj.start);
+    const end = convertTime(obj.end);
+    const day = integerDay(obj.day);
+    hours[day] = [start, end];
+  });
+  return hours;
+}
+
+function integerDay(num) {
+  const conv = {
+    0: "Monday",
+    1: "Tuesday",
+    2: "Wednesday",
+    3: "Thursday",
+    4: "Friday",
+    5: "Saturday",
+    6: "Sunday",
+  };
+  return conv[num];
 }
 
 function convertTime(str) {
