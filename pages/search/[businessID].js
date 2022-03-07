@@ -3,28 +3,42 @@ import LayoutContainer from "../../src/custom-components/LayoutContainer";
 import HeaderSection from "../../src/page-blocks/search/HeaderSection";
 import { getBusinessData } from "../api/search/businessID";
 import NoResults from "../../src/page-blocks/search/NoResults";
+import Banner from "../../src/page-blocks/businessID/Banner";
+import { Divider } from '@mui/material';
 
 export async function getServerSideProps(context) {
   const id = context.params.businessID;
   const response = await getBusinessData(id); // we make a request to Yelp API in here
   // Pass the Yelp Data to our component via props, or pass null if the op fails
-  if (response.status === "error") return { props: { info: null } };
+  if (response.status === "error") return { props: { yelpData: null } };
   return { props: { yelpData: response } };
 }
 
 export default function Business(props) {
-  console.log(props);
+  const { yelpData } = props;
+  const info = yelpData.info;
+  const bannerData = {
+    name: info.name,
+    rating: info.rating,
+    numberOfReviews: info.reviewQty,
+    mainIMG: info.mainImg,
+    photos: info.photos,
+    categories: info.categories.join(", "),
+  };
+  
   // If the fetching to Yelp fails, render a success msg but let the user nav back to prev pages
-  // if (!yelpData)
-  //   return (
-  //     <LayoutContainer>
-  //       <HeaderSection parent={"businessPage"} breakpoint={820} />
-  //       <NoResults msg="No info available for this business. Please search for others using the searchbar"/>
-  //     </LayoutContainer>
-  //   );
+  if (!yelpData)
+    return (
+      <LayoutContainer>
+        <HeaderSection parent={"businessPage"} breakpoint={820} />
+        <NoResults msg="No info available for this business. Please search for others using the searchbar" />
+      </LayoutContainer>
+    );
   return (
     <LayoutContainer>
       <HeaderSection parent={"businessPage"} breakpoint={820} />
+      <Divider sx={{my:4}}/>
+      <Banner bannerData={bannerData}/>
     </LayoutContainer>
   );
 }
