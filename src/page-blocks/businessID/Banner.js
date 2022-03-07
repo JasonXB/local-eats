@@ -4,6 +4,7 @@ import { styled } from "@mui/material/styles";
 import Rating from "@mui/material/Rating";
 import StarsRoundedIcon from "@mui/icons-material/StarsRounded";
 import LayoutContainer from "../../custom-components/LayoutContainer";
+import { mix } from "../../../styles/styleMixins";
 
 const StyledRating = styled(Rating)({
   "& .MuiRating-iconFilled": {
@@ -12,6 +13,10 @@ const StyledRating = styled(Rating)({
   "& .MuiRating-iconHover": {
     color: "#ff3d47",
   },
+  "& .MuiRating-icon":{
+    fontSize: "2.25rem"
+  }
+  
 });
 
 export default function Banner(props) {
@@ -19,24 +24,28 @@ export default function Banner(props) {
   const { name, rating, categories, numberOfReviews, photos } = props.bannerData; // prettier-ignore
 
   return (
-    <Stack sx={{ px: 4, mt:4 }}>
-      
+    <Stack sx={{ px: 4, mt: 4 }}>
       <Box sx={styles.imageContainer}>
         <Box sx={styles.img(photos[0], "1/-1")}></Box>
         <Box sx={styles.img(photos[1], "1/2")}></Box>
         <Box sx={styles.img(photos[2], "2/3")}></Box>
       </Box>
 
-      <Typography variant="h2">{name}</Typography>
-      <StyledRating
-        name="customized-color"
-        defaultValue={rating}
-        readOnly
-        precision={0.5}
-        icon={<StarsRoundedIcon fontSize="inherit" />}
-        emptyIcon={<StarsRoundedIcon fontSize="inherit" />}
-      />
-      <Typography variant="h6">{categories}</Typography>
+      <Typography variant="h3" sx={{ lineHeight: "2.5rem", mt: 2, mb: 1 }}>
+        {name}
+      </Typography>
+      <Typography variant="p" sx={{fontSize: 18, mb:1}}>{categories}</Typography>
+      <Box sx={{...mix.flexRow, mb:1}}>
+        <StyledRating
+          name="customized-color"
+          defaultValue={rating}
+          readOnly
+          precision={0.5}
+          icon={<StarsRoundedIcon fontSize="inherit" />}
+          emptyIcon={<StarsRoundedIcon fontSize="inherit" />}
+        />
+        <Typography variant="p" sx={{mx:2,}}>(based on {numberOfReviews} Yelp reviews)</Typography>
+      </Box>
     </Stack>
   );
 }
@@ -46,7 +55,7 @@ const styles = {
     display: "grid",
     gridTemplateColumns: "repeat(2,1fr)",
     gridTemplateRows: "repeat(2,1fr)",
-    height: 425,
+    height: 300,
     width: "100%",
     gap: 2,
   },
