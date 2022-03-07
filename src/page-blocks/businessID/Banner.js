@@ -1,50 +1,57 @@
 import React from "react";
 import { Typography, Box, Stack, Divider } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import Rating from "@mui/material/Rating";
-import StarsRoundedIcon from "@mui/icons-material/StarsRounded";
-import LayoutContainer from "../../custom-components/LayoutContainer";
 import { mix } from "../../../styles/styleMixins";
-
-const StyledRating = styled(Rating)({
-  "& .MuiRating-iconFilled": {
-    color: "#ff6d75",
-  },
-  "& .MuiRating-iconHover": {
-    color: "#ff3d47",
-  },
-  "& .MuiRating-icon":{
-    fontSize: "2.25rem"
-  }
-  
-});
+import { getRatingColor } from "../../utility-functions/search/getRatingColor";
+import StarRateIcon from "@mui/icons-material/StarRate";
 
 export default function Banner(props) {
   // Extract data from the props
-  const { name, rating, categories, numberOfReviews, photos } = props.bannerData; // prettier-ignore
+  const { name, rating, categories, numberOfReviews, photos, address } = props.bannerData; // prettier-ignore
+  console.log(props.bannerData);
+  // Get the bgColor for the star rating component
+  const ratingColor = getRatingColor(rating);
 
   return (
     <Stack sx={{ px: 4, mt: 4 }}>
+      {/* Panel of restaurant images */}
       <Box sx={styles.imageContainer}>
-        <Box sx={styles.img(photos[0], "1/-1")}></Box>
-        <Box sx={styles.img(photos[1], "1/2")}></Box>
-        <Box sx={styles.img(photos[2], "2/3")}></Box>
+        <Box sx={styles.img(photos[0] || "/images/noIMG.png", "1/-1")}></Box>
+        <Box sx={styles.img(photos[1] || "/images/noIMG.png", "1/2")}></Box>
+        <Box sx={styles.img(photos[2] || "/images/noIMG.png", "2/3")}></Box>
       </Box>
 
-      <Typography variant="h3" sx={{ lineHeight: "2.5rem", mt: 2, mb: 1 }}>
-        {name}
-      </Typography>
-      <Typography variant="p" sx={{fontSize: 18, mb:1}}>{categories}</Typography>
-      <Box sx={{...mix.flexRow, mb:1}}>
-        <StyledRating
-          name="customized-color"
-          defaultValue={rating}
-          readOnly
-          precision={0.5}
-          icon={<StarsRoundedIcon fontSize="inherit" />}
-          emptyIcon={<StarsRoundedIcon fontSize="inherit" />}
-        />
-        <Typography variant="p" sx={{mx:2,}}>(based on {numberOfReviews} Yelp reviews)</Typography>
+      <Box sx={styles.dataContainer}>
+        {/* Name, restaurant category, address */}
+        <Typography variant="h3" component="h1">
+          {name}
+        </Typography>
+        <Typography
+          variant="p"
+          sx={{ ...styles.text, gridRow: "2/3", my: 1 }}
+        >
+          {categories}
+        </Typography>
+        <Typography variant="p" sx={{ ...styles.text, gridRow: "3/4" }}>
+          {address}
+        </Typography>
+        {/* Average Yelp Rating */}
+        <Box sx={styles.starRating(ratingColor)}>
+          <Typography
+            variant="p"
+            sx={{
+              ...styles.text,
+              fontWeight: 500,
+              color: "white",
+              fontSize: "1.5rem",
+            }}
+          >
+            {rating ? rating : "?"}
+          </Typography>
+          <StarRateIcon
+            fontSize="small"
+            sx={{ mb: "0.125rem", ml: "2px", color: "white" }}
+          />
+        </Box>
       </Box>
     </Stack>
   );
@@ -59,6 +66,12 @@ const styles = {
     width: "100%",
     gap: 2,
   },
+  dataContainer: {
+    display: "grid",
+    gridTemplateColumns: "auto 1fr",
+    gridTemplateRows: "repeat(3,auto)",
+    mt: 2,
+  },
   img: (url, rows) => ({
     width: "100%",
     height: "100%",
@@ -70,4 +83,15 @@ const styles = {
     backgroundSize: "cover",
     gridRow: rows,
   }),
+  starRating: (ratingColor) => ({
+    ...mix.flexRow,
+    justifyContent: "flex-start",
+    ml: "auto",
+    background: ratingColor,
+    borderRadius: 1,
+    px: 0.5,
+  }),
+  text : {
+    fontSize: "1.125rem"
+  }
 };

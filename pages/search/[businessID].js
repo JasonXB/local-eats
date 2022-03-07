@@ -4,7 +4,7 @@ import HeaderSection from "../../src/page-blocks/search/HeaderSection";
 import { getBusinessData } from "../api/search/businessID";
 import NoResults from "../../src/page-blocks/search/NoResults";
 import Banner from "../../src/page-blocks/businessID/Banner";
-import { Divider } from '@mui/material';
+import { Divider } from "@mui/material";
 
 export async function getServerSideProps(context) {
   const id = context.params.businessID;
@@ -24,8 +24,9 @@ export default function Business(props) {
     mainIMG: info.mainImg,
     photos: info.photos,
     categories: info.categories.join(", "),
+    address: `${info.address.address}, ${info.address.city}, ${info.address.state}`,
   };
-  
+
   // If the fetching to Yelp fails, render a success msg but let the user nav back to prev pages
   if (!yelpData)
     return (
@@ -37,8 +38,8 @@ export default function Business(props) {
   return (
     <LayoutContainer>
       <HeaderSection parent={"businessPage"} breakpoint={820} />
-      <Divider sx={{my:4}}/>
-      <Banner bannerData={bannerData}/>
+      <Divider sx={{ my: 4 }} />
+      <Banner bannerData={bannerData} />
     </LayoutContainer>
   );
 }

@@ -6,9 +6,9 @@ import { mix } from "../../../styles/styleMixins";
 import { useSession } from "next-auth/react";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import LazyImage from "./LazyImage";
+import { getRatingColor } from "../../utility-functions/search/getRatingColor";
 
 export default function RestaurantCard({ dataObj, scrollPosition }) {
-  
   const router = useRouter();
   const cardData = dataObj;
   const { status } = useSession(); //hide bookmarks for non logged in users
@@ -16,12 +16,7 @@ export default function RestaurantCard({ dataObj, scrollPosition }) {
   const redirect = () => router.push(`/search/${dataObj.storeID}`);
 
   // Choose which color to use on the star rating blurb
-  let blurbColor; // yellow, lime green, dark green
-  if (cardData.rating < 3) blurbColor = "#dbac07";
-  else if (cardData.rating < 4) blurbColor = "#3ab757";
-  else if (cardData.rating < 5.1) blurbColor = "#267e3e";
-  else blurbColor = "#7F7D9C";
-
+  let ratingColor = getRatingColor(cardData.rating);
   // Choose what color the bookmark Icons should be
   const iconColor = {
     default: "rgba(232, 232, 232, 0.9)",
@@ -31,7 +26,11 @@ export default function RestaurantCard({ dataObj, scrollPosition }) {
   return (
     <Stack sx={styles.container}>
       <Box sx={styles.imageParent}>
-        <LazyImage src={cardData.image} scrollPosition={scrollPosition} id={dataObj.storeID} />
+        <LazyImage
+          src={cardData.image}
+          scrollPosition={scrollPosition}
+          id={dataObj.storeID}
+        />
         {status === "authenticated" && (
           <BookmarkIcon
             sx={{
@@ -53,7 +52,7 @@ export default function RestaurantCard({ dataObj, scrollPosition }) {
         <Box
           sx={{
             ...mix.flexRow,
-            background: blurbColor,
+            background: ratingColor,
             borderRadius: 1,
             px: 0.5,
           }}
