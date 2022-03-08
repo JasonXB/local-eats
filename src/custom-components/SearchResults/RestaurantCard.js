@@ -2,11 +2,11 @@ import React from "react";
 import { useRouter } from "next/router";
 import StarRateIcon from "@mui/icons-material/StarRate";
 import { Typography, Box, Stack } from "@mui/material";
-import { mix } from "../../../styles/styleMixins";
 import { useSession } from "next-auth/react";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import LazyImage from "./LazyImage";
 import { getRatingColor } from "../../utility-functions/search/getRatingColor";
+import { mix } from "../../../styles/styleMixins";
 
 export default function RestaurantCard({ dataObj, scrollPosition }) {
   const router = useRouter();
@@ -34,7 +34,7 @@ export default function RestaurantCard({ dataObj, scrollPosition }) {
         {status === "authenticated" && (
           <BookmarkIcon
             sx={{
-              ...styles.bookmark,
+              ...mix.cardBookmark,
               color: iconColor.default,
               "&:hover": { color: iconColor.selected },
             }}
@@ -117,15 +117,7 @@ const styles = {
       },
     },
   },
-  bookmark: {
-    position: "absolute",
-    fontSize: "2.5rem",
-    right: "5%",
-    top: "5%",
-    p: 0.5,
-    borderRadius: 2,
-    background: "black",
-  },
+
   imageParent: {
     position: "relative",
     height: "14rem",

@@ -38,7 +38,7 @@ export default function Business(props) {
   return (
     <LayoutContainer>
       <HeaderSection parent={"businessPage"} breakpoint={820} />
-      <Divider sx={{ my: 4 }} />
+      <Divider sx={styles.divider} />
       <Banner bannerData={bannerData} />
     </LayoutContainer>
   );
@@ -46,3 +46,12 @@ export default function Business(props) {
 
 //! test for no hours available example http://localhost:3000/search/0cFLGS7cLdBv3-CRrv2rQg
 //! code fallbacks in case an resto_data KVP's equal a falsy where they shouldn't
+
+const styles = {
+  divider: {
+    mx: 4,
+    my: 0,
+    ["@media (min-width: 550px)"]: { mb: 4 },
+    ["@media (min-width: 820px)"]: { my: 4 },
+  },
+};

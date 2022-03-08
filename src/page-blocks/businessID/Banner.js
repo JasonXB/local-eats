@@ -1,15 +1,24 @@
 import React from "react";
-import { Typography, Box, Stack, Divider } from "@mui/material";
+import { Typography, Box, Stack, Button } from "@mui/material";
 import { mix } from "../../../styles/styleMixins";
 import { getRatingColor } from "../../utility-functions/search/getRatingColor";
+import { useSession } from "next-auth/react";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
 import StarRateIcon from "@mui/icons-material/StarRate";
 
 export default function Banner(props) {
   // Extract data from the props
   const { name, rating, categories, numberOfReviews, photos, address } = props.bannerData; // prettier-ignore
+  const { status } = useSession(); //hide bookmarks for non logged in users
+
   console.log(props.bannerData);
   // Get the bgColor for the star rating component
   const ratingColor = getRatingColor(rating);
+  // Choose what color the bookmark Icons should be
+  const iconColor = {
+    default: "rgba(232, 232, 232, 0.9)",
+    selected: "rgb(255,215,0)",
+  };
 
   return (
     <Stack sx={{ px: 4, mt: 4 }}>
@@ -25,10 +34,7 @@ export default function Banner(props) {
         <Typography variant="h3" component="h1">
           {name}
         </Typography>
-        <Typography
-          variant="p"
-          sx={{ ...styles.text, gridRow: "2/3", my: 1 }}
-        >
+        <Typography variant="p" sx={{ ...styles.text, gridRow: "2/3", mt: 1 }}>
           {categories}
         </Typography>
         <Typography variant="p" sx={{ ...styles.text, gridRow: "3/4" }}>
@@ -52,6 +58,15 @@ export default function Banner(props) {
             sx={{ mb: "0.125rem", ml: "2px", color: "white" }}
           />
         </Box>
+        {status === "authenticated" && (
+          <BookmarkIcon
+            sx={{
+              ...mix.idBookmark,
+              color: iconColor.default,
+              "&:hover": { color: iconColor.selected, cursor: "pointer" },
+            }}
+          />
+        )}
       </Box>
     </Stack>
   );
@@ -68,7 +83,7 @@ const styles = {
   },
   dataContainer: {
     display: "grid",
-    gridTemplateColumns: "auto 1fr",
+    gridTemplateColumns: "1fr 4.75rem",
     gridTemplateRows: "repeat(3,auto)",
     mt: 2,
   },
@@ -90,8 +105,9 @@ const styles = {
     background: ratingColor,
     borderRadius: 1,
     px: 0.5,
+    height:"2.25rem"
   }),
-  text : {
-    fontSize: "1.125rem"
-  }
+  text: {
+    fontSize: "1.125rem",
+  },
 };

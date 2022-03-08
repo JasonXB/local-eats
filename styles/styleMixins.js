@@ -16,8 +16,9 @@ export const mix = {
     paddingInline: "1rem",
   },
   // This set of styles is commonly used in the search page
-  searchMargins : {
-    px: 4, ["@media (min-width: 700px)"]: { px: 2 }
+  searchMargins: {
+    px: 4,
+    ["@media (min-width: 700px)"]: { px: 2 },
   },
   // We're using a consistent margin size for distancing our components
   regMargin: (side) => {
@@ -89,5 +90,25 @@ export const mix = {
     return {
       [theme.breakpoints.down(BPname)]: { display: "none" },
     };
+  },
+  // Bookmark for the restaurant search results page
+  cardBookmark: {
+    position: "absolute",
+    fontSize: "2.5rem",
+    right: "5%",
+    top: "5%",
+    p: 0.5,
+    borderRadius: 2,
+    background: "#00162e",
+  },
+  // Bookmark for the ID search page
+  idBookmark: {
+    fontSize: "2.5rem",
+    ml: "auto",
+    gridRow: "2/4",
+    p: 0.5,
+    borderRadius: 2,
+    background: "#00162e",
+    alignSelf: "end",
   },
 };
