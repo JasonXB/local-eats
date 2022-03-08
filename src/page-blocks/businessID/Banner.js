@@ -40,7 +40,7 @@ export default function Banner(props) {
   };
 
   return (
-    <Stack sx={{ px: 4, mt: 4 }}>
+    <Stack sx={{ px: 2, mt: 4 }}>
       {/* Panel of restaurant images */}
       <Stack sx={styles.imageContainer}>
         <Box sx={styles.img(photos[0] || "/images/noIMG.png", "1/-1")}></Box>

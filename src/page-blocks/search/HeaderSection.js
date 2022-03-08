@@ -43,6 +43,7 @@ export default function HeaderSection({ parent, breakpoint }) {
         sx={{
           ...mix.responsiveLayout,
           mt: 2,
+          px:0,
           display: "block",
           [`@media (min-width: ${breakpoint}px)`]: { display: "none" },
         }}

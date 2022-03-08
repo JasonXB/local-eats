@@ -4,7 +4,10 @@ import HeaderSection from "../../src/page-blocks/search/HeaderSection";
 import { getBusinessData } from "../api/search/businessID";
 import NoResults from "../../src/page-blocks/search/NoResults";
 import Banner from "../../src/page-blocks/businessID/Banner";
+import Hours from "../../src/page-blocks/businessID/Hours";
+import { Typography, Box, Stack } from "@mui/material";
 import { Divider } from "@mui/material";
+import Footer from "../../src/custom-components/Footer";
 
 export async function getServerSideProps(context) {
   const id = context.params.businessID;
@@ -30,17 +33,19 @@ export default function Business(props) {
   // If the fetching to Yelp fails, render a success msg but let the user nav back to prev pages
   if (!yelpData)
     return (
-      <LayoutContainer>
+      <Stack>
         <HeaderSection parent={"businessPage"} breakpoint={820} />
         <NoResults msg="No info available for this business. Please search for others using the searchbar" />
-      </LayoutContainer>
+      </Stack>
     );
   return (
-    <LayoutContainer>
+    <Stack>
       <HeaderSection parent={"businessPage"} breakpoint={820} />
       <Divider sx={styles.divider} />
       <Banner bannerData={bannerData} />
-    </LayoutContainer>
+      <Hours hours={info.hours} />
+      <Footer />
+    </Stack>
   );
 }
 
@@ -49,7 +54,7 @@ export default function Business(props) {
 
 const styles = {
   divider: {
-    mx: 4,
+    mx: 2,
     my: 0,
     ["@media (min-width: 550px)"]: { mb: 4 },
     ["@media (min-width: 820px)"]: { my: 4 },
