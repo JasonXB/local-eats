@@ -111,4 +111,7 @@ export const mix = {
     background: "#00162e",
     alignSelf: "end",
   },
+  bookmarkBg : {
+    background: "#00162e",
+  }
 };

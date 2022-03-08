@@ -36,6 +36,7 @@ export default function RestaurantCard({ dataObj, scrollPosition }) {
             sx={{
               ...mix.cardBookmark,
               color: iconColor.default,
+              borderRadius: 20,
               "&:hover": { color: iconColor.selected },
             }}
           />
