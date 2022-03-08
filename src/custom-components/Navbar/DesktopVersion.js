@@ -47,6 +47,7 @@ const desktopStyles = {
       justifyContent: "flex-end",
       alignItems: "center",
       bgcolor: "#fffbf7",
+      
     };
   },
 };

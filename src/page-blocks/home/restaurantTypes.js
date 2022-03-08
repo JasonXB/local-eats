@@ -9,12 +9,11 @@ export default function RestaurantTypes() {
   const navToSearchPage = useVisitSearchPage();
   return (
     <>
-      <Typography variant="h2" sx={{ pl: 2 }}>
-        Food Moods:
-      </Typography>
+      <Typography variant="h2">Food Moods:</Typography>
       <Container
         sx={{
           ...mix.responsiveLayout,
+          px: 0,
           borderRadius: 0,
           "& .MuiPaper-root": {
             borderRadius: 0,
@@ -23,7 +22,6 @@ export default function RestaurantTypes() {
             display: "grid",
             gridTemplateColumns: "1fr 1fr",
             gap: "1rem",
-            px: 2,
           },
           ["@media (min-width: 1300px)"]: {
             gridTemplateColumns: "1fr 1fr 1fr",
@@ -54,7 +52,10 @@ export default function RestaurantTypes() {
                       key={ind}
                       variant="outlined"
                       onClick={() =>
-                        navToSearchPage({ term: shopType.toLowerCase(), sort_by: filters.sort_by })
+                        navToSearchPage({
+                          term: shopType.toLowerCase(),
+                          sort_by: filters.sort_by,
+                        })
                       }
                       sx={{ fontSize: "1rem", borderRadius: 0, mr: 1, mb: 1 }}
                     >

@@ -19,20 +19,14 @@ export async function getStaticProps() {
 export default function HomePage() {
   return (
     <>
-      <Navbar burgerBP={700}/>
+      <Navbar burgerBP={700} />
       <MissionStatement />
-      <LayoutContainer marginAbove="2.25rem">
-        <SearchOptionsRow1 />
-      </LayoutContainer>
-      <LayoutContainer marginAbove="4.5rem">
-        <Cuisines />
-      </LayoutContainer>
+      <SearchOptionsRow1 />
+      <Cuisines />
       <LayoutContainer marginAbove="4.5rem">
         <RestaurantTypes />
       </LayoutContainer>
-      <LayoutContainer marginAbove="4.5rem" bg="#fffbf7">
-        <Footer />
-      </LayoutContainer>
+      <Footer />
       {/* These fixed position Modals are on standby and will pop up depending on Redux state values */}
       <SearchbarModals />
     </>

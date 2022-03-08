@@ -1,10 +1,13 @@
 import React from "react";
 import { Typography, Box, Stack } from "@mui/material";
+import { mix } from "../../../styles/styleMixins";
 
 export default function Hours({ hours }) {
   return (
     <Stack sx={styles.parent}>
-      <Typography sx={{mb:1, fontWeight: 600}} variant="h4">Hours</Typography>
+      <Typography sx={{ mb: 1, fontWeight: 600 }} variant="h4">
+        Hours
+      </Typography>
       <Box sx={styles.gridContainer}>
         <Typography sx={{ gridArea: "a" }} variant="p">
           Mon
@@ -54,9 +57,9 @@ export default function Hours({ hours }) {
 }
 const styles = {
   parent: {
-    px: 2,
     mt: 2,
     fontSize: "1rem",
+    ...mix.responsiveLayout,
   },
   gridContainer: {
     display: "grid",
@@ -70,6 +73,6 @@ const styles = {
     "m n o z4"
     "p q r z5"
     "s t u z6"`,
-    gridGap: "0.5rem 2rem" ,
+    gridGap: "0.5rem 2rem",
   },
 };

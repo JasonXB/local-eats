@@ -5,20 +5,22 @@ import { Typography, Container } from "@mui/material";
 import { mix } from "../../../styles/styleMixins";
 import useVisitSearchPage from "../../utility-functions/search/useVisitSearchPage";
 import useGetFilters from "../../utility-functions/search/useGetFilters";
+import LayoutContainer from "../../custom-components/LayoutContainer"
+
 export default function SearchOptions1() {
   // Function that navs us to the search page while letting us set a term or price parameter for the URL
   const navToSearchPage = useVisitSearchPage();
-  const filters= useGetFilters()
+  const filters = useGetFilters();
   return (
-    <>
+    <LayoutContainer>
       <Container
         sx={{
           ...mix.responsiveLayout,
+          px:0,
           ["@media (min-width: 570px)"]: {
             display: "grid",
             gridTemplateColumns: "1fr 1fr",
             gap: "1rem",
-            px: 2,
           },
           ["@media (min-width: 700px)"]: {
             mt: 5,
@@ -30,7 +32,9 @@ export default function SearchOptions1() {
             [`@media (max-width: 570px)`]: { borderRadius: 0 },
             ...mix.hoverShadow,
           }}
-          onClick={() => navToSearchPage({ price: 1, sort_by: filters.sort_by })}
+          onClick={() =>
+            navToSearchPage({ price: 1, sort_by: filters.sort_by })
+          }
         >
           <CardMedia
             component="img"
@@ -79,6 +83,6 @@ export default function SearchOptions1() {
           </CardContent>
         </Card>
       </Container>
-    </>
+    </LayoutContainer>
   );
 }

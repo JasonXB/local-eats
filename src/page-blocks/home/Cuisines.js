@@ -1,11 +1,11 @@
 import React from "react";
 import { mix } from "../../../styles/styleMixins";
-import { Typography, ButtonBase, Box } from '@mui/material'; 
+import { Typography, ButtonBase, Box } from "@mui/material";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import useGetFilters from "../../utility-functions/search/useGetFilters";
 import useVisitSearchPage from "../../utility-functions/search/useVisitSearchPage";
 import { Ca, Cn, Fr, Gr, In, It, Jp, Mx, Pe, Es, Lk, Sy, Th, Us, Vn} from "react-flags-select"; // prettier-ignore
-
+import LayoutContainer from "../../custom-components/LayoutContainer";
 const cuisineList = {
   Canadian: Ca, // these are functions that produce SVG's that render flags
   American: Us,
@@ -25,11 +25,11 @@ const cuisineList = {
 };
 
 export default function Cuisines() {
-  const filters= useGetFilters()
+  const filters = useGetFilters();
   const navToSearchPage = useVisitSearchPage();
   return (
     <>
-      <Box sx={{ ...mix.responsiveLayout }}>
+      <Box sx={{ ...mix.responsiveLayout, mt: "4.5rem" }}>
         <Typography variant="h2">Popular Local Cuisines:</Typography>
       </Box>
       {/* LIST OF CUISINE CARDS */}
@@ -53,7 +53,12 @@ export default function Cuisines() {
           return (
             <ButtonBase
               key={index}
-              onClick={() => navToSearchPage({ term: key.toLowerCase(), sort_by: filters.sort_by })}
+              onClick={() =>
+                navToSearchPage({
+                  term: key.toLowerCase(),
+                  sort_by: filters.sort_by,
+                })
+              }
               sx={{
                 display: "grid",
                 gridTemplateColumns: "auto 1fr auto",
@@ -72,7 +77,7 @@ export default function Cuisines() {
               >
                 {key}
               </Typography>
-              <ChevronRightIcon sx={{ mt: 0.6, ml:1 }} />
+              <ChevronRightIcon sx={{ mt: 0.6, ml: 1 }} />
             </ButtonBase>
           );
         })}

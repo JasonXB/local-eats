@@ -41,7 +41,6 @@ export default function Business(props) {
   return (
     <Stack>
       <HeaderSection parent={"businessPage"} breakpoint={820} />
-      <Divider sx={styles.divider} />
       <Banner bannerData={bannerData} />
       <Hours hours={info.hours} />
       <Footer />

@@ -46,15 +46,14 @@ export default function Restaurants() {
 
   // If we have search results and a location object, render the following
   return (
-    <LayoutContainer>
+    <>
       <HeaderSection parent={"searchPage"} breakpoint={700} />
       <RestaurantFilters />
       <SearchResults apiString={apiString} searchHeader={searchHeader} />
 
       {/* These fixed position Modals are on standby and will pop up depending on (Redux) state values */}
       <SearchbarModals />
-      <FiltersModal />
-    </LayoutContainer>
+    </>
   );
 }
 

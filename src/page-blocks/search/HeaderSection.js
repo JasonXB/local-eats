@@ -43,7 +43,7 @@ export default function HeaderSection({ parent, breakpoint }) {
         sx={{
           ...mix.responsiveLayout,
           mt: 2,
-          px:0,
+          px: 0,
           display: "block",
           [`@media (min-width: ${breakpoint}px)`]: { display: "none" },
         }}
@@ -69,7 +69,7 @@ export default function HeaderSection({ parent, breakpoint }) {
       {/*Past the breakpoint*/}
       <Stack
         sx={{
-          px: 4,
+          ...mix.responsiveLayout,
           display: "none",
           [`@media (min-width: ${breakpoint}px)`]: { display: "block" },
         }}

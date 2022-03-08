@@ -10,6 +10,7 @@ import RestaurantCard from "../../custom-components/SearchResults/RestaurantCard
 import { trackWindowScroll } from "react-lazy-load-image-component";
 import PaginationRow from "./sub/PaginationRow";
 import Footer from "../../custom-components/Footer";
+import LayoutContainer from "../../custom-components/LayoutContainer";
 
 function SearchResults(props) {
   // If any of these values are undefined, render nothing (will happen during first few render cycles)
@@ -69,7 +70,7 @@ function SearchResults(props) {
     return null;
   else if (showError) {
     return (
-      <Box sx={{ px: 4 }}>
+      <Box sx={{ px: 2 }}>
         <Typography variant="h3" component="h2" sx={{ mb: 4 }}>
           {searchHeader}
         </Typography>
@@ -78,7 +79,7 @@ function SearchResults(props) {
     );
   } else if (showNoResults) {
     return (
-      <Box sx={{ px: 4 }}>
+      <Box sx={{ px: 2 }}>
         <Typography variant="h3" component="h2" sx={{ mb: 4 }}>
           {searchHeader}
         </Typography>
@@ -88,8 +89,8 @@ function SearchResults(props) {
   } else {
     // If we have actual search results to show and no errors...
     return (
-      <Box sx={{ px: 4 }}>
-        <Typography variant="h3" component="h2" sx={{ mb: 4 }}>
+      <LayoutContainer>
+        <Typography variant="h3" component="h2" sx={{ mb: 4, mt: 5 }}>
           {searchHeader}
         </Typography>
         <Box id="desktopList" sx={styles.desktopParent}>
@@ -107,7 +108,7 @@ function SearchResults(props) {
           <PaginationRow numberOfHits={numberOfHits} />
         </Box>
         <Footer />
-      </Box>
+      </LayoutContainer>
     );
   }
 }

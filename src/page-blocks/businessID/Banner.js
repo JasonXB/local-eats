@@ -8,6 +8,7 @@ import StarRateIcon from "@mui/icons-material/StarRate";
 import StarsRoundedIcon from "@mui/icons-material/StarsRounded";
 import IconButton from "@mui/material/IconButton";
 import { styled } from "@mui/material/styles";
+import LayoutContainer from "../../custom-components/LayoutContainer";
 
 const StyledRating = styled(Rating)({
   width: 120,
@@ -40,7 +41,7 @@ export default function Banner(props) {
   };
 
   return (
-    <Stack sx={{ px: 2, mt: 4 }}>
+    <LayoutContainer>
       {/* Panel of restaurant images */}
       <Stack sx={styles.imageContainer}>
         <Box sx={styles.img(photos[0] || "/images/noIMG.png", "1/-1")}></Box>
@@ -71,10 +72,7 @@ export default function Banner(props) {
           />
           {/* Icon button for mobile screens only */}
           {status === "authenticated" && (
-            <IconButton
-              aria-label="delete"
-              sx={styles.bookmarkDesktop}
-            >
+            <IconButton aria-label="delete" sx={styles.bookmarkDesktop}>
               <BookmarkIcon
                 sx={{
                   color: iconColor.default,
@@ -117,7 +115,7 @@ export default function Banner(props) {
           />
         )}
       </Box>
-    </Stack>
+    </LayoutContainer>
   );
 }
 
@@ -202,7 +200,5 @@ const styles = {
       display: "none", // only show on small screens
     },
   },
-  bookmarkDesktopIcon: {
-    
-  }
+  bookmarkDesktopIcon: {},
 };

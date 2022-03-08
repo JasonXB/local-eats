@@ -13,7 +13,6 @@ export default function FooterMobile() {
     <Box
       sx={(theme) => {
         return {
-          mx: 2,
           [theme.breakpoints.up("sm")]: {
             display: "none",
           },

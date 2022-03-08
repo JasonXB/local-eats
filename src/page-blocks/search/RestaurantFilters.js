@@ -7,6 +7,7 @@ import LockOpenIcon from "@mui/icons-material/LockOpen";
 import SortIcon from '@mui/icons-material/Sort';
 import { useSelector, useDispatch } from "react-redux";
 import { filterActions } from "../../../state-management/store/search/filters";
+import { mix } from "../../../styles/styleMixins";
 
 export default function RestauarantFilters() {
   const getFilterValues = {
@@ -73,11 +74,12 @@ export default function RestauarantFilters() {
 
 const styles = {
   container: {
-    px: 4,
+    px: 2,
     mt: 2,
     mb: "1.625rem",
     display: "grid",
     gridTemplateColumns: "1fr",
+    ...mix.responsiveLayout,
     ["@media (min-width: 525px)"]: {
       gridTemplateColumns: "repeat(2, 1fr)",
     },

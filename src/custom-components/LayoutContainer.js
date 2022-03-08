@@ -18,7 +18,7 @@ function LayoutContainer(props) {
         sx={{
           ...mix.responsiveLayout,
           marginTop: props.marginAbove || "0px",
-          px: 0,
+          px: 2,
         }}
       >
         {props.children}

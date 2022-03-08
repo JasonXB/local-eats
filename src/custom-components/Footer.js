@@ -4,20 +4,19 @@ import { mix } from "../../styles/styleMixins";
 import FooterMobile from "./FooterMobile";
 import useVisitSearchPage from "../utility-functions/search/useVisitSearchPage";
 import useGetFilters from "../utility-functions/search/useGetFilters";
-
+import LayoutContainer from "./LayoutContainer";
 export default function Footer() {
   const filters = useGetFilters();
   const navToSearchPage = useVisitSearchPage();
 
   return (
-    <>
+    <LayoutContainer>
       {/* Only appears on screen sizes below sm (700px) */}
       <FooterMobile />
       {/* Only appears on screen sizes above sm (700px) */}
       <Box
         sx={(theme) => {
           return {
-            px: 2,
             pt: 6,
             [theme.breakpoints.down("sm")]: {
               display: "none",
@@ -72,7 +71,7 @@ export default function Footer() {
           Data provided by the Yelp Fusion™ API.
         </Typography>
       </Box>
-    </>
+    </LayoutContainer>
   );
 }
 
