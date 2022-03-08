@@ -23,21 +23,21 @@ export default function Banner(props) {
   return (
     <Stack sx={{ px: 4, mt: 4 }}>
       {/* Panel of restaurant images */}
-      <Box sx={styles.imageContainer}>
+      <Stack sx={styles.imageContainer}>
         <Box sx={styles.img(photos[0] || "/images/noIMG.png", "1/-1")}></Box>
         <Box sx={styles.img(photos[1] || "/images/noIMG.png", "1/2")}></Box>
         <Box sx={styles.img(photos[2] || "/images/noIMG.png", "2/3")}></Box>
-      </Box>
+      </Stack>
 
       <Box sx={styles.dataContainer}>
         {/* Name, restaurant category, address */}
-        <Typography variant="h3" component="h1">
+        <Typography variant="h3" component="h1" sx={styles.name}>
           {name}
         </Typography>
-        <Typography variant="p" sx={{ ...styles.text, gridRow: "2/3", mt: 1 }}>
+        <Typography variant="p" sx={styles.categories}>
           {categories}
         </Typography>
-        <Typography variant="p" sx={{ ...styles.text, gridRow: "3/4" }}>
+        <Typography variant="p" sx={styles.address}>
           {address}
         </Typography>
         {/* Average Yelp Rating */}
@@ -64,6 +64,9 @@ export default function Banner(props) {
               ...mix.idBookmark,
               color: iconColor.default,
               "&:hover": { color: iconColor.selected, cursor: "pointer" },
+              ["@media (max-width: 550px)"]: {
+                display: "none",
+              },
             }}
           />
         )}
@@ -74,18 +77,22 @@ export default function Banner(props) {
 
 const styles = {
   imageContainer: {
-    display: "grid",
-    gridTemplateColumns: "repeat(2,1fr)",
-    gridTemplateRows: "repeat(2,1fr)",
     height: 300,
     width: "100%",
     gap: 2,
+    ["@media (min-width: 550px)"]: {
+      display: "grid",
+      gridTemplateColumns: "repeat(2,1fr)",
+      gridTemplateRows: "repeat(2,1fr)",
+    },
   },
   dataContainer: {
     display: "grid",
-    gridTemplateColumns: "1fr 4.75rem",
-    gridTemplateRows: "repeat(3,auto)",
     mt: 2,
+    ["@media (min-width: 550px)"]: {
+      gridTemplateColumns: "1fr 4.75rem",
+      gridTemplateRows: "repeat(3,auto)",
+    }
   },
   img: (url, rows) => ({
     width: "100%",
@@ -97,17 +104,39 @@ const styles = {
     backgroundPosition: "center",
     backgroundSize: "cover",
     gridRow: rows,
+    borderRadius: 2,
   }),
   starRating: (ratingColor) => ({
-    ...mix.flexRow,
-    justifyContent: "flex-start",
-    ml: "auto",
-    background: ratingColor,
-    borderRadius: 1,
-    px: 0.5,
-    height:"2.25rem"
+    display: "none",
+    ["@media (min-width: 550px)"]: {
+      ...mix.flexRow,
+      justifyContent: "flex-start",
+      ml: "auto",
+      background: ratingColor,
+      borderRadius: 1,
+      px: 0.5,
+      height: "2.25rem",
+    },
   }),
   text: {
     fontSize: "1.125rem",
+  },
+  name: {
+    fontWeight: "700",
+    ["@media (max-width: 500px)"]: {
+      fontSize: "1.5rem",
+    },
+  },
+  categories: {
+    fontSize: "1.125rem",
+    gridRow: "2/3",
+    mt: 1,
+  },
+  address: {
+    fontSize: "1.125rem",
+    gridRow: "3/4",
+    ["@media (max-width: 550px)"]: {
+      mt:1
+    }
   },
 };

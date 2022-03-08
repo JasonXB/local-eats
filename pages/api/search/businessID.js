@@ -12,7 +12,6 @@ export async function getBusinessData(id) {
     // Make a request to get specific business data from Yelp's API
     const r = await axios.get(endpoint, { headers });
     const response = r.data;
-    console.log(response);
     // Organize the data and remove info you don't need
     const relevantInfo = {
       companyID: response.id,
