@@ -59,7 +59,7 @@ export default function Cuisines() {
                 gridTemplateColumns: "auto 1fr auto",
                 width: "100%",
                 border: "1px solid rgb(232,232,232)",
-                padding: "1.25rem 1.5rem",
+                padding: "1.25rem 1.25rem",
                 ...mix.hoverShadow,
               }}
             >
@@ -72,7 +72,7 @@ export default function Cuisines() {
               >
                 {key}
               </Typography>
-              <ChevronRightIcon sx={{ ml: 2, mt: 0.6 }} />
+              <ChevronRightIcon sx={{ mt: 0.6, ml:1 }} />
             </ButtonBase>
           );
         })}
