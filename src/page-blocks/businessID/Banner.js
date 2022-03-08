@@ -74,7 +74,6 @@ export default function Banner(props) {
             <IconButton
               aria-label="delete"
               sx={styles.bookmarkDesktop}
-              color="secondary"
             >
               <BookmarkIcon
                 sx={{
@@ -193,7 +192,7 @@ const styles = {
       display: "block",
     },
   },
-  bookmarkDesktop: (col) => ({
+  bookmarkDesktop: {
     background: "#00162e",
     "&:hover": {
       background: "#00162e",
@@ -202,5 +201,8 @@ const styles = {
     ["@media (min-width: 550px)"]: {
       display: "none", // only show on small screens
     },
-  }),
+  },
+  bookmarkDesktopIcon: {
+    
+  }
 };
