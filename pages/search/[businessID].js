@@ -29,6 +29,11 @@ export default function Business(props) {
     categories: info.categories.join(", "),
     address: `${info.address.address}, ${info.address.city}, ${info.address.state}`,
   };
+  const infoTableData = {
+    address: info.address.address,
+    phoneNumber: info.phoneNumber,
+    yelpURL: info.yelpURL,
+  };
 
   // If the fetching to Yelp fails, render a success msg but let the user nav back to prev pages
   if (!yelpData)
@@ -42,7 +47,7 @@ export default function Business(props) {
     <Stack>
       <HeaderSection parent={"businessPage"} breakpoint={820} />
       <Banner bannerData={bannerData} />
-      <Hours hours={info.hours} />
+      <Hours hours={info.hours} infoTableData={infoTableData}/>
       <Footer />
     </Stack>
   );

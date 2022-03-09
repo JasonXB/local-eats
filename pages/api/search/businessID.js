@@ -87,7 +87,14 @@ function makeHoursObject(origArray) {
     const day = integerDay(obj.day);
     hours[day] = [start, end];
   });
-  return hours;
+  // Now, the data is in the form { Monday : ["8:00 AM", "11:00 PM"], ...etc}
+  // Concatenate each array into 1 string
+  let final = {};
+  for (let key in hours) {
+    if (hours[key] === "closed") final[key] = "closed";
+    else final[key] = hours[key].join(" - ");
+  }
+  return final;
 }
 
 function integerDay(num) {
