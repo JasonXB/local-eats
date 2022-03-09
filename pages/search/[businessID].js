@@ -8,7 +8,7 @@ import Hours from "../../src/page-blocks/businessID/Hours";
 import { Typography, Box, Stack } from "@mui/material";
 import { Divider } from "@mui/material";
 import Footer from "../../src/custom-components/Footer";
-import SearchbarModals from "../../src/custom-components/Searchbar/SearchbarModals"
+import SearchbarModals from "../../src/custom-components/Searchbar/SearchbarModals";
 
 export async function getServerSideProps(context) {
   const id = context.params.businessID;
@@ -34,9 +34,9 @@ export default function Business(props) {
     address: info.address.address,
     phoneNumber: info.phoneNumber,
     yelpURL: info.yelpURL,
-    coordinates: info.coordinates
+    destination: info.address.mapsDestination,
   };
-
+  console.log(yelpData)
   // If the fetching to Yelp fails, render a success msg but let the user nav back to prev pages
   if (!yelpData)
     return (
@@ -49,9 +49,9 @@ export default function Business(props) {
     <Stack>
       <HeaderSection parent={"businessPage"} breakpoint={820} />
       <Banner bannerData={bannerData} />
-      <Hours hours={info.hours} infoTableData={infoTableData}/>
+      <Hours hours={info.hours} infoTableData={infoTableData} />
       <Footer />
-      <SearchbarModals/>
+      <SearchbarModals />
     </Stack>
   );
 }

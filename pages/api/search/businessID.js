@@ -27,7 +27,7 @@ export async function getBusinessData(id) {
       yelpURL: response.url, // link to the business' dedicated page on Yelp
       address: {
         address: response.location.address1,
-        mapsDestination: `${response.location.address1} ${response.location.city} ${response.location.country}`.slice(0, -1),
+        mapsDestination: `${response.location.address1}, ${response.location.city}, ${response.location.country}`,
         city: response.location.city,
         state: response.location.state,
         country: response.location.country,

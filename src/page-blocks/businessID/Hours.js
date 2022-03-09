@@ -6,17 +6,16 @@ import Link from "@mui/material/Link";
 import { Typography, Box, Stack, Divider } from "@mui/material";
 import { mix } from "../../../styles/styleMixins";
 import { useLocationContext } from "../../../state-management/locationContext";
+
 export default function Hours({ hours, infoTableData }) {
-  // If the user has a selected location, the maps URL will link to a pg with directions
-  // If no location's specified, the maps URL will just point to the restaurant location
   const { locationObject } = useLocationContext();
-  const [mapsURL, setMapsURL] = useState(
-    `https://www.google.com/maps/search/?api=1&query=${infoTableData.coordinates}`
-  );
+  // If no location's specified, the maps URL will just point to the restaurant location
+  const [mapsURL, setMapsURL] = useState(`https://maps.google.com?daddr=${infoTableData.destination}`); // prettier-ignore
+  // If the user has a selected location, the maps URL will link to a pg with directions
   useEffect(() => {
     if (!locationObject) return;
     setMapsURL(
-      `https://www.google.com/maps/dir/${locationObject.latitude},${locationObject.longitude}/${infoTableData.coordinates}`
+      `https://www.google.com/maps/dir/?api=1&origin=${locationObject.latitude},${locationObject.longitude}&destination=${infoTableData.destination}`
     );
   }, [locationObject]);
 
@@ -78,7 +77,7 @@ export default function Hours({ hours, infoTableData }) {
           >
             Visit Yelp Page
           </Link>
-          <LinkIcon fontSize="large" sx={{ gridArea: "b", ml: 6 }} />
+          <LinkIcon fontSize="large" sx={{ gridArea: "b", ml: 8 }} />
           <Divider sx={{ gridArea: "x", width: "100%" }} />
           <Typography sx={{ gridArea: "c", justifySelf: "start" }} variant="p">
             {infoTableData.phoneNumber}
@@ -88,10 +87,14 @@ export default function Hours({ hours, infoTableData }) {
           <Link
             href={mapsURL}
             underline="hover"
-            sx={{ gridArea: "e", justifySelf: "start" }}
+            sx={(theme) => ({
+              gridArea: "e",
+              justifySelf: "start",
+              color: theme.palette.info.main,
+            })}
             variant="p"
           >
-            Get directions
+            Google Maps
             <br />
             {infoTableData.address}
           </Link>
@@ -101,6 +104,12 @@ export default function Hours({ hours, infoTableData }) {
     </Stack>
   );
 }
+
+// Google maps URL's guide:
+// https://gearside.com/easily-link-to-locations-and-directions-using-the-new-google-maps/
+// Remember, you can mix using coordinates and string addresses when linking to a directions page
+// We do that in this component:  coordinates for origin/start point → verbal address for destination
+
 const styles = {
   parent: {
     fontSize: "1rem",
