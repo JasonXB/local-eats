@@ -10,6 +10,7 @@ import FiltersModal from "../../src/custom-components/Modals/SearchFilter/Filter
 import NoResults from "../../src/page-blocks/search/NoResults";
 import useCreateYelpString from "../../src/utility-functions/search/useCreateYelpString";
 import { makeSearchHeader } from "../../src/utility-functions/search/makeSearchHeader";
+import PaddedBlock from "../../src/custom-components/PaddedBlock"
 
 export default function Restaurants() {
   const makeYelpEndpoint = useCreateYelpString(); // feed this function a query object
@@ -46,14 +47,14 @@ export default function Restaurants() {
 
   // If we have search results and a location object, render the following
   return (
-    <>
+    <PaddedBlock>
       <HeaderSection parent={"searchPage"} breakpoint={700} />
       <RestaurantFilters />
       <SearchResults apiString={apiString} searchHeader={searchHeader} />
 
       {/* These fixed position Modals are on standby and will pop up depending on (Redux) state values */}
       <SearchbarModals />
-    </>
+    </PaddedBlock>
   );
 }
 

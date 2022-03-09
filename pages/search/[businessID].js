@@ -8,6 +8,7 @@ import Banner from "../../src/page-blocks/businessID/Banner";
 import Hours from "../../src/page-blocks/businessID/Hours";
 import Footer from "../../src/custom-components/Footer";
 import SearchbarModals from "../../src/custom-components/Searchbar/SearchbarModals";
+import PaddedBlock from "../../src/custom-components/PaddedBlock";
 
 export async function getServerSideProps(context) {
   const id = context.params.businessID;
@@ -45,24 +46,13 @@ export default function Business(props) {
       </LayoutContainer>
     );
   return (
-    <Stack>
+    <PaddedBlock px={2}>
       <HeaderSection parent={"businessPage"} breakpoint={820} />
       <Banner bannerData={bannerData} />
       <Hours hours={info.hours} infoTableData={infoTableData} />
       <Footer />
       <SearchbarModals />
-    </Stack>
+    </PaddedBlock>
   );
 }
 
-//! test for no hours available example http://localhost:3000/search/0cFLGS7cLdBv3-CRrv2rQg
-//! code fallbacks in case an resto_data KVP's equal a falsy where they shouldn't
-
-const styles = {
-  divider: {
-    mx: 2,
-    my: 0,
-    ["@media (min-width: 550px)"]: { mb: 4 },
-    ["@media (min-width: 820px)"]: { my: 4 },
-  },
-};

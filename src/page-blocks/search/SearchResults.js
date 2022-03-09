@@ -79,7 +79,7 @@ function SearchResults(props) {
     );
   } else if (showNoResults) {
     return (
-      <Box sx={{ px: 2 }}>
+      <Box sx={{ mt: 4, mx: 2 }}>
         <Typography variant="h3" component="h2" sx={{ mb: 4 }}>
           {searchHeader}
         </Typography>

@@ -32,4 +32,4 @@ function PaddedBlock(props) {
   );
 }
 
-export default LayoutContainer;
+export default PaddedBlock;
