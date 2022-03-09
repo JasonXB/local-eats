@@ -31,7 +31,6 @@ export default function Banner(props) {
   const { name, rating, categories, numberOfReviews, photos, address } = props.bannerData; // prettier-ignore
   const { status } = useSession(); //hide bookmarks for non logged in users
 
-  console.log(props.bannerData);
   // Get the bgColor for the star rating component
   const ratingColor = getRatingColor(rating);
   // Choose what color the bookmark Icons should be

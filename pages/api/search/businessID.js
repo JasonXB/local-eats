@@ -27,15 +27,14 @@ export async function getBusinessData(id) {
       yelpURL: response.url, // link to the business' dedicated page on Yelp
       address: {
         address: response.location.address1,
+        mapsDestination: `${response.location.address1} ${response.location.city} ${response.location.country}`.slice(0, -1),
         city: response.location.city,
         state: response.location.state,
         country: response.location.country,
         zipCode: response.location.zip_code,
       },
-      coordinates: {
-        latitude: response.coordinates.latitude,
-        longitude: response.coordinates.longitude,
-      },
+      coordinates: `${response.coordinates.latitude},${response.coordinates.longitude}`,
+      
       // Take the string the API returns for open hours, then convert its format
       open_now: response.hours ? response.hours[0].is_open_now : null,
       hours: response.hours ? makeHoursObject(response.hours[0].open) : null,

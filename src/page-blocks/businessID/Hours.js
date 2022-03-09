@@ -1,14 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import LinkIcon from "@mui/icons-material/Link";
 import PhoneInTalkIcon from "@mui/icons-material/PhoneInTalk";
 import DirectionsIcon from "@mui/icons-material/Directions";
 import Link from "@mui/material/Link";
 import { Typography, Box, Stack, Divider } from "@mui/material";
 import { mix } from "../../../styles/styleMixins";
-
+import { useLocationContext } from "../../../state-management/locationContext";
 export default function Hours({ hours, infoTableData }) {
-  
-  
+  // If the user has a selected location, the maps URL will link to a pg with directions
+  // If no location's specified, the maps URL will just point to the restaurant location
+  const { locationObject } = useLocationContext();
+  const [mapsURL, setMapsURL] = useState(
+    `https://www.google.com/maps/search/?api=1&query=${infoTableData.coordinates}`
+  );
+  useEffect(() => {
+    if (!locationObject) return;
+    setMapsURL(
+      `https://www.google.com/maps/dir/${locationObject.latitude},${locationObject.longitude}/${infoTableData.coordinates}`
+    );
+  }, [locationObject]);
+
   return (
     <Stack sx={styles.parent}>
       <Typography sx={{ mb: 1, fontWeight: 600 }} variant="h4">
@@ -60,26 +71,31 @@ export default function Hours({ hours, infoTableData }) {
         {/* The Yelp URL, phone number, and Google Maps Link */}
         <Stack sx={styles.infoTableGrid}>
           <Link
-            sx={{ gridArea: "a" }}
+            color="secondary"
+            sx={{ gridArea: "a", justifySelf: "start" }}
             href={infoTableData.yelpURL}
             underline="hover"
           >
             Visit Yelp Page
           </Link>
-          <LinkIcon fontSize="large" sx={{ gridArea: "b" }} />
-          <Typography sx={{ gridArea: "c" }} variant="p">
+          <LinkIcon fontSize="large" sx={{ gridArea: "b", ml: 6 }} />
+          <Divider sx={{ gridArea: "x", width: "100%" }} />
+          <Typography sx={{ gridArea: "c", justifySelf: "start" }} variant="p">
             {infoTableData.phoneNumber}
           </Typography>
+          <Divider sx={{ gridArea: "y", width: "100%" }} />
           <PhoneInTalkIcon fontSize="large" sx={{ gridArea: "d" }} />
-          <Typography sx={{ gridArea: "e" }} variant="p">
-            Get directions to...
+          <Link
+            href={mapsURL}
+            underline="hover"
+            sx={{ gridArea: "e", justifySelf: "start" }}
+            variant="p"
+          >
+            Get directions
             <br />
             {infoTableData.address}
-          </Typography>
-          <DirectionsIcon
-            fontSize="large"
-            sx={{ gridArea: "f" }}
-          />
+          </Link>
+          <DirectionsIcon fontSize="large" sx={{ gridArea: "f" }} />
         </Stack>
       </Box>
     </Stack>
@@ -94,7 +110,7 @@ const styles = {
   },
   openHoursGrid: {
     display: "grid",
-    gridTemplateColumns: "repeat(3, auto) 1fr",
+    gridTemplateColumns: "auto auto 1fr auto",
     gridTemplateRows: "repeat(7, auto)",
     gridTemplateAreas: `
     "a b c z"
@@ -115,10 +131,12 @@ const styles = {
     alignItems: "center",
     gridTemplateAreas: `
     "a b"
+    "x x" 
     "c d"
+    "y y"
     "e f"`,
     fontWeight: 500,
-    border: "1px solid rgb(235,235,235)"
+    border: "1px solid rgb(235,235,235)",
+    p: 2,
   },
-  
 };
