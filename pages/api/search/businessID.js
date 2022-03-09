@@ -1,5 +1,8 @@
 import axios from "axios";
 
+// I'm a little Hot Crab
+//!!! http://localhost:3000/search/7DWnY_Yzre5UfWVHRloPhw example of restaurant with no hours
+
 export async function getBusinessData(id) {
   const endpoint = `https://api.yelp.com/v3/businesses/${id}`;
   const authKey = process.env.YELP_API_KEY;
@@ -16,10 +19,10 @@ export async function getBusinessData(id) {
     const relevantInfo = {
       companyID: response.id,
       name: response.name,
-      rating: response.rating,
-      mainImg: response.image_url,
-      phoneNumber: response.display_phone,
-      reviewQty: response.review_count,
+      rating: response.rating || "?",
+      mainImg: response.image_url || "/images/noIMG.png",
+      phoneNumber: response.display_phone || "phone # not available",
+      // reviewQty: response.review_count,
       photos: response.photos,
       categories: response.categories
         ? response.categories.map((obj) => obj.title)
@@ -34,9 +37,9 @@ export async function getBusinessData(id) {
         zipCode: response.location.zip_code,
       },
       coordinates: `${response.coordinates.latitude},${response.coordinates.longitude}`,
-      
+
       // Take the string the API returns for open hours, then convert its format
-      open_now: response.hours ? response.hours[0].is_open_now : null,
+      // open_now: response.hours ? response.hours[0].is_open_now : null,
       hours: response.hours ? makeHoursObject(response.hours[0].open) : null,
     };
     return { status: "success", info: relevantInfo };

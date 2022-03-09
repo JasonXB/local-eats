@@ -29,44 +29,45 @@ export default function Hours({ hours, infoTableData }) {
           Mon
         </Typography>
         <Typography sx={{ gridArea: "b" }} variant="p">
-          {hours.Monday}
+          {infoTableData.hours ? hours.Monday : "hours unknown"}
         </Typography>
         <Typography sx={{ gridArea: "d" }} variant="p">
           Tues
         </Typography>
         <Typography sx={{ gridArea: "e" }} variant="p">
-          {hours.Tuesday}
+          {infoTableData.hours ? hours.Tuesday : "hours unknown"}
         </Typography>
         <Typography sx={{ gridArea: "g" }} variant="p">
           Wed
         </Typography>
         <Typography sx={{ gridArea: "h" }} variant="p">
-          {hours.Wednesday}
+          {infoTableData.hours ? hours.Wednesday : "hours unknown"}
         </Typography>
         <Typography sx={{ gridArea: "j" }} variant="p">
           Thurs
         </Typography>
         <Typography sx={{ gridArea: "k" }} variant="p">
-          {hours.Thursday}
+          {infoTableData.hours ? hours.Thursday : "hours unknown"}
         </Typography>
         <Typography sx={{ gridArea: "m" }} variant="p">
           Fri
         </Typography>
         <Typography sx={{ gridArea: "n" }} variant="p">
-          {hours.Friday}
+          {infoTableData.hours ? hours.Friday : "hours unknown"}
         </Typography>
         <Typography sx={{ gridArea: "p" }} variant="p">
           Sat
         </Typography>
         <Typography sx={{ gridArea: "q" }} variant="p">
-          {hours.Saturday}
+          {infoTableData.hours ? hours.Saturday : "hours unknown"}
         </Typography>
         <Typography sx={{ gridArea: "s" }} variant="p">
           Sun
         </Typography>
         <Typography sx={{ gridArea: "t" }} variant="p">
-          {hours.Sunday}
+          {infoTableData.hours ? hours.Sunday : "hours unknown"}
         </Typography>
+
         {/* The Yelp URL, phone number, and Google Maps Link */}
         <Stack sx={styles.infoTableGrid}>
           <Link

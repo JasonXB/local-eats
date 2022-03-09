@@ -28,7 +28,7 @@ const StyledRating = styled(Rating)({
 
 export default function Banner(props) {
   // Extract data from the props
-  const { name, rating, categories, numberOfReviews, photos, address } = props.bannerData; // prettier-ignore
+  const { name, rating, categories, photos, address } = props.bannerData; // prettier-ignore
   const { status } = useSession(); //hide bookmarks for non logged in users
 
   // Get the bgColor for the star rating component
@@ -85,9 +85,11 @@ export default function Banner(props) {
           )}
         </Box>
 
-        <Typography variant="p" sx={styles.categories}>
-          {categories}
-        </Typography>
+        {categories && (
+          <Typography variant="p" sx={styles.categories}>
+            {categories}
+          </Typography>
+        )}
         <Typography variant="p" sx={styles.address}>
           {address}
         </Typography>
