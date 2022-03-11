@@ -9,6 +9,8 @@ import Hours from "../../src/page-blocks/businessID/Hours";
 import Footer from "../../src/custom-components/Footer";
 import SearchbarModals from "../../src/custom-components/Searchbar/SearchbarModals";
 import PaddedBlock from "../../src/custom-components/PaddedBlock";
+import StaticMap from "../../src/page-blocks/businessID/StaticMap";
+import dynamic from "next/dynamic";
 
 export async function getServerSideProps(context) {
   const id = context.params.businessID;
@@ -19,6 +21,12 @@ export async function getServerSideProps(context) {
 }
 
 export default function Business(props) {
+  // Render your Static Leaflet map after SSR takes place (it's a frontend only library)
+  const StaticFrontEndMap = dynamic(
+    () => import("../../src/page-blocks/businessID/StaticMap"), // replace '@components/map' with your component's location
+    { ssr: false } // prevents server-side render
+  );
+
   const { yelpData } = props;
   const info = yelpData.info;
   const bannerData = {
@@ -50,9 +58,10 @@ export default function Business(props) {
       <HeaderSection parent={"businessPage"} breakpoint={820} />
       <Banner bannerData={bannerData} />
       <Hours hours={info.hours} infoTableData={infoTableData} />
+      <StaticFrontEndMap />
       <Footer />
+      {/* Modal on standby for when someone opens the searchbar's drop down menu */}
       <SearchbarModals />
     </PaddedBlock>
   );
 }
-
