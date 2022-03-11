@@ -9,7 +9,7 @@ import Hours from "../../src/page-blocks/businessID/Hours";
 import Footer from "../../src/custom-components/Footer";
 import SearchbarModals from "../../src/custom-components/Searchbar/SearchbarModals";
 import PaddedBlock from "../../src/custom-components/PaddedBlock";
-import StaticMap from "../../src/page-blocks/businessID/StaticMap";
+// import StaticMap from "../../src/page-blocks/businessID/StaticMap";
 import dynamic from "next/dynamic";
 
 export async function getServerSideProps(context) {
@@ -58,7 +58,7 @@ export default function Business(props) {
       <HeaderSection parent={"businessPage"} breakpoint={820} />
       <Banner bannerData={bannerData} />
       <Hours hours={info.hours} infoTableData={infoTableData} />
-      <StaticFrontEndMap />
+      {/* <StaticFrontEndMap /> */}
       <Footer />
       {/* Modal on standby for when someone opens the searchbar's drop down menu */}
       <SearchbarModals />

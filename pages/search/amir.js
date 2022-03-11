@@ -6,6 +6,6 @@ export default function amir() {
     { ssr: false } // prevents server-side render
   );
   return (
-    <StaticFrontEndMap/>
+    <StaticFrontEndMap coords={[43.8549, -79.4365]}/>
   )
 }
