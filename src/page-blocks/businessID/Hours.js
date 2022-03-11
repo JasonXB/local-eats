@@ -6,6 +6,7 @@ import Link from "@mui/material/Link";
 import { Typography, Box, Stack, Divider } from "@mui/material";
 import { mix } from "../../../styles/styleMixins";
 import { useLocationContext } from "../../../state-management/locationContext";
+import dynamic from "next/dynamic";
 
 export default function Hours({ hours, infoTableData }) {
   const { locationObject } = useLocationContext();
@@ -18,6 +19,11 @@ export default function Hours({ hours, infoTableData }) {
       `https://www.google.com/maps/dir/?api=1&origin=${locationObject.latitude},${locationObject.longitude}&destination=${infoTableData.destination}`
     );
   }, [locationObject]);
+
+  const StaticMap = dynamic(
+    () => import("../../../src/page-blocks/businessID/StaticMap"), // replace '@components/map' with your component's location
+    { ssr: false } // prevents server-side render
+  );
 
   return (
     <Stack sx={styles.parent}>
@@ -67,7 +73,7 @@ export default function Hours({ hours, infoTableData }) {
         <Typography sx={{ gridArea: "t" }} variant="p">
           {infoTableData.hours ? hours.Sunday : "hours unknown"}
         </Typography>
-
+        <StaticMap coords={[43.8549, -79.4365]} />
         {/* The Yelp URL, phone number, and Google Maps Link */}
         <Stack sx={styles.infoTableGrid}>
           <Link
@@ -95,11 +101,12 @@ export default function Hours({ hours, infoTableData }) {
             })}
             variant="p"
           >
-            Google Maps
+            Get directions
             <br />
             {infoTableData.address}
           </Link>
           <DirectionsIcon fontSize="large" sx={{ gridArea: "f" }} />
+          
         </Stack>
       </Box>
     </Stack>
@@ -123,13 +130,13 @@ const styles = {
     gridTemplateColumns: "auto auto 1fr auto",
     gridTemplateRows: "repeat(7, auto)",
     gridTemplateAreas: `
-    "a b c z"
-    "d e f z"
-    "g h i z"
-    "j k l z"
-    "m n o z"
-    "p q r z"
-    "s t u z"`,
+    "a b y z"
+    "d e y z"
+    "g h y z"
+    "j k y z"
+    "m n y z"
+    "p q y z"
+    "s t y z"`,
     gridGap: "0.5rem 2rem",
   },
   infoTableGrid: {

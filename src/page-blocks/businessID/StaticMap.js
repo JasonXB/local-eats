@@ -28,7 +28,12 @@ const interactionOptions = {
 export default function StaticMap({ coords }) {
   // Position on the map is dependent on the props
   const position = coords;
-  const style = { height: 216, width: "100%" };
+  const style = {
+    height: 250,
+    width: "80%",
+    gridArea: "y",
+    justifySelf: "center",
+  };
 
   return (
     <MapContainer
