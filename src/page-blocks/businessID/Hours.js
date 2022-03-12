@@ -8,7 +8,7 @@ import { mix } from "../../../styles/styleMixins";
 import { useLocationContext } from "../../../state-management/locationContext";
 import dynamic from "next/dynamic";
 
-export default function Hours({ hours, infoTableData }) {
+export default function Hours({ hours, infoTableData, coords }) {
   const { locationObject } = useLocationContext();
   // If no location's specified, the maps URL will just point to the restaurant location
   const [mapsURL, setMapsURL] = useState(`https://maps.google.com?daddr=${infoTableData.destination}`); // prettier-ignore
@@ -26,90 +26,99 @@ export default function Hours({ hours, infoTableData }) {
   );
 
   return (
-    <Stack sx={styles.parent}>
-      <Typography sx={{ mb: 1, fontWeight: 600 }} variant="h4">
-        Hours
-      </Typography>
-      <Box sx={styles.openHoursGrid}>
-        <Typography sx={{ gridArea: "a" }} variant="p">
-          Mon
+    <>
+      <Stack sx={styles.parent}>
+        <Typography sx={{ mb: 2, fontWeight: 600 }} variant="h4">
+          Hours and Location
         </Typography>
-        <Typography sx={{ gridArea: "b" }} variant="p">
-          {infoTableData.hours ? hours.Monday : "hours unknown"}
-        </Typography>
-        <Typography sx={{ gridArea: "d" }} variant="p">
-          Tues
-        </Typography>
-        <Typography sx={{ gridArea: "e" }} variant="p">
-          {infoTableData.hours ? hours.Tuesday : "hours unknown"}
-        </Typography>
-        <Typography sx={{ gridArea: "g" }} variant="p">
-          Wed
-        </Typography>
-        <Typography sx={{ gridArea: "h" }} variant="p">
-          {infoTableData.hours ? hours.Wednesday : "hours unknown"}
-        </Typography>
-        <Typography sx={{ gridArea: "j" }} variant="p">
-          Thurs
-        </Typography>
-        <Typography sx={{ gridArea: "k" }} variant="p">
-          {infoTableData.hours ? hours.Thursday : "hours unknown"}
-        </Typography>
-        <Typography sx={{ gridArea: "m" }} variant="p">
-          Fri
-        </Typography>
-        <Typography sx={{ gridArea: "n" }} variant="p">
-          {infoTableData.hours ? hours.Friday : "hours unknown"}
-        </Typography>
-        <Typography sx={{ gridArea: "p" }} variant="p">
-          Sat
-        </Typography>
-        <Typography sx={{ gridArea: "q" }} variant="p">
-          {infoTableData.hours ? hours.Saturday : "hours unknown"}
-        </Typography>
-        <Typography sx={{ gridArea: "s" }} variant="p">
-          Sun
-        </Typography>
-        <Typography sx={{ gridArea: "t" }} variant="p">
-          {infoTableData.hours ? hours.Sunday : "hours unknown"}
-        </Typography>
-        <StaticMap coords={[43.8549, -79.4365]} />
-        {/* The Yelp URL, phone number, and Google Maps Link */}
-        <Stack sx={styles.infoTableGrid}>
-          <Link
-            color="secondary"
-            sx={{ gridArea: "a", justifySelf: "start" }}
-            href={infoTableData.yelpURL}
-            underline="hover"
-          >
-            Visit Yelp Page
-          </Link>
-          <LinkIcon fontSize="large" sx={{ gridArea: "b", ml: 8 }} />
-          <Divider sx={{ gridArea: "x", width: "100%" }} />
-          <Typography sx={{ gridArea: "c", justifySelf: "start" }} variant="p">
-            {infoTableData.phoneNumber}
-          </Typography>
-          <Divider sx={{ gridArea: "y", width: "100%" }} />
-          <PhoneInTalkIcon fontSize="large" sx={{ gridArea: "d" }} />
-          <Link
-            href={mapsURL}
-            underline="hover"
-            sx={(theme) => ({
-              gridArea: "e",
-              justifySelf: "start",
-              color: theme.palette.info.main,
-            })}
-            variant="p"
-          >
-            Get directions
-            <br />
-            {infoTableData.address}
-          </Link>
-          <DirectionsIcon fontSize="large" sx={{ gridArea: "f" }} />
-          
-        </Stack>
-      </Box>
-    </Stack>
+
+        <Box sx={styles.layoutGrid}>
+          <Box sx={styles.hoursGrid}>
+            <Typography sx={{ gridArea: "a" }} variant="p">
+              Mon
+            </Typography>
+            <Typography sx={{ gridArea: "b" }} variant="p">
+              {infoTableData.hours ? hours.Monday : "hours unknown"}
+            </Typography>
+            <Typography sx={{ gridArea: "c" }} variant="p">
+              Tues
+            </Typography>
+            <Typography sx={{ gridArea: "d" }} variant="p">
+              {infoTableData.hours ? hours.Tuesday : "hours unknown"}
+            </Typography>
+            <Typography sx={{ gridArea: "e" }} variant="p">
+              Wed
+            </Typography>
+            <Typography sx={{ gridArea: "f" }} variant="p">
+              {infoTableData.hours ? hours.Wednesday : "hours unknown"}
+            </Typography>
+            <Typography sx={{ gridArea: "g" }} variant="p">
+              Thurs
+            </Typography>
+            <Typography sx={{ gridArea: "h" }} variant="p">
+              {infoTableData.hours ? hours.Thursday : "hours unknown"}
+            </Typography>
+            <Typography sx={{ gridArea: "i" }} variant="p">
+              Fri
+            </Typography>
+            <Typography sx={{ gridArea: "j" }} variant="p">
+              {infoTableData.hours ? hours.Friday : "hours unknown"}
+            </Typography>
+            <Typography sx={{ gridArea: "k" }} variant="p">
+              Sat
+            </Typography>
+            <Typography sx={{ gridArea: "l" }} variant="p">
+              {infoTableData.hours ? hours.Saturday : "hours unknown"}
+            </Typography>
+            <Typography sx={{ gridArea: "m" }} variant="p">
+              Sun
+            </Typography>
+            <Typography sx={{ gridArea: "n" }} variant="p">
+              {infoTableData.hours ? hours.Sunday : "hours unknown"}
+            </Typography>
+          </Box>
+          {/* The map with a pointer at the restaurant location */}
+          <StaticMap coords={coords} />
+          {/* The Yelp URL, phone number, and Google Maps Link */}
+          <Stack sx={styles.infoTableGrid}>
+            <Link
+              color="secondary"
+              sx={{ gridArea: "a", justifySelf: "start", mb:1 }}
+              href={infoTableData.yelpURL}
+              underline="hover"
+            >
+              Visit Yelp Page
+            </Link>
+            <LinkIcon fontSize="large" sx={{ gridArea: "b", ml: 2 }} />
+            <Divider sx={{ gridArea: "x", width: "100%" }} />
+            <Typography
+              sx={{ gridArea: "c", justifySelf: "start", my:1 }}
+              variant="p"
+            >
+              {infoTableData.phoneNumber}
+            </Typography>
+            <Divider sx={{ gridArea: "y", width: "100%" }} />
+            <PhoneInTalkIcon fontSize="large" sx={{ gridArea: "d" }} />
+            <Link
+              href={mapsURL}
+              underline="hover"
+              sx={(theme) => ({
+                gridArea: "e",
+                justifySelf: "start",
+                mt:1,
+                color: theme.palette.info.main,
+              })}
+              variant="p"
+            >
+              Get directions
+              <br />
+              {infoTableData.address}
+            </Link>
+            <DirectionsIcon fontSize="large" sx={{ gridArea: "f" }} />
+          </Stack>
+        </Box>
+      </Stack>
+    </>
   );
 }
 
@@ -125,22 +134,27 @@ const styles = {
     ...mix.responsiveLayout,
     mt: 4,
   },
-  openHoursGrid: {
+  layoutGrid: {
     display: "grid",
-    gridTemplateColumns: "auto auto 1fr auto",
-    gridTemplateRows: "repeat(7, auto)",
+    gridGap: "2rem 2rem",
     gridTemplateAreas: `
-    "a b y z"
-    "d e y z"
-    "g h y z"
-    "j k y z"
-    "m n y z"
-    "p q y z"
-    "s t y z"`,
-    gridGap: "0.5rem 2rem",
+      "a"
+      "c"
+      "b"`,
+    ["@media (min-width: 600px)"]: {
+      gridTemplateColumns: "auto 17rem",
+      gridTemplateAreas: `
+      "a c"
+      "b b"`,
+    },
+    ["@media (min-width: 1000px)"]: {
+      gridGap: "0.5rem 2rem",
+      gridTemplateColumns: "auto 1fr auto",
+      gridTemplateAreas: ` "a b c"`,
+    },
   },
   infoTableGrid: {
-    gridArea: "z",
+    gridArea: "c", // position in the layout grid
     display: "grid",
     gridTemplateColumns: "1fr auto",
     gridTemplateRows: "repeat(3, auto)",
@@ -155,5 +169,21 @@ const styles = {
     fontWeight: 500,
     border: "1px solid rgb(235,235,235)",
     p: 2,
+  },
+  hoursGrid: {
+    gridArea: "a", // position in the layout grid
+    display: "grid",
+    gridTemplateColumns: "auto auto",
+    gridTemplateRows: "repeat(7, auto)",
+    gridTemplateAreas: `
+    "a b"
+    "c d"
+    "e f"
+    "g h"
+    "i j"
+    "k l"
+    "m n"`,
+    gridGap: "0.5rem 2rem",
+    width: "12rem",
   },
 };

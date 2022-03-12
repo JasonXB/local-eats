@@ -9,7 +9,6 @@ import Hours from "../../src/page-blocks/businessID/Hours";
 import Footer from "../../src/custom-components/Footer";
 import SearchbarModals from "../../src/custom-components/Searchbar/SearchbarModals";
 import PaddedBlock from "../../src/custom-components/PaddedBlock";
-// import StaticMap from "../../src/page-blocks/businessID/StaticMap";
 import dynamic from "next/dynamic";
 
 export async function getServerSideProps(context) {
@@ -21,12 +20,6 @@ export async function getServerSideProps(context) {
 }
 
 export default function Business(props) {
-  // Render your Static Leaflet map after SSR takes place (it's a frontend only library)
-  const StaticFrontEndMap = dynamic(
-    () => import("../../src/page-blocks/businessID/StaticMap"), // replace '@components/map' with your component's location
-    { ssr: false } // prevents server-side render
-  );
-
   const { yelpData } = props;
   const info = yelpData.info;
   const bannerData = {
@@ -44,7 +37,7 @@ export default function Business(props) {
     yelpURL: info.yelpURL,
     destination: info.address.mapsDestination,
   };
-  console.log(yelpData);
+
   // If the fetching to Yelp fails, render a success msg but let the user nav back to prev pages
   if (!yelpData)
     return (
@@ -57,8 +50,11 @@ export default function Business(props) {
     <PaddedBlock px={2}>
       <HeaderSection parent={"businessPage"} breakpoint={820} />
       <Banner bannerData={bannerData} />
-      <Hours hours={info.hours} infoTableData={infoTableData} />
-      {/* <StaticFrontEndMap /> */}
+      <Hours
+        hours={info.hours}
+        infoTableData={infoTableData}
+        coords={info.coords}
+      />
       <Footer />
       {/* Modal on standby for when someone opens the searchbar's drop down menu */}
       <SearchbarModals />

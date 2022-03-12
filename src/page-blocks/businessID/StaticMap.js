@@ -2,7 +2,6 @@ import React from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css"; // stops the map from appearing distorted
 import { icon } from "leaflet";
-import { ZoomInSharp } from "@mui/icons-material";
 
 // Use a custom location icon since the default one isn't working
 // Use an SVG since you can customize color and maintain aspect ratio easily
@@ -29,10 +28,13 @@ export default function StaticMap({ coords }) {
   // Position on the map is dependent on the props
   const position = coords;
   const style = {
+    gridArea: "b", // position in the layout grid
     height: 250,
-    width: "80%",
-    gridArea: "y",
+    width: "100%",
     justifySelf: "center",
+    ["@media (min-width: 1000px)"]: {
+      width: "85%",
+    },
   };
 
   return (

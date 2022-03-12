@@ -36,7 +36,8 @@ export async function getBusinessData(id) {
         country: response.location.country,
         zipCode: response.location.zip_code,
       },
-      coordinates: `${response.coordinates.latitude},${response.coordinates.longitude}`,
+      // coordinates: `${response.coordinates.latitude},${response.coordinates.longitude}`,
+      coords: [response.coordinates.latitude, response.coordinates.longitude],
 
       // Take the string the API returns for open hours, then convert its format
       // open_now: response.hours ? response.hours[0].is_open_now : null,
