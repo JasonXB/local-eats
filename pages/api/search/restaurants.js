@@ -22,29 +22,11 @@ export default async function handler(req, res) {
       return;
     }
     // If we do have matches...query the each restauarant object for data needed on Restauarant Cards
-    const editedResults = rawResults.map((value, index) => {
-      // Concatenate strings to form a list of categories
-      const listOfCategories = value.categories.map((obj) => obj.title); // array
-      const categoryString = listOfCategories.join(", ");
-      const relevantData = {
-        searchIndex: index,
-        storeID: value.id,
-        image: value.image_url || "/images/noIMG.png",
-        storeName: value.name,
-        category: categoryString || "(No description)",
-        distance: value.distance
-          ? `${(value.distance / 1000).toFixed(1)} km`
-          : "Distance: ???", // return distance in km (we convert from meters) or "Distance unknown"
-        rating: value.rating || 0,
-        price: value.price || "???", // "$$$"
-        address: value.location.address1,
-      };
-      return relevantData;
-    }); // we've added fallbacks for bits of data that aren't guaranteed to be returned
-
+    const editedResults = organizeData(rawResults) 
+    
     // Sort results by rating if the API string tells us to
     if (sortByRating) editedResults.sort((a, b) => b.rating - a.rating);
-    
+
     res
       .status(201)
       .json({ message: "Data fetched", results: editedResults, numberOfHits });
@@ -54,3 +36,25 @@ export default async function handler(req, res) {
     return;
   }
 }
+
+export const organizeData = function(rawResults){
+  return rawResults.map((value, index) => {
+    // Concatenate strings to form a list of categories
+    const listOfCategories = value.categories.map((obj) => obj.title); // array
+    const categoryString = listOfCategories.join(", ");
+    const relevantData = {
+      searchIndex: index,
+      storeID: value.id,
+      image: value.image_url || "/images/noIMG.png",
+      storeName: value.name,
+      category: categoryString || "(No description)",
+      distance: value.distance
+        ? `${(value.distance / 1000).toFixed(1)} km`
+        : "Distance: ???", // return distance in km (we convert from meters) or "Distance unknown"
+      rating: value.rating || 0,
+      price: value.price || "???", // "$$$"
+      address: value.location.address1,
+    };
+    return relevantData;
+  }); 
+} // we've added fallbacks for bits of data that aren't guaranteed to be returned

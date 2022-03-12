@@ -9,19 +9,28 @@ import Hours from "../../src/page-blocks/businessID/Hours";
 import Footer from "../../src/custom-components/Footer";
 import SearchbarModals from "../../src/custom-components/Searchbar/SearchbarModals";
 import PaddedBlock from "../../src/custom-components/PaddedBlock";
-import dynamic from "next/dynamic";
+import Related from "../../src/page-blocks/businessID/Related";
+import { getRelatedBusinesses } from "../api/search/related";
 
 export async function getServerSideProps(context) {
   const id = context.params.businessID;
   const response = await getBusinessData(id); // we make a request to Yelp API in here
   // Pass the Yelp Data to our component via props, or pass null if the op fails
-  if (response.status === "error") return { props: { yelpData: null } };
-  return { props: { yelpData: response } };
+  if (response.status === "error") return { props: { companyData: null } };
+  // Fetch surface level data for related businesses using the list of categories
+  const categoryString = response.info.categories
+    ? response.info.categories.join(", ")
+    : "any";
+  const lat = response.info.coords[0];
+  const long = response.info.coords[1];
+  const response2 = await getRelatedBusinesses(categoryString, lat, long, id);
+  return { props: { companyData: response, related: response2 } };
 }
 
 export default function Business(props) {
-  const { yelpData } = props;
-  const info = yelpData.info;
+  console.log(props.related);
+  const { companyData, related } = props;
+  const info = companyData.info;
   const bannerData = {
     name: info.name,
     rating: info.rating,
@@ -39,7 +48,7 @@ export default function Business(props) {
   };
 
   // If the fetching to Yelp fails, render a success msg but let the user nav back to prev pages
-  if (!yelpData)
+  if (!companyData)
     return (
       <LayoutContainer>
         <HeaderSection parent={"businessPage"} breakpoint={820} />
@@ -55,6 +64,7 @@ export default function Business(props) {
         infoTableData={infoTableData}
         coords={info.coords}
       />
+      <Related relatedList={related}/>
       <Footer />
       {/* Modal on standby for when someone opens the searchbar's drop down menu */}
       <SearchbarModals />
