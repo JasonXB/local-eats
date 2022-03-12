@@ -81,7 +81,8 @@ export default function TemporaryDrawer(props) {
 
   // We change the margins depending on if a specific prop is supplied
   let burgerMargins;
-  if (props.searchpage) burgerMargins = { mr: 2, mt:1 };
+  if (props.parent === "searchPage") burgerMargins = { mr: 2, mt: 1 };
+  else if (props.parent === "businessPage") burgerMargins = { mr: 4, mt: 1 };
   else burgerMargins = { mr: 2, mt: 2.2 };
   return (
     <>

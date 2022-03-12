@@ -43,7 +43,7 @@ export default function HeaderSection({ parent, breakpoint }) {
         sx={{
           ...mix.responsiveLayout,
           my: 2,
-          px:0,
+          px: 0,
           display: "block",
           [`@media (min-width: ${breakpoint}px)`]: { display: "none" },
         }}
@@ -57,7 +57,7 @@ export default function HeaderSection({ parent, breakpoint }) {
             Local Eats
           </Typography>
           <BurgerBtn
-            searchpage={true}
+            parent={parent}
             currentlyOnline={status === "authenticated" ? true : false}
             addHomepageButton={true}
             burgerBP={breakpoint}
@@ -71,7 +71,7 @@ export default function HeaderSection({ parent, breakpoint }) {
         sx={{
           ...mix.responsiveLayout,
           display: "none",
-          mb:4,
+          mb: 4,
           [`@media (min-width: ${breakpoint}px)`]: { display: "block" },
         }}
       >
