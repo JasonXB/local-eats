@@ -13,15 +13,6 @@ export default async function handler(req, res) {
   const pinExpiryDate = pendingAccount.pinExpiryDate;
   const hashedVerifyPIN = pendingAccount.hashedVerifyPIN;
 
-  // See if the submitted PIN from /verify-email matches the hashed version of the correct PIN we emailed
-  const pinsMatch = await compare(submittedPIN, hashedVerifyPIN); // equals Boolean
-  if (!pinsMatch) {
-    await db.collection("users").deleteOne({ email: pendingEmail }); // delete the pending account
-    client.close();
-    res.status(422).json({ message: "Invalid PIN" });
-    return; // if pins don't match, end the API route
-  }
-
   // Check if the PIN is submitted before the time limit we're imposing
   const currentUnixTime = new Date().getTime();
   if (currentUnixTime > pinExpiryDate) {
@@ -31,6 +22,15 @@ export default async function handler(req, res) {
     return; // if the PIN's expired, end the API route
   }
 
+  // See if the submitted PIN matches the hashed version we saved to the DB
+  const pinsMatch = await compare(submittedPIN, hashedVerifyPIN); // equals Boolean
+  if (!pinsMatch) {
+    await db.collection("users").deleteOne({ email: pendingEmail }); // delete the pending account
+    client.close();
+    res.status(422).json({ message: "Invalid PIN" });
+    return; // if pins don't match, end the API route
+  }
+
   // Past this point, the user's verified themselves
   // Make changes to the pending account to indicate it is now verified
   await db.collection("users").updateOne(
@@ -38,6 +38,7 @@ export default async function handler(req, res) {
     {
       $set: { accountStatus: "verified" },
       $unset: { hashedVerifyPIN: "", pinExpiryDate: "" },
+      // delete the temporary pending change fields, and set the account as verified
     }
   );
   client.close(); // end Mongo session

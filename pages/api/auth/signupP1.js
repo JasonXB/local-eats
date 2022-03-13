@@ -1,5 +1,7 @@
 import { hash, compare } from "bcryptjs";
 import { connectToDB } from "../../../src/utility-functions/auth/connectToDB";
+import { makeID } from "../helperFunctions/makeID";
+
 // Use to check for bltantly fake emails
 var validator = require("email-validator"); // https://yarnpkg.com/package/email-validator
 // Use to assess password strength
@@ -117,13 +119,4 @@ export default async function handler(req, res) {
   }
 }
 
-// Use to generate a 6 digit PIN
-function makeId(length) {
-  var result = "";
-  var characters = "0123456789";
-  var charactersLength = characters.length;
-  for (var i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
-}
+export const checkPasswordStrength = function (pw) {};

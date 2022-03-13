@@ -1,8 +1,19 @@
-import React from "react";
+import React, { useRef, useReducer } from "react";
+import axios from "axios";
 import { mix } from "../../styles/styleMixins";
 import { getSession } from "next-auth/react";
-import SubmitEmail from "../../src/page-blocks/authForms/forgotPassword/SubmitEmail";
+import { Typography, Stack, Button } from "@mui/material"; // prettier-ignore
+import { useRouter } from "next/router";
+import FormControl from "@mui/material/FormControl";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import FormHelperText from "@mui/material/FormHelperText";
+import { styles } from "../../styles/auth/form";
+import AuthHeader from "../../src/page-blocks/authForms/HeaderHelper";
+import GeneralErrorModal from "../../src/custom-components/Modals/GeneralError";
+import { lengthNoSpaces } from "../../src/utility-functions/general/lengthNoSpaces";
+
 // Redirect users to homepage if they come here online
+//!!! Reconsider need for SSR
 export async function getServerSideProps(context) {
   const session = await getSession({ req: context.req }); // falsy if not logged in. session obj if we are
   if (session) {
@@ -17,5 +28,128 @@ export async function getServerSideProps(context) {
 }
 
 export default function ForgotPassword() {
-  return <SubmitEmail />;
+  const router = useRouter();
+
+  // Control the text underneath the input fields using state values
+  const emailRef = useRef(); // whats typed in the input field
+  const [formState, dispatch] = useReducer(reducer, {
+    emailText: " ", // allots space for the message before we even want one to be visible
+    emailError: false,
+  });
+
+  // Control the general error modal should open if one of our API route 3rd party services fail
+  const [modalVisible, setModalVisible] = React.useState(false);
+  const revealErrorModal = () => setModalVisible(true);
+
+  const submitHandler = async function () {
+    // If the input field is empty, render some error text
+    const typedEmail = emailRef.current.value;
+    const thinnedEmailLength = lengthNoSpaces(typedEmail);
+    if (thinnedEmailLength === 0)
+      return dispatch({
+        type: "INVALID_EMAIL",
+        payload: "This field is required",
+      });
+
+    // Send a 6 digit PIN to the email specified then redirect to a verification page
+    try {
+      await axios.post("/api/auth/forgotPasswordP1", {
+        email: typedEmail,
+      });
+      router.push(`/auth/forgot-password-verification?email=${typedEmail}`);
+    } catch (error) {
+      if (!error.response || !error.response.data) return revealErrorModal();
+      const errorMSG = error.response.data.message;
+      switch (errorMSG) {
+        case "Invalid email":
+          dispatch({ type: "INVALID_EMAIL", payload: "Invalid email" });
+          break;
+        // Don't tell potentially ill intentioned users if they're testing an email with no verified account
+        case "Email not tied to a verified account":
+          router.push(`/auth/forgot-password-verification?email=${typedEmail}`); // proceed as if successful
+          break;
+        // If one of our 3rd party services fail, render a generic error modal
+        default:
+          revealErrorModal();
+          break;
+      }
+    }
+    return;
+  };
+
+  // The state values in useReducer influence the JSX based on their values
+  return (
+    <Stack sx={styles.parentContainer}>
+      <AuthHeader
+        titleText={"Forgot your password?"}
+        descriptionText={
+          "Create new login credentials after you verify ownership of a Local Eats account email"
+        }
+      />
+
+      <FormControl sx={styles.formControl}>
+        <Typography
+          align="left"
+          variant="label"
+          color={formState.emailError ? "secondary" : ""}
+        >
+          Account Email:
+        </Typography>
+        <OutlinedInput
+          inputRef={emailRef}
+          placeholder="name@email.com"
+          error={formState.emailError}
+          onChange={() => dispatch({ type: "RESET_EMAIL" })}
+        />
+        <FormHelperText sx={styles.formHelperText}>
+          {formState.emailText}
+        </FormHelperText>
+      </FormControl>
+      <Button
+        variant="contained"
+        onClick={submitHandler}
+        sx={styles.btn}
+        disableElevation
+      >
+        Submit
+      </Button>
+      <Button
+        href="/"
+        variant="outlined"
+        fullWidth
+        sx={{ ...mix.formButtonWidth, mt: 2 }}
+      >
+        Return to homepage
+      </Button>
+      <Typography variant="p" sx={{ mt: 2 }}>
+        Submit the email connected to your Local Eats account and we'll send it
+        a 6 digit PIN. You'll be redirected to a new page where that PIN can be
+        entered to change your login credentials
+      </Typography>
+      <GeneralErrorModal modalVisible={modalVisible} />
+    </Stack>
+  );
+}
+
+function reducer(state, action) {
+  switch (action.type) {
+    case "INVALID_EMAIL":
+      return {
+        emailText: action.payload,
+        emailError: true,
+      };
+    case "RESET_EMAIL":
+      return {
+        ...state,
+        emailText: " ",
+        emailError: false,
+      };
+    case "RESET":
+      return {
+        emailText: " ",
+        emailError: false,
+      };
+    default:
+      return;
+  }
 }

@@ -52,8 +52,8 @@ export default async function handler(req, res) {
     { email },
     {
       $set: {
-        passwordChangePIN: hashedPIN, // will use to verify the email's owned by the user
-        passwordChangePINExpiryDate: expiryDate, // used to determine if the PIN's submitted on time
+        passwordChangePin: hashedPIN, // will use to verify the email's owned by the user
+        passwordChangePinExpiryDate: expiryDate, // used to determine if the PIN's submitted on time
       },
     }
   );

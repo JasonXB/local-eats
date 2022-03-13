@@ -12,3 +12,5 @@ A) Change the email we send from to something more professional (test on Sendgri
 B) Provide a link to the website where we can submit our PINs. 
 If the user X's out by accident, they need a way to find the page again
 
+Make it so sign up, signIn, and all the other auth procedures no longer utilize LocalStorage
+Use query parameters to pass data between pages instead
