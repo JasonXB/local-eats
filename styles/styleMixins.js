@@ -111,7 +111,11 @@ export const mix = {
     background: "#00162e",
     alignSelf: "end",
   },
-  bookmarkBg : {
+  bookmarkBg: {
     background: "#00162e",
-  }
+  },
+  formButtonWidth: {
+    width: "80%",
+    maxWidth: "20.625rem",
+  },
 };

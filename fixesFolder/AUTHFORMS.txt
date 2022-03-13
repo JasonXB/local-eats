@@ -5,8 +5,10 @@ GO THROUGH AND TEST EACH FEATURE
 2) Test success and see if you communicate a success properly
 3) Implement loading visuals for when API routes get called
 
-PLACE YOUR GENERIC ERROR MODAL
-Place it in every place API routes are used and there are possible uncaught API route fuckups
-
 FORGOT PASSWORD FEATURE (make it)
+
+Each time we send a pin, revise the email we send to our users
+A) Change the email we send from to something more professional (test on Sendgrid)
+B) Provide a link to the website where we can submit our PINs. 
+If the user X's out by accident, they need a way to find the page again
 
