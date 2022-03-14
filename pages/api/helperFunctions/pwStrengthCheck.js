@@ -15,7 +15,6 @@ export function pwStrengthCheck(passwordToInspect) {
     includesSymbol: results.charsets.symbol === true,
     excludesPunctuation: !results.charsets.punctuation,
   }; // if this object contains a falsy, the password is not acceptable
-
   // Check if any of the KVP's in that object equal false
   let falseInside = Object.values(conditions).includes(false); // Boolean
   return !falseInside; // return true if there is no false inside, and vice versa

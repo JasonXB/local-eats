@@ -37,12 +37,7 @@ export default async function handler(req, res) {
     res.status(408).json({ message: "Incorrect account password" });
     return; // if password's wrong, end the route here
   }
-  // If passwords do match, make sure the newPassword is different than the old one
-  if (oldPassword === newPassword) {
-    client.close();
-    res.status(408).json({ message: "This password has been used previously" });
-    return; // end route here
-  }
+  
   // If passwords do match, encrypt the newPassword and replace the old one
   const hashedNewPassword = await hash(newPassword, 12);
   await db

@@ -11,6 +11,7 @@ import AuthHeader from "../../src/page-blocks/authForms/HeaderHelper";
 import GeneralErrorModal from "../../src/custom-components/Modals/GeneralError";
 import GuestBtn from "../../src/custom-components/GuestBtn";
 import { lengthNoSpaces } from "../../src/utility-functions/general/lengthNoSpaces";
+import Wave from "../../src/custom-components/LoadingVisuals/FullScreen/Wave";
 
 // Redirect users to homepage if they come here online
 export async function getServerSideProps(context) {
@@ -28,6 +29,7 @@ export async function getServerSideProps(context) {
 
 export default function signup() {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   // Control the form using state values
   const [formState, dispatch] = useReducer(reducer, {
     emailText: " ", // allots space for the message before we even want one to be visible
@@ -56,6 +58,7 @@ export default function signup() {
 
   const submitHandler = async function () {
     // Reset the form state to remove any error visuals that were required earlier
+    setLoading(true);
     dispatch({ type: "RESET" });
     // Capture what's typed in each input field
     const typedEmail = emailRef.current.value;
@@ -63,6 +66,7 @@ export default function signup() {
     const typedPassword2 = verifyPasswordRef.current.value;
 
     // Make sure each field is filled in
+    //!!! bUNDLE IN WITH THE api ROUTE
     const emailLength = lengthNoSpaces(typedEmail);
     const passwordLength = lengthNoSpaces(typedPassword);
     const verifyPasswordLength = lengthNoSpaces(typedPassword2);
@@ -82,7 +86,6 @@ export default function signup() {
       localStorage.setItem("pendingAccountEmail", typedEmail);
       localStorage.setItem("signupPassword", typedPassword);
       router.push("/auth/verify-email"); // redirect
-      return;
     } catch (error) {
       if (!error.response || !error.response.data) return revealErrorModal();
       const errorMSG = error.response.data.message;
@@ -105,10 +108,12 @@ export default function signup() {
           // should only happen when one of our 3rd party services fail (SendGrid, MongoDB...etc)
           break;
       }
+      setLoading(false);
       return;
     }
   };
 
+  if (loading) return <Wave />;
   return (
     <Stack sx={styles.parentContainer}>
       <AuthHeader

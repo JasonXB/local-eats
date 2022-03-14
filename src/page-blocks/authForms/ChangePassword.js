@@ -10,7 +10,6 @@ import axios from "axios";
 import GeneralErrorModal from "../../custom-components/Modals/GeneralError";
 import { styles } from "../../../styles/auth/manageAccount";
 import ReturnHomeBtn from "../../custom-components/ReturnHomeBtn";
-import { lengthNoSpaces } from "../../utility-functions/general/lengthNoSpaces";
 
 // Since this component is nested within /auth/[panel].js
 // We'll let that component take care of redirects if we're on this page while offline
@@ -70,6 +69,7 @@ export default function ChangePassword() {
   const verifyPasswordRef = useRef();
 
   const changePasswordHandler = async function () {
+    dispatch({ type: "RESET" });
     // Capture values of input fields
     const typedOldPassword = oldPasswordRef.current.value;
     const typedNewPassword = newPasswordRef.current.value;
@@ -83,10 +83,12 @@ export default function ChangePassword() {
         newPassword2: typedVerifyPassword,
       });
     } catch (error) {
-      //!!! Test this rework
-      console.log(error);
+      // console.log(error);
+      // If the API route ends due to an unforseen error, open up the error modal
       if (!error.response || !error.response.data) return revealErrorModal();
+      // We've coded actions for all possible users errors
       const errorMSG = error.response.data.message;
+      console.log(99, errorMSG)
       switch (errorMSG) {
         case "New password field empty":
           dispatch({ type: "INVALID_NEW_PASSWORD", payload: "This field is required" }); // prettier-ignore
@@ -105,41 +107,13 @@ export default function ChangePassword() {
           break;
         case "Password does not meet requirements":
           dispatch({ type: "INVALID_NEW_PASSWORD", payload: errorMSG }); // prettier-ignor
+        case "Old password incorrect":
+            dispatch({ type: "INVALID_OLD_PASSWORD", payload: "Incorrect account password" }); // prettier-ignore
         default:
           revealErrorModal();
           break;
       }
     }
-    // //!!! combine into 1
-    // // Change the password using an API route
-    // try {
-    //   await axios.post("/api/auth/changePassword", {
-    //     oldPassword: typedOldPassword,
-    //     newPassword: typedNewPassword,
-    //   });
-    //   // router.replace("/auth/credChangeSignin");
-    //   signOut();
-    //   // IMPORTANT: sign out and prompt users to relogin to reinitialize NextAuth with up to date user data
-    //   // Our SSR page guard will take care of the redirect for us to /auth/siginPostPasswordChange
-    // } catch (error) {
-    //   console.log(error);
-    //   if (!error.response || !error.response.data) return revealErrorModal();
-    //   const errorMSG = error.response.data.message;
-    //   switch (errorMSG) {
-    //     case "Incorrect account password":
-    //       dispatch({ type: "INVALID_OLD_PASSWORD", payload: errorMSG });
-    //       break;
-    //     case "This password has been used previously":
-    //       dispatch({ type: "INVALID_NEW_PASSWORD", payload: errorMSG });
-    //       break;
-    //     case "Second password does not match the first":
-    //       dispatch({ type: "INVALID_VERIFY_PASSWORD", payload: errorMSG });
-    //       break;
-    //     default:
-    //       revealErrorModal();
-    //       break;
-    //   }
-    // }
   };
 
   return (
