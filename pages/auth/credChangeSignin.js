@@ -20,5 +20,3 @@ export default function credChangeSignin() {
     "Log back into your account using your new info";
   return useSignIn(title, descrip, false);
 }
-
-// http://localhost:3000/auth/signinPostEmailChange

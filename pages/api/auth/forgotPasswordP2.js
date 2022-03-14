@@ -1,69 +1,95 @@
 import { compare } from "bcryptjs";
 import { connectToDB } from "../../../src/utility-functions/auth/connectToDB";
 import { pwStrengthCheck } from "../helperFunctions/pwStrengthCheck";
-//# API Route file
+import { removeWhiteSpace } from "../../../src/utility-functions/general/lengthNoSpaces";
+
 export default async function handler(req, res) {
-  const { accountEmail, submittedPIN, newPassword } = req.body; // prettier-ignore
+  const { email, pin, newPassword } = req.body;
 
-  // Check if the suggested password is strong enough
-  const acceptablePW = pwStrengthCheck(newPassword);
-  if (!acceptablePW) {
-    res.status(422).json({ message: "Password does not meet requirements" }); // prettier-ignore
-    return; // end the route
-  } // past this point the password is strong enough to replace the old one
-
-  // Find the account the user's locked out of and extract its data
-  const client = await connectToDB(); //  Connect to DB and access the db instance
+  // Connect to the DB
+  const client = await connectToDB(); // access db instance
   const db = client.db();
-  const lockedOutAccount = await db
-    .collection("users")
-    .findOne({ email: accountEmail });
 
-  // If no verified account with that email exists, don't let the user know that
-  // Simply say the PIN is wrong, so malicious attackers get minimal info about targeting non existent accounts
-  if (!existingUser || existingUser.accountStatus === "pending") {
-    client.close(); // don't forget to end Mongo session
-    res.status(422).json({ message: "Invalid PIN" }); // prettier-ignore
+  // If the code is not 6 digits long, end the route with an error immediately
+  if (pin.length !== 6) {
+    await db.collection("users").updateOne(
+      { email: email }, //!!! repeat
+      { $unset: { passwordChangePin: "", passwordChangePinExpiryDate: "" } }
+    );
+    client.close();
+    res.status(401).json({ message: "Invalid PIN" });
+    return;
+  }
+  // End the route if no new password is submitted
+  const thinnedPassword = removeWhiteSpace(newPassword);
+  if (thinnedPassword.length === 0) {
+    await db.collection("users").updateOne(
+      { email: email }, //!!! repeat
+      { $unset: { passwordChangePin: "", passwordChangePinExpiryDate: "" } }
+    );
+    client.close();
+    res.status(402).json({ message: "New password field empty" });
     return;
   }
 
-  // If a verified account with this email does exist, extract the data we saved during forgotPasswordP1 (api route)
-  const hashedVerifyPIN = lockedOutAccount.passwordChangePin;
-  const pinExpiryDate = lockedOutAccount.passwordChangePinExpiryDate;
-
-  // Check if the PIN is submitted before the time limit we're imposing. If not...
-  // If not, delete the password change PIN and expiry date (user failed the process and must restart)
-  const currentUnixTime = new Date().getTime();
-  if (currentUnixTime > pinExpiryDate) {
-    await db
-      .collection("users")
-      .updateOne(
-        { email: accountEmail },
-        { $unset: { passwordChangePin: "", passwordChangePinExpiryDate: "" } }
-      );
-    client.close(); // don't forget to end Mongo session
-    res.status(422).json({ message: "PIN has expired" });
-    return; // if the PIN's expired, end the API route
+  // Check the new password to see if it meets our standards
+  let acceptablePW = pwStrengthCheck(newPassword); // Boolean
+  if (!acceptablePW) {
+    await db.collection("users").updateOne(
+      { email: email }, //!!! repeat
+      { $unset: { passwordChangePin: "", passwordChangePinExpiryDate: "" } }
+    );
+    client.close();
+    res.status(403).json({ message: "Password does not meet requirements" });
+    return;
   }
 
-  // See if the submitted PIN matches the hashed version we saved to the DB
-  // If not, delete the password change PIN and expiry date (user failed the process and must restart)
-  const pinsMatch = await compare(submittedPIN, hashedVerifyPIN); // equals Boolean
-  if (!pinsMatch) {
+  // Find the account associated with the submitted email and extract its info saved in forgotPasswordP1 (api route)
+  // If no account is found, end the route with an error
+  const userAccount = await db.collection("users").findOne({ email: email });
+  if (!userAccount) {
     await db.collection("users").updateOne(
-      { email: accountEmail },
+      { email: email }, //!!! repeat
       { $unset: { passwordChangePin: "", passwordChangePinExpiryDate: "" } }
-      // delete the temporary pending change fields
+    );
+    client.close();
+    res
+      .status(404)
+      .json({ message: "No account found for the submitted email" });
+    return;
+  }
+  const hashedVerifyPin = userAccount.passwordChangePin;
+  const expiryDate = userAccount.passwordChangePinExpiryDate;
+
+  // Compare the verification code with the pin submitted in the request body
+  // If we don't get a match, end the route with an error
+  const pinMatch = await compare(pin, hashedVerifyPin); // T/F
+  if (!pinMatch) {
+    await db.collection("users").updateOne(
+      { email: email }, //!!! repeat
+      { $unset: { passwordChangePin: "", passwordChangePinExpiryDate: "" } }
+    );
+    client.close();
+    res.status(405).json({ message: "Incorrect PIN" });
+    return;
+  }
+
+  // See if the PIN is submitted on time
+  const currentUnixTime = new Date().getTime();
+  if (currentUnixTime > expiryDate) {
+    await db.collection("users").updateOne(
+      { email: email }, //!!! repeat
+      { $unset: { passwordChangePin: "", passwordChangePinExpiryDate: "" } }
     );
     client.close(); // don't forget to end Mongo session
-    res.status(422).json({ message: "Invalid PIN" });
-    return; // if pins don't match, end the API route
+    res.status(406).json({ message: "PIN has expired" });
+    return;
   }
 
-  // Past this point, the user has verified email ownership.
+  // Past this point, we know the pin's correct & submitted on time
   // Change the password to what they suggested
   await db.collection("users").updateOne(
-    { email: accountEmail },
+    { email: email },
     {
       $set: { password: newPassword }, // set the new password
       $unset: { passwordChangePin: "", passwordChangePinExpiryDate: "" },

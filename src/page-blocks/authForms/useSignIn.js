@@ -138,6 +138,13 @@ export default function useSignIn(title, descrip, needNewAccount) {
       >
         Sign in to Local Eats
       </Button>
+      <Button
+        variant="outlined"
+        href="/auth/forgot-password"
+        sx={{ ...styles.btn, mt: 2 }}
+      >
+        Forgot your password?
+      </Button>
       {needNewAccount && (
         <Button
           variant="outlined"

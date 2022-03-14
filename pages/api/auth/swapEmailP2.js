@@ -60,4 +60,3 @@ export default async function handler(req, res) {
   client.close();
   res.status(201).json({ message: "Swap procedure part 2 completed" });
 }
-

@@ -1,19 +1,18 @@
-import React, { useRef, useReducer } from "react";
+import React, { useRef, useReducer, useState } from "react";
 import axios from "axios";
-import { mix } from "../../styles/styleMixins";
+import { mix } from "../../../styles/styleMixins";
 import { getSession } from "next-auth/react";
-import { Typography, Stack, Button } from "@mui/material"; // prettier-ignore
+import { Typography, Stack, Button, FormControl } from "@mui/material"; // prettier-ignore
 import { useRouter } from "next/router";
-import FormControl from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import FormHelperText from "@mui/material/FormHelperText";
-import { styles } from "../../styles/auth/form";
-import AuthHeader from "../../src/page-blocks/authForms/HeaderHelper";
-import GeneralErrorModal from "../../src/custom-components/Modals/GeneralError";
-import { lengthNoSpaces } from "../../src/utility-functions/general/lengthNoSpaces";
+import { styles } from "../../../styles/auth/form";
+import AuthHeader from "../../../src/page-blocks/authForms/HeaderHelper";
+import GeneralErrorModal from "../../../src/custom-components/Modals/GeneralError";
+import { lengthNoSpaces } from "../../../src/utility-functions/general/lengthNoSpaces";
+import Wave from "../../../src/custom-components/LoadingVisuals/FullScreen/Wave"; // prettier-ignore
 
 // Redirect users to homepage if they come here online
-//!!! Reconsider need for SSR
 export async function getServerSideProps(context) {
   const session = await getSession({ req: context.req }); // falsy if not logged in. session obj if we are
   if (session) {
@@ -29,7 +28,7 @@ export async function getServerSideProps(context) {
 
 export default function ForgotPassword() {
   const router = useRouter();
-
+  const [loading, setLoading] = useState(false);
   // Control the text underneath the input fields using state values
   const emailRef = useRef(); // whats typed in the input field
   const [formState, dispatch] = useReducer(reducer, {
@@ -42,21 +41,25 @@ export default function ForgotPassword() {
   const revealErrorModal = () => setModalVisible(true);
 
   const submitHandler = async function () {
+    setLoading(true);
     // If the input field is empty, render some error text
     const typedEmail = emailRef.current.value;
     const thinnedEmailLength = lengthNoSpaces(typedEmail);
-    if (thinnedEmailLength === 0)
+    if (thinnedEmailLength === 0) {
+      setLoading(false)
       return dispatch({
         type: "INVALID_EMAIL",
         payload: "This field is required",
       });
+    }
 
     // Send a 6 digit PIN to the email specified then redirect to a verification page
     try {
       await axios.post("/api/auth/forgotPasswordP1", {
         email: typedEmail,
       });
-      router.push(`/auth/forgot-password-verification?email=${typedEmail}`);
+      setLoading(false)
+      router.push(`/auth/forgot-password/${typedEmail}`);
     } catch (error) {
       if (!error.response || !error.response.data) return revealErrorModal();
       const errorMSG = error.response.data.message;
@@ -66,18 +69,20 @@ export default function ForgotPassword() {
           break;
         // Don't tell potentially ill intentioned users if they're testing an email with no verified account
         case "Email not tied to a verified account":
-          router.push(`/auth/forgot-password-verification?email=${typedEmail}`); // proceed as if successful
+          router.push(`/auth/forgot-password/${typedEmail}`); // proceed as if successful
           break;
         // If one of our 3rd party services fail, render a generic error modal
         default:
           revealErrorModal();
           break;
       }
+      setLoading(false)
     }
     return;
   };
 
   // The state values in useReducer influence the JSX based on their values
+  if (loading) return <Wave />;
   return (
     <Stack sx={styles.parentContainer}>
       <AuthHeader
