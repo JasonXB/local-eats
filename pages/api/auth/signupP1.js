@@ -1,6 +1,7 @@
 import { hash, compare } from "bcryptjs";
 import { connectToDB } from "../../../src/utility-functions/auth/connectToDB";
 import { makeID } from "../helperFunctions/makeID";
+import { pwStrengthCheck } from "../helperFunctions/pwStrengthCheck";
 
 // Use to check for bltantly fake emails
 var validator = require("email-validator"); // https://yarnpkg.com/package/email-validator
@@ -42,29 +43,15 @@ export default async function handler(req, res) {
   }
 
   // See if the password provided meets our requirements
-  let results = strengthTester.check(password);
-  const conditions = {
-    characterDiversity: results.charsetSize >= 80,
-    commonPassword: !results.commonPassword,
-    adequateLength: results.passwordLength >= 8,
-    adequateStrength: results.strengthCode != "VERY_WEAK" || results.strengthCode != "WEAK", // prettier-ignore
-    includesNumber: results.charsets.number === true,
-    includesLowercase: results.charsets.lower === true,
-    includesUppercase: results.charsets.upper === true,
-    includesSymbol: results.charsets.symbol === true,
-    excludesPunctuation: !results.charsets.punctuation,
-  }; // if this object contains a falsy, the password is not acceptable
-  let falseInside = Object.values(conditions).includes(false); // Boolean
-  // If we have a false in the object, throw an error then end the Route
-  if (falseInside) {
+  let acceptablePW = pwStrengthCheck(password); // Boolean
+  if (!acceptablePW) {
     client.close(); // don't forget to close mongo session
     res.status(422).json({ message: "Password does not meet requirements" });
-    return;
-  }
-  // PAST THIS POINT, THE EMAIL IS UNIQUE AND LIKELY REAL + THE PASSWORD IS STRONG ENOUGH
+    return; // If password's insufficent, throw an error nd end the route
+  } // PAST THIS POINT, THE EMAIL IS UNIQUE/LIKELY REAL + THE PASSWORD IS STRONG ENOUGH
 
   // Generate a 6 digit PIN to send via email, and create a hashed version that expires
-  const normalPIN = makeId(6);
+  const normalPIN = makeID(6);
   const hashedPIN = await hash(normalPIN, 12);
   const hashedPassword = await hash(password, 12); // hashed version of submitted password from earlier
   const expiryDate = new Date().getTime() + 1800000; // Unix 30 mins in future
@@ -73,7 +60,7 @@ export default async function handler(req, res) {
     from: "jasonxportfolio@gmail.com", // Change to your verified sender
     subject: "Verify Local Eats email",
     text: "Please do not reply to sender",
-    html: `Submit the following PIN code to verify your email on Local Eats: <strong>${normalPIN}</strong>`,
+    html: `Submit the following PIN code to verify your email on Local Eats: <strong>${normalPIN}</strong>. If you did not try to create an account, ignore this email.`,
   };
 
   // Send an email containing the unhashed generated PIN for verification purpsoes

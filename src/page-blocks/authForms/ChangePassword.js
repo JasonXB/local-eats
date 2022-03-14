@@ -10,7 +10,7 @@ import axios from "axios";
 import GeneralErrorModal from "../../custom-components/Modals/GeneralError";
 import { styles } from "../../../styles/auth/manageAccount";
 import ReturnHomeBtn from "../../custom-components/ReturnHomeBtn";
-import {lengthNoSpaces} from "../../utility-functions/general/lengthNoSpaces"
+import { lengthNoSpaces } from "../../utility-functions/general/lengthNoSpaces";
 
 // Since this component is nested within /auth/[panel].js
 // We'll let that component take care of redirects if we're on this page while offline
@@ -19,15 +19,12 @@ function reducer(state, action) {
   switch (action.type) {
     // Actions to take when the user submits a bad input for a field
     case "INVALID_OLD_PASSWORD":
-      return { ...state, oldPasswordText: "Incorrect account password", oldPasswordError: true }; // prettier-ignore
-    case "INVALID_NEW_PASSWORD_USED_PREVIOUSLY":
-      return { ...state, newPasswordText: "This password has been used before", newPasswordError: true }; // prettier-ignore
+      return { ...state, oldPasswordText: action.payload, oldPasswordError: true }; // prettier-ignore
     case "INVALID_NEW_PASSWORD":
-      return { ...state, newPasswordText: "Does not meet requirements", newPasswordError: true }; // prettier-ignore
+      return { ...state, newPasswordText: action.payload, newPasswordError: true }; // prettier-ignore
     case "INVALID_VERIFY_PASSWORD":
-      return { ...state, verifyPasswordText: "Does not match new password", verifyPasswordError: true }; // prettier-ignore
-
-    // Actions to take when we type in one of our fields
+      return { ...state, verifyPasswordText: action.payload, verifyPasswordError: true }; // prettier-ignore
+    // When typing in our input fields, remove error text and messages
     case "TYPING_OLD_PASSWORD":
       return { ...state, oldPasswordText: " ", oldPasswordError: false };
     case "TYPING_NEW_PASSWORD":
@@ -78,48 +75,71 @@ export default function ChangePassword() {
     const typedNewPassword = newPasswordRef.current.value;
     const typedVerifyPassword = verifyPasswordRef.current.value;
 
-    // If one of the input fields is empty, render some error text without looking in the DB
-    const typedOldPW_length = lengthNoSpaces(typedOldPassword);
-    const typedNewPW_length = lengthNoSpaces(typedNewPassword);
-    const typedVPW_length = lengthNoSpaces(typedVerifyPassword);
-    if (typedOldPW_length === 0) return dispatch({ type: "INVALID_OLD_PASSWORD" }); // prettier-ignore
-    if (typedNewPW_length === 0) return dispatch({ type: "INVALID_NEW_PASSWORD" }); // prettier-ignore
-    if (typedVPW_length === 0) return dispatch({ type: "INVALID_VERIFY_PASSWORD" }); // prettier-ignore
-
-    // Verify the new proposed password's strength using an API route
+    // Verify the passwords typed in the input fields
     try {
-      await axios.post("/api/auth/checkPasswordStrength", {
-        password: typedNewPassword,
-      });
-    } catch (error) {
-      return dispatch({ type: "INVALID_NEW_PASSWORD" }); // end function
-    }
-
-    // Change the password using an API route
-    try {
-      await axios.post("/api/auth/changePassword", {
+      await axios.post("/api/auth/checkPasswordFields", {
         oldPassword: typedOldPassword,
-        newPassword: typedNewPassword,
+        newPassword1: typedNewPassword,
+        newPassword2: typedVerifyPassword,
       });
-      // router.replace("/auth/credChangeSignin");
-      signOut();
-      // IMPORTANT: sign out and prompt users to relogin to reinitialize NextAuth with up to date user data
-      // Our SSR page guard will take care of the redirect for us to /auth/siginPostPasswordChange
     } catch (error) {
+      //!!! Test this rework
+      console.log(error);
       if (!error.response || !error.response.data) return revealErrorModal();
       const errorMSG = error.response.data.message;
       switch (errorMSG) {
-        case "Old password is not correct":
-          dispatch({ type: "INVALID_OLD_PASSWORD" });
+        case "New password field empty":
+          dispatch({ type: "INVALID_NEW_PASSWORD", payload: "This field is required" }); // prettier-ignore
           break;
-        case "This password has been used previously":
-          dispatch({ type: "INVALID_NEW_PASSWORD_USED_PREVIOUSLY" }); // prettier-ignore
+        case "Verify password field empty":
+          dispatch({ type: "INVALID_VERIFY_PASSWORD", payload: "This field is required" }); // prettier-ignore
           break;
+        case "Old password field empty":
+          dispatch({ type: "INVALID_OLD_PASSWORD", payload: "This field is required" }); // prettier-ignore
+          break;
+        case "New password must be different":
+          dispatch({ type: "INVALID_NEW_PASSWORD", payload: errorMSG }); // prettier-ignore
+          break;
+        case "newPassword2 !== newPassword1":
+          dispatch({ type: "INVALID_VERIFY_PASSWORD", payload: "This password must match the previous one" }); // prettier-ignore
+          break;
+        case "Password does not meet requirements":
+          dispatch({ type: "INVALID_NEW_PASSWORD", payload: errorMSG }); // prettier-ignor
         default:
           revealErrorModal();
           break;
       }
     }
+    // //!!! combine into 1
+    // // Change the password using an API route
+    // try {
+    //   await axios.post("/api/auth/changePassword", {
+    //     oldPassword: typedOldPassword,
+    //     newPassword: typedNewPassword,
+    //   });
+    //   // router.replace("/auth/credChangeSignin");
+    //   signOut();
+    //   // IMPORTANT: sign out and prompt users to relogin to reinitialize NextAuth with up to date user data
+    //   // Our SSR page guard will take care of the redirect for us to /auth/siginPostPasswordChange
+    // } catch (error) {
+    //   console.log(error);
+    //   if (!error.response || !error.response.data) return revealErrorModal();
+    //   const errorMSG = error.response.data.message;
+    //   switch (errorMSG) {
+    //     case "Incorrect account password":
+    //       dispatch({ type: "INVALID_OLD_PASSWORD", payload: errorMSG });
+    //       break;
+    //     case "This password has been used previously":
+    //       dispatch({ type: "INVALID_NEW_PASSWORD", payload: errorMSG });
+    //       break;
+    //     case "Second password does not match the first":
+    //       dispatch({ type: "INVALID_VERIFY_PASSWORD", payload: errorMSG });
+    //       break;
+    //     default:
+    //       revealErrorModal();
+    //       break;
+    //   }
+    // }
   };
 
   return (

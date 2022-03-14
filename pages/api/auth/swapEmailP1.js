@@ -81,7 +81,7 @@ export default async function handler(req, res) {
     from: "jasonxportfolio@gmail.com", // Change to your verified sender
     subject: "Verify Local Eats email change",
     text: "Please do not reply to sender",
-    html: `Submit the following PIN code to complete an account email change on Local Eats: <strong>${normalPIN}</strong>`,
+    html: `Submit the following PIN code to complete an account email change on Local Eats: <strong>${normalPIN}</strong>. If you did not attempt to swap account emails on our platform, ignore this email.`,
   };
   // Send an email containing a PIN for verification purpsoes
   sgMail.send(msg).catch((error) => {

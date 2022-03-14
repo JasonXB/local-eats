@@ -8,6 +8,7 @@ import Box from "@mui/material/Box";
 import ChangeEmail from "../../../src/page-blocks/authForms/ChangeEmail";
 import ChangePassword from "../../../src/page-blocks/authForms/ChangePassword";
 import DeleteAccount from "../../../src/page-blocks/authForms/DeleteAccount";
+import LayoutContainer from "../../../src/custom-components/LayoutContainer";
 import { getSession } from "next-auth/react";
 
 // Redirect users to homepage if they come here offline
@@ -83,7 +84,7 @@ export default function ManageAccount(props) {
   }, []);
 
   return (
-    <Box sx={{ width: "100%" }}>
+    <LayoutContainer>
       <Tabs
         value={value}
         onChange={handleChange}
@@ -103,6 +104,6 @@ export default function ManageAccount(props) {
       <TabPanel value={value} index={2}>
         <DeleteAccount />
       </TabPanel>
-    </Box>
+    </LayoutContainer>
   );
 }

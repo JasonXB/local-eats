@@ -34,7 +34,7 @@ export default async function handler(req, res) {
   const passwordsMatch = await compare(oldPassword, userAccount.password); // T/F
   if (!passwordsMatch) {
     client.close();
-    res.status(408).json({ message: "Old password is not correct" });
+    res.status(408).json({ message: "Incorrect account password" });
     return; // if password's wrong, end the route here
   }
   // If passwords do match, make sure the newPassword is different than the old one

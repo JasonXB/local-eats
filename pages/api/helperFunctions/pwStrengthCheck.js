@@ -1,8 +1,7 @@
 var taiPasswordStrength = require("tai-password-strength");
 var strengthTester = new taiPasswordStrength.PasswordStrength();
 
-export default async function handler(req, res) {
-  const passwordToInspect = req.body.password;
+export function pwStrengthCheck(passwordToInspect) {
   // Inspect the response and see if our conditions are met
   let results = strengthTester.check(passwordToInspect);
   const conditions = {
@@ -16,15 +15,10 @@ export default async function handler(req, res) {
     includesSymbol: results.charsets.symbol === true,
     excludesPunctuation: !results.charsets.punctuation,
   }; // if this object contains a falsy, the password is not acceptable
+
   // Check if any of the KVP's in that object equal false
   let falseInside = Object.values(conditions).includes(false); // Boolean
-  if (falseInside) {
-    // If we have a false in the object, throw an error
-    res.status(422).json({ message: "Invalid password" });
-  } else {
-    // If the object is falsy free, return a success code
-    res.status(200).json({ message: "Valid password" });
-  }
+  return !falseInside; // return true if there is no false inside, and vice versa
 }
 
 /* Response from our password validation library:
@@ -47,6 +41,6 @@ charsets:
   symbol: true
   other (don't care)
 
-// https://yarnpkg.com/package/tai-password-strength
-// http://tests-always-included.github.io/password-strength/
+https://yarnpkg.com/package/tai-password-strength
+http://tests-always-included.github.io/password-strength/
 */

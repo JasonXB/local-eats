@@ -44,7 +44,7 @@ export default async function handler(req, res) {
     from: "jasonxportfolio@gmail.com", // Change to your verified sender
     subject: "Forget your Local Eats password?",
     text: "Please do not reply to sender",
-    html: `Submit the following PIN code to create a new password for your Local Eats account: <strong>${normalPIN}</strong> If you did not forget your password, go ahead and ignore this`,
+    html: `Submit the following PIN code to create a new password for your Local Eats account: <strong>${normalPIN}</strong>. If you did not forget your password for our platform, ignore this email.`,
   };
 
   // Store some data in the user's account that'll help us verify the user's submitted PIN

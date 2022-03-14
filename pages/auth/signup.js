@@ -78,6 +78,7 @@ export default function signup() {
         verifyPassword: typedPassword2,
       });
       // Save the signup email and password to localStorage
+      //!!! use query params instead
       localStorage.setItem("pendingAccountEmail", typedEmail);
       localStorage.setItem("signupPassword", typedPassword);
       router.push("/auth/verify-email"); // redirect
