@@ -29,7 +29,7 @@ export async function getServerSideProps(context) {
 
 export default function signup() {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false); // loading animation state
   // Control the form using state values
   const [formState, dispatch] = useReducer(reducer, {
     emailText: " ", // allots space for the message before we even want one to be visible
@@ -85,6 +85,7 @@ export default function signup() {
       //!!! use query params instead
       localStorage.setItem("pendingAccountEmail", typedEmail);
       localStorage.setItem("signupPassword", typedPassword);
+      setLoading(false);
       router.push("/auth/verify-email"); // redirect
     } catch (error) {
       if (!error.response || !error.response.data) return revealErrorModal();

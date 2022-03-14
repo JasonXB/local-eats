@@ -10,9 +10,11 @@ import AuthHeader from "../../../src/page-blocks/authForms/HeaderHelper";
 import GeneralErrorModal from "../../../src/custom-components/Modals/GeneralError";
 import GuestBtn from "../../custom-components/GuestBtn";
 import { lengthNoSpaces } from "../../utility-functions/general/lengthNoSpaces";
+import Wave from "../../custom-components/LoadingVisuals/FullScreen/Wave";
 
 export default function useSignIn(title, descrip, needNewAccount) {
   const router = useRouter();
+  const [loading, setLoading] = useState(false); // set up state for loading animation
   // Collect values of what's typed in each of the input fields
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -30,10 +32,12 @@ export default function useSignIn(title, descrip, needNewAccount) {
   const revealErrorModal = () => setModalVisible(true);
 
   const loginHandler = async function () {
+    setLoading(true);
     // Capture values of input fields
     const typedEmail = emailRef.current.value;
     const typedPassword = passwordRef.current.value;
 
+    //!!! See if you need to bundle this in the ...next function callback
     // If one of the input fields is empty, render some error text without looking in the DB
     const thinnedEmailLength = lengthNoSpaces(typedEmail);
     const thinnedPasswordLength = lengthNoSpaces(typedPassword);
@@ -71,13 +75,16 @@ export default function useSignIn(title, descrip, needNewAccount) {
           // should only happen when one of our 3rd party services fail (SendGrid, MongoDB...etc)
           break;
       }
+      setLoading(false);
       return;
     }
+    setLoading(false);
     // If the login attempt is successful, redirect to homepage
     if (!loginRequest.error) return router.push("/");
   };
 
   // The state values in useReducer influence the JSX based on their values
+  if (loading) return <Wave />;
   return (
     <Stack sx={styles.parentContainer}>
       <AuthHeader

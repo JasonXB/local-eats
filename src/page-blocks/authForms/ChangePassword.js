@@ -10,6 +10,7 @@ import axios from "axios";
 import GeneralErrorModal from "../../custom-components/Modals/GeneralError";
 import { styles } from "../../../styles/auth/manageAccount";
 import ReturnHomeBtn from "../../custom-components/ReturnHomeBtn";
+import Wave from "../../custom-components/LoadingVisuals/Partial/Wave";
 
 // Since this component is nested within /auth/[panel].js
 // We'll let that component take care of redirects if we're on this page while offline
@@ -45,6 +46,7 @@ function reducer(state, action) {
 }
 
 export default function ChangePassword() {
+  const [loading, setLoading] = useState(false); // loading animation state
   // Control the general error modal which opens if one of our API route 3rd party services fail
   const [modalVisible, setModalVisible] = useState(false);
   const revealErrorModal = () => setModalVisible(true);
@@ -70,6 +72,7 @@ export default function ChangePassword() {
 
   const changePasswordHandler = async function () {
     dispatch({ type: "RESET" });
+    setLoading(true);
     // Capture values of input fields
     const typedOldPassword = oldPasswordRef.current.value;
     const typedNewPassword = newPasswordRef.current.value;
@@ -82,13 +85,17 @@ export default function ChangePassword() {
         newPassword1: typedNewPassword,
         newPassword2: typedVerifyPassword,
       });
+      setLoading(false);
+      signOut();
+      // IMPORTANT: sign out and prompt users to relogin to reinitialize NextAuth with up to date user data
+      // Our SSR page guard will take care of the redirect for us to /auth/siginPostPasswordChange
     } catch (error) {
       // console.log(error);
       // If the API route ends due to an unforseen error, open up the error modal
       if (!error.response || !error.response.data) return revealErrorModal();
       // We've coded actions for all possible users errors
       const errorMSG = error.response.data.message;
-      console.log(99, errorMSG)
+      
       switch (errorMSG) {
         case "New password field empty":
           dispatch({ type: "INVALID_NEW_PASSWORD", payload: "This field is required" }); // prettier-ignore
@@ -106,16 +113,18 @@ export default function ChangePassword() {
           dispatch({ type: "INVALID_VERIFY_PASSWORD", payload: "This password must match the previous one" }); // prettier-ignore
           break;
         case "Password does not meet requirements":
-          dispatch({ type: "INVALID_NEW_PASSWORD", payload: errorMSG }); // prettier-ignor
+          dispatch({ type: "INVALID_NEW_PASSWORD", payload: errorMSG }); // prettier-ignore
         case "Old password incorrect":
             dispatch({ type: "INVALID_OLD_PASSWORD", payload: "Incorrect account password" }); // prettier-ignore
         default:
           revealErrorModal();
           break;
       }
+      setLoading(false);
     }
   };
 
+  if (loading) return <Wave />;
   return (
     <Stack sx={styles.parentContainer}>
       <AuthHeader titleText={"Change Password"} descriptionText={""} />

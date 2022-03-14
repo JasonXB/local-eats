@@ -11,6 +11,7 @@ import GeneralErrorModal from "../../custom-components/Modals/GeneralError";
 import { styles } from "../../../styles/auth/manageAccount";
 import ReturnHomeBtn from "../../custom-components/ReturnHomeBtn";
 import { lengthNoSpaces } from "../../utility-functions/general/lengthNoSpaces";
+import Wave from "../../custom-components/LoadingVisuals/Partial/Wave";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -40,7 +41,7 @@ function reducer(state, action) {
 
 export default function ChangeEmail(props) {
   const router = useRouter();
-
+  const [loading, setLoading] = useState(false); // loading animation state
   // These states and dispatch functions control the error text and colors of each input field
   const [formState, dispatch] = useReducer(reducer, {
     emailText: " ", // allots space for the message before we even want one to be visible
@@ -61,6 +62,7 @@ export default function ChangeEmail(props) {
     const typedNewEmail = newEmailRef.current.value;
     const typedPassword = passwordRef.current.value;
     dispatch({ type: "RESET" }); // reset form state
+    setLoading(true);
     // If one of the input fields is empty, render some error text without looking in the DB
     const typedNewEmail_length = lengthNoSpaces(typedNewEmail);
     const typedPassword_length = lengthNoSpaces(typedPassword);
@@ -73,6 +75,7 @@ export default function ChangeEmail(props) {
         submittedPassword: typedPassword,
       });
       localStorage.setItem("emailChangePending", true);
+      setLoading(false);
       router.push("/auth/manage-account/verify-email-change");
     } catch (error) {
       // Render error messages onscreen depending on the response object recieved
@@ -105,6 +108,7 @@ export default function ChangeEmail(props) {
           revealErrorModal();
           break;
       }
+      setLoading(false);
     }
   };
 
@@ -115,6 +119,7 @@ export default function ChangeEmail(props) {
     setCurrentEmail(session.user.email);
   }, []);
 
+  if (loading) return <Wave />;
   return (
     <Stack sx={styles.parentContainer}>
       <AuthHeader titleText={"Change Email"} descriptionText={""} />
