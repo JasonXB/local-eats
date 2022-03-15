@@ -112,14 +112,13 @@ export default function ForgetPasswordVerify() {
           router.push(`/auth/forgot-password`);
           break;
         case "Incorrect PIN":
-          dispatch({ type: "INVALID_PIN", payload: "Invalid PIN length" });
+          dispatch({ type: "INVALID_PIN", payload: "Incorrect entry" });
           router.push(`/auth/forgot-password`);
           break;
         case "PIN has expired":
           dispatch({ type: "INVALID_PIN", payload: errorMSG });
           router.push(`/auth/forgot-password`);
           break;
-
         // If one of our 3rd party services fail, render a generic error modal
         default:
           revealErrorModal();

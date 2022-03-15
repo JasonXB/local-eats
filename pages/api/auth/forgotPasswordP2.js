@@ -13,10 +13,12 @@ export default async function handler(req, res) {
   // Create utility functions that help end the API route when the user submits invalid information
   const endFailedProcess = async () => {
     // For when a user makes a genuine attempt to verify an email and fails (incorrect or expired pin for ex.)
-    await db.collection("users").updateOne(
-      { email: email }, //!!! repeat
-      { $unset: { passwordChangePin: "", passwordChangePinExpiryDate: "" } }
-    );
+    await db
+      .collection("users")
+      .updateOne(
+        { email: email },
+        { $unset: { passwordChangePin: "", passwordChangePinExpiryDate: "" } }
+      );
     client.close();
   };
   const endWithSecondChance = () => {
@@ -70,7 +72,7 @@ export default async function handler(req, res) {
   // See if the PIN is submitted on time. If not, end with a harsh error
   const currentUnixTime = new Date().getTime();
   if (currentUnixTime > expiryDate) {
-    await endFailedProcess();
+    await endFailedProcess(); 
     res.status(406).json({ message: "PIN has expired" });
     return;
   }
