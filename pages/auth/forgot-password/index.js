@@ -97,6 +97,7 @@ export default function ForgotPassword() {
           align="left"
           variant="label"
           color={formState.emailError ? "secondary" : ""}
+          sx={{mb:0.5}}
         >
           Account Email:
         </Typography>

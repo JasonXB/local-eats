@@ -97,6 +97,7 @@ export default function ForgetPasswordVerify() {
       const errorMSG = error.response.data.message;
       //!!! test switch (submitting empty fields creates an error already)
       switch (errorMSG) {
+        // Leave error feedback but do not redirect for these first few errors
         case "Invalid PIN":
           dispatch({ type: "INVALID_PIN", payload: "Invalid entry" });
           break;
@@ -106,13 +107,17 @@ export default function ForgetPasswordVerify() {
         case "Password does not meet requirements":
           dispatch({ type: "INVALID_PASSWORD", payload: errorMSG });
           break;
+        // The following errors should trigger redirects
         case "No account found for the submitted email":
-          break; // simply allow the redirect to happen
+          router.push(`/auth/forgot-password`);
+          break;
         case "Incorrect PIN":
           dispatch({ type: "INVALID_PIN", payload: "Invalid PIN length" });
+          router.push(`/auth/forgot-password`);
           break;
         case "PIN has expired":
           dispatch({ type: "INVALID_PIN", payload: errorMSG });
+          router.push(`/auth/forgot-password`);
           break;
 
         // If one of our 3rd party services fail, render a generic error modal
@@ -120,8 +125,6 @@ export default function ForgetPasswordVerify() {
           revealErrorModal();
           break;
       }
-      
-      // router.push(`/auth/forgot-password`);
     }
   };
 
@@ -208,6 +211,9 @@ export default function ForgetPasswordVerify() {
         </FormHelperText>
         <Button variant="contained" disableElevation onClick={verifyHandler}>
           VERIFY
+        </Button>
+        <Button variant="outlined" href="/auth/forgot-password" sx={{mt:2}}>
+          RESTART PROCESS
         </Button>
       </FormControl>
 
