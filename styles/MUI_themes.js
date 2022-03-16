@@ -26,6 +26,12 @@ export const customThemes = {
       secondary: { main: "#da3743" }, // near crimson red
       info: { main: "#4285f4" }, // google blue
       grayBackground: { main: "#F5F5F5" },
+      bookmark: {
+        main: "rgb(255,215,0)", // gray
+        light: "rgba(232, 232, 232, 0.9)", // gold
+        dark: "rgb(255,215,0)", // gray
+        bg: "#00162e"
+      },
     },
     breakpoints: {
       values: breakpointValues,

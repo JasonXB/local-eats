@@ -11,5 +11,5 @@ export default function BookmarksBtn(props) {
     );
   }
   // If we're past the sm breakpoint, render the following
-  return <Button sx={{ ml: 1, mx:2 }}>Bookmarks</Button>;
+  return <Button sx={{ ml: 1, mx: 2 }}>Bookmarks</Button>;
 }

@@ -201,5 +201,5 @@ const styles = {
       display: "none", // only show on small screens
     },
   },
-  bookmarkDesktopIcon: {},
+  
 };
