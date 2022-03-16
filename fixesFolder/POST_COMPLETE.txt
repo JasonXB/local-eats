@@ -27,6 +27,6 @@ Project Notes on
 5. Fast connect and editing MongoDB using the connectToDB helper function
 connectToDB, then show swapEmailP2 line 20
 Explain how to track down a focument then edit its fields (signUpP1's updateOne line on L94)
-How to access nested objects and arrays (bookmark API route)
-How to push values in arrays
+How to access nested objects and arrays (bookmark.js)
+How to push values in nested arrays (bookmark.js)
 Multiple operations like setting and unsetting (swapEmailP2 L58)

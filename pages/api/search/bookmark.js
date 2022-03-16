@@ -24,16 +24,18 @@ export default async function handler(req, res) {
   const savedIdList = userAccount.bookmarks.idsOnly; // an array
   const bookmarkedAlready = savedIdList.includes(storeID); // a boolean
 
-  // If the restaurant's not on the list, add it
+  // If the restaurant's not on the list of saved ID's, add it to both bookmark arrays on our DB
+  // Array 1: Contains all restaurant data we deconstructed at the top of this route
+  // Array 2: Contains ID's of bookmarked restaurants (but no other data)
   if (!bookmarkedAlready) {
     await db.collection("users").updateOne(
-      { email: userEmail },
+      { email: userEmail }, // locate the document to edit using the user email (a unique identifier)
       {
+        // Perform a push operation to add array entries
+        // Reaching the arrays we wish to edit requires a bit of drilling
         $push: {
-          bookmarks: {
-            saved: dataObj, // Add to the saved bookmarks list (contains )
-            idsOnly: storeID, // Add to the saved bookmarks idsOnly list
-          },
+          "bookmarks.saved": dataObj, // must equal the exact object of data we're removing (entire thing)
+          "bookmarks.idsOnly": storeID, // must equal the exact id we're removing
         },
       }
     );
@@ -42,6 +44,17 @@ export default async function handler(req, res) {
   if (bookmarkedAlready) {
     // Remove from the saved bookmarks idsOnly list
     // Remove from saved bookmarks list (contains )
+    await db.collection("users").updateOne(
+      { email: userEmail }, // locate the document to edit using the user email (a unique identifier)
+      {
+        // Perform a pull operation to remove array entries
+        // Reaching the arrays we wish to edit requires a bit of drilling
+        $pull: {
+          "bookmarks.saved": dataObj,
+          "bookmarks.idsOnly": storeID,
+        },
+      }
+    );
   }
   res.status(201).json({ message: "Test run done" });
 }

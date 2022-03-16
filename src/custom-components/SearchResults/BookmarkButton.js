@@ -6,17 +6,21 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 export default function BookmarkButton({ viewportType, dataObj }) {
   // Send an HTTP request to the DB to save or unsave each bookmark
   const clickHandler = async function (dataObj) {
-    // Go into the DB and add/remove this restaurant from the saved list
-    await axios.post("/api/search/bookmark", {
-      address: dataObj.address,
-      category: dataObj.category,
-      distance: dataObj.distance,
-      image: dataObj.image,
-      price: dataObj.price,
-      rating: dataObj.rating,
-      storeID: dataObj.storeID,
-      storeName: dataObj.storeName,
-    });
+    try {
+      // Go into the DB and add/remove this restaurant from the saved list
+      await axios.post("/api/search/bookmark", {
+        address: dataObj.address,
+        category: dataObj.category,
+        distance: dataObj.distance,
+        image: dataObj.image,
+        price: dataObj.price,
+        rating: dataObj.rating,
+        storeID: dataObj.storeID,
+        storeName: dataObj.storeName,
+      });
+    } catch (error) {
+      console.log("Error inbound");
+    }
   };
 
   // ----------------------------------------------
