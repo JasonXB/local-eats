@@ -3,10 +3,10 @@ import { useRouter } from "next/router";
 import StarRateIcon from "@mui/icons-material/StarRate";
 import { Typography, Box, Stack } from "@mui/material";
 import { useSession } from "next-auth/react";
-import BookmarkIcon from "@mui/icons-material/Bookmark";
 import LazyImage from "./LazyImage";
 import { getRatingColor } from "../../utility-functions/search/getRatingColor";
 import { mix } from "../../../styles/styleMixins";
+import IdBookmark from "../Bookmarks/IdBookmark";
 
 export default function RestaurantCard({ dataObj, scrollPosition }) {
   const router = useRouter();
@@ -17,11 +17,6 @@ export default function RestaurantCard({ dataObj, scrollPosition }) {
 
   // Choose which color to use on the star rating blurb
   let ratingColor = getRatingColor(cardData.rating);
-  // Choose what color the bookmark Icons should be
-  const iconColor = {
-    default: "rgba(232, 232, 232, 0.9)",
-    selected: "rgb(255,215,0)",
-  };
 
   return (
     <Stack sx={styles.container}>
@@ -31,16 +26,7 @@ export default function RestaurantCard({ dataObj, scrollPosition }) {
           scrollPosition={scrollPosition}
           id={dataObj.storeID}
         />
-        {status === "authenticated" && (
-          <BookmarkIcon
-            sx={{
-              ...mix.cardBookmark,
-              color: iconColor.default,
-              borderRadius: 20,
-              "&:hover": { color: iconColor.selected },
-            }}
-          />
-        )}
+        {status === "authenticated" && <IdBookmark />}
       </Box>
 
       <Box

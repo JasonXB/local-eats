@@ -34,11 +34,6 @@ export default function Banner(props) {
 
   // Get the bgColor for the star rating component
   const ratingColor = getRatingColor(rating);
-  // Choose what color the bookmark Icons should be
-  const iconColor = {
-    default: "rgba(232, 232, 232, 0.9)",
-    selected: "rgb(255,215,0)",
-  };
 
   return (
     <LayoutContainer>
@@ -70,20 +65,7 @@ export default function Banner(props) {
             icon={<StarsRoundedIcon fontSize="inherit" />}
             emptyIcon={<StarsRoundedIcon fontSize="inherit" />}
           />
-          {/* Icon button for mobile screens only */}
-          {status === "authenticated" && (
-            <IconButton aria-label="delete" sx={styles.bookmarkDesktop}>
-              <BookmarkIcon
-                sx={{
-                  color: iconColor.default,
-                  "&:hover": {
-                    background: "#00162e",
-                    color: "rgb(255,215,0)",
-                  },
-                }}
-              />
-            </IconButton>
-          )}
+          {status === "authenticated" && <IdBookmark viewportType="mobile" />}
         </Box>
 
         {categories && (
@@ -102,7 +84,7 @@ export default function Banner(props) {
           <StarRateIcon fontSize="small" sx={{ ml: "2px", color: "white" }} />
         </Box>
         {/* Icon button for screens larger than 550px only */}
-        {status === "authenticated" && <IdBookmark />}
+        {status === "authenticated" && <IdBookmark viewportType="desktop" />}
       </Box>
     </LayoutContainer>
   );
