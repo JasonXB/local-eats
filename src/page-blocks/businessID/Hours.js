@@ -134,6 +134,7 @@ const styles = {
     ...mix.responsiveLayout,
     mt: 4,
   },
+  // Grid containing hours, map, and other details
   layoutGrid: {
     display: "grid",
     gridGap: "2rem 2rem",
@@ -148,7 +149,7 @@ const styles = {
       "b b"`,
     },
     ["@media (min-width: 1000px)"]: {
-      gridGap: "0.5rem 2rem",
+      gridGap: "0.5rem 4rem",
       gridTemplateColumns: "auto 1fr auto",
       gridTemplateAreas: ` "a b c"`,
     },
@@ -170,6 +171,7 @@ const styles = {
     border: "1px solid rgb(235,235,235)",
     p: 2,
   },
+  // Grid containing operating hours
   hoursGrid: {
     gridArea: "a", // position in the layout grid
     display: "grid",

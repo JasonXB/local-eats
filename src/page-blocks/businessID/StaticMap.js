@@ -31,10 +31,8 @@ export default function StaticMap({ coords }) {
     gridArea: "b", // position in the layout grid
     height: 250,
     width: "100%",
+    // maxWidth: 
     justifySelf: "center",
-    ["@media (min-width: 1000px)"]: {
-      width: "85%",
-    },
   };
 
   return (
