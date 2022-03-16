@@ -64,7 +64,7 @@ export default function Banner(props) {
             emptyIcon={<StarsRoundedIcon fontSize="inherit" />}
           />
           {status === "authenticated" && (
-            <BookmarkButton viewportType="mobile" />
+            <BookmarkButton viewportType="mobile" data={props.bannerData}/>
           )}
         </Box>
 
@@ -85,7 +85,7 @@ export default function Banner(props) {
         </Box>
         {/* Icon button for screens larger than 550px only */}
         {status === "authenticated" && (
-          <BookmarkButton viewportType="desktop" />
+          <BookmarkButton viewportType="desktop" data={props.bannerData}/>
         )}
       </Box>
     </LayoutContainer>

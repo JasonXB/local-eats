@@ -1,9 +1,25 @@
 import React from "react";
+import axios from "axios";
 import IconButton from "@mui/material/IconButton";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
-import { mix } from "../../../styles/styleMixins";
 
-export default function BookmarkButton({ viewportType }) {
+export default function BookmarkButton({ viewportType, dataObj }) {
+  // Send an HTTP request to the DB to save or unsave each bookmark
+  const clickHandler = async function (dataObj) {
+    // Go into the DB and add/remove this restaurant from the saved list
+    await axios.post("/api/search/bookmark", {
+      address: dataObj.address,
+      category: dataObj.category,
+      distance: dataObj.distance,
+      image: dataObj.image,
+      price: dataObj.price,
+      rating: dataObj.rating,
+      storeID: dataObj.storeID,
+      storeName: dataObj.storeName,
+    });
+  };
+
+  // ----------------------------------------------
   // For business page on desktop screens
   if (viewportType === "desktop") {
     return <BookmarkIcon sx={desktopStyles.icon} />;
@@ -17,7 +33,10 @@ export default function BookmarkButton({ viewportType }) {
     );
   }
   // For search results page (any screen type)
-  else return <BookmarkIcon sx={styles.icon} />;
+  else
+    return (
+      <BookmarkIcon sx={styles.icon} onClick={() => clickHandler(dataObj)} />
+    );
 }
 
 const desktopStyles = {

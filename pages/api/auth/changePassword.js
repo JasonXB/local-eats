@@ -1,6 +1,6 @@
 //# API Route that allows the authenticated to change their account password
 import { getSession } from "next-auth/react";
-import { connectToDB } from "../../../src/utility-functions/auth/connectToDB";
+import { connectToDB } from "../helperFunctions/connectToDB";
 import { compare, hash } from "bcryptjs";
 
 export default async function handler(req, res) {

@@ -1,5 +1,5 @@
 import { hash, compare } from "bcryptjs";
-import { connectToDB } from "../../../src/utility-functions/auth/connectToDB";
+import { connectToDB } from "../helperFunctions/connectToDB";
 import { makeID } from "../helperFunctions/makeID";
 
 // Use to check for bltantly fake emails

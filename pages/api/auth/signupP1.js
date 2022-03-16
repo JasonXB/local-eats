@@ -1,5 +1,5 @@
 import { hash, compare } from "bcryptjs";
-import { connectToDB } from "../../../src/utility-functions/auth/connectToDB";
+import { connectToDB } from "../helperFunctions/connectToDB";
 import { makeID } from "../helperFunctions/makeID";
 import { pwStrengthCheck } from "../helperFunctions/pwStrengthCheck";
 
@@ -76,6 +76,10 @@ export default async function handler(req, res) {
     await db.collection("users").insertOne({
       email,
       password: hashedPassword, // is hashed before insertion for security reasons
+      bookmarks: {
+        saved: [],
+        idsOnly: [],
+      },
       hashedVerifyPIN: hashedPIN, // will use to verify the email's owned by the user
       pinExpiryDate: expiryDate,
       accountStatus: "pending",

@@ -1,6 +1,6 @@
 import { getSession } from "next-auth/react";
 import { compare, hash } from "bcryptjs";
-import { connectToDB } from "../../../src/utility-functions/auth/connectToDB";
+import { connectToDB } from "../helperFunctions/connectToDB";
 
 export default async function handler(req, res) {
   const { submittedPIN } = req.body;

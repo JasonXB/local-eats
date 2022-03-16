@@ -1,6 +1,6 @@
 import { getSession } from "next-auth/react";
 import { compare, hash } from "bcryptjs";
-import { connectToDB } from "../../../src/utility-functions/auth/connectToDB";
+import { connectToDB } from "../helperFunctions/connectToDB";
 
 // Helps identify blatantly fake emails
 var validator = require("email-validator"); // https://yarnpkg.com/package/email-validator

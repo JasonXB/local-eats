@@ -52,7 +52,7 @@ function SearchResults(props) {
 
   // Grab the array of restaurants so you can render Cards with them
   const restaurantList = useSelector((rs) => rs.searchResults.restaurantList); // prettier-ignore
-
+  
   // POSSIBLE OUTCOMES
   // 1) Render nothing if the values from locationObj or query object are not ready yet ( = undefined at first)
   // apiString and searchHeader are dependent on the query obj from the component above this one

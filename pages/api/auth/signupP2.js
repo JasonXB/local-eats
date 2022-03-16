@@ -1,5 +1,5 @@
 import { compare } from "bcryptjs";
-import { connectToDB } from "../../../src/utility-functions/auth/connectToDB";
+import { connectToDB } from "../helperFunctions/connectToDB";
 
 //# API Route file
 export default async function handler(req, res) {

@@ -43,14 +43,14 @@ export default function verifyEmail() {
       await axios.post("/api/auth/swapEmailP2", {
         submittedPIN: typedPIN, // the pin we type in this pg's form
       });
-      localStorage.removeItem("emailChangePending");
+      localStorage.removeItem("emailChangePending"); //!!!!
       // router.replace("/auth/credChangeSignin");
       setLoading(false);
       signOut();
       // IMPORTANT: sign out and prompt users to relogin to reinitialize NextAuth with up to date user data
       // Our SSR page guard will take care of the redirect for us to /auth/siginPostEmailChange
     } catch (error) {
-      localStorage.removeItem("emailChangePending");
+      localStorage.removeItem("emailChangePending"); //!!!!
       setLoading(false);
       router.replace("/auth/manage-account/change-email");
     }

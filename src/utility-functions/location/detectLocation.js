@@ -30,7 +30,7 @@ export const detectLocation = async function (
       // Extract data from the successful API call (axios auto-throws an error if it goes wrong)
       const requestData = apiRouteCall.data.requestData;
       // Save details to localStorage and project state
-      localStorage.setItem("savedLocation", JSON.stringify(requestData));
+      localStorage.setItem("savedLocation", JSON.stringify(requestData)); 
       setLocationObject(requestData);
     } catch (err) {
       //% render a modal giving the user the choice to use predetermined locations

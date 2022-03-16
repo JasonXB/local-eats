@@ -26,7 +26,7 @@ export default function RestaurantCard({ dataObj, scrollPosition }) {
           scrollPosition={scrollPosition}
           id={dataObj.storeID}
         />
-        {status === "authenticated" && <BookmarkButton />}
+        {status === "authenticated" && <BookmarkButton dataObj={dataObj}/>}
       </Box>
 
       <Box

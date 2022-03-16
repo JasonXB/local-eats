@@ -74,7 +74,7 @@ export default function ChangeEmail(props) {
         newEmail: typedNewEmail,
         submittedPassword: typedPassword,
       });
-      localStorage.setItem("emailChangePending", true);
+      localStorage.setItem("emailChangePending", true); //!!! switch to search params
       setLoading(false);
       router.push("/auth/manage-account/verify-email-change");
     } catch (error) {

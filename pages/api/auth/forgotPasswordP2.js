@@ -1,5 +1,5 @@
 import { hash, compare } from "bcryptjs";
-import { connectToDB } from "../../../src/utility-functions/auth/connectToDB";
+import { connectToDB } from "../helperFunctions/connectToDB";
 import { pwStrengthCheck } from "../helperFunctions/pwStrengthCheck";
 import { removeWhiteSpace } from "../../../src/utility-functions/general/lengthNoSpaces";
 

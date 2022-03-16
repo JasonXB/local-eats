@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { connectToDB } from "../../../src/utility-functions/auth/connectToDB";
+import { connectToDB } from "../helperFunctions/connectToDB";
 import { compare } from "bcryptjs";
 
 export default NextAuth({
@@ -26,7 +26,7 @@ export default NextAuth({
           throw new Error("No account found using this email");
         }
         // Make sure the account is verified
-        if(user.accountStatus==="pending"){
+        if (user.accountStatus === "pending") {
           client.close();
           throw new Error("The account tied to this email is not verified yet");
         }
@@ -42,8 +42,19 @@ export default NextAuth({
         }
         // If password matches, the operation's a success so return an object
         client.close(); // close DB session
-        return { email: user.email }; // USE TO ACCESS THE CURRENTLY LOGGED IN EMAIL IN THE CHANGE-PASSWORD API ROUTE
         // Place the user email inside- not the entire user obj (insecure)
+        return { email: user.email };
+        // USE THIS TO ACCESS THE CURRENTLY LOGGED IN EMAIL INSIDE API ROUTES + getSession
+        /*
+        import { getSession } from "next-auth/react";
+
+        const session = await getSession({ req: req }); // equals falsy if logged off
+        if (!session) {
+            res.status(407).json({ message: "Not authenticated!" });
+            return
+        }
+        const userEmail = session.user.email;
+        */
       },
     }),
   ],
