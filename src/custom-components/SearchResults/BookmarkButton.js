@@ -2,12 +2,17 @@ import React from "react";
 import axios from "axios";
 import IconButton from "@mui/material/IconButton";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
+import GeneralErrorModal from "../../../src/custom-components/Modals/GeneralError";
 
 export default function BookmarkButton({ viewportType, dataObj }) {
+  // Control the general error modal should open if one of our API route 3rd party services fail
+  const [modalVisible, setModalVisible] = React.useState(false);
+  const revealErrorModal = () => setModalVisible(true);
+
   // Send an HTTP request to the DB to save or unsave each bookmark
   const clickHandler = async function (dataObj) {
     try {
-      // Go into the DB and add/remove this restaurant from the saved list
+      // Go into the DB and add/remove this restaurant from the saved list in the DB
       await axios.post("/api/search/bookmark", {
         address: dataObj.address,
         category: dataObj.category,
@@ -18,28 +23,40 @@ export default function BookmarkButton({ viewportType, dataObj }) {
         storeID: dataObj.storeID,
         storeName: dataObj.storeName,
       });
+      //!!! debounce this
     } catch (error) {
-      console.log("Error inbound");
+      revealErrorModal()
     }
   };
 
   // ----------------------------------------------
   // For business page on desktop screens
   if (viewportType === "desktop") {
-    return <BookmarkIcon sx={desktopStyles.icon} />;
+    return (
+      <>
+        <BookmarkIcon sx={desktopStyles.icon} />
+        <GeneralErrorModal modalVisible={modalVisible}/>
+      </>
+    );
   }
   // For business page on mobile screens
   else if (viewportType === "mobile") {
     return (
-      <IconButton aria-label="bookmark" sx={mobileStyles.parent}>
-        <BookmarkIcon sx={mobileStyles.icon} />
-      </IconButton>
+      <>
+        <IconButton aria-label="bookmark" sx={mobileStyles.parent}>
+          <BookmarkIcon sx={mobileStyles.icon} />
+        </IconButton>
+        <GeneralErrorModal modalVisible={modalVisible}/>
+      </>
     );
   }
   // For search results page (any screen type)
   else
     return (
-      <BookmarkIcon sx={styles.icon} onClick={() => clickHandler(dataObj)} />
+      <>
+        <BookmarkIcon sx={styles.icon} onClick={() => clickHandler(dataObj)} />
+        <GeneralErrorModal modalVisible={modalVisible}/>
+      </>
     );
 }
 
