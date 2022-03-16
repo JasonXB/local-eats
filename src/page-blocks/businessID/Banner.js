@@ -9,6 +9,7 @@ import StarsRoundedIcon from "@mui/icons-material/StarsRounded";
 import IconButton from "@mui/material/IconButton";
 import { styled } from "@mui/material/styles";
 import LayoutContainer from "../../custom-components/LayoutContainer";
+import IdBookmark from "../../custom-components/Bookmarks/IdBookmark";
 
 const StyledRating = styled(Rating)({
   width: 120,
@@ -101,20 +102,7 @@ export default function Banner(props) {
           <StarRateIcon fontSize="small" sx={{ ml: "2px", color: "white" }} />
         </Box>
         {/* Icon button for screens larger than 550px only */}
-        {status === "authenticated" && (
-          <BookmarkIcon
-            sx={{
-              ...mix.idBookmark,
-              color: iconColor.default,
-              borderRadius: 20,
-              p: 0.75,
-              "&:hover": { color: iconColor.selected, cursor: "pointer" },
-              ["@media (max-width: 549px)"]: {
-                display: "none",
-              },
-            }}
-          />
-        )}
+        {status === "authenticated" && <IdBookmark />}
       </Box>
     </LayoutContainer>
   );
@@ -201,5 +189,4 @@ const styles = {
       display: "none", // only show on small screens
     },
   },
-  
 };

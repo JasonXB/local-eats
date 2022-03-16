@@ -28,8 +28,8 @@ export const customThemes = {
       grayBackground: { main: "#F5F5F5" },
       bookmark: {
         main: "rgb(255,215,0)", // gray
-        light: "rgba(232, 232, 232, 0.9)", // gold
-        dark: "rgb(255,215,0)", // gray
+        light: "rgb(255,215,0)", // gold
+        dark: "rgba(232, 232, 232, 0.9)", // gray
         bg: "#00162e"
       },
     },

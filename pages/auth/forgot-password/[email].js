@@ -95,7 +95,6 @@ export default function ForgetPasswordVerify() {
       console.log(error.response.data.message);
       if (!error.response || !error.response.data) return revealErrorModal();
       const errorMSG = error.response.data.message;
-      //!!! test switch (submitting empty fields creates an error already)
       switch (errorMSG) {
         // Leave error feedback but do not redirect for these first few errors
         case "Invalid PIN":
