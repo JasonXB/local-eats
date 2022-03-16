@@ -19,3 +19,9 @@ See if they can use recording browser extensions so you know what triggers a cra
 Create a boiler plate folder for MUI with Next.js
 CTRL F Starting Project Folders (1 of 2)
 
+Project Notes on
+1. Mixins with MUI
+2. Hide before and hide after mixin. Flex row and flexColumn
+3. Layout Container and Padded Block reusable component
+4. Create a boilerplate for Next MUI projects
+

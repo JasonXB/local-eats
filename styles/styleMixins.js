@@ -91,29 +91,7 @@ export const mix = {
       [theme.breakpoints.down(BPname)]: { display: "none" },
     };
   },
-  // Bookmark for the restaurant search results page
-  cardBookmark: {
-    position: "absolute",
-    fontSize: "2.5rem",
-    right: "5%",
-    top: "5%",
-    p: 0.5,
-    borderRadius: 2,
-    background: "#00162e",
-  },
-  // Bookmark for the ID search page
-  idBookmark: {
-    fontSize: "2.5rem",
-    ml: "auto",
-    gridRow: "2/4",
-    p: 0.5,
-    borderRadius: 2,
-    background: "#00162e",
-    alignSelf: "end",
-  },
-  bookmarkBg: {
-    background: "#00162e",
-  },
+
   formButtonWidth: {
     width: "80%",
     maxWidth: "20.625rem",

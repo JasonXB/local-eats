@@ -3,13 +3,11 @@ import { Typography, Box, Stack, Button, Rating } from "@mui/material";
 import { mix } from "../../../styles/styleMixins";
 import { getRatingColor } from "../../utility-functions/search/getRatingColor";
 import { useSession } from "next-auth/react";
-import BookmarkIcon from "@mui/icons-material/Bookmark";
 import StarRateIcon from "@mui/icons-material/StarRate";
 import StarsRoundedIcon from "@mui/icons-material/StarsRounded";
-import IconButton from "@mui/material/IconButton";
 import { styled } from "@mui/material/styles";
 import LayoutContainer from "../../custom-components/LayoutContainer";
-import IdBookmark from "../../custom-components/Bookmarks/IdBookmark";
+import BookmarkButton from "../../custom-components/SearchResults/BookmarkButton";
 
 const StyledRating = styled(Rating)({
   width: 120,
@@ -65,7 +63,9 @@ export default function Banner(props) {
             icon={<StarsRoundedIcon fontSize="inherit" />}
             emptyIcon={<StarsRoundedIcon fontSize="inherit" />}
           />
-          {status === "authenticated" && <IdBookmark viewportType="mobile" />}
+          {status === "authenticated" && (
+            <BookmarkButton viewportType="mobile" />
+          )}
         </Box>
 
         {categories && (
@@ -84,7 +84,9 @@ export default function Banner(props) {
           <StarRateIcon fontSize="small" sx={{ ml: "2px", color: "white" }} />
         </Box>
         {/* Icon button for screens larger than 550px only */}
-        {status === "authenticated" && <IdBookmark viewportType="desktop" />}
+        {status === "authenticated" && (
+          <BookmarkButton viewportType="desktop" />
+        )}
       </Box>
     </LayoutContainer>
   );

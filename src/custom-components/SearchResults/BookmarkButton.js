@@ -3,7 +3,7 @@ import IconButton from "@mui/material/IconButton";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import { mix } from "../../../styles/styleMixins";
 
-export default function IdBookmark({ viewportType }) {
+export default function BookmarkButton({ viewportType }) {
   // For business page on desktop screens
   if (viewportType === "desktop") {
     return <BookmarkIcon sx={desktopStyles.icon} />;
@@ -22,12 +22,19 @@ export default function IdBookmark({ viewportType }) {
 
 const desktopStyles = {
   icon: (theme) => ({
-    ...mix.idBookmark,
+    // Position inside of the grid this component gets placed in (business ID page only)
+    fontSize: "2.5rem",
+    ml: "auto",
+    gridRow: "2/4",
+    p: 0.5,
+    borderRadius: 2,
+    background: "#00162e",
+    alignSelf: "end",
+    // Color should change on hover
     color: theme.palette.bookmark.dark,
     borderRadius: 20,
     p: 0.75,
     "&:hover": {
-      // background: theme.palette.bookmark.bg,
       color: theme.palette.bookmark.light,
       cursor: "pointer",
     },
@@ -59,7 +66,15 @@ const mobileStyles = {
 
 const styles = {
   icon: (theme) => ({
-    ...mix.cardBookmark,
+    // Position the icon on top of the restaurant image portion of the card
+    position: "absolute",
+    fontSize: "2.5rem",
+    right: "5%",
+    top: "5%",
+    p: 0.5,
+    borderRadius: 2,
+    background: "#00162e",
+    // Color should change on hover
     color: theme.palette.bookmark.dark,
     borderRadius: 20,
     "&:hover": { color: theme.palette.bookmark.light },

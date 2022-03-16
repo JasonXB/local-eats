@@ -6,7 +6,7 @@ import { useSession } from "next-auth/react";
 import LazyImage from "./LazyImage";
 import { getRatingColor } from "../../utility-functions/search/getRatingColor";
 import { mix } from "../../../styles/styleMixins";
-import IdBookmark from "../Bookmarks/IdBookmark";
+import BookmarkButton from "../SearchResults/BookmarkButton";
 
 export default function RestaurantCard({ dataObj, scrollPosition }) {
   const router = useRouter();
@@ -26,7 +26,7 @@ export default function RestaurantCard({ dataObj, scrollPosition }) {
           scrollPosition={scrollPosition}
           id={dataObj.storeID}
         />
-        {status === "authenticated" && <IdBookmark />}
+        {status === "authenticated" && <BookmarkButton />}
       </Box>
 
       <Box
