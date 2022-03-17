@@ -14,3 +14,8 @@ If the user X's out by accident, they need a way to find the page again
 
 Make it so sign up, signIn, and all the other auth procedures no longer utilize LocalStorage
 Use query parameters to pass data between pages instead
+
+Sign in page looks bad on the center small screen
+Fix up margins for all forms
+
+

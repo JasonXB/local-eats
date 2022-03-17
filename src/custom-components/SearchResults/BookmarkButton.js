@@ -6,7 +6,7 @@ import GeneralErrorModal from "../../../src/custom-components/Modals/GeneralErro
 import { useGlobalContext } from "../../../state-management/globalContext";
 
 export default function BookmarkButton({ viewportType, dataObj }) {
-  const { addBookmark } = useGlobalContext();
+  const { addBookmark, removeBookmark } = useGlobalContext();
   // Control the general error modal should open if one of our API route 3rd party services fail
   const [modalVisible, setModalVisible] = React.useState(false);
   const revealErrorModal = () => setModalVisible(true);
@@ -30,7 +30,7 @@ export default function BookmarkButton({ viewportType, dataObj }) {
       if (successMSG === "Bookmark added") {
         addBookmark(savedData, savedData.storeID);
       } else if ("Bookmark removed") {
-        removeBookmark (savedData, savedData.storeID)
+        removeBookmark(savedData, savedData.storeID);
       }
       //!!! debounce this
     } catch (error) {

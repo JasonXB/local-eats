@@ -10,34 +10,40 @@ export default function GlobalContextAPIProvider(props) {
   // Add a restaurant to both the arrays above using one utility function
   const addBookmark = (dataObj, id) => {
     setBookmarks((prevState) => {
-      // if (bookmarks === null) return [dataObj];
-      // else return [...prevState, dataObj];
-      if (bookmarks === null) {
-        console.log([dataObj]);
-        return [dataObj];
-      } else {
-        console.log([...prevState, dataObj]);
-        return [...prevState, dataObj];
-      }
+      if (bookmarks === null) return [dataObj];
+      else return [...prevState, dataObj];
+      // if (bookmarks === null) {
+      //   console.log([dataObj]);
+      //   return [dataObj];
+      // } else {
+      //   return [...prevState, dataObj];
+      // }
     });
     setBookmarkIds((prevState) => {
-      // if (bookmarkIds === null) return [id];
-      // else return [...prevState, id];
-      if (bookmarkIds === null) {
-        console.log([id]);
-        return [id];
-      } else {
-        console.log([...prevState, id]);
-        return [...prevState, id];
-      }
+      if (bookmarkIds === null) return [id];
+      else return [...prevState, id];
+      // if (bookmarkIds === null) {
+      //   console.log([id]);
+      //   return [id];
+      // } else {
+      //   console.log([...prevState, id]);
+      //   return [...prevState, id];
+      // }
     });
   };
-  
+
   const removeBookmark = (dataObj, id) => {
-    //
+    setBookmarks((prevState) => {
+      console.log(prevState.filter((obj) => obj !== dataObj));
+      return prevState.filter((obj) => obj !== dataObj);
+    });
+    setBookmarkIds((prevState) => {
+      console.log(prevState.filter((idNum) => idNum !== id));
+      return prevState.filter((idNum) => idNum !== id);
+    });
   };
   // DISTRIBUTION
-  const distribution = { addBookmark, bookmarks, bookmarkIds };
+  const distribution = { addBookmark, removeBookmark, bookmarks, bookmarkIds };
   return <AAA.Provider value={distribution}>{props.children}</AAA.Provider>;
 }
 // HOW OUR BOOKMARK FEATURE WORKS
