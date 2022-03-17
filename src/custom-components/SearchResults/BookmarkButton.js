@@ -30,7 +30,7 @@ export default function BookmarkButton({ viewportType, dataObj }) {
       if (successMSG === "Bookmark added") {
         addBookmark(savedData, savedData.storeID); 
       } else if ("Bookmark removed") {
-        removeBookmark(savedData, savedData.storeID); 
+        removeBookmark(savedData.storeID); 
       }
       //!!!! debounce this
     } catch (error) {

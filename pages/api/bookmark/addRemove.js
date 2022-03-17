@@ -11,7 +11,6 @@ export default async function handler(req, res) {
   if (!session) {
     return res.status(401).json({ message: "User offline" });
   }
-
   // Grab the current logged in email- only works b/c of [...nextAuth].js: return { email: user.email } @ end
   const userEmail = session.user.email;
 

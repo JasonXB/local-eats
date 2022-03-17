@@ -4,10 +4,11 @@ export const useGlobalContext = () => useContext(AAA); // export custom hook
 
 export default function GlobalContextAPIProvider(props) {
   // Save our list of bookmarked restaurants to our project state
+  const [bookmarksEnabled, setBookmarksEnabled] = useState(false);
   const [bookmarks, setBookmarks] = useState(null);
   const [bookmarkIds, setBookmarkIds] = useState(null);
 
-  // Add a restaurant to both the arrays above using one utility function
+  // Add a restaurant to both the arrays above
   const addBookmark = (dataObj, id) => {
     setBookmarks((prevState) => {
       if (bookmarks === null) return [dataObj];
@@ -18,8 +19,8 @@ export default function GlobalContextAPIProvider(props) {
       else return [...prevState, id];
     });
   };
-
-  const removeBookmark = (dataObj, id) => {
+  // Delete a restaurant from one of the arrays above
+  const removeBookmark = (id) => {
     if (!bookmarks || !bookmarkIds) return;
     setBookmarks((prevState) => {
       const clone = prevState;
@@ -38,7 +39,19 @@ export default function GlobalContextAPIProvider(props) {
     });
   };
   // DISTRIBUTION
-  const distribution = { addBookmark, removeBookmark, bookmarks, bookmarkIds };
+  const distribution = {
+    bookmarks, // list of data objects for each saved restaurant
+    bookmarkIds, // list of saved restaurant IDs
+
+    addBookmark, // add a restaurant to both lists
+    removeBookmark, // remove a restaurant to both lists
+
+    setBookmarks, // use to set a list of bookmarks on startup based on whats saved on our DB
+    setBookmarkIds, // same as above, but with a list of ID's instead
+
+    bookmarksEnabled, // state value telling if we're allowed to use bookmarks or not
+    setBookmarksEnabled, // adjust state value described above
+  };
   return <AAA.Provider value={distribution}>{props.children}</AAA.Provider>;
 }
 // HOW OUR BOOKMARK FEATURE WORKS

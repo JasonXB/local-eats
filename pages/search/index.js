@@ -13,7 +13,8 @@ import { makeSearchHeader } from "../../src/utility-functions/search/makeSearchH
 import PaddedBlock from "../../src/custom-components/PaddedBlock";
 
 export default function Restaurants() {
-  const makeYelpEndpoint = useCreateYelpString(); // feed this function a query object
+  const makeYelpEndpoint = useCreateYelpString(); // feed this function a query object later
+
   // Get query parameters from URL + current location object to make a YelpAPI string
   const { query } = useRouter();
   const { locationObject } = useLocationContext();
@@ -32,6 +33,11 @@ export default function Restaurants() {
       `${makeSearchHeader(query)} ${locationObject.locationString}`
     );
   }, [query, locationObject]);
+
+  // On mount, save the bookmarks in the DB to our global state
+  useEffect(()=>{
+    
+  },[])
 
   // If we have no locationObject and arrive on this page, render this
   if (!locationObject)

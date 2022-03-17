@@ -28,7 +28,6 @@ export async function getServerSideProps(context) {
 }
 
 export default function Business(props) {
-  console.log(props.related);
   const { companyData, related } = props;
   const info = companyData.info;
   const bannerData = {
@@ -64,7 +63,7 @@ export default function Business(props) {
         infoTableData={infoTableData}
         coords={info.coords}
       />
-      <Related relatedList={related}/>
+      <Related relatedList={related} />
       <Footer />
       {/* Modal on standby for when someone opens the searchbar's drop down menu */}
       <SearchbarModals />
