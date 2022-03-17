@@ -7,7 +7,14 @@ export default function GlobalContextAPIProvider(props) {
   const [bookmarksEnabled, setBookmarksEnabled] = useState(false);
   const [bookmarks, setBookmarks] = useState(null);
   const [bookmarkIds, setBookmarkIds] = useState(null);
-
+  const initializeBookmarks_success = function (savedRestaurants, savedIds) {
+    setBookmarks(savedRestaurants);
+    setBookmarkIds(savedIds);
+    setBookmarksEnabled(true);
+  };
+  const initializeBookmarks_failure = function () {
+    setBookmarksEnabled(false);
+  };
   // Add a restaurant to both the arrays above
   const addBookmark = (dataObj, id) => {
     setBookmarks((prevState) => {
@@ -46,8 +53,8 @@ export default function GlobalContextAPIProvider(props) {
     addBookmark, // add a restaurant to both lists
     removeBookmark, // remove a restaurant to both lists
 
-    setBookmarks, // use to set a list of bookmarks on startup based on whats saved on our DB
-    setBookmarkIds, // same as above, but with a list of ID's instead
+    initializeBookmarks_success, // saves bookmarks to Context API
+    initializeBookmarks_failure, // sets a value in Context API telling us not to use bookmarks
 
     bookmarksEnabled, // state value telling if we're allowed to use bookmarks or not
     setBookmarksEnabled, // adjust state value described above

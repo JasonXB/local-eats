@@ -11,6 +11,7 @@ import SearchbarModals from "../../src/custom-components/Searchbar/SearchbarModa
 import PaddedBlock from "../../src/custom-components/PaddedBlock";
 import Related from "../../src/page-blocks/businessID/Related";
 import { getRelatedBusinesses } from "../api/search/related";
+import useBookmarks from "../api/helperFunctions/useBookmarks"
 
 export async function getServerSideProps(context) {
   const id = context.params.businessID;
@@ -28,6 +29,13 @@ export async function getServerSideProps(context) {
 }
 
 export default function Business(props) {
+  // Save the restaurants stored in the DB to the Global state
+  const initializeBookmarks = useBookmarks(); // set bookmarks on startup
+  React.useEffect(()=>{
+    initializeBookmarks()
+  },[])
+
+  // Extract props data to render
   const { companyData, related } = props;
   const info = companyData.info;
   const bannerData = {

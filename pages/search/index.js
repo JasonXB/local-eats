@@ -11,9 +11,10 @@ import NoResults from "../../src/page-blocks/search/NoResults";
 import useCreateYelpString from "../../src/utility-functions/search/useCreateYelpString";
 import { makeSearchHeader } from "../../src/utility-functions/search/makeSearchHeader";
 import PaddedBlock from "../../src/custom-components/PaddedBlock";
+import useBookmarks from "../api/helperFunctions/useBookmarks";
 
 export default function Restaurants() {
-  const makeYelpEndpoint = useCreateYelpString(); // feed this function a query object later
+  const makeYelpEndpoint = useCreateYelpString(); // feed this f() a query object later
 
   // Get query parameters from URL + current location object to make a YelpAPI string
   const { query } = useRouter();
@@ -34,10 +35,11 @@ export default function Restaurants() {
     );
   }, [query, locationObject]);
 
-  // On mount, save the bookmarks in the DB to our global state
-  useEffect(()=>{
-    
-  },[])
+  // Save the restaurants stored in the DB to the Global state
+  const initializeBookmarks = useBookmarks(); // f() sets bookmarks on startup
+  useEffect(() => {
+    initializeBookmarks();
+  }, []);
 
   // If we have no locationObject and arrive on this page, render this
   if (!locationObject)
