@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { connectToDB } from "../helperFunctions/connectToDB";
 import { compare } from "bcryptjs";
+import { useGlobalContext } from "../../../state-management/globalContext";
 
 export default NextAuth({
   // OAuth authentication providers...
@@ -41,8 +42,7 @@ export default NextAuth({
           throw new Error("Incorrect password");
         }
         // If password matches, the operation's a success so return an object
-        //!!! Also, save a list of bookmarks right as you log in (to Context API)
-        //!!! Run http request in parallel using Promise.all 
+        
         client.close(); // close DB session
         // Place the user email inside- not the entire user obj (insecure)
         return { email: user.email };

@@ -39,6 +39,8 @@ export default async function handler(req, res) {
         },
       }
     );
+    client.close();
+    return res.status(201).json({ message: "Bookmark added", savedData: dataObj });
   }
   // If the resturant is already in the list, remove it
   if (bookmarkedAlready) {
@@ -55,7 +57,7 @@ export default async function handler(req, res) {
         },
       }
     );
+    client.close();
+    return res.status(201).json({ message: "Bookmark removed", savedData: dataObj });
   }
-  client.close();
-  res.status(201).json({ message: "Test run done" });
 }

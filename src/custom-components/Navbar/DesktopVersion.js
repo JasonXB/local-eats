@@ -2,7 +2,6 @@ import React from "react";
 
 import { Typography, Box, Button } from "@mui/material";
 import { mix } from "../../../styles/styleMixins";
-import ThemeBtn from "./ThemeBtn";
 import SignInBtn from "./SignInBtn";
 import SignUpBtn from "./SignUpBtn";
 import BookmarksBtn from "./BookmarksBtn";

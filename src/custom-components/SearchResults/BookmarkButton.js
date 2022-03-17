@@ -3,8 +3,10 @@ import axios from "axios";
 import IconButton from "@mui/material/IconButton";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import GeneralErrorModal from "../../../src/custom-components/Modals/GeneralError";
+import { useGlobalContext } from "../../../state-management/globalContext";
 
 export default function BookmarkButton({ viewportType, dataObj }) {
+  const { addBookmark } = useGlobalContext();
   // Control the general error modal should open if one of our API route 3rd party services fail
   const [modalVisible, setModalVisible] = React.useState(false);
   const revealErrorModal = () => setModalVisible(true);
@@ -13,7 +15,7 @@ export default function BookmarkButton({ viewportType, dataObj }) {
   const clickHandler = async function (dataObj) {
     try {
       // Go into the DB and add/remove this restaurant from the saved list in the DB
-      await axios.post("/api/search/bookmark", {
+      const response = await axios.post("/api/bookmark/addRemove", {
         address: dataObj.address,
         category: dataObj.category,
         distance: dataObj.distance,
@@ -23,9 +25,20 @@ export default function BookmarkButton({ viewportType, dataObj }) {
         storeID: dataObj.storeID,
         storeName: dataObj.storeName,
       });
+      const successMSG = response.data.message;
+      const savedData = response.data.savedData;
+      if (successMSG === "Bookmark added") {
+        addBookmark(savedData, savedData.storeID);
+      } else if ("Bookmark removed") {
+        removeBookmark (savedData, savedData.storeID)
+      }
       //!!! debounce this
     } catch (error) {
-      revealErrorModal()
+      console.log(error.response);
+      revealErrorModal();
+      // Triggers an error modal that forces a redirect or page reload
+      // This works if the user's offline since thes bookmark icons will be hidden if they return
+      // If a 3rd party service fails, this course of action is reasonable too
     }
   };
 
@@ -35,7 +48,7 @@ export default function BookmarkButton({ viewportType, dataObj }) {
     return (
       <>
         <BookmarkIcon sx={desktopStyles.icon} />
-        <GeneralErrorModal modalVisible={modalVisible}/>
+        <GeneralErrorModal modalVisible={modalVisible} />
       </>
     );
   }
@@ -46,7 +59,7 @@ export default function BookmarkButton({ viewportType, dataObj }) {
         <IconButton aria-label="bookmark" sx={mobileStyles.parent}>
           <BookmarkIcon sx={mobileStyles.icon} />
         </IconButton>
-        <GeneralErrorModal modalVisible={modalVisible}/>
+        <GeneralErrorModal modalVisible={modalVisible} />
       </>
     );
   }
@@ -55,7 +68,7 @@ export default function BookmarkButton({ viewportType, dataObj }) {
     return (
       <>
         <BookmarkIcon sx={styles.icon} onClick={() => clickHandler(dataObj)} />
-        <GeneralErrorModal modalVisible={modalVisible}/>
+        <GeneralErrorModal modalVisible={modalVisible} />
       </>
     );
 }
