@@ -16,25 +16,24 @@ export default function BookmarkButton({ viewportType, dataObj }) {
     try {
       // Go into the DB and add/remove this restaurant from the saved list in the DB
       const response = await axios.post("/api/bookmark/addRemove", {
+        storeName: dataObj.storeName,
+        storeID: dataObj.storeID,
         address: dataObj.address,
         category: dataObj.category,
         distance: dataObj.distance,
         image: dataObj.image,
         price: dataObj.price,
-        rating: dataObj.rating,
-        storeID: dataObj.storeID,
-        storeName: dataObj.storeName,
+        rating: dataObj.rating,      
       });
       const successMSG = response.data.message;
       const savedData = response.data.savedData;
       if (successMSG === "Bookmark added") {
-        addBookmark(savedData, savedData.storeID);
+        addBookmark(savedData, savedData.storeID); 
       } else if ("Bookmark removed") {
-        removeBookmark(savedData, savedData.storeID);
+        removeBookmark(savedData, savedData.storeID); 
       }
-      //!!! debounce this
+      //!!!! debounce this
     } catch (error) {
-      console.log(error.response);
       revealErrorModal();
       // Triggers an error modal that forces a redirect or page reload
       // This works if the user's offline since thes bookmark icons will be hidden if they return

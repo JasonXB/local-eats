@@ -87,7 +87,6 @@ export default function RestaurantCard({ dataObj, scrollPosition }) {
 const styles = {
   container: {
     display: "grid",
-
     p: 0,
     mb: 6,
     width: "100%",

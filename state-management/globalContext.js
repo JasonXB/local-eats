@@ -12,33 +12,28 @@ export default function GlobalContextAPIProvider(props) {
     setBookmarks((prevState) => {
       if (bookmarks === null) return [dataObj];
       else return [...prevState, dataObj];
-      // if (bookmarks === null) {
-      //   console.log([dataObj]);
-      //   return [dataObj];
-      // } else {
-      //   return [...prevState, dataObj];
-      // }
     });
     setBookmarkIds((prevState) => {
       if (bookmarkIds === null) return [id];
       else return [...prevState, id];
-      // if (bookmarkIds === null) {
-      //   console.log([id]);
-      //   return [id];
-      // } else {
-      //   console.log([...prevState, id]);
-      //   return [...prevState, id];
-      // }
     });
   };
 
   const removeBookmark = (dataObj, id) => {
+    if (!bookmarks || !bookmarkIds) return;
     setBookmarks((prevState) => {
-      console.log(prevState.filter((obj) => obj !== dataObj));
-      return prevState.filter((obj) => obj !== dataObj);
+      const clone = prevState;
+      // Choose which index# to delete in the idList (decide using the store ID)
+      const targetIndex = clone.findIndex((obj) => {
+        return obj.storeID === id;
+      });
+      // If no match is found, return the original state
+      if (targetIndex === -1) return prevState;
+      // If a match is found, eliminate that array entry
+      clone.splice(targetIndex, 1);
+      return clone;
     });
     setBookmarkIds((prevState) => {
-      console.log(prevState.filter((idNum) => idNum !== id));
       return prevState.filter((idNum) => idNum !== id);
     });
   };
