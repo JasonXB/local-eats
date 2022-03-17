@@ -20,8 +20,6 @@ export default function useInitializeBookmarks() {
       const response = await axios.post("/api/bookmark/fetchBookmarks");
       const savedRestaurants = response.data.savedRestaurants;
       const savedIds = response.data.savedIds;
-      console.log(savedRestaurants);
-      console.log(savedIds);
       initializeBookmarks_success(savedRestaurants, savedIds); // saves bookmarks to Context API
     } catch (error) {
       initializeBookmarks_failure(); // sets a value in Context API telling us not to use bookmarks

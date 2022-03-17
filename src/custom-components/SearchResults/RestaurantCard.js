@@ -7,26 +7,30 @@ import LazyImage from "./LazyImage";
 import { getRatingColor } from "../../utility-functions/search/getRatingColor";
 import { mix } from "../../../styles/styleMixins";
 import BookmarkButton from "../SearchResults/BookmarkButton";
+import { useGlobalContext } from "../../../state-management/globalContext";
 
 export default function RestaurantCard({ dataObj, scrollPosition }) {
   const router = useRouter();
-  const cardData = dataObj;
-  const { status } = useSession(); //hide bookmarks for non logged in users
-
   const redirect = () => router.push(`/search/${dataObj.storeID}`);
 
+  // Hide bookmarks depending on auth status and a certain state value in Global Context
+  const { status } = useSession(); // disable bookmarks when offline
+  const { bookmarksEnabled } = useGlobalContext(); // disable bookmarks when false
+
   // Choose which color to use on the star rating blurb
-  let ratingColor = getRatingColor(cardData.rating);
+  let ratingColor = getRatingColor(dataObj.rating);
 
   return (
     <Stack sx={styles.container}>
       <Box sx={styles.imageParent}>
         <LazyImage
-          src={cardData.image}
+          src={dataObj.image}
           scrollPosition={scrollPosition}
           id={dataObj.storeID}
         />
-        {status === "authenticated" && <BookmarkButton dataObj={dataObj}/>}
+        {status === "authenticated" && bookmarksEnabled && (
+          <BookmarkButton dataObj={dataObj} />
+        )}
       </Box>
 
       <Box
@@ -34,7 +38,7 @@ export default function RestaurantCard({ dataObj, scrollPosition }) {
         onClick={redirect}
       >
         <Typography variant="p" sx={{ ...styles.name, ...styles.trailingDots }}>
-          {cardData.storeName}
+          {dataObj.storeName}
         </Typography>
         <Box
           sx={{
@@ -48,7 +52,7 @@ export default function RestaurantCard({ dataObj, scrollPosition }) {
             variant="p"
             sx={{ ...styles.text, fontWeight: 500, color: "white", mb: 0 }}
           >
-            {cardData.rating ? cardData.rating : "?"}
+            {dataObj.rating ? dataObj.rating : "?"}
           </Typography>
           <StarRateIcon
             fontSize="small"
@@ -62,10 +66,10 @@ export default function RestaurantCard({ dataObj, scrollPosition }) {
         onClick={redirect}
       >
         <Typography variant="p" sx={{ ...styles.text, ...styles.trailingDots }}>
-          {cardData.category}
+          {dataObj.category}
         </Typography>
         <Typography variant="p" sx={styles.text}>
-          Price: {cardData.price}
+          Price: {dataObj.price}
         </Typography>
       </Box>
 
@@ -74,10 +78,10 @@ export default function RestaurantCard({ dataObj, scrollPosition }) {
         onClick={redirect}
       >
         <Typography variant="p" sx={{ ...styles.text, ...styles.trailingDots }}>
-          {cardData.address}
+          {dataObj.address}
         </Typography>
         <Typography variant="p" sx={styles.text}>
-          {cardData.distance}
+          {dataObj.distance}
         </Typography>
       </Box>
     </Stack>

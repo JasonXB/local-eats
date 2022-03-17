@@ -5,13 +5,15 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import GeneralErrorModal from "../../../src/custom-components/Modals/GeneralError";
 import { useGlobalContext } from "../../../state-management/globalContext";
 
+const bmColor = {
+  bg: "#00162e",
+};
+
 export default function BookmarkButton({ viewportType, dataObj }) {
-  const { addBookmark, removeBookmark } = useGlobalContext();
-  // Control the general error modal should open if one of our API route 3rd party services fail
-  const [modalVisible, setModalVisible] = React.useState(false);
-  const revealErrorModal = () => setModalVisible(true);
+  const { addBookmark, removeBookmark, bookmarkIds } = useGlobalContext();
 
   // Send an HTTP request to the DB to save or unsave each bookmark
+  const [modalVisible, setModalVisible] = React.useState(false); // decides whether to show error modal
   const clickHandler = async function (dataObj) {
     try {
       // Go into the DB and add/remove this restaurant from the saved list in the DB
@@ -23,30 +25,31 @@ export default function BookmarkButton({ viewportType, dataObj }) {
         distance: dataObj.distance,
         image: dataObj.image,
         price: dataObj.price,
-        rating: dataObj.rating,      
+        rating: dataObj.rating,
       });
       const successMSG = response.data.message;
       const savedData = response.data.savedData;
       if (successMSG === "Bookmark added") {
-        addBookmark(savedData, savedData.storeID); 
+        addBookmark(savedData, savedData.storeID);
       } else if ("Bookmark removed") {
-        removeBookmark(savedData.storeID); 
+        removeBookmark(savedData.storeID);
       }
       //!!!! debounce this
     } catch (error) {
-      revealErrorModal();
-      // Triggers an error modal that forces a redirect or page reload
-      // This works if the user's offline since thes bookmark icons will be hidden if they return
-      // If a 3rd party service fails, this course of action is reasonable too
+      setModalVisible(true); // Triggers an error modal that forces a redirect or page reload
     }
   };
 
   // ----------------------------------------------
+  if (!bookmarkIds) return null;
+  const savedAlready = bookmarkIds.includes(dataObj.storeID);
+  const iconColor = savedAlready ? "selected" : "unselected"; // these are MUI theme object palette names
+
   // For business page on desktop screens
   if (viewportType === "desktop") {
     return (
       <>
-        <BookmarkIcon sx={desktopStyles.icon} />
+        <BookmarkIcon color={iconColor} sx={desktopStyles.icon} />
         <GeneralErrorModal modalVisible={modalVisible} />
       </>
     );
@@ -56,7 +59,7 @@ export default function BookmarkButton({ viewportType, dataObj }) {
     return (
       <>
         <IconButton aria-label="bookmark" sx={mobileStyles.parent}>
-          <BookmarkIcon sx={mobileStyles.icon} />
+          <BookmarkIcon color={iconColor} sx={mobileStyles.icon} />
         </IconButton>
         <GeneralErrorModal modalVisible={modalVisible} />
       </>
@@ -66,7 +69,11 @@ export default function BookmarkButton({ viewportType, dataObj }) {
   else
     return (
       <>
-        <BookmarkIcon sx={styles.icon} onClick={() => clickHandler(dataObj)} />
+        <BookmarkIcon
+          color={iconColor} // decide color based on whether the restaurant's bookmarked
+          sx={styles.icon}
+          onClick={() => clickHandler(dataObj)}
+        />
         <GeneralErrorModal modalVisible={modalVisible} />
       </>
     );
@@ -80,14 +87,12 @@ const desktopStyles = {
     gridRow: "2/4",
     p: 0.5,
     borderRadius: 2,
-    background: "#00162e",
     alignSelf: "end",
-    // Color should change on hover
-    color: theme.palette.bookmark.dark,
     borderRadius: 20,
     p: 0.75,
+    background: bmColor.bg,
     "&:hover": {
-      color: theme.palette.bookmark.light,
+      color: bmColor.gold,
       cursor: "pointer",
     },
     ["@media (max-width: 549px)"]: {
@@ -98,20 +103,19 @@ const desktopStyles = {
 
 const mobileStyles = {
   parent: (theme) => ({
-    background: theme.palette.bookmark.bg,
+    background: bmColor.bg,
     "&:hover": {
-      background: theme.palette.bookmark.bg,
-      color: theme.palette.bookmark.light,
+      background: bmColor.bg,
+      color: bmColor.gold,
     },
     ["@media (min-width: 550px)"]: {
       display: "none", // only show on small screens
     },
   }),
   icon: (theme) => ({
-    color: theme.palette.bookmark.dark,
     "&:hover": {
-      background: theme.palette.bookmark.bg,
-      color: theme.palette.bookmark.light,
+      background: bmColor.bg,
+      color: bmColor.gold,
     },
   }),
 };
@@ -125,10 +129,9 @@ const styles = {
     top: "5%",
     p: 0.5,
     borderRadius: 2,
-    background: "#00162e",
-    // Color should change on hover
-    color: theme.palette.bookmark.dark,
+    background: bmColor.bg,
     borderRadius: 20,
-    "&:hover": { color: theme.palette.bookmark.light },
+    // Color should change on hover
+    "&:hover": { color: bmColor.gold },
   }),
 };
