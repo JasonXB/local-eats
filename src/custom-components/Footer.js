@@ -32,7 +32,7 @@ export default function Footer() {
             textAlign: "center",
           }}
         >
-          Search other types of businesses
+          Search for all kinds of places
         </Typography>
         <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr" }}>
           {Object.keys(footerAnchors).map((headerText, index) => {

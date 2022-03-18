@@ -16,7 +16,7 @@ import useGetFilters from "../../utility-functions/search/useGetFilters";
 import useVisitSearchPage from "../../utility-functions/search/useVisitSearchPage";
 
 export default function SearchbarDesktop({ applyShadow }) {
-  const filters = useGetFilters()
+  const filters = useGetFilters();
   const anchorEl = useRef();
   const searchbarRef = useRef();
   const navToSearchPage = useVisitSearchPage();
@@ -69,7 +69,10 @@ export default function SearchbarDesktop({ applyShadow }) {
     const typedInput = searchbarRef.current.value;
     const inputLength = lengthNoSpaces(typedInput);
     if (inputLength === 0) return;
-    navToSearchPage({ term: typedInput.toLowerCase(), sort_by: filters.sort_by });
+    navToSearchPage({
+      term: typedInput.toLowerCase(),
+      sort_by: filters.sort_by,
+    });
   };
   // We have a default style for the Homepage, and a secondary style for the search/restuarant pages
   const stylesNoShadow = { width: "90%", maxWidth: "50rem" };

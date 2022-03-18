@@ -1,4 +1,5 @@
 import React, { useRef, useState, useReducer } from "react";
+import axios from "axios";
 import { Typography, Stack, Button } from "@mui/material"; // prettier-ignore
 import { useRouter } from "next/router";
 import { signOut } from "next-auth/react";
@@ -6,7 +7,6 @@ import FormControl from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import AuthHeader from "./HeaderHelper";
 import FormHelperText from "@mui/material/FormHelperText";
-import axios from "axios";
 import GeneralErrorModal from "../../custom-components/Modals/GeneralError";
 import { styles } from "../../../styles/auth/manageAccount";
 import ReturnHomeBtn from "../../custom-components/ReturnHomeBtn";
@@ -95,7 +95,7 @@ export default function ChangePassword() {
       if (!error.response || !error.response.data) return revealErrorModal();
       // We've coded actions for all possible users errors
       const errorMSG = error.response.data.message;
-      
+
       switch (errorMSG) {
         case "New password field empty":
           dispatch({ type: "INVALID_NEW_PASSWORD", payload: "This field is required" }); // prettier-ignore

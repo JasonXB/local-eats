@@ -2,6 +2,9 @@ import React from "react";
 import { Button } from "@mui/material";
 
 export default function BookmarksBtn(props) {
+  // There's no reason to render this button if we're already on the bookmarks page
+  if (window.location.pathname === "/bookmarks") return null;
+
   // props.mobile is a Boolean that tells us if we're rendering on a screen 700px long or lower
   if (props.mobile) {
     return (
@@ -10,6 +13,11 @@ export default function BookmarksBtn(props) {
       </Button>
     );
   }
+  
   // If we're past the sm breakpoint, render the following
-  return <Button sx={{ ml: 1, mx: 2 }}>Bookmarks</Button>;
+  return (
+    <Button href="/bookmarks" sx={{ ml: 1, mx: 2 }}>
+      Bookmarks
+    </Button>
+  );
 }

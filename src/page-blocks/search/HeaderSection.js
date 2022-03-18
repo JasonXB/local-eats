@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
 import SearchbarDesktop from "../../../src/custom-components/Searchbar/SearchbarDesktop";
-import LayoutContainer from "../../custom-components/LayoutContainer";
 import { mix } from "../../../styles/styleMixins";
-import { Typography, Box, Stack, Breadcrumbs, Link, Button } from "@mui/material"; // prettier-ignore
+import { Typography, Box, Stack, Breadcrumbs, Link } from "@mui/material"; // prettier-ignore
 import NavbarRow from "./sub/NavbarRow";
 import BurgerBtn from "../../custom-components/Navbar/BurgerBtn";
 import SearchbarMobile from "../../custom-components/Searchbar/SearchbarMobile";
@@ -33,6 +32,16 @@ export default function HeaderSection({ parent, breakpoint }) {
           Search
         </Link>
         <Typography color="text.primary">Business Info</Typography>
+      </Breadcrumbs>
+    );
+  }
+  if (parent === "bookmarks") {
+    breadcrumbs = (
+      <Breadcrumbs aria-label="breadcrumb">
+        <Link underline="hover" color="inherit" href="/">
+          Home
+        </Link>
+        <Typography color="text.primary">Bookmarks</Typography>
       </Breadcrumbs>
     );
   }
