@@ -91,9 +91,20 @@ export const mix = {
       [theme.breakpoints.down(BPname)]: { display: "none" },
     };
   },
-
   formButtonWidth: {
     width: "80%",
     maxWidth: "20.625rem",
+  },
+  cardsContainer: {
+    gridTemplateColumns: "repeat(auto-fit, minmax(20.75rem, 1fr))",
+    ["@media (min-width: 400px)"]: {
+      display: "grid",
+      width: "100%",
+      gap: 1.5,
+      justifyItems: "center",
+    },
+    ["@media (min-width: 1100px)"]: {
+      justifyItems: "start",
+    },
   },
 };

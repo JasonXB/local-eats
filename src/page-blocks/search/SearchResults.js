@@ -93,7 +93,7 @@ function SearchResults(props) {
         <Typography variant="h3" component="h2" sx={{ mb: 4, mt: 5 }}>
           {searchHeader}
         </Typography>
-        <Box id="desktopList" sx={styles.desktopParent}>
+        <Box sx={...mix.cardsContainer}>
           {restaurantList &&
             restaurantList.map((r_data) => (
               <RestaurantCard
@@ -114,17 +114,4 @@ function SearchResults(props) {
 }
 export default trackWindowScroll(SearchResults);
 
-const styles = {
-  desktopParent: {
-    gridTemplateColumns: "repeat(auto-fit, minmax(20.75rem, 1fr))",
-    ["@media (min-width: 400px)"]: {
-      display: "grid",
-      width: "100%",
-      gap: 1.5,
-      justifyItems: "center",
-    },
-    ["@media (min-width: 1100px)"]: {
-      justifyItems: "start",
-    },
-  },
-};
+
