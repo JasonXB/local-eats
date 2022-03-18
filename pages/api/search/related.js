@@ -21,7 +21,7 @@ export async function getRelatedBusinesses(categString, lat, long, id) {
     const editedResults = organizeData(rawResults);
     editedResults.sort((a, b) => b.rating - a.rating);
     const elimDuplicate = editedResults.filter((obj) => {
-      return obj.id !== id;
+      return obj.storeID !== id;
     });
     if (elimDuplicate.length === 7) return elimDuplicate.slice(0, -1);
     else return elimDuplicate;

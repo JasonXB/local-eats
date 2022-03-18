@@ -68,12 +68,12 @@ export default function BookmarkButton({
   else if (viewportType === "mobile") {
     return (
       <>
-        <IconButton aria-label="bookmark" sx={mobileStyles.parent}>
-          <BookmarkIcon
-            color={iconColor}
-            sx={mobileStyles.icon}
-            onClick={() => clickHandler(bookmarkData)}
-          />
+        <IconButton
+          aria-label="bookmark"
+          onClick={() => clickHandler(bookmarkData)}
+          sx={mobileStyles.parent}
+        >
+          <BookmarkIcon color={iconColor} sx={mobileStyles.icon} />
         </IconButton>
         <GeneralErrorModal modalVisible={modalVisible} />
       </>
