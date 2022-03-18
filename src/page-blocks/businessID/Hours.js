@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import LinkIcon from "@mui/icons-material/Link";
 import PhoneInTalkIcon from "@mui/icons-material/PhoneInTalk";
 import DirectionsIcon from "@mui/icons-material/Directions";
@@ -20,10 +20,14 @@ export default function Hours({ hours, infoTableData, coords }) {
     );
   }, [locationObject]);
 
-  const StaticMap = dynamic(
-    () => import("../../../src/page-blocks/businessID/StaticMap"), // replace '@components/map' with your component's location
-    { ssr: false } // prevents server-side render
+  const StaticMap = useCallback(
+    dynamic(
+      () => import("../../../src/page-blocks/businessID/StaticMap"), // replace '@components/map' with your component's location
+      { ssr: false } // prevents server-side render
+    ),
+    []
   );
+  console.log(typeof StaticMap);
 
   return (
     <>
@@ -83,7 +87,7 @@ export default function Hours({ hours, infoTableData, coords }) {
           <Stack sx={styles.infoTableGrid}>
             <Link
               color="secondary"
-              sx={{ gridArea: "a", justifySelf: "start", mb:1 }}
+              sx={{ gridArea: "a", justifySelf: "start", mb: 1 }}
               href={infoTableData.yelpURL}
               underline="hover"
             >
@@ -92,7 +96,7 @@ export default function Hours({ hours, infoTableData, coords }) {
             <LinkIcon fontSize="large" sx={{ gridArea: "b", ml: 2 }} />
             <Divider sx={{ gridArea: "x", width: "100%" }} />
             <Typography
-              sx={{ gridArea: "c", justifySelf: "start", my:1 }}
+              sx={{ gridArea: "c", justifySelf: "start", my: 1 }}
               variant="p"
             >
               {infoTableData.phoneNumber}
@@ -105,7 +109,7 @@ export default function Hours({ hours, infoTableData, coords }) {
               sx={(theme) => ({
                 gridArea: "e",
                 justifySelf: "start",
-                mt:1,
+                mt: 1,
                 color: theme.palette.info.main,
               })}
               variant="p"
