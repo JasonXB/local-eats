@@ -17,8 +17,9 @@ export async function getBusinessData(id) {
     const response = r.data;
     // Organize the data and remove info you don't need
     const relevantInfo = {
-      companyID: response.id,
+      storeID: response.id,
       name: response.name,
+      price: response.price || "???",
       rating: response.rating || "?",
       mainImg: response.image_url || "/images/noIMG.png",
       phoneNumber: response.display_phone || "phone # not available",

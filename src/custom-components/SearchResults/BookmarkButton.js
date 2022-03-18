@@ -5,13 +5,12 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import GeneralErrorModal from "../../../src/custom-components/Modals/GeneralError";
 import { useGlobalContext } from "../../../state-management/globalContext";
 
-const bmColor = {
-  bg: "#00162e",
-};
-
-export default function BookmarkButton({ viewportType, dataObj }) {
+export default function BookmarkButton({
+  viewportType, // "mobile" or "desktop"
+  dataObj, // data passed from a /search page component
+  bookmarkData, // data passed from a /businessID page component
+}) {
   const { addBookmark, removeBookmark, bookmarkIds } = useGlobalContext();
-
   // Send an HTTP request to the DB to save or unsave each bookmark
   const [modalVisible, setModalVisible] = React.useState(false); // decides whether to show error modal
   const clickHandler = async function (dataObj) {
@@ -42,14 +41,25 @@ export default function BookmarkButton({ viewportType, dataObj }) {
 
   // ----------------------------------------------
   if (!bookmarkIds) return null;
-  const savedAlready = bookmarkIds.includes(dataObj.storeID);
-  const iconColor = savedAlready ? "selected" : "unselected"; // these are MUI theme object palette names
-
+  // Decide which restaurants are already bookmarked based on Global State Values
+  let savedAlready;
+  let iconColor;
+  if (dataObj) {
+    savedAlready = bookmarkIds.includes(dataObj.storeID);
+    iconColor = savedAlready ? "selected" : "unselected";
+  } else if (bookmarkData) {
+    savedAlready = bookmarkIds.includes(bookmarkData.storeID);
+    iconColor = savedAlready ? "selected" : "unselected";
+  }
   // For business page on desktop screens
   if (viewportType === "desktop") {
     return (
       <>
-        <BookmarkIcon color={iconColor} sx={desktopStyles.icon} />
+        <BookmarkIcon
+          color={iconColor}
+          sx={desktopStyles.icon}
+          onClick={() => clickHandler(bookmarkData)}
+        />
         <GeneralErrorModal modalVisible={modalVisible} />
       </>
     );
@@ -59,7 +69,11 @@ export default function BookmarkButton({ viewportType, dataObj }) {
     return (
       <>
         <IconButton aria-label="bookmark" sx={mobileStyles.parent}>
-          <BookmarkIcon color={iconColor} sx={mobileStyles.icon} />
+          <BookmarkIcon
+            color={iconColor}
+            sx={mobileStyles.icon}
+            onClick={() => clickHandler(bookmarkData)}
+          />
         </IconButton>
         <GeneralErrorModal modalVisible={modalVisible} />
       </>
@@ -78,7 +92,9 @@ export default function BookmarkButton({ viewportType, dataObj }) {
       </>
     );
 }
-
+const bmColor = {
+  bg: "#00162e",
+};
 const desktopStyles = {
   icon: (theme) => ({
     // Position inside of the grid this component gets placed in (business ID page only)

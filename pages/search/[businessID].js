@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useCallback } from "react";
 import LayoutContainer from "../../src/custom-components/LayoutContainer";
 import HeaderSection from "../../src/page-blocks/search/HeaderSection";
 import { getBusinessData } from "../api/search/businessID";
-import { Typography, Box, Stack } from "@mui/material";
 import NoResults from "../../src/page-blocks/search/NoResults";
 import Banner from "../../src/page-blocks/businessID/Banner";
 import Hours from "../../src/page-blocks/businessID/Hours";
@@ -11,7 +10,7 @@ import SearchbarModals from "../../src/custom-components/Searchbar/SearchbarModa
 import PaddedBlock from "../../src/custom-components/PaddedBlock";
 import Related from "../../src/page-blocks/businessID/Related";
 import { getRelatedBusinesses } from "../api/search/related";
-import useBookmarks from "../api/helperFunctions/useBookmarks"
+import useBookmarks from "../api/helperFunctions/useBookmarks";
 
 export async function getServerSideProps(context) {
   const id = context.params.businessID;
@@ -31,28 +30,47 @@ export async function getServerSideProps(context) {
 export default function Business(props) {
   // Save the restaurants stored in the DB to the Global state
   const initializeBookmarks = useBookmarks(); // set bookmarks on startup
-  React.useEffect(()=>{
-    initializeBookmarks()
-  },[])
+  React.useEffect(() => {
+    initializeBookmarks();
+  }, []);
 
-  // Extract props data to render
+  // Organize props data into separate objects that get passed down to diff components
   const { companyData, related } = props;
   const info = companyData.info;
-  const bannerData = {
-    name: info.name,
-    rating: info.rating,
-    numberOfReviews: info.reviewQty,
-    mainIMG: info.mainImg,
-    photos: info.photos,
-    categories: info.categories ? info.categories.join(", ") : "",
-    address: `${info.address.address}, ${info.address.city}, ${info.address.state}`,
-  };
-  const infoTableData = {
-    address: info.address.address,
-    phoneNumber: info.phoneNumber,
-    yelpURL: info.yelpURL,
-    destination: info.address.mapsDestination,
-  };
+  const bannerData = useCallback(
+    {
+      name: info.name,
+      rating: info.rating,
+      numberOfReviews: info.reviewQty,
+      mainIMG: info.mainImg,
+      photos: info.photos,
+      categories: info.categories ? info.categories.join(", ") : "",
+      address: `${info.address.address}, ${info.address.city}, ${info.address.state}`,
+    },
+    [companyData]
+  );
+  const infoTableData = useCallback(
+    {
+      address: info.address.address,
+      phoneNumber: info.phoneNumber,
+      yelpURL: info.yelpURL,
+      destination: info.address.mapsDestination,
+    },
+    [companyData]
+  );
+  const bookmarkData = useCallback(
+    {
+      address: `${info.address.address}, ${info.address.city}, ${info.address.state}`,
+      category: info.categories ? info.categories.join(", ") : "",
+      image: info.mainImg,
+      price: info.price,
+      rating: info.rating,
+      storeID: info.storeID,
+      storeName: info.name,
+      //!!! /id endpoint does not deliver a distance (so exclude that from our bookmark cards)
+    },
+    [companyData]
+  );
 
   // If the fetching to Yelp fails, render a success msg but let the user nav back to prev pages
   if (!companyData)
@@ -65,7 +83,7 @@ export default function Business(props) {
   return (
     <PaddedBlock px={2}>
       <HeaderSection parent={"businessPage"} breakpoint={820} />
-      <Banner bannerData={bannerData} />
+      <Banner bannerData={bannerData} bookmarkData={bookmarkData} />
       <Hours
         hours={info.hours}
         infoTableData={infoTableData}

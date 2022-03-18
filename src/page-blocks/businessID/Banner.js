@@ -28,6 +28,7 @@ const StyledRating = styled(Rating)({
 export default function Banner(props) {
   // Extract data from the props
   const { name, rating, categories, photos, address } = props.bannerData; // prettier-ignore
+  const { bookmarkData } = props;
   const { status } = useSession(); //hide bookmarks for non logged in users
 
   // Get the bgColor for the star rating component
@@ -64,7 +65,7 @@ export default function Banner(props) {
             emptyIcon={<StarsRoundedIcon fontSize="inherit" />}
           />
           {status === "authenticated" && (
-            <BookmarkButton viewportType="mobile" data={props.bannerData}/>
+            <BookmarkButton viewportType="mobile" bookmarkData={bookmarkData} />
           )}
         </Box>
 
@@ -85,7 +86,7 @@ export default function Banner(props) {
         </Box>
         {/* Icon button for screens larger than 550px only */}
         {status === "authenticated" && (
-          <BookmarkButton viewportType="desktop" data={props.bannerData}/>
+          <BookmarkButton viewportType="desktop" bookmarkData={bookmarkData} />
         )}
       </Box>
     </LayoutContainer>
@@ -163,14 +164,5 @@ const styles = {
       display: "block",
     },
   },
-  bookmarkDesktop: {
-    background: "#00162e",
-    "&:hover": {
-      background: "#00162e",
-      color: "rgb(255,215,0)",
-    },
-    ["@media (min-width: 550px)"]: {
-      display: "none", // only show on small screens
-    },
-  },
+
 };
