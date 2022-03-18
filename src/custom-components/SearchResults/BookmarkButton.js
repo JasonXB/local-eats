@@ -108,7 +108,7 @@ const desktopStyles = {
     p: 0.75,
     background: bmColor.bg,
     "&:hover": {
-      color: bmColor.gold,
+      color: theme.palette.selected.main,
       cursor: "pointer",
     },
     ["@media (max-width: 549px)"]: {
@@ -122,7 +122,7 @@ const mobileStyles = {
     background: bmColor.bg,
     "&:hover": {
       background: bmColor.bg,
-      color: bmColor.gold,
+      color: theme.palette.selected.main,
     },
     ["@media (min-width: 550px)"]: {
       display: "none", // only show on small screens
@@ -131,7 +131,7 @@ const mobileStyles = {
   icon: (theme) => ({
     "&:hover": {
       background: bmColor.bg,
-      color: bmColor.gold,
+      color: theme.palette.selected.main,
     },
   }),
 };
@@ -148,6 +148,6 @@ const styles = {
     background: bmColor.bg,
     borderRadius: 20,
     // Color should change on hover
-    "&:hover": { color: bmColor.gold },
+    "&:hover": { color: theme.palette.selected.main },
   }),
 };
