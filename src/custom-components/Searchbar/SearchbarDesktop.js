@@ -14,6 +14,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { lengthNoSpaces } from "../../utility-functions/general/lengthNoSpaces";
 import useGetFilters from "../../utility-functions/search/useGetFilters";
 import useVisitSearchPage from "../../utility-functions/search/useVisitSearchPage";
+import FindInPageIcon from '@mui/icons-material/FindInPage';
 
 export default function SearchbarDesktop({ applyShadow }) {
   const filters = useGetFilters();
@@ -59,12 +60,19 @@ export default function SearchbarDesktop({ applyShadow }) {
   const openPredetermined = () => {
     dispatch(homepageModalActions.usePredeterminedLocations());
   };
+
   const pickPredetermined = async function (event) {
     closeMenu();
     openPredetermined();
   };
 
-  const submitHandler = function (e) {
+  //!!!
+  const specifyLocation= async function(){
+    //
+  }
+
+
+  const searchHandler = function (e) {
     e.preventDefault();
     const typedInput = searchbarRef.current.value;
     const inputLength = lengthNoSpaces(typedInput);
@@ -87,7 +95,7 @@ export default function SearchbarDesktop({ applyShadow }) {
     <Search
       id="anchor_point"
       ref={anchorEl}
-      onSubmit={submitHandler}
+      onSubmit={searchHandler}
       sx={applyShadow ? stylesWithShadow : stylesNoShadow}
     >
       <Button sx={styles.menuButton} color="secondary" onClick={openMenu}>
@@ -111,6 +119,12 @@ export default function SearchbarDesktop({ applyShadow }) {
             Detect current location
           </Button>
         </MenuItem>
+        <MenuItem sx={{ display: "flex", px: 1.5 }} onClick={specifyLocation}>
+          <FindInPageIcon color="secondary" sx={{ mt: "-4px" }} />
+          <Button color="secondary" align="left">
+            Specify a location
+          </Button>
+        </MenuItem>
         <MenuItem sx={{ display: "flex", px: 1.5 }} onClick={pickPredetermined}>
           <PublicIcon color="secondary" sx={{ mt: "-4px" }} />
           <Button color="secondary" align="left">
@@ -123,7 +137,7 @@ export default function SearchbarDesktop({ applyShadow }) {
       <Box
         id="searchfield"
         component="form"
-        onSubmit={submitHandler}
+        onSubmit={searchHandler}
         sx={{ display: "flex", alignItems: "center", width: "100%" }}
       >
         <IconButton type="submit" aria-label="search" sx={{ p: 0 }}>

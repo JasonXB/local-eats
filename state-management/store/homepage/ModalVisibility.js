@@ -11,7 +11,7 @@ const homeModalSlice = createSlice({
   name: "ModalVisibility", // expected built-in KVP
   initialState,
   reducers: {
-    // Used when people hit thre radio buttons to select Canada or US in one of the modals
+    // Used when people hit the radio buttons to select Canada or US in one of the modals
     selectCountry: (state, action) => {
       state.selectedCountry = action.payload;
     },
