@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import axios from "axios";
 import IconButton from "@mui/material/IconButton";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
@@ -12,8 +12,22 @@ export default function BookmarkButton({
   bookmarkData, // data passed from a /businessID page component
 }) {
   const { addBookmark, removeBookmark, bookmarkIds } = useGlobalContext();
+  const [modalVisible, setModalVisible] = useState(false); // decides whether to show error modal
+  const [color, setColor] = useState("unselected");
+
+  useEffect(() => {
+    // Decide which restaurants are already bookmarked based on Global State Values
+    let savedAlready;
+    if (dataObj) {
+      savedAlready = bookmarkIds.includes(dataObj.storeID); // bool
+      savedAlready && setColor("selected");
+    } else if (bookmarkData) {
+      savedAlready = bookmarkIds.includes(bookmarkData.storeID);
+      savedAlready && setColor("selected");
+    }
+  }, []);
+
   // Send an HTTP request to the DB to save or unsave each bookmark
-  const [modalVisible, setModalVisible] = React.useState(false); // decides whether to show error modal
   const INTERVAL = 1000; // debounce timer (cancel subsequent requests that happen within this timeframe)
   const clickHandler = useCallback(
     debounce(
@@ -35,10 +49,11 @@ export default function BookmarkButton({
           const savedData = response.data.savedData;
           if (successMSG === "Bookmark added") {
             addBookmark(savedData, savedData.storeID);
+            setColor("selected");
           } else if ("Bookmark removed") {
             removeBookmark(savedData.storeID);
+            setColor("unselected");
           }
-          //!!!! debounce this
         } catch (error) {
           setModalVisible(true); // Triggers an error modal that forces a redirect or page reload
         }
@@ -51,22 +66,13 @@ export default function BookmarkButton({
 
   // ----------------------------------------------
   if (!bookmarkIds) return null;
-  // Decide which restaurants are already bookmarked based on Global State Values
-  let savedAlready;
-  let iconColor;
-  if (dataObj) {
-    savedAlready = bookmarkIds.includes(dataObj.storeID);
-    iconColor = savedAlready ? "selected" : "unselected";
-  } else if (bookmarkData) {
-    savedAlready = bookmarkIds.includes(bookmarkData.storeID);
-    iconColor = savedAlready ? "selected" : "unselected";
-  }
+
   // For business page on desktop screens
   if (viewportType === "desktop") {
     return (
       <>
         <BookmarkIcon
-          color={iconColor}
+          color={color}
           sx={desktopStyles.icon}
           onClick={() => clickHandler(bookmarkData)}
         />
@@ -83,7 +89,7 @@ export default function BookmarkButton({
           onClick={() => clickHandler(bookmarkData)}
           sx={mobileStyles.parent}
         >
-          <BookmarkIcon color={iconColor} sx={mobileStyles.icon} />
+          <BookmarkIcon color={color} sx={mobileStyles.icon} />
         </IconButton>
         <GeneralErrorModal modalVisible={modalVisible} />
       </>
@@ -94,7 +100,7 @@ export default function BookmarkButton({
     return (
       <>
         <BookmarkIcon
-          color={iconColor} // decide color based on whether the restaurant's bookmarked
+          color={color} // decide color based on whether the restaurant's bookmarked
           sx={styles.icon}
           onClick={() => clickHandler(dataObj)}
         />
