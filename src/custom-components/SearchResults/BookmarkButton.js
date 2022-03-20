@@ -1,10 +1,24 @@
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useCallback, useState, useEffect,useReducer } from "react"; // prettier-ignore
 import axios from "axios";
 import IconButton from "@mui/material/IconButton";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import GeneralErrorModal from "../../../src/custom-components/Modals/GeneralError";
 import { useGlobalContext } from "../../../state-management/globalContext";
 import debounce from "lodash.debounce";
+
+function reducer(state, action) {
+  switch (action.type) {
+    case "SELECT":
+      return { color: "selected", num: 0 };
+    case "UNSELECT":
+      return { color: "unselected", num: 0 };
+    case "PRE_SWAP_COLOR":
+      if (state.color === "selected") return { color: "unselected", num: 1 };
+      if (state.color === "unselected") return { color: "selected", num: 1 };
+    default:
+      return state;
+  }
+}
 
 export default function BookmarkButton({
   viewportType, // "mobile" or "desktop"
@@ -13,17 +27,20 @@ export default function BookmarkButton({
 }) {
   const { addBookmark, removeBookmark, bookmarkIds } = useGlobalContext();
   const [modalVisible, setModalVisible] = useState(false); // decides whether to show error modal
-  const [color, setColor] = useState("unselected");
+  const [state, dispatch] = useReducer(reducer, {
+    num: 0, // prevents an infinite loop when we pre-change icon colors
+    color: "unselected", // 'selected' and 'unselected' refers to one of our theme colors
+  });
 
   useEffect(() => {
-    // Decide which restaurants are already bookmarked based on Global State Values
+    // Color the bookmark icon gold if its saved in our DB when we arrive at this pg
     let savedAlready;
     if (dataObj) {
       savedAlready = bookmarkIds.includes(dataObj.storeID); // bool
-      savedAlready && setColor("selected");
+      savedAlready && dispatch({ type: "SELECT" });
     } else if (bookmarkData) {
       savedAlready = bookmarkIds.includes(bookmarkData.storeID);
-      savedAlready && setColor("selected");
+      savedAlready && dispatch({ type: "SELECT" });
     }
   }, []);
 
@@ -33,6 +50,8 @@ export default function BookmarkButton({
     debounce(
       async function (dataObj) {
         console.log("hit");
+        // As soon as the btn is pressed, change the icon color before the api call (to give the illusion of speed)
+        if (state.num === 0) dispatch({ type: "PRE_SWAP_COLOR" }); // turns state.num into 1 to prevent an infinite loop
         try {
           // Go into the DB and add/remove this restaurant from the saved list in the DB
           const response = await axios.post("/api/bookmark/addRemove", {
@@ -49,10 +68,10 @@ export default function BookmarkButton({
           const savedData = response.data.savedData;
           if (successMSG === "Bookmark added") {
             addBookmark(savedData, savedData.storeID);
-            setColor("selected");
+            dispatch({ type: "SELECT" }); // turns state.num into 0
           } else if ("Bookmark removed") {
             removeBookmark(savedData.storeID);
-            setColor("unselected");
+            dispatch({ type: "UNSELECT" }); // turns state.num into 0
           }
         } catch (error) {
           setModalVisible(true); // Triggers an error modal that forces a redirect or page reload
@@ -72,7 +91,7 @@ export default function BookmarkButton({
     return (
       <>
         <BookmarkIcon
-          color={color}
+          color={state.color}
           sx={desktopStyles.icon}
           onClick={() => clickHandler(bookmarkData)}
         />
@@ -89,7 +108,7 @@ export default function BookmarkButton({
           onClick={() => clickHandler(bookmarkData)}
           sx={mobileStyles.parent}
         >
-          <BookmarkIcon color={color} sx={mobileStyles.icon} />
+          <BookmarkIcon color={state.color} sx={mobileStyles.icon} />
         </IconButton>
         <GeneralErrorModal modalVisible={modalVisible} />
       </>
@@ -100,7 +119,7 @@ export default function BookmarkButton({
     return (
       <>
         <BookmarkIcon
-          color={color} // decide color based on whether the restaurant's bookmarked
+          color={state.color} // decide color based on whether the restaurant's bookmarked
           sx={styles.icon}
           onClick={() => clickHandler(dataObj)}
         />

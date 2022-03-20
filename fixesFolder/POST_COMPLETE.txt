@@ -25,7 +25,7 @@ Project Notes on
 3. Layout Container and Padded Block reusable component
 4. Create a boilerplate for Next MUI projects
 5. The libraries used for Lazy loading and other relavant ops
-
+6. Debounce tutorial and single lodashFN tutorial
 Learn how...
 1. The map?. operator works
 2. To use Postman more effectively

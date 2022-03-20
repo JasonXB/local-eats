@@ -97,14 +97,12 @@ export const mix = {
   },
   cardsContainer: {
     gridTemplateColumns: "repeat(auto-fit, minmax(20.75rem, 1fr))",
+    px: 2,
     ["@media (min-width: 400px)"]: {
       display: "grid",
       width: "100%",
       gap: 1.5,
       justifyItems: "center",
-    },
-    ["@media (min-width: 1100px)"]: {
-      justifyItems: "start",
     },
   },
 };
