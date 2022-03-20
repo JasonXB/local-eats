@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import ModalComponent from "../src/custom-components/Modals/ModalComponent";
 import { Typography, Box, Stack, FormControl, OutlinedInput, FormHelperText } from '@mui/material'; // prettier-ignore
 import { mix } from "../styles/styleMixins";
@@ -7,57 +7,43 @@ import { homepageModalActions } from "../state-management/store/homepage/ModalVi
 
 export default function testError() {
   const dispatch = useDispatch();
+  const addressRef = useRef();
+  const cityRef = useRef();
 
-  // Only show this modal when Redux state value equals a non-falsy
-  const showSpecifyLocationModal = useSelector(
-    (r) => r.homepageModals.showSpecifyLocation
-  );
+  // Reusable function that closes the SpecifyLocation Modal
   const closeModal = () => dispatch(homepageModalActions.closeAllModals());
+
+  //! Send a request to the Mapquest API to grab location data based on the user inputs
+  const submitHandler = async function () {
+    closeModal();
+  };
+
   return (
-    <ModalComponent headerText="Specify your location" closeModal={closeModal}>
+    <ModalComponent
+      headerText="Specify your location"
+      closeModal={closeModal}
+      submit={submitHandler}
+    >
       <FormControl>
         <Typography align="left" variant="label">
-          User Email:
+          Address:
         </Typography>
         <OutlinedInput
-          placeholder="name@email.com"
-          // error={formState.emailError}
-          // onChange={typingEmailHandler}
+          placeholder="Enter address"
+          inputRef={addressRef}
         />
-        {/* <FormHelperText>
-          {formState.emailText}
-        </FormHelperText> */}
       </FormControl>
       <FormControl>
         <Typography align="left" variant="label">
-          Password:
+          City:
         </Typography>
         <OutlinedInput
-          // inputRef={passwordRef}
-          placeholder="Enter password"
+          inputRef={cityRef}
+          placeholder="Enter town/city"
           type="password"
-          // error={formState.passwordError}
-          // onChange={typingPasswordHandler}
         />
-        {/* <FormHelperText>
-          {formState.passwordText}
-        </FormHelperText> */}
       </FormControl>
-      <FormControl>
-        <Typography align="left" variant="label">
-          Verify Password:
-        </Typography>
-        <OutlinedInput
-          // inputRef={verifyPasswordRef}
-          placeholder="Enter password again"
-          type="password"
-          // error={formState.verifyPasswordError}
-          // onChange={typingVerifyHandler}
-        />
-        {/* <FormHelperText>
-          {formState.verifyPasswordText}
-        </FormHelperText> */}
-      </FormControl>
+
     </ModalComponent>
   );
 }

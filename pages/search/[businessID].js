@@ -67,7 +67,6 @@ export default function Business(props) {
       rating: info.rating,
       storeID: info.storeID,
       storeName: info.name,
-      //!!! /id endpoint does not deliver a distance (so exclude that from our bookmark cards)
     },
     [companyData]
   );

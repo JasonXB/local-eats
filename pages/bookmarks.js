@@ -8,8 +8,7 @@ import Footer from "../src/custom-components/Footer";
 import RestaurantCard from "../src/custom-components/SearchResults/RestaurantCard";
 import { useGlobalContext } from "../state-management/globalContext";
 import useBookmarks from "../pages/api/helperFunctions/useBookmarks";
-import Wave from "../src/custom-components/LoadingVisuals/FullScreen/Wave";
-import {mix} from "../styles/styleMixins"
+import { mix } from "../styles/styleMixins";
 
 function Bookmarks({ scrollPosition }) {
   // Save the restaurants stored in the DB to the Global state

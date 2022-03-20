@@ -27,7 +27,6 @@ export default function Hours({ hours, infoTableData, coords }) {
     ),
     []
   );
-  console.log(typeof StaticMap);
 
   return (
     <>

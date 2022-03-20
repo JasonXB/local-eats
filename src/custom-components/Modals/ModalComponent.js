@@ -34,7 +34,7 @@ export default function ModalComponent(props) {
             <Button size="medium" onClick={() => props.closeModal()}>
               Cancel
             </Button>
-            <Button onClick={props.submitHandler} size="medium" sx={{ ml: 2 }}>
+            <Button onClick={()=>props.submit()} size="medium" sx={{ ml: 2 }}>
               Submit
             </Button>
           </Box>

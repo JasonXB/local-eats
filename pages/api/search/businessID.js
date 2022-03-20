@@ -1,8 +1,5 @@
 import axios from "axios";
 
-// I'm a little Hot Crab
-//!!! http://localhost:3000/search/7DWnY_Yzre5UfWVHRloPhw example of restaurant with no hours
-
 export async function getBusinessData(id) {
   const endpoint = `https://api.yelp.com/v3/businesses/${id}`;
   const authKey = process.env.YELP_API_KEY;

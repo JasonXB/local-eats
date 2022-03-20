@@ -59,7 +59,6 @@ export default function BookmarkButton({
             storeID: dataObj.storeID,
             address: dataObj.address,
             category: dataObj.category,
-            distance: dataObj.distance,
             image: dataObj.image,
             price: dataObj.price,
             rating: dataObj.rating,
