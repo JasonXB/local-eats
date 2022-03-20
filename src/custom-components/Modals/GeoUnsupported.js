@@ -1,7 +1,7 @@
 import React from "react";
 import { Typography, Box, Divider, Link } from "@mui/material";
 import { useSelector } from "react-redux";
-import ModalWrapper from "./ModalWrapper";
+import PredeterminedModalWrapper from "./PredeterminedModalWrapper";
 import InputField from "./LocationDenial/InputField";
 
 export default function GeoUnsupported(props) {
@@ -11,7 +11,7 @@ export default function GeoUnsupported(props) {
 
   return (
     <>
-      <ModalWrapper headerText="Browser does not support Geolocation">
+      <PredeterminedModalWrapper headerText="Browser does not support Geolocation">
         <Typography variant="h6">
           Your experience will improve with access to geolocation services
         </Typography>
@@ -54,7 +54,7 @@ export default function GeoUnsupported(props) {
           OPTION 2: Use Predetermined Locations
         </Typography>
         <InputField />
-      </ModalWrapper>
+      </PredeterminedModalWrapper>
     </>
   );
 }

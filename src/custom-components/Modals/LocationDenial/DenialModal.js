@@ -14,28 +14,15 @@ import { breakBefore, breakAfter } from "../../ConditionalBreak";
 // Redux imports
 import { useSelector, useDispatch } from "react-redux";
 import InputField from "./InputField";
-import ModalWrapper from "../ModalWrapper";
-
-const StyledModal = styled("div")`
-  position: fixed;
-  z-index: 1300;
-  right: 0;
-  bottom: 0;
-  top: 0;
-  left: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-`;
+import PredeterminedModalWrapper from "../PredeterminedModalWrapper";
 
 export default function LocationDenialModal(props) {
   //@ Import redux variables that determine the visibility of our entire component
   const permissionsDenied= useSelector((state) => state.homepageModals.showLocationDenial); // prettier-ignore
   if (!permissionsDenied) return ""; // if falsy, don't render this component
-  
+
   return (
-    <ModalWrapper headerText="Location Permissions Denied">
+    <PredeterminedModalWrapper headerText="Location Permissions Denied">
       <Typography variant="h6" component="p">
         This site requires a location to operate
       </Typography>
@@ -56,6 +43,6 @@ export default function LocationDenialModal(props) {
         Allow site to access your location.
         <br /> Reload the page, then hit the "detect location" button
       </Typography>
-    </ModalWrapper>
+    </PredeterminedModalWrapper>
   );
 }

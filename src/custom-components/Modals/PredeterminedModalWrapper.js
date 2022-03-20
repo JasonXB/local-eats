@@ -10,33 +10,19 @@ import { homepageModalActions } from "../../../state-management/store/homepage/M
 //  prettier-ignore
 import { yelpCitiesCA, yelpCitiesUS, yelpStates } from "../../../state-management/store/yelpData";
 import { useLocationContext } from "../../../state-management/locationContext";
+import { styles, StyledModal } from "../../../styles/modal_styles";
 
-const StyledModal = styled("div")`
-  position: fixed;
-  z-index: 1300;
-  right: 0;
-  bottom: 0;
-  top: 0;
-  left: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-`;
-
-export default function ModalWrapper(props) {
-  const {predeterminedHandler} = useLocationContext()
+export default function PredeterminedModalWrapper(props) {
+  const { predeterminedHandler } = useLocationContext();
   const closeModal = () => dispatch(homepageModalActions.closeAllModals()); // reusable f()
-
-  //@ Create a dispatch function that selects a country and saves it to state
-  const chosenCountry = useSelector((state) => state.homepageModals.selectedCountry); // prettier-ignore
-  const selectCountry= (inp) => dispatch(homepageModalActions.selectCountry(inp)); // prettier-ignore
-  //@ Inspect the state values inside the Redux store
+  
+  // Inspect the state values inside the Redux store
   const chosenCityCA = useSelector((state) => state.locationDenialCA.chosenCity); // prettier-ignore
   const chosenCityUSA = useSelector((state) => state.locationDenialUSA.chosenCity); // prettier-ignore
   const chosenStateUSA = useSelector((state) => state.locationDenialUSA.chosenState); // prettier-ignore
+  const chosenCountry = useSelector((state) => state.homepageModals.selectedCountry); // prettier-ignore
 
-  //@ Render/remove error visuals using dispatch functions
+  // Render/remove error visuals using dispatch functions
   const dispatch = useDispatch();
   const renderErrorCA = (errorMSG) => dispatch(canadaDenialActions.yesError(errorMSG)); //  prettier-ignore
   const removeErrorCA = () => dispatch(canadaDenialActions.noError()); //  prettier-ignore
@@ -95,8 +81,8 @@ export default function ModalWrapper(props) {
     resetCA(); // Reset the redux states for USA and Canada
     resetUS();
     closeModal(); // Make it so modal is not longer rendered
-    selectCountry(null); // reset the state value so modal can reopen without 1 chosen yet
   };
+  
   return (
     <>
       <Box sx={styles.backdrop}>
@@ -119,12 +105,7 @@ export default function ModalWrapper(props) {
               <Button size="medium" onClick={cancelHandler}>
                 Cancel
               </Button>
-              <Button
-                
-                onClick={submitHandler}
-                size="medium"
-                sx={{ ml: 2 }}
-              >
+              <Button onClick={submitHandler} size="medium" sx={{ ml: 2 }}>
                 Submit
               </Button>
             </Box>
@@ -135,26 +116,4 @@ export default function ModalWrapper(props) {
   );
 }
 
-const styles = {
-  backdrop: {
-    position: "fixed",
-    zIndex: 1299,
-    right: 0,
-    bottom: 0,
-    top: 0,
-    left: 0,
-    bgcolor: "rgb(0, 0, 0, 0.4)",
-    width: "100vw",
-    height: "100vh",
-  },
-  modalCard: {
-    width: "100%",
-    maxWidth: "40rem",
-    bgcolor: "background.paper",
-    border: "2px solid #000",
-    borderRadius: "24px",
-    p: 2,
-    px: 4,
-    pb: 3,
-  },
-};
+
