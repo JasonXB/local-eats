@@ -93,7 +93,7 @@ function SearchResults(props) {
         <Typography variant="h3" component="h2" sx={{ mb: 4, mt: 5 }}>
           {searchHeader}
         </Typography>
-        <Box sx={...mix.cardsContainer}>
+        <Box sx={mix.cardsContainer}>
           {restaurantList &&
             restaurantList.map((r_data) => (
               <RestaurantCard

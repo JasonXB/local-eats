@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useCallback } from "react";
 import axios from "axios";
 import IconButton from "@mui/material/IconButton";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import GeneralErrorModal from "../../../src/custom-components/Modals/GeneralError";
 import { useGlobalContext } from "../../../state-management/globalContext";
+import debounce from "lodash.debounce";
 
 export default function BookmarkButton({
   viewportType, // "mobile" or "desktop"
@@ -13,31 +14,40 @@ export default function BookmarkButton({
   const { addBookmark, removeBookmark, bookmarkIds } = useGlobalContext();
   // Send an HTTP request to the DB to save or unsave each bookmark
   const [modalVisible, setModalVisible] = React.useState(false); // decides whether to show error modal
-  const clickHandler = async function (dataObj) {
-    try {
-      // Go into the DB and add/remove this restaurant from the saved list in the DB
-      const response = await axios.post("/api/bookmark/addRemove", {
-        storeName: dataObj.storeName,
-        storeID: dataObj.storeID,
-        address: dataObj.address,
-        category: dataObj.category,
-        distance: dataObj.distance,
-        image: dataObj.image,
-        price: dataObj.price,
-        rating: dataObj.rating,
-      });
-      const successMSG = response.data.message;
-      const savedData = response.data.savedData;
-      if (successMSG === "Bookmark added") {
-        addBookmark(savedData, savedData.storeID);
-      } else if ("Bookmark removed") {
-        removeBookmark(savedData.storeID);
-      }
-      //!!!! debounce this
-    } catch (error) {
-      setModalVisible(true); // Triggers an error modal that forces a redirect or page reload
-    }
-  };
+  const INTERVAL = 1000; // debounce timer (cancel subsequent requests that happen within this timeframe)
+  const clickHandler = useCallback(
+    debounce(
+      async function (dataObj) {
+        console.log("hit");
+        try {
+          // Go into the DB and add/remove this restaurant from the saved list in the DB
+          const response = await axios.post("/api/bookmark/addRemove", {
+            storeName: dataObj.storeName,
+            storeID: dataObj.storeID,
+            address: dataObj.address,
+            category: dataObj.category,
+            distance: dataObj.distance,
+            image: dataObj.image,
+            price: dataObj.price,
+            rating: dataObj.rating,
+          });
+          const successMSG = response.data.message;
+          const savedData = response.data.savedData;
+          if (successMSG === "Bookmark added") {
+            addBookmark(savedData, savedData.storeID);
+          } else if ("Bookmark removed") {
+            removeBookmark(savedData.storeID);
+          }
+          //!!!! debounce this
+        } catch (error) {
+          setModalVisible(true); // Triggers an error modal that forces a redirect or page reload
+        }
+      },
+      INTERVAL,
+      { leading: true, trailing: false, maxWait: INTERVAL }
+    ),
+    []
+  );
 
   // ----------------------------------------------
   if (!bookmarkIds) return null;
