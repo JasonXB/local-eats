@@ -20,12 +20,13 @@ Create a boiler plate folder for MUI with Next.js
 CTRL F Starting Project Folders (1 of 2)
 
 Project Notes on
-1. Mixins with MUI
+1. Mixins with MUI (comb through and explain your best ones like breakafter)
 2. Hide before and hide after mixin. Flex row and flexColumn
 3. Layout Container and Padded Block reusable component
 4. Create a boilerplate for Next MUI projects
 5. The libraries used for Lazy loading and other relavant ops
 6. Debounce tutorial and single lodashFN tutorial
+7
 Learn how...
 1. The map?. operator works
 2. To use Postman more effectively

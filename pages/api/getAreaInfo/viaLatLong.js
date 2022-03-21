@@ -7,8 +7,8 @@ export default async function handler(req, res) {
   const requestURL = `http://www.mapquestapi.com/geocoding/v1/reverse?key=${process.env.MAPQUEST_API_KEY}&location=${lat},${long}`;
   const requestData = await fetchLocationData(lat, long, requestURL);
   if (requestData !== null)
-    res.status(200).json({ message: "Data fetched successfully", requestData });
-  else res.status(404).json({ message: "MapquestAPI error" });
+    return res.status(200).json({ message: "Data fetched successfully", requestData });
+  else return res.status(404).json({ message: "MapquestAPI error" });
 }
 
 async function fetchLocationData(latitude, longitude, requestURL) {

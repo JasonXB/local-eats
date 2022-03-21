@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Box, Button } from "@mui/material";
+import { Typography, Box, Button, Stack } from "@mui/material";
 import { mix } from "../../../styles/styleMixins";
 import { styles, StyledModal } from "../../../styles/modal_styles";
 import { useSelector, useDispatch } from "react-redux";
@@ -15,7 +15,7 @@ export default function ModalComponent(props) {
   return (
     <Box sx={styles.backdrop}>
       <StyledModal>
-        <Box sx={styles.modalCard}>
+        <Stack sx={{ ...styles.modalCard, ...mix.flexRow }}>
           {/* Modal title centered with bold red text */}
           <Typography
             color="secondary"
@@ -30,15 +30,17 @@ export default function ModalComponent(props) {
             {props.headerText}
           </Typography>
           {props.children}
-          <Box sx={{ ...mix.flexRow, justifyContent: "end", mt: 3.5 }}>
+          <Box
+            sx={{ ...mix.flexRow, justifyContent: "end", mt: 3.5, ml: "auto" }}
+          >
             <Button size="medium" onClick={() => props.closeModal()}>
               Cancel
             </Button>
-            <Button onClick={()=>props.submit()} size="medium" sx={{ ml: 2 }}>
+            <Button onClick={() => props.submit()} size="medium" sx={{ ml: 2 }}>
               Submit
             </Button>
           </Box>
-        </Box>
+        </Stack>
       </StyledModal>
     </Box>
   );

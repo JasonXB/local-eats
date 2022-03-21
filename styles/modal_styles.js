@@ -22,6 +22,11 @@ export const styles = {
     px: 4,
     pb: 3,
   },
+  inputField : {
+    width:"100%",
+    maxWidth: "20.625rem",
+    mt:3
+  }
 };
 
 export const StyledModal = styled("div")`
