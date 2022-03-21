@@ -2,7 +2,7 @@ import { getFullProvinceName, getFullStateName } from "../helperFunctions/stateP
 const axios = require("axios");
 
 export default async function handler(req, res) {
-  // Gather required data for your request to the Mapqiuest API
+  // Gather required data for your request to the Mapquest API
   const areaName = req.body.areaName;
   const requestURL = `http://www.mapquestapi.com/geocoding/v1/address?key=${process.env.MAPQUEST_API_KEY}&location=${areaName}`;
   const requestData = await fetchLocationData(requestURL);

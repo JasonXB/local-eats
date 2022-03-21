@@ -14,7 +14,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { lengthNoSpaces } from "../../utility-functions/general/lengthNoSpaces";
 import useGetFilters from "../../utility-functions/search/useGetFilters";
 import useVisitSearchPage from "../../utility-functions/search/useVisitSearchPage";
-import FindInPageIcon from '@mui/icons-material/FindInPage';
+import FindInPageIcon from "@mui/icons-material/FindInPage";
 
 export default function SearchbarDesktop({ applyShadow }) {
   const filters = useGetFilters();
@@ -67,10 +67,9 @@ export default function SearchbarDesktop({ applyShadow }) {
   };
 
   //!!!
-  const specifyLocation= async function(){
+  const specifyLocation = async function () {
     //
-  }
-
+  };
 
   const searchHandler = function (e) {
     e.preventDefault();
@@ -144,10 +143,7 @@ export default function SearchbarDesktop({ applyShadow }) {
           <SearchIcon />
         </IconButton>
         <InputBase
-          sx={{
-            ml: 1,
-            flex: 1,
-          }}
+          sx={{ ml: 1, flex: 1 }}
           placeholder="Restaurant, cuisine, or dish"
           inputRef={searchbarRef}
         />

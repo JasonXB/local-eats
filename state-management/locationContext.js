@@ -33,7 +33,7 @@ export default function LocationContextProvider(props) {
   const [state, reducerDispatch] = useReducer(reducer, {
     savedLocation: null, // will contain saved location data from LocalStorage
     searchbarMenuOpen: false, // Bool that dictates whether have the searchbar menu in desktop open/closed
-    snackbarOpen: false, // Bool that tells whrether a utility message should be rendered or not
+    snackbarOpen: false, // Bool that tells whether a utility message should be rendered or not
   });
   // On startup, check LocalStorage for any saved location objects
   useEffect(() => {
@@ -82,6 +82,7 @@ export default function LocationContextProvider(props) {
   const locationRelated = {
     // State object containing details of our Saved Location in LocalStorage
     locationObject: state.savedLocation,
+    setLocationObject, // saves a location object to the project state (still requires you to save to LocalStorage manually)
     detectLocationHandler, // handler for buttons that trigger geolocation tracking
     predeterminedHandler, // handler for buttons that choose a predetermined location
   };

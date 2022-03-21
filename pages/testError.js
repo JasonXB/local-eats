@@ -10,11 +10,13 @@ import Radio from "@mui/material/Radio";
 import { TextField, Autocomplete } from "@mui/material";
 import { breakBefore } from "../src/custom-components/ConditionalBreak"; // prettier-ignore
 import { stateList, provinceList } from "../pages/api/helperFunctions/stateProvCodes"; // prettier-ignore
+import { useLocationContext } from "../state-management/locationContext";
 
 export default function testError() {
   const dispatch = useDispatch();
   const addressRef = useRef();
   const cityRef = useRef();
+  const { setLocationObject } = useLocationContext();
 
   // Manage input field values using an object of state values
   const [chosen, dispatchFN] = useReducer(reducer, {
@@ -31,7 +33,7 @@ export default function testError() {
     dispatchFN({ type: "SELECT_STATE_PROVINCE", payload: inputValue });
   };
 
-  //! Send a request to the Mapquest API to grab location data based on the user inputs
+  // Send a request to the Mapquest API to grab location data based on the user inputs
   const closeModal = () => dispatch(homepageModalActions.closeAllModals()); // closes the SpecifyLocation Modal
   const submitHandler = async function () {
     const typedCity = cityRef.current.value;
@@ -44,8 +46,14 @@ export default function testError() {
         city: typedCity,
         address: typedAddress, // city and address inputs referred to using a hook
       });
+      // Save the location object to localStorage and our global project state
+      const locationObj = response.data.locationObj;
+      localStorage.setItem("savedLocation", JSON.stringify(locationObj));
+      setLocationObject(locationObj);
       closeModal();
-    } catch (error) {}
+    } catch (error) {
+      //!!! error handle
+    }
   };
 
   return (
@@ -55,7 +63,8 @@ export default function testError() {
       submit={submitHandler}
     >
       <Typography variant="h6" sx={{ my: 1 }}>
-        We'll select the location that{breakBefore(520)} best matches your inputs
+        We'll select the location that{breakBefore(520)} best matches your
+        inputs
       </Typography>
       {/* Canada / USA selector */}
       <FormControl>
@@ -148,5 +157,3 @@ function reducer(state, action) {
       return state;
   }
 }
-
-

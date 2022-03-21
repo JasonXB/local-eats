@@ -30,7 +30,7 @@ export default function useVisitSearchPage() {
 
     // If no offset is specified, reset the pagiantion components so we revert back to page 1
     if (!offset) dispatch(searchResultActions.reset());
-    
+
     // Step 3. Create an object of URL parameters using filter values
     const queryParams = removeEmptyKVPs({
       radius: distance ?? activeFilters.distance,

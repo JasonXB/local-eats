@@ -21,7 +21,7 @@ export default function useCreateYelpString() {
       .map((key) => `${key}=${queryParams[key]}`)
       .join("&"); // convert object to a query string
     const str = `https://api.yelp.com/v3/businesses/search?limit=50&${qs}`.replace(" ", "_"); // prettier-ignore
-    return str
+    return str;
   }
   return generate;
 }
