@@ -14,7 +14,7 @@ import { useLocationContext } from "../state-management/locationContext";
 
 export default function testError() {
   const dispatch = useDispatch();
-  const addressRef = useRef();
+  const postalRef = useRef();
   const cityRef = useRef();
   const { setLocationObject } = useLocationContext();
 
@@ -37,14 +37,14 @@ export default function testError() {
   const closeModal = () => dispatch(homepageModalActions.closeAllModals()); // closes the SpecifyLocation Modal
   const submitHandler = async function () {
     const typedCity = cityRef.current.value;
-    const typedAddress = addressRef.current.value;
+    const typedPostalCode = postalRef.current.value;
     // Send user inputs to the API route
     try {
       const response = await axios.post("/api/getAreaInfo/viaSpecifyLocation", {
         country: chosen.country,
         province: chosen.province, // country/province saved to state
         city: typedCity,
-        address: typedAddress, // city and address inputs referred to using a hook
+        postalCode: typedPostalCode, // city and address inputs referred to using a hook
       });
       // Save the location object to localStorage and our global project state
       const locationObj = response.data.locationObj;
@@ -62,7 +62,7 @@ export default function testError() {
       closeModal={closeModal}
       submit={submitHandler}
     >
-      <Typography variant="h6" sx={{ my: 1 }}>
+      <Typography variant="h6" sx={{ mt: 1, mb: 3 }}>
         We'll select the location that{breakBefore(520)} best matches your
         inputs
       </Typography>
@@ -123,9 +123,11 @@ export default function testError() {
         inputRef={cityRef}
       />
       <TextField
-        label="Enter address (optional)"
+        label={`Enter ${
+          chosen.country === "CA" ? "postal code" : "zip code"
+        } (optional)`}
         sx={{ ...styles.inputField }}
-        inputRef={addressRef}
+        inputRef={postalRef}
       />
     </ModalComponent>
   );
@@ -141,12 +143,6 @@ function reducer(state, action) {
       };
     case "SELECT_STATE_PROVINCE":
       return { ...state, province: action.payload, provinceError: false };
-    case "SUBMIT":
-      return {
-        country: action.payload.country,
-        province: action.payload.province,
-        provinceError: false,
-      };
     case "RESET":
       return {
         country: undefined,
