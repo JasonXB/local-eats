@@ -35,10 +35,10 @@ export default function BookmarkButton({
   useEffect(() => {
     // Color the bookmark icon gold if its saved in our DB when we arrive at this pg
     let savedAlready;
-    if (dataObj) {
+    if (dataObj && bookmarkIds) {
       savedAlready = bookmarkIds.includes(dataObj.storeID); // bool
       savedAlready && dispatch({ type: "SELECT" });
-    } else if (bookmarkData) {
+    } else if (bookmarkData && bookmarkIds) {
       savedAlready = bookmarkIds.includes(bookmarkData.storeID);
       savedAlready && dispatch({ type: "SELECT" });
     }

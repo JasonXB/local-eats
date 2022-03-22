@@ -5,14 +5,16 @@ import { Typography, Box, Stack } from "@mui/material";
 
 function Related({ relatedList, scrollPosition }) {
   // Make a Yelp API call and fetch some related locations
+  let msg = "Similar Places";
+  if (!relatedList) msg = "No similar places found nearby";
   return (
     <>
       <Typography sx={{ mb: 2, mt: 4, fontWeight: 600 }} variant="h4">
-        Similar Places
+        {msg}
       </Typography>
-      <Box sx={styles.desktopParent}>
-        {relatedList &&
-          relatedList.map((r_data) => (
+      {relatedList && (
+        <Box sx={styles.desktopParent}>
+          {relatedList.map((r_data) => (
             <RestaurantCard
               key={r_data.storeID}
               dataObj={r_data}
@@ -20,7 +22,8 @@ function Related({ relatedList, scrollPosition }) {
               scrollPosition={scrollPosition}
             />
           ))}
-      </Box>
+        </Box>
+      )}
     </>
   );
 }

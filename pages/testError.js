@@ -50,6 +50,8 @@ export default function testError() {
       const locationObj = response.data.locationObj;
       localStorage.setItem("savedLocation", JSON.stringify(locationObj));
       setLocationObject(locationObj);
+      cityRef.current.value = "";
+      postalRef.current.value = "";
       closeModal();
     } catch (error) {
       //!!! error handle

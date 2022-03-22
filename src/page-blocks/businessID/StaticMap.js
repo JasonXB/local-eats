@@ -37,7 +37,7 @@ export default function StaticMap({ coords }) {
   return (
     <MapContainer
       center={position}
-      zoom={15}
+      zoom={15} // how close to the ground the map is
       scrollWheelZoom={false}
       style={style}
       {...interactionOptions} // makes this map static and non interactible

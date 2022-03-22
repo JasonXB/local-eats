@@ -10,6 +10,8 @@ import dynamic from "next/dynamic";
 
 export default function Hours({ hours, infoTableData, coords }) {
   const { locationObject } = useLocationContext();
+  // console.log(999);
+  // console.log(infoTableData);
   // If no location's specified, the maps URL will just point to the restaurant location
   const [mapsURL, setMapsURL] = useState(`https://maps.google.com?daddr=${infoTableData.destination}`); // prettier-ignore
   // If the user has a selected location, the maps URL will link to a pg with directions
@@ -41,43 +43,43 @@ export default function Hours({ hours, infoTableData, coords }) {
               Mon
             </Typography>
             <Typography sx={{ gridArea: "b" }} variant="p">
-              {infoTableData.hours ? hours.Monday : "hours unknown"}
+              {hours ? hours.Monday : "hours unknown"}
             </Typography>
             <Typography sx={{ gridArea: "c" }} variant="p">
               Tues
             </Typography>
             <Typography sx={{ gridArea: "d" }} variant="p">
-              {infoTableData.hours ? hours.Tuesday : "hours unknown"}
+              {hours ? hours.Tuesday : "hours unknown"}
             </Typography>
             <Typography sx={{ gridArea: "e" }} variant="p">
               Wed
             </Typography>
             <Typography sx={{ gridArea: "f" }} variant="p">
-              {infoTableData.hours ? hours.Wednesday : "hours unknown"}
+              {hours ? hours.Wednesday : "hours unknown"}
             </Typography>
             <Typography sx={{ gridArea: "g" }} variant="p">
               Thurs
             </Typography>
             <Typography sx={{ gridArea: "h" }} variant="p">
-              {infoTableData.hours ? hours.Thursday : "hours unknown"}
+              {hours ? hours.Thursday : "hours unknown"}
             </Typography>
             <Typography sx={{ gridArea: "i" }} variant="p">
               Fri
             </Typography>
             <Typography sx={{ gridArea: "j" }} variant="p">
-              {infoTableData.hours ? hours.Friday : "hours unknown"}
+              {hours ? hours.Friday : "hours unknown"}
             </Typography>
             <Typography sx={{ gridArea: "k" }} variant="p">
               Sat
             </Typography>
             <Typography sx={{ gridArea: "l" }} variant="p">
-              {infoTableData.hours ? hours.Saturday : "hours unknown"}
+              {hours ? hours.Saturday : "hours unknown"}
             </Typography>
             <Typography sx={{ gridArea: "m" }} variant="p">
               Sun
             </Typography>
             <Typography sx={{ gridArea: "n" }} variant="p">
-              {infoTableData.hours ? hours.Sunday : "hours unknown"}
+              {hours ? hours.Sunday : "hours unknown"}
             </Typography>
           </Box>
           {/* The map with a pointer at the restaurant location */}
@@ -92,7 +94,7 @@ export default function Hours({ hours, infoTableData, coords }) {
             >
               Visit Yelp Page
             </Link>
-            <LinkIcon fontSize="large" sx={{ gridArea: "b", ml: 2 }} />
+            <LinkIcon fontSize="large" sx={{ gridArea: "b", ml: 2, mb:1 }} />
             <Divider sx={{ gridArea: "x", width: "100%" }} />
             <Typography
               sx={{ gridArea: "c", justifySelf: "start", my: 1 }}
@@ -189,6 +191,6 @@ const styles = {
     "k l"
     "m n"`,
     gridGap: "0.5rem 2rem",
-    width: "12rem",
+    width: "16.5rem",
   },
 };
