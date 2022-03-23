@@ -40,8 +40,9 @@ export default function SpecifyLocation() {
     dispatchFN({ type: "SELECT_PROVINCE", payload: inputValue });
   };
   const refreshTextfield = function (field) {
-    dispatchFN({ type: "REFRESH_TEXTFIELD", payload: field }); //field should be "city" or "postal_code"
-  };
+    if (!chosen.postalCodeError && !chosen.cityError) return; // if we have no current errors, do nothing
+    dispatchFN({ type: "REFRESH_TEXTFIELD", payload: field }); // field should be "city" or "postal_code"
+  }; // removes error visuals from the city or postal code field (used when we start typing)
 
   // Close Modal while maintaining the current state values
   const closeModal = () => dispatch(homepageModalActions.closeAllModals());
@@ -226,7 +227,12 @@ function reducer(state, action) {
     case "SELECT_PROVINCE":
       return { ...state, province: action.payload, provinceError: false };
     case "SELECT_SPECIFIER":
-      return { ...state, specifier: action.payload };
+      return {
+        ...state,
+        specifier: action.payload,
+        cityError: false,
+        postalCodeError: false,
+      };
     case "RESET":
       return {
         country: "CA",
