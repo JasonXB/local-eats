@@ -93,13 +93,13 @@ const styles = {
     display: "grid",
     p: 0,
     mb: 6,
-    width: "100%",
+    width: "18rem",
     "&:hover": { cursor: "pointer" },
-    ["@media (min-width: 400px)"]: {
-      gridTemplateColumns: "13.75rem, auto",
+    ["@media (min-width: 680px)"]: {
       gridTemplateRows: "repeat(4, auto)",
-      width: "20.75rem",
       p: 2,
+      width: "20.75rem",
+
       "&:hover": {
         borderColor: "rgb(232, 232, 232)",
         boxShadow: "rgb(28 28 28 / 12%) 0px 0.4rem 1.8rem",

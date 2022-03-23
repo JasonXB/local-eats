@@ -95,14 +95,33 @@ export const mix = {
     width: "80%",
     maxWidth: "20.625rem",
   },
-  cardsContainer: {
-    gridTemplateColumns: "repeat(auto-fit, minmax(20.75rem, 1fr))",
-    px: 2,
-    ["@media (min-width: 400px)"]: {
-      display: "grid",
-      width: "100%",
-      gap: 1.5,
-      justifyItems: "center",
+  cards_container_bookmarks: {
+    display: "grid",
+    justifyContent: "center",
+    px: 0,
+    ["@media (min-width: 715px)"]: {
+      gridTemplateColumns: "repeat(auto-fit, 20.75rem)",
+      mx: 2,
+      gap: 2,
+      justifyContent: "start",
+    },
+    ["@media (min-width: 1300px)"]: {
+      columnGap: 4,
+      mx: 0,
+    },
+  },
+  cards_container_search: {
+    display: "grid",
+    justifyContent: "center",
+    px: 0,
+    ["@media (min-width: 715px)"]: {
+      gridTemplateColumns: "repeat(auto-fit, 20.75rem)",
+      gap: 2,
+      justifyContent: "start",
+    },
+    ["@media (min-width: 1300px)"]: {
+      columnGap: 4,
+      mx: -2,
     },
   },
 };

@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { useLocationContext } from "../../../state-management/locationContext";
 //  prettier-ignore
-import { Typography, Button, Box, Stack, InputBase, IconButton } from "@mui/material"; // prettier-ignore
+import { Typography, Box, InputBase, IconButton } from "@mui/material"; // prettier-ignore
 import SearchIcon from "@mui/icons-material/Search";
 import MobileModalOpeners from "../Modals/MobileModalOpeners";
 
@@ -38,7 +38,6 @@ export default function SearchbarMobile() {
     });
   };
 
-  //! refactor each mobile button into a reusable component
   return (
     <>
       <Typography
@@ -90,7 +89,6 @@ const mobileStyles = {
     justifyContent: "start",
     justifyItems: "start",
     ["@media (min-width: 500px)"]: {
-      // justifyContent: "center",
       gridTemplateColumns: "1fr 1fr",
     },
   },

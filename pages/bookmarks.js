@@ -30,7 +30,7 @@ function Bookmarks({ scrollPosition }) {
           No businesses saved... yet!
         </Typography>
       )}
-      <Box id="desktopList" sx={mix.cardsContainer}>
+      <Box id="desktopList" sx={mix.cards_container_bookmarks}>
         {bookmarks &&
           bookmarks.map((data) => (
             <RestaurantCard

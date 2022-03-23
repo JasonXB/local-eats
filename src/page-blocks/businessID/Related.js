@@ -2,18 +2,21 @@ import React from "react";
 import RestaurantCard from "../../custom-components/SearchResults/RestaurantCard";
 import { trackWindowScroll } from "react-lazy-load-image-component";
 import { Typography, Box, Stack } from "@mui/material";
-
+import { mix } from "../../../styles/styleMixins";
 function Related({ relatedList, scrollPosition }) {
+  console.log(relatedList);
   // Make a Yelp API call and fetch some related locations
   let msg = "Similar Places";
-  if (!relatedList) msg = "No similar places found nearby";
+  if (!relatedList || relatedList.length === 0) {
+    msg = "No similar places found nearby";
+  }
   return (
     <>
-      <Typography sx={{ mb: 2, mt: 4, fontWeight: 600 }} variant="h4">
+      <Typography sx={styles.header} variant="h4">
         {msg}
       </Typography>
       {relatedList && (
-        <Box sx={styles.desktopParent}>
+        <Box sx={mix.cards_container_search}>
           {relatedList.map((r_data) => (
             <RestaurantCard
               key={r_data.storeID}
@@ -29,10 +32,14 @@ function Related({ relatedList, scrollPosition }) {
 }
 export default trackWindowScroll(Related);
 
-//!r-
 const styles = {
+  header: {
+    mb: 4,
+    mt: 4,
+    fontWeight: 600,
+    ["@media (min-width: 680px)"]: { mb: 2 },
+  },
   desktopParent: {
-    // ml:2,
     gridTemplateColumns: "repeat(auto-fit, minmax(20.75rem, 1fr))",
     ["@media (min-width: 400px)"]: {
       display: "grid",

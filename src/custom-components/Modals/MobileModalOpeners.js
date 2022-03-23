@@ -30,7 +30,7 @@ export default function MobileModalOpeners(props) {
   return (
     <Button sx={mobileStyles.locationBtn} onClick={onClickFN}>
       {icon}
-      <Stack sx={{ mr: 1.5 }}>
+      <Stack>
         <Typography
           color="secondary"
           variant="h6"
@@ -55,9 +55,10 @@ const mobileStyles = {
   locationBtn: {
     ...mix.flexRow,
     m: 0,
+    ml:2,
     p: 0,
     py: 1,
-    px:2,
+    px: 2,
     textTransform: "none", // disables all caps in button
     "&:hover": {
       cursor: "pointer",
