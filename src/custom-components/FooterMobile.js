@@ -1,5 +1,4 @@
 import React from "react";
-//  prettier-ignore
 import { Typography, Box, Divider, Stack } from "@mui/material";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";

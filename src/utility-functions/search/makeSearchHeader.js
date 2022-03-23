@@ -1,4 +1,4 @@
-import {lengthNoSpaces} from "../../utility-functions/general/lengthNoSpaces"
+import { lengthNoSpaces } from "../../utility-functions/general/lengthNoSpaces";
 // Create the search header text abovr all our Restaurant cards
 // End result is dependent on the query parameters of the URL
 

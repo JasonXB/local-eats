@@ -1,4 +1,3 @@
-// import MenuIcon from "@mui/icons-material/Menu"; // <MenuIcon size="large" />
 import SearchbarMobile from "../../custom-components/Searchbar/SearchbarMobile";
 //  prettier-ignore
 import { Typography, Box, Stack, Button, InputBase, Menu, MenuItem,} from "@mui/material";

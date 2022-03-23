@@ -1,5 +1,5 @@
 import React from "react";
-import {Box, Button } from "@mui/material"; // prettier-ignore
+import { Box, Button } from "@mui/material"; // prettier-ignore
 import EqualizerIcon from "@mui/icons-material/Equalizer";
 import SocialDistanceIcon from "@mui/icons-material/SocialDistance";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";

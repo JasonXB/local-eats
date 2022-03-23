@@ -1,10 +1,8 @@
 import React, { useRef } from "react";
 import { useLocationContext } from "../../../state-management/locationContext";
-//  prettier-ignore
 import { Typography, Box, InputBase, IconButton } from "@mui/material"; // prettier-ignore
 import SearchIcon from "@mui/icons-material/Search";
 import MobileModalOpeners from "../Modals/MobileModalOpeners";
-
 import { mix } from "../../../styles/styleMixins";
 import { homepageModalActions } from "../../../state-management/store/homepage/ModalVisibility";
 import { useDispatch } from "react-redux";

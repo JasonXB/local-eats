@@ -1,9 +1,9 @@
 import React from "react";
-//  prettier-ignore
-import { Typography, Button ,Box, CardMedia , Container, Card} from '@mui/material';
+import { Typography, Button ,Box, CardMedia , Container, Card} from '@mui/material'; //  prettier-ignore
 import { mix } from "../../../styles/styleMixins";
 import useVisitSearchPage from "../../utility-functions/search/useVisitSearchPage";
 import useGetFilters from "../../utility-functions/search/useGetFilters";
+
 export default function RestaurantTypes() {
   const filters = useGetFilters();
   const navToSearchPage = useVisitSearchPage();

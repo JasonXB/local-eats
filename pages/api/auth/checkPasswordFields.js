@@ -3,7 +3,7 @@ import { getSession } from "next-auth/react";
 import { connectToDB } from "../helperFunctions/connectToDB";
 import { compare, hash } from "bcryptjs";
 import { pwStrengthCheck } from "../helperFunctions/pwStrengthCheck";
-import { removeWhiteSpace, lengthNoSpaces } from "../../../src/utility-functions/general/lengthNoSpaces"; // prettier-ignore
+import { removeWhiteSpace } from "../../../src/utility-functions/general/lengthNoSpaces"; // prettier-ignore
 
 export default async function handler(req, res) {
   // Extract data from the request body and

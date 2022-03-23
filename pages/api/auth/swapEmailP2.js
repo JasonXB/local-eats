@@ -1,5 +1,5 @@
 import { getSession } from "next-auth/react";
-import { compare, hash } from "bcryptjs";
+import { compare } from "bcryptjs";
 import { connectToDB } from "../helperFunctions/connectToDB";
 
 export default async function handler(req, res) {

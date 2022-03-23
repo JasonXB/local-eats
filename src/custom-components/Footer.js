@@ -5,6 +5,7 @@ import FooterMobile from "./FooterMobile";
 import useVisitSearchPage from "../utility-functions/search/useVisitSearchPage";
 import useGetFilters from "../utility-functions/search/useGetFilters";
 import LayoutContainer from "./LayoutContainer";
+
 export default function Footer() {
   const filters = useGetFilters();
   const navToSearchPage = useVisitSearchPage();

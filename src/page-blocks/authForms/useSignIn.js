@@ -1,7 +1,7 @@
 import React, { useRef, useState, useReducer } from "react";
-import { Typography, Box, Stack, Button, TextField, InputLabel } from "@mui/material"; // prettier-ignore
+import { Typography, Stack, Button } from "@mui/material"; // prettier-ignore
 import { useRouter } from "next/router";
-import FormControl, { useFormControl } from "@mui/material/FormControl";
+import FormControl from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import FormHelperText from "@mui/material/FormHelperText";
 import { styles } from "../../../styles/auth/form";

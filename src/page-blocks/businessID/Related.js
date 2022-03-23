@@ -1,8 +1,9 @@
 import React from "react";
 import RestaurantCard from "../../custom-components/SearchResults/RestaurantCard";
 import { trackWindowScroll } from "react-lazy-load-image-component";
-import { Typography, Box, Stack } from "@mui/material";
+import { Typography, Box } from "@mui/material";
 import { mix } from "../../../styles/styleMixins";
+
 function Related({ relatedList, scrollPosition }) {
   console.log(relatedList);
   // Make a Yelp API call and fetch some related locations

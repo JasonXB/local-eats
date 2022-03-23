@@ -1,6 +1,6 @@
 import React from "react";
-import { Typography, Box, Button, IconButton } from "@mui/material";
-import { breakBefore, breakAfter } from "../ConditionalBreak";
+import { Typography, Box, Button } from "@mui/material";
+import { breakBefore } from "../ConditionalBreak";
 import { mix } from "../../../styles/styleMixins";
 import SignOutBtn from "./SignOutBtn";
 import SignUpBtn from "./SignUpBtn";

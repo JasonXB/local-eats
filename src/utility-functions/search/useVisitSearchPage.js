@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { removeEmptyKVPs } from "../general/removeEmptyKVPs";
 import { useLocationContext } from "../../../state-management/locationContext";
 import useGetFilters from "./useGetFilters";

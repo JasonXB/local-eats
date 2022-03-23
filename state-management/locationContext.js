@@ -1,13 +1,11 @@
-//  prettier-ignore
-import axios from "axios";
 import { useRouter } from "next/router";
 import { homepageModalActions } from "../state-management/store/homepage/ModalVisibility";
 // Import utility functions we'll be destributing throughout our project
 import { detectLocation } from "../src/utility-functions/location/detectLocation";
 import { pickPredetermined } from "../src/utility-functions/location/pickPredetermined";
 import { checkForSaved } from "../src/utility-functions/location/checkForSavedLocation";
-import { useSelector, useDispatch } from "react-redux";
-import { useState, createContext, useContext, useEffect, useReducer } from "react"; // prettier-ignore
+import { useDispatch } from "react-redux";
+import { createContext, useContext, useEffect, useReducer } from "react"; // prettier-ignore
 
 
 const AAA = createContext();

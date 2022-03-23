@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useReducer } from "react"; //  prettier-ignore
+import React from "react"; //  prettier-ignore
 // Redux imports
 import { useSelector, useDispatch } from "react-redux";
 import { canadaDenialActions } from "../../../../state-management/store/homepage/locationDenialCA";

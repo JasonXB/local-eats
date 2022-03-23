@@ -1,5 +1,6 @@
 import React from "react";
-import { Box } from "@mui/material";
+import Box from '@mui/material/Box';
+
 export const breakBefore = function (pxBreakpoint) {
   return (
     <Box
@@ -12,6 +13,7 @@ export const breakBefore = function (pxBreakpoint) {
     />
   );
 };
+
 export const breakAfter = (pxBreakpoint) => {
   return (
     <Box

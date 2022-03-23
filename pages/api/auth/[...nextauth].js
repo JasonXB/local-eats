@@ -2,7 +2,6 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { connectToDB } from "../helperFunctions/connectToDB";
 import { compare } from "bcryptjs";
-import { useGlobalContext } from "../../../state-management/globalContext";
 
 export default NextAuth({
   // OAuth authentication providers...

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import SearchbarDesktop from "../../../src/custom-components/Searchbar/SearchbarDesktop";
 import { mix } from "../../../styles/styleMixins";
 import { Typography, Box, Stack, Breadcrumbs, Link } from "@mui/material"; // prettier-ignore

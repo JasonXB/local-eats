@@ -1,4 +1,4 @@
-import { hash, compare } from "bcryptjs";
+import { hash } from "bcryptjs";
 import { connectToDB } from "../helperFunctions/connectToDB";
 import { makeID } from "../helperFunctions/makeID";
 
