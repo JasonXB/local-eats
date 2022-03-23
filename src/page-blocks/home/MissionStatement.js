@@ -52,7 +52,7 @@ const mobileStyles = {
   stackContainer: (theme) => {
     return {
       m: 0,
-      mb:"2.25rem",
+      mb: "2.25rem",
       background: "#fffbf7", // apply gray background for mobile onlinr
       [theme.breakpoints.up("sm")]: {
         display: "none",

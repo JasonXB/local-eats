@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useLocationContext } from "../../../state-management/locationContext";
-//  prettier-ignore
 import { Typography, Button, Divider, InputBase, Menu, MenuItem, Box, IconButton } from "@mui/material"; // prettier-ignore
 import { styled, alpha } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
@@ -17,10 +16,12 @@ import useVisitSearchPage from "../../utility-functions/search/useVisitSearchPag
 import FindInPageIcon from "@mui/icons-material/FindInPage";
 
 export default function SearchbarDesktop({ applyShadow }) {
+  const dispatch = useDispatch();
   const filters = useGetFilters();
   const anchorEl = useRef();
   const searchbarRef = useRef();
   const navToSearchPage = useVisitSearchPage();
+
   //^ Import the LocationContext variables and functions that control the Searchbar drop down menu
   const { searchbarMenuOpen, openSearchbarMenu, closeSearchbarMenu } = useLocationContext(); // prettier-ignore
   const [arrowIcon, setArrowIcon] = useState(<ArrowDropDownIcon />);
@@ -39,8 +40,9 @@ export default function SearchbarDesktop({ applyShadow }) {
     return;
   };
 
-  //@ Import location data found at startup, and a detect location function fr/ Context API
+  // Import location data found at startup, and a detect location function fr/ Context API
   const { detectLocationHandler, locationObject } = useLocationContext();
+
   // Decide on what message to show on the searchbar based on saved location data on LocalStorage
   const [desktopMSG, setDesktopMSG] = useState("Pick a location");
   useEffect(() => {
@@ -50,25 +52,20 @@ export default function SearchbarDesktop({ applyShadow }) {
   }, [locationObject]); // change it whenever locationObject is altered
 
   const detectLocation = async function (event) {
-    closeMenu();
+    closeMenu(); // close searchbar menu
     // search for a new location, and override any saved ones in localStorage
     await detectLocationHandler(); // invoke the function defined in locationContext.js
   };
 
-  //@ Reveal the Predetermined Locations Modal by setting a Redux state value
-  const dispatch = useDispatch();
-  const openPredetermined = () => {
-    dispatch(homepageModalActions.usePredeterminedLocations());
-  };
-
+  // Reveal the Predetermined Location Modal by setting a Redux state value
   const pickPredetermined = async function (event) {
-    closeMenu();
-    openPredetermined();
+    closeMenu(); // close searchbar menu
+    dispatch(homepageModalActions.usePredeterminedLocations()); // open modal
   };
-
-  //!!!
+  // Reveal the SpecifyLocationModal Modal by setting a Redux state value
   const specifyLocation = async function () {
-    //
+    closeMenu(); // close searchbar menu
+    dispatch(homepageModalActions.useSpecifyLocation()); // open modal
   };
 
   const searchHandler = function (e) {
@@ -81,6 +78,7 @@ export default function SearchbarDesktop({ applyShadow }) {
       sort_by: filters.sort_by,
     });
   };
+
   // We have a default style for the Homepage, and a secondary style for the search/restuarant pages
   const stylesNoShadow = { width: "90%", maxWidth: "50rem" };
   const stylesWithShadow = {
@@ -90,6 +88,7 @@ export default function SearchbarDesktop({ applyShadow }) {
     width: "100%",
     height: 48,
   };
+
   return (
     <Search
       id="anchor_point"
@@ -172,7 +171,7 @@ const Search = styled("div")(({ theme }) => ({
 const styles = {
   // Styles the Button text telling us where we currently are
   location: {
-    width: "18rem",
+    width: "27rem", //^ length of the current location text
     ml: 1,
     mt: "2px",
   },

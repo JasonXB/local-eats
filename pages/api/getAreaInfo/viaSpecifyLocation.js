@@ -5,7 +5,7 @@ import { removeEmptyKVPs } from "../../../src/utility-functions/general/removeEm
 const axios = require("axios");
 
 export default async function handler(req, res) {
-  const { country, province, city, address, postalCode } = req.body;
+  const { country, province, specifier, city, postalCode } = req.body;
   const convertCountryCode = (code) => {
     if (code == "CA") return "Canada";
     if (code == "US") return "United States";
@@ -17,21 +17,22 @@ export default async function handler(req, res) {
   }
   // Remove whitespace from inputs and replace them with + signs
   const editedProvince = removeWhiteSpace(province, "+");
-  const editedCity = removeWhiteSpace(city, "+");
+  const editedCity = specifier === "city" ? removeWhiteSpace(city) : undefined;
+  const editedPostalCode = specifier === "postal_code" ?  removeWhiteSpace(postalCode) : undefined; // prettier-ignore
   // Construct the MapQuest API string
   const frags = removeEmptyKVPs({
     city: editedCity,
-    postalCode: postalCode,
+    postalCode: editedPostalCode,
     key: process.env.MAPQUEST_API_KEY,
   }); // all undefined KVP's will be removed
   let apiString = `http://www.mapquestapi.com/geocoding/v1/address?country=${country}&state=${editedProvince}`;
   for (let key in frags) apiString = apiString + `&${key}=${frags[key]}`;
-
+  console.log(frags)
   try {
     // Extract then organize the data that's required for the project locationObject
     const response = await axios.get(apiString);
     const bestMatch = response.data.results[0].locations[0];
-    
+
     // If Mapquest can't pinpoint an exact city, change what the apiString will be
     let mapquestCity = bestMatch.adminArea5;
     let locationString;
@@ -43,7 +44,6 @@ export default async function handler(req, res) {
       locationString = `${mapquestCity}, ${bestMatch.adminArea3 || province}`; // "Toronto, ON"
       apiStr = `${mapquestCity}, ${province}, ${convertCountryCode(bestMatch.adminArea1)}`; // prettier-ignore
     }
-    console.log(mapquestCity, locationString, apiStr);
     const locationObj = removeEmptyKVPs({
       // Guaranteed KVP's from Mapquest
       country: bestMatch.adminArea1,

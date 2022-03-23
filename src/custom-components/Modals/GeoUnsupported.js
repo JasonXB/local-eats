@@ -5,10 +5,9 @@ import PredeterminedModalWrapper from "./PredeterminedModalWrapper";
 import InputField from "./LocationDenial/InputField";
 
 export default function GeoUnsupported(props) {
-  // Import redux variables that determine the visibility of our entire component
+  // Only render this modal when a Redux state value equals a non falsy
   const geolocationUnsupported= useSelector((state) => state.homepageModals.showGeoUnsupported); // prettier-ignore
   if (!geolocationUnsupported) return ""; // if falsy, don't render this component
-
   return (
     <>
       <PredeterminedModalWrapper headerText="Browser does not support Geolocation">

@@ -4,12 +4,11 @@ export function lengthNoSpaces(str) {
 
 export function removeWhiteSpace(str, replacement) {
   let newString;
-  if(!replacement){
+  if (!replacement) {
     newString = str.replaceAll(/\s/g, "");
     return newString;
   } else {
     newString = str.replaceAll(/\s/g, "+");
     return newString;
   }
-  
 }

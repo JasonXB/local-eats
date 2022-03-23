@@ -25,7 +25,7 @@ export const styles = {
   inputField : {
     width:"100%",
     maxWidth: "20.625rem",
-    mt:3
+    my:2
   }
 };
 

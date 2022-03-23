@@ -2,16 +2,8 @@ import React from "react";
 import { Typography, Box, Button, Stack } from "@mui/material";
 import { mix } from "../../../styles/styleMixins";
 import { styles, StyledModal } from "../../../styles/modal_styles";
-import { useSelector, useDispatch } from "react-redux";
-import { homepageModalActions } from "../../../state-management/store/homepage/ModalVisibility";
 
 export default function ModalComponent(props) {
-  // Only show this modal when Redux state value equals a non-falsy
-  const showSpecifyLocationModal = useSelector(
-    (r) => r.homepageModals.showSpecifyLocation
-  );
-
-  if (!showSpecifyLocationModal) return null;
   return (
     <Box sx={styles.backdrop}>
       <StyledModal>
@@ -33,7 +25,7 @@ export default function ModalComponent(props) {
           <Box
             sx={{ ...mix.flexRow, justifyContent: "end", mt: 3.5, ml: "auto" }}
           >
-            <Button size="medium" onClick={() => props.closeModal()}>
+            <Button size="medium" onClick={() => props.cancelModal()}>
               Cancel
             </Button>
             <Button onClick={() => props.submit()} size="medium" sx={{ ml: 2 }}>

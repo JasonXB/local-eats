@@ -3,6 +3,7 @@ import LocationDenialModal from "../Modals/LocationDenial/DenialModal";
 import PredeterminedLocationModal from "../Modals/Predetermined";
 import GeoUnsupportedModal from "../Modals/GeoUnsupported";
 import DynamicSnackbar from "../DynamicSnackbar";
+import SpecifyLocation from "../Modals/SpecifyLocation";
 
 export default function SearchbarModals() {
   return (
@@ -11,6 +12,7 @@ export default function SearchbarModals() {
       <PredeterminedLocationModal />
       <GeoUnsupportedModal />
       <DynamicSnackbar msg="Must select a location first" />
+      <SpecifyLocation />
     </>
   );
 }

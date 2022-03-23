@@ -92,7 +92,7 @@ export default function Business(props) {
       />
       <Related relatedList={related} />
       <Footer />
-      {/* Modal on standby for when someone opens the searchbar's drop down menu */}
+      {/* Modals on standby for when someone opens the searchbar's drop down menu */}
       <SearchbarModals />
     </PaddedBlock>
   );

@@ -5,7 +5,7 @@ const initialState = {
   showLocationDenial: false,
   showGeoUnsupported: false,
   showPredetermined: false,
-  showSpecifyLocation: true,
+  showSpecifyLocation: false,
 };
 
 const homeModalSlice = createSlice({

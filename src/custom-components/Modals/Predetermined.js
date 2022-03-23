@@ -1,7 +1,6 @@
 import React from "react";
-import { Typography, Box, Button, Divider } from "@mui/material";
-import { useSelector, useDispatch } from "react-redux";
-import { mix } from "../../../styles/styleMixins";
+import { Typography, Divider } from "@mui/material";
+import { useSelector } from "react-redux";
 import PredeterminedModalWrapper from "./PredeterminedModalWrapper";
 import InputField from "./LocationDenial/InputField";
 
