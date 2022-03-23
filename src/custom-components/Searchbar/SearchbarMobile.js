@@ -11,6 +11,8 @@ import { useDispatch } from "react-redux";
 import { lengthNoSpaces } from "../../utility-functions/general/lengthNoSpaces";
 import useGetFilters from "../../utility-functions/search/useGetFilters";
 import useVisitSearchPage from "../../utility-functions/search/useVisitSearchPage";
+import ListAltIcon from "@mui/icons-material/ListAlt";
+import TravelExploreIcon from "@mui/icons-material/TravelExplore";
 
 export default function SearchbarMobile() {
   const filters = useGetFilters();
@@ -22,11 +24,10 @@ export default function SearchbarMobile() {
   if (!locationObject) mobileMSG = "none";
   else mobileMSG = locationObject.locationString;
 
-  //@ Reveal the Predetermined Locations Modal by setting a Redux state value
+  // Reveal certain modals by setting a Redux state value
   const dispatch = useDispatch();
-  const openPredetermined = () => {
-    dispatch(homepageModalActions.usePredeterminedLocations());
-  };
+  const openPredetermined = () => dispatch(homepageModalActions.usePredeterminedLocations()); // prettier-ignore
+  const openSpecifyLocation = () => dispatch(homepageModalActions.useSpecifyLocation()); // prettier-ignore
 
   const submitHandler = function (e) {
     e.preventDefault();
@@ -39,6 +40,7 @@ export default function SearchbarMobile() {
     });
   };
 
+  //! refactor each mobile button into a reusable component
   return (
     <>
       <Typography
@@ -73,7 +75,7 @@ export default function SearchbarMobile() {
               sx={{ fontSize: "1rem" }}
               component="p"
             >
-              Detect current location
+              Detect location
             </Typography>
             <Typography
               color="secondary"
@@ -84,12 +86,32 @@ export default function SearchbarMobile() {
             </Typography>
           </Stack>
         </Button>
-        <Button sx={mobileStyles.locationBtn} onClick={openPredetermined}>
-          <LocationOffIcon
+        <Button sx={mobileStyles.locationBtn} onClick={openSpecifyLocation}>
+          <TravelExploreIcon
             fontSize="large"
             color="secondary"
             sx={{ mr: 1.5 }}
           />
+          <Stack sx={{ mr: 1.5 }}>
+            <Typography
+              color="secondary"
+              variant="h6"
+              sx={{ fontSize: "1rem" }}
+              component="p"
+            >
+              Specify a location
+            </Typography>
+            <Typography
+              color="secondary"
+              sx={{ fontSize: "0.875rem" }}
+              align="left"
+            >
+              using cities/codes
+            </Typography>
+          </Stack>
+        </Button>
+        <Button sx={mobileStyles.locationBtn} onClick={openPredetermined}>
+          <ListAltIcon fontSize="large" color="secondary" sx={{ mr: 1.5 }} />
           <Stack sx={{ mr: 1.5 }}>
             <Typography
               color="secondary"
@@ -131,7 +153,7 @@ const mobileStyles = {
     justifyContent: "space-between",
     borderRadius: "10px",
     pb: 2,
-    ["@media (max-width: 540px)"]: {
+    ["@media (max-width: 645px)"]: {
       ...mix.flexColumn,
       alignItems: "flex-start",
     },

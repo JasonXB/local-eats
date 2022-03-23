@@ -7,13 +7,13 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import GpsFixedIcon from "@mui/icons-material/GpsFixed";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
-import PublicIcon from "@mui/icons-material/Public";
 import { homepageModalActions } from "../../../state-management/store/homepage/ModalVisibility";
 import { useSelector, useDispatch } from "react-redux";
 import { lengthNoSpaces } from "../../utility-functions/general/lengthNoSpaces";
 import useGetFilters from "../../utility-functions/search/useGetFilters";
 import useVisitSearchPage from "../../utility-functions/search/useVisitSearchPage";
-import FindInPageIcon from "@mui/icons-material/FindInPage";
+import ListAltIcon from '@mui/icons-material/ListAlt';
+import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 
 export default function SearchbarDesktop({ applyShadow }) {
   const dispatch = useDispatch();
@@ -118,13 +118,13 @@ export default function SearchbarDesktop({ applyShadow }) {
           </Button>
         </MenuItem>
         <MenuItem sx={{ display: "flex", px: 1.5 }} onClick={specifyLocation}>
-          <FindInPageIcon color="secondary" sx={{ mt: "-4px" }} />
+          <TravelExploreIcon color="secondary" sx={{ mt: "-4px" }} />
           <Button color="secondary" align="left">
             Specify a location
           </Button>
         </MenuItem>
         <MenuItem sx={{ display: "flex", px: 1.5 }} onClick={pickPredetermined}>
-          <PublicIcon color="secondary" sx={{ mt: "-4px" }} />
+          <ListAltIcon color="secondary" sx={{ mt: "-4px" }} />
           <Button color="secondary" align="left">
             Pick predetermined location
           </Button>
