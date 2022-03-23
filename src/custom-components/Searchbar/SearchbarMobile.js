@@ -3,16 +3,14 @@ import { useLocationContext } from "../../../state-management/locationContext";
 //  prettier-ignore
 import { Typography, Button, Box, Stack, InputBase, IconButton } from "@mui/material"; // prettier-ignore
 import SearchIcon from "@mui/icons-material/Search";
-import LocationOffIcon from "@mui/icons-material/LocationOff";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
+import MobileModalOpeners from "../Modals/MobileModalOpeners";
+
 import { mix } from "../../../styles/styleMixins";
 import { homepageModalActions } from "../../../state-management/store/homepage/ModalVisibility";
 import { useDispatch } from "react-redux";
 import { lengthNoSpaces } from "../../utility-functions/general/lengthNoSpaces";
 import useGetFilters from "../../utility-functions/search/useGetFilters";
 import useVisitSearchPage from "../../utility-functions/search/useVisitSearchPage";
-import ListAltIcon from "@mui/icons-material/ListAlt";
-import TravelExploreIcon from "@mui/icons-material/TravelExplore";
 
 export default function SearchbarMobile() {
   const filters = useGetFilters();
@@ -66,70 +64,10 @@ export default function SearchbarMobile() {
         />
       </Box>{" "}
       <Box sx={{ ...mobileStyles.boxParent }}>
-        <Button sx={mobileStyles.locationBtn} onClick={detectLocationHandler}>
-          <LocationOnIcon fontSize="large" color="secondary" sx={{ mr: 1.5 }} />
-          <Stack sx={{ mr: 1.5 }}>
-            <Typography
-              color="secondary"
-              variant="h6"
-              sx={{ fontSize: "1rem" }}
-              component="p"
-            >
-              Detect location
-            </Typography>
-            <Typography
-              color="secondary"
-              sx={{ fontSize: "0.875rem" }}
-              align="left"
-            >
-              via GPS
-            </Typography>
-          </Stack>
-        </Button>
-        <Button sx={mobileStyles.locationBtn} onClick={openSpecifyLocation}>
-          <TravelExploreIcon
-            fontSize="large"
-            color="secondary"
-            sx={{ mr: 1.5 }}
-          />
-          <Stack sx={{ mr: 1.5 }}>
-            <Typography
-              color="secondary"
-              variant="h6"
-              sx={{ fontSize: "1rem" }}
-              component="p"
-            >
-              Specify a location
-            </Typography>
-            <Typography
-              color="secondary"
-              sx={{ fontSize: "0.875rem" }}
-              align="left"
-            >
-              using cities/codes
-            </Typography>
-          </Stack>
-        </Button>
-        <Button sx={mobileStyles.locationBtn} onClick={openPredetermined}>
-          <ListAltIcon fontSize="large" color="secondary" sx={{ mr: 1.5 }} />
-          <Stack sx={{ mr: 1.5 }}>
-            <Typography
-              color="secondary"
-              variant="h6"
-              sx={{ fontSize: "1rem" }}
-              component="p"
-            >
-              Pick a location
-            </Typography>
-            <Typography
-              color="secondary"
-              sx={{ fontSize: "0.875rem" }}
-              align="left"
-            >
-              from our premade list
-            </Typography>
-          </Stack>
-        </Button>
+        <MobileModalOpeners type="GPS" onClickFN={detectLocationHandler} />
+        <MobileModalOpeners type="specify" onClickFN={openSpecifyLocation} />
+        {/*  prettier-ignore */}
+        <MobileModalOpeners type="predetermined" onClickFN={openPredetermined} />
       </Box>
     </>
   );
@@ -145,32 +83,18 @@ const mobileStyles = {
       },
     };
   },
-
   boxParent: {
-    ...mix.flexRow,
-    ...mix.regMargin("!bottom"),
-    marginTop: 0,
-    justifyContent: "space-between",
-    borderRadius: "10px",
-    pb: 2,
-    ["@media (max-width: 645px)"]: {
-      ...mix.flexColumn,
-      alignItems: "flex-start",
+    display: "grid",
+    gridTemplateColumns: "auto",
+    gridTemplateRows: "auto",
+    justifyContent: "start",
+    justifyItems: "start",
+    ["@media (min-width: 500px)"]: {
+      // justifyContent: "center",
+      gridTemplateColumns: "1fr 1fr",
     },
   },
-  locationBtn: {
-    ...mix.flexRow,
-    m: 0,
-    p: 0,
-    p: 1,
-    textTransform: "none", // disables all caps in button
-    "&:hover": {
-      cursor: "pointer",
-    },
-    "& .MuiTypography-root": {
-      textAlign: "start",
-    },
-  },
+
   searchbar: {
     display: "flex",
     bgcolor: "white",
