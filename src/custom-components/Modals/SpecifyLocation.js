@@ -25,6 +25,8 @@ export default function SpecifyLocation() {
     province: undefined,
     provinceError: false, // works with american states too
     specifier: "city",
+    cityError: false,
+    postalCodeError: false,
   });
   const selectCountry = function (e) {
     if (!e.target.value) return;
@@ -36,6 +38,9 @@ export default function SpecifyLocation() {
   };
   const selectProvince = function (e, inputValue) {
     dispatchFN({ type: "SELECT_PROVINCE", payload: inputValue });
+  };
+  const refreshTextfield = function (field) {
+    dispatchFN({ type: "REFRESH_TEXTFIELD", payload: field }); //field should be "city" or "postal_code"
   };
 
   // Close Modal while maintaining the current state values
@@ -67,10 +72,20 @@ export default function SpecifyLocation() {
       postalRef.current.value = "";
       closeModal();
     } catch (error) {
-      if (error?.response?.data?.message === "Province/state not specified") {
-        dispatchFN({ type: "PROVINCE_ERROR" });
-      } else {
-        cancelModal(); // close modal while reseting state
+      switch (error?.response?.data?.message) {
+        case "Province empty":
+          dispatchFN({ type: "ERROR", payload: "province" });
+          break;
+        case "City empty":
+        case "Invalid city":
+          dispatchFN({ type: "ERROR", payload: "city" });
+          break;
+        case "Postal code empty":
+        case "Invalid postal code":
+          dispatchFN({ type: "ERROR", payload: "postal_code" });
+          break;
+        default:
+          cancelModal(); // close modal while resetting state
       }
     }
   };
@@ -173,16 +188,20 @@ export default function SpecifyLocation() {
       {/* City and address fields */}
       {chosen.specifier === "city" && (
         <TextField
-          label="Enter city"
+          label="Enter city (required)"
           sx={{ ...styles.inputField }}
           inputRef={cityRef}
+          onChange={() => refreshTextfield("city")}
+          error={chosen.cityError}
         />
       )}
       {chosen.specifier === "postal_code" && (
         <TextField
-          label={`Enter ${codeType}`}
+          label={`Enter ${codeType} (required)`}
           sx={{ ...styles.inputField }}
           inputRef={postalRef}
+          onChange={() => refreshTextfield("postal_code")}
+          error={chosen.postalCodeError}
         />
       )}
     </ModalComponent>
@@ -198,8 +217,12 @@ function reducer(state, action) {
         province: undefined,
         provinceError: false,
       };
-    case "PROVINCE_ERROR":
-      return { ...state, provinceError: true };
+    // Color an input field red when the user submits something invalid there
+    case "ERROR":
+      if (action.payload === "province")  return { ...state, provinceError: true }; // prettier-ignore
+      else if (action.payload === "city") return { ...state, cityError: true }; // prettier-ignore
+      else if (action.payload === "postal_code") return { ...state, postalCodeError: true }; // prettier-ignore
+      return state;
     case "SELECT_PROVINCE":
       return { ...state, province: action.payload, provinceError: false };
     case "SELECT_SPECIFIER":
@@ -209,8 +232,14 @@ function reducer(state, action) {
         country: "CA",
         province: undefined,
         provinceError: false,
-        specifier: "city"
+        specifier: "city",
+        cityError: false,
+        postalCodeError: false,
       };
+    case "REFRESH_TEXTFIELD":
+      if (action.payload === "city") return { ...state, cityError: false }; // prettier-ignore
+      else if (action.payload === "postal_code") return { ...state, postalCodeError: false }; // prettier-ignore
+      return state;
     default:
       return state;
   }

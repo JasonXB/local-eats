@@ -11,9 +11,15 @@ export default async function handler(req, res) {
     if (code == "US") return "United States";
   };
 
-  // If province field is not specified during submit, return an error
+  // Return errors if certain mandatory fields are submitted empty
   if (!province) {
-    return res.status(401).json({ message: "Province/state not specified" });
+    return res.status(401).json({ message: "Province empty" });
+  }
+  if (specifier === "city" && !city) {
+    return res.status(401).json({ message: "City empty" });
+  }
+  if (specifier === "postal_code" && !postalCode) {
+    return res.status(401).json({ message: "Postal code empty" });
   }
   // Remove whitespace from inputs and replace them with + signs
   const editedProvince = removeWhiteSpace(province, "+");
@@ -27,33 +33,28 @@ export default async function handler(req, res) {
   }); // all undefined KVP's will be removed
   let apiString = `http://www.mapquestapi.com/geocoding/v1/address?country=${country}&state=${editedProvince}`;
   for (let key in frags) apiString = apiString + `&${key}=${frags[key]}`;
-  console.log(frags)
+
   try {
-    // Extract then organize the data that's required for the project locationObject
+    // Request location data from Mapquest
     const response = await axios.get(apiString);
     const bestMatch = response.data.results[0].locations[0];
 
-    // If Mapquest can't pinpoint an exact city, change what the apiString will be
-    let mapquestCity = bestMatch.adminArea5;
-    let locationString;
-    let apiStr;
-    if (!mapquestCity) {
-      locationString = `${province}`;
-      apiStr = `${province}, ${convertCountryCode(bestMatch.adminArea1)}`;
-    } else {
-      locationString = `${mapquestCity}, ${bestMatch.adminArea3 || province}`; // "Toronto, ON"
-      apiStr = `${mapquestCity}, ${province}, ${convertCountryCode(bestMatch.adminArea1)}`; // prettier-ignore
+    // If the user's submission is not enough for Mapquest API to pinpoint a city, return an error
+    if (!bestMatch.adminArea5 && specifier === "postal_code") {
+      return res.status(401).json({ message: "Invalid postal code" });
+    } else if (!bestMatch.adminArea5 && specifier === "city") {
+      return res.status(401).json({ message: "Invalid city" });
     }
+
+    // Organize the data that's required for the project locationObject
     const locationObj = removeEmptyKVPs({
-      // Guaranteed KVP's from Mapquest
       country: bestMatch.adminArea1,
       latitude: bestMatch.latLng.lat,
       longitude: bestMatch.latLng.lng,
       stateProvinceCode: bestMatch.adminArea3,
-      // City may be blank
-      city: mapquestCity,
-      locationString,
-      apiString: apiStr, // "town, state, countryCode"
+      city: bestMatch.adminArea5,
+      locationString: `${bestMatch.adminArea5}, ${bestMatch.adminArea3}`,
+      apiString: `${bestMatch.adminArea5}, ${province}, ${convertCountryCode(bestMatch.adminArea1)}`, // prettier-ignore
     });
 
     // Return the locationObject so we can save it to LocalStorage
