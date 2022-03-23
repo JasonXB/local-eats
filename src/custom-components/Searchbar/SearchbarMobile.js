@@ -88,7 +88,7 @@ const mobileStyles = {
     gridTemplateRows: "auto",
     justifyContent: "start",
     justifyItems: "start",
-    ["@media (min-width: 500px)"]: {
+    ["@media (min-width: 600px)"]: {
       gridTemplateColumns: "1fr 1fr",
     },
   },

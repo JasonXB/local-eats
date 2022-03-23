@@ -45,7 +45,7 @@ export default function Restaurants() {
   if (!locationObject)
     return (
       <LayoutContainer>
-        <HeaderSection />
+        <HeaderSection parent={"searchPage"} breakpoint={725} />
         <NoResults msg="No location specified!" />
         {/* Still need our modals on standby */}
         <SearchbarModals />
@@ -56,7 +56,7 @@ export default function Restaurants() {
   // If we have search results and a location object, render the following
   return (
     <PaddedBlock>
-      <HeaderSection parent={"searchPage"} breakpoint={700} />
+      <HeaderSection parent={"searchPage"} breakpoint={725} />
       <RestaurantFilters />
       <SearchResults apiString={apiString} searchHeader={searchHeader} />
       {/* These fixed position Modals are on standby and will pop up depending on (Redux) state values */}

@@ -10,8 +10,7 @@ import dynamic from "next/dynamic";
 
 export default function Hours({ hours, infoTableData, coords }) {
   const { locationObject } = useLocationContext();
-  // console.log(999);
-  // console.log(infoTableData);
+
   // If no location's specified, the maps URL will just point to the restaurant location
   const [mapsURL, setMapsURL] = useState(`https://maps.google.com?daddr=${infoTableData.destination}`); // prettier-ignore
   // If the user has a selected location, the maps URL will link to a pg with directions
@@ -94,7 +93,7 @@ export default function Hours({ hours, infoTableData, coords }) {
             >
               Visit Yelp Page
             </Link>
-            <LinkIcon fontSize="large" sx={{ gridArea: "b", ml: 2, mb:1 }} />
+            <LinkIcon fontSize="large" sx={{ gridArea: "b", ml: 2, mb: 1 }} />
             <Divider sx={{ gridArea: "x", width: "100%" }} />
             <Typography
               sx={{ gridArea: "c", justifySelf: "start", my: 1 }}

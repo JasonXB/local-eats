@@ -7,7 +7,6 @@ import SignUpBtn from "./SignUpBtn";
 import SignInBtn from "./SignInBtn";
 import BookmarksBtn from "./BookmarksBtn";
 import ManageAccountBtn from "./ManageAccountBtn";
-// --
 import MenuIcon from "@mui/icons-material/Menu";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
@@ -81,7 +80,7 @@ export default function TemporaryDrawer(props) {
 
   // We change the margins depending on if a specific prop is supplied
   let burgerMargins;
-  if (props.parent === "searchPage") burgerMargins = { mr: 2, mt: 1 };
+  if (props.parent === "searchPage") burgerMargins = { mr: 4, mt: 1 };
   else if (props.parent === "businessPage") burgerMargins = { mr: 4, mt: 1 };
   else burgerMargins = { mr: 2, mt: 2.2 };
   return (
