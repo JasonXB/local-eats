@@ -73,7 +73,8 @@ export default function Cuisines() {
                 variant="h5"
                 align="left"
                 component="p"
-                sx={{ ml: 2, mb: 0.4 }}
+                sx={{ ml: 2, mb: 0.4
+                 }}
               >
                 {key}
               </Typography>

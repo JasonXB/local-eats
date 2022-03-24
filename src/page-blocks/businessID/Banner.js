@@ -8,6 +8,8 @@ import StarsRoundedIcon from "@mui/icons-material/StarsRounded";
 import { styled } from "@mui/material/styles";
 import LayoutContainer from "../../custom-components/LayoutContainer";
 import BookmarkButton from "../../custom-components/SearchResults/BookmarkButton";
+import { useImageViewer } from "react-image-viewer-hook";
+import ZoomImage from "../../custom-components/idSearch/ZoomImage";
 
 const StyledRating = styled(Rating)({
   width: 120,
@@ -26,6 +28,7 @@ const StyledRating = styled(Rating)({
 });
 
 export default function Banner(props) {
+  const { getOnClick, ImageViewer } = useImageViewer();
   // Extract data from the props
   const { name, rating, categories, photos, address } = props.bannerData; // prettier-ignore
   const { bookmarkData } = props;
@@ -34,13 +37,40 @@ export default function Banner(props) {
   // Get the bgColor for the star rating component
   const ratingColor = getRatingColor(rating);
 
+  // Create links to the Yelp images and fallback photos in case they have none
+  const photo0 = photos[0] || "/images/noIMG.png";
+  const photo1 = photos[1] || "/images/noIMG.png";
+  const photo2 = photos[2] || "/images/noIMG.png";
+  let remHeight = "15rem";
   return (
     <LayoutContainer>
       {/* Panel of restaurant images */}
-      <Stack sx={styles.imageContainer}>
-        <Box sx={styles.img(photos[0] || "/images/noIMG.png", "1/-1")}></Box>
-        <Box sx={styles.img(photos[1] || "/images/noIMG.png", "1/2")}></Box>
-        <Box sx={styles.img(photos[2] || "/images/noIMG.png", "2/3")}></Box>
+      <Stack id="preview_images" sx={styles.imageContainer}>
+        <ZoomImage
+          imgURL={photo0}
+          gridRow={"1/2"}
+          gridColumn={"1/2"}
+          remHeight={remHeight}
+          getOnClick={getOnClick}
+          zIndex={1}
+        />
+        <ZoomImage
+          imgURL={photo1}
+          gridRow={"1/2"}
+          gridColumn={"2/3"}
+          remHeight={remHeight}
+          getOnClick={getOnClick}
+          zIndex={0}
+        />
+        <ZoomImage
+          imgURL={photo2}
+          gridRow={"1/2"}
+          gridColumn={"1/2"}
+          remHeight={remHeight}
+          getOnClick={getOnClick}
+          zIndex={0}
+        />
+        <ImageViewer />
       </Stack>
 
       <Box sx={styles.dataContainer}>
@@ -95,13 +125,13 @@ export default function Banner(props) {
 
 const styles = {
   imageContainer: {
-    height: 300,
+    height: "15rem",
     width: "100%",
     gap: 2,
     ["@media (min-width: 550px)"]: {
       display: "grid",
       gridTemplateColumns: "repeat(2,1fr)",
-      gridTemplateRows: "repeat(2,1fr)",
+      gridTemplateRows: "1fr",
     },
   },
   dataContainer: {
@@ -112,18 +142,6 @@ const styles = {
       gridTemplateRows: "repeat(3,auto)",
     },
   },
-  img: (url, rows) => ({
-    width: "100%",
-    height: "100%",
-    background: `linear-gradient(
-      rgba(0, 0, 0, 0.0),
-      rgba(0, 0, 0, 0.0) ),
-      url('${url}') no-repeat`,
-    backgroundPosition: "center",
-    backgroundSize: "cover",
-    gridRow: rows,
-    borderRadius: 2,
-  }),
   ratingParent: (ratingColor) => ({
     ...mix.flexRow,
     justifyContent: "flex-start",
@@ -164,5 +182,4 @@ const styles = {
       display: "block",
     },
   },
-
 };
