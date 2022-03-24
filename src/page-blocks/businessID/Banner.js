@@ -125,26 +125,34 @@ export default function Banner(props) {
 
 const styles = {
   imageContainer: {
-    height: "15rem",
     width: "100%",
-    gap: 2,
+    gap: 0.5,
     ["@media (min-width: 550px)"]: {
+      height: "15rem",
       display: "grid",
+      gap: 2,
       gridTemplateColumns: "repeat(2,1fr)",
       gridTemplateRows: "1fr",
     },
   },
   zoomImage: {
+    borderRadius: 2,
     width: "100%",
-    height: "15rem",
+    height: "8rem",
     objectFit: "cover",
+    ["@media (min-width: 550px)"]: {
+      
+      height: "15rem",
+    },
   },
   zoomParent: (gridRow, gridCol, zInd) => ({
     width: "100%",
     gridRow: gridRow,
     gridColumn: gridCol,
-    height: "15rem",
     zIndex: zInd,
+    ["@media (min-width: 550px)"]: {
+      height: "15rem",
+    },
   }),
   dataContainer: {
     mt: 2,
