@@ -1,6 +1,0 @@
-STILL NEED TO CODE IN...
-<< Forgot password feature >>
-<< Bookmarks feature >>
-
-<< delete account >>
-Add fullscreen spinner if process succeeds

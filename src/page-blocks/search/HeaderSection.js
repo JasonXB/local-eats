@@ -9,7 +9,7 @@ import { useSession } from "next-auth/react";
 
 export default function HeaderSection({ parent, breakpoint }) {
   // Feed the BurgerBtn our authStatus as a prop in JSX so it knows what buttons to render
-  const { data: session, status } = useSession();
+  const { status } = useSession();
 
   let breadcrumbs;
   if (parent === "searchPage") {
