@@ -40,10 +40,20 @@ export default function useSignIn(title, descrip, needNewAccount) {
     // If one of the input fields is empty, render some error text without looking in the DB
     const thinnedEmailLength = lengthNoSpaces(typedEmail);
     const thinnedPasswordLength = lengthNoSpaces(typedPassword);
-    if (thinnedEmailLength === 0)
-      return dispatch({ type: "INVALID_EMAIL", payload: "This field is required" }); // prettier-ignore
-    if (thinnedPasswordLength === 0)
-      return dispatch({ type: "INVALID_PASSWORD", payload: "This field is required" }); // prettier-ignore
+    if (thinnedEmailLength === 0) {
+      setLoading(false);
+      return dispatch({
+        type: "INVALID_EMAIL",
+        payload: "This field is required",
+      });
+    }
+    else if (thinnedPasswordLength === 0) {
+      setLoading(false);
+      return dispatch({
+        type: "INVALID_PASSWORD",
+        payload: "This field is required",
+      });
+    }
 
     // Perform an email/password check on our DB by calling the FN defined in [...nextAuth].js
     const loginRequest = await credentialSignIn(typedEmail, typedPassword); // request object returned

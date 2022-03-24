@@ -3,11 +3,10 @@ import { mix } from "../styleMixins";
 export const styles = {
   parentContainer: {
     width: "100%",
-    height: "78vh",
     maxWidth: "35rem",
     margin: "auto",
+    mt: "5vh",
     textAlign: "center",
-    // border: "5px solid black",
     ...mix.flexColumn,
     justifyContent: "center",
   },

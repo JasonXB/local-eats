@@ -3,17 +3,12 @@ REFACTOR /auth/signup and /auth/changeEmail since they both have absurdly long t
 GO THROUGH AND TEST EACH FEATURE
 1) Test every opportunity for user error and communicate well
 2) Test success and see if you communicate a success properly
-3) Implement loading visuals for when API routes get called
 
-FORGOT PASSWORD FEATURE (make it)
 
 Each time we send a pin, revise the email we send to our users
 A) Change the email we send from to something more professional (test on Sendgrid)
 B) Provide a link to the website where we can submit our PINs. 
 If the user X's out by accident, they need a way to find the page again
-
-Make it so sign up, signIn, and all the other auth procedures no longer utilize LocalStorage
-Use query parameters to pass data between pages instead
 
 Sign in page looks bad on the center small screen
 Fix up margins for all forms

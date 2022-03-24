@@ -12,6 +12,8 @@ import GeneralErrorModal from "../../src/custom-components/Modals/GeneralError";
 import GuestBtn from "../../src/custom-components/GuestBtn";
 import { lengthNoSpaces } from "../../src/utility-functions/general/lengthNoSpaces";
 import Wave from "../../src/custom-components/LoadingVisuals/FullScreen/Wave";
+import Tooltip from "@mui/material/Tooltip";
+import HelpIcon from "@mui/icons-material/Help";
 
 // Redirect users to homepage if they come here online
 export async function getServerSideProps(context) {
@@ -69,9 +71,27 @@ export default function signup() {
     const emailLength = lengthNoSpaces(typedEmail);
     const passwordLength = lengthNoSpaces(typedPassword);
     const verifyPasswordLength = lengthNoSpaces(typedPassword2);
-    if(!emailLength) return dispatch({ type: "INVALID_EMAIL", payload: "This field is required"}); // prettier-ignore
-    if(!passwordLength) return dispatch({ type: "INVALID_PASSWORD", payload: "This field is required"}); // prettier-ignore
-    if(!verifyPasswordLength) return dispatch({ type: "INVALID_PASSWORD_2", payload: "This field is required"}); // prettier-ignore
+    if (!emailLength) {
+      setLoading(false);
+      return dispatch({
+        type: "INVALID_EMAIL",
+        payload: "This field is required",
+      });
+    }
+    if (!passwordLength) {
+      setLoading(false);
+      return dispatch({
+        type: "INVALID_PASSWORD",
+        payload: "This field is required",
+      });
+    }
+    if (!verifyPasswordLength) {
+      setLoading(false);
+      return dispatch({
+        type: "INVALID_PASSWORD_2",
+        payload: "This field is required",
+      });
+    }
 
     // Make a request to an API route to verify or discredit the form submissions
     try {
@@ -81,7 +101,7 @@ export default function signup() {
         verifyPassword: typedPassword2,
       });
       // Save the signup email and password to localStorage
-      localStorage.setItem("pendingAccountEmail", typedEmail); 
+      localStorage.setItem("pendingAccountEmail", typedEmail);
       localStorage.setItem("signupPassword", typedPassword);
       setLoading(false);
       router.push("/auth/verify-email"); // redirect
@@ -136,13 +156,22 @@ export default function signup() {
         </FormHelperText>
       </FormControl>
       <FormControl sx={styles.formControl}>
-        <Typography
-          align="left"
-          variant="label"
-          sx={ formState.passwordError ? styles.conditionalRed(true) : styles.conditionalRed(false) } // prettier-ignore
-        >
-          Password:
-        </Typography>
+        <Box sx={{ ...mix.flexRow }}>
+          <Typography
+            align="left"
+            variant="label"
+            sx={ formState.passwordError ? styles.conditionalRed(true) : styles.conditionalRed(false) } // prettier-ignore
+          >
+            Password:
+          </Typography>
+          <Tooltip
+            title="8 characters or longer. Requires an uppercase, lowercase, plus
+          at least 1 symbol. No punctuation"
+            placement="top"
+          >
+            <HelpIcon fontSize="small" sx={{ ml: 1, fontSize: "16px" }} />
+          </Tooltip>
+        </Box>
         <OutlinedInput
           inputRef={passwordRef}
           placeholder="Enter password"
@@ -191,13 +220,6 @@ export default function signup() {
         Have an account? Sign in!
       </Button>
       <GuestBtn />
-      <Stack sx={{ mt: 4 }}>
-        <Typography variant="p">PASSWORD REQUIREMENTS</Typography>
-        <Typography variant="p">
-          Must be 8 characters or longer. Requires an uppercase, lowercase, plus
-          at least 1 symbol. No punctuation allowed
-        </Typography>
-      </Stack>
       <GeneralErrorModal modalVisible={modalVisible} />
     </Stack>
   );
@@ -256,11 +278,10 @@ function reducer(state, action) {
 const styles = {
   parentContainer: {
     width: "100%",
-    height: "100vh",
     maxWidth: "35rem",
     margin: "auto",
+    mt: "5vh",
     textAlign: "center",
-    // border: "5px solid black",
     ...mix.flexColumn,
     justifyContent: "center",
   },

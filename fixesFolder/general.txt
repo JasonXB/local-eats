@@ -8,7 +8,6 @@ Look up what numbers best fit the failed situation you use them in
 INTERNATIONAL TESTING
 Need to implement some guards if people use Geolocation and detect an area that isn't in the USA or Canada
 
-FIX THE SCROLLBAR COUNTING AS PART OF VIEWPORT WIDTH
 ——————————————————————— AFTER COMPLETED  ———————————————————————————————
 
 NON FATAL BUGS
