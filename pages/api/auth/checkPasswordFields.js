@@ -10,13 +10,13 @@ export default async function handler(req, res) {
   let { newPassword1, newPassword2, oldPassword } = req.body;
   // Check to see if the password fields are filled in (if not, end the route w/ an error)
   if (oldPassword.length === 0) {
-    return res.status(401).json({ message: "Old password field empty" });
+    return res.status(400).json({ message: "Old password field empty" });
   }
   if (newPassword1.length === 0) {
-    return res.status(402).json({ message: "New password field empty" });
+    return res.status(400).json({ message: "New password field empty" });
   }
   if (newPassword2.length === 0) {
-    return res.status(403).json({ message: "Verify password field empty" });
+    return res.status(400).json({ message: "Verify password field empty" });
   }
 
   // remove all whitespace
@@ -26,12 +26,12 @@ export default async function handler(req, res) {
 
   // Check to see if newPassword1 and oldPassword are different
   if (newPassword1 == oldPassword) {
-    return res.status(404).json({ message: "New password must be different" });
+    return res.status(400).json({ message: "New password must be different" });
   }
 
   // Check to see if newPassword1 and newPassword2 match
   if (newPassword1 !== newPassword2) {
-    return res.status(405).json({ message: "newPassword2 !== newPassword1" });
+    return res.status(400).json({ message: "newPassword2 !== newPassword1" });
   }
 
   // PAST THIS POINT...
@@ -43,14 +43,14 @@ export default async function handler(req, res) {
   const acceptable = pwStrengthCheck(newPassword1); //bool
   if (!acceptable) {
     return res
-      .status(406)
+      .status(400)
       .json({ message: "Password does not meet requirements" });
   }
-  
+
   // Verify that the user attempting to change a password is logged in
   const session = await getSession({ req: req }); // equals falsy if logged off
   if (!session) {
-    res.status(407).json({ message: "Not authenticated!" });
+    res.status(401).json({ message: "Not authenticated!" });
     return;
     // getServerSideProps in the parent component should reroute users who are offline
     // No need to handLe this error in the switch statement in ChangePassword.js for this reason
@@ -77,7 +77,7 @@ export default async function handler(req, res) {
   const passwordsMatch = await compare(oldPassword, userAccount.password); // T/F
   if (!passwordsMatch) {
     client.close();
-    return res.status(409).json({ message: "Old password incorrect" });
+    return res.status(400).json({ message: "Old password incorrect" });
   }
 
   // If passwords do match, hash newPassword1 and replace the old one
@@ -86,7 +86,7 @@ export default async function handler(req, res) {
     .collection("users")
     .updateOne({ email: userEmail }, { $set: { password: hashedNewPassword } });
   client.close();
-  res.status(200).json({ message: "Password updated!" });
+  res.status(201).json({ message: "Password updated!" });
   return;
 }
 

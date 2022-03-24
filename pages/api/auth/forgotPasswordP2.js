@@ -29,21 +29,21 @@ export default async function handler(req, res) {
   // If the code is not 6 digits long, end the route (innocent mistake)
   if (pin.length !== 6) {
     endWithSecondChance();
-    res.status(401).json({ message: "Invalid PIN" });
+    res.status(400).json({ message: "Invalid PIN" });
     return;
   }
   // End the route if the new password is submitted empty (innocent mistake)
   const thinnedPassword = removeWhiteSpace(newPassword);
   if (thinnedPassword.length === 0) {
     endWithSecondChance();
-    res.status(402).json({ message: "New password field empty" });
+    res.status(400).json({ message: "New password field empty" });
     return;
   }
   // Check the new password to see if it meets our standards (innocent mistake if it doesn't)
   let acceptablePW = pwStrengthCheck(newPassword); // Boolean
   if (!acceptablePW) {
     endWithSecondChance();
-    res.status(403).json({ message: "Password does not meet requirements" });
+    res.status(400).json({ message: "Password does not meet requirements" });
     return;
   }
 
@@ -53,7 +53,7 @@ export default async function handler(req, res) {
   if (!userAccount) {
     await endFailedProcess();
     res
-      .status(404)
+      .status(400)
       .json({ message: "No account found for the submitted email" });
     return;
   }
@@ -65,15 +65,15 @@ export default async function handler(req, res) {
   const pinMatch = await compare(pin, hashedVerifyPin); // T/F
   if (!pinMatch) {
     await endFailedProcess();
-    res.status(405).json({ message: "Incorrect PIN" });
+    res.status(400).json({ message: "Incorrect PIN" });
     return;
   }
 
   // See if the PIN is submitted on time. If not, end with a harsh error
   const currentUnixTime = new Date().getTime();
   if (currentUnixTime > expiryDate) {
-    await endFailedProcess(); 
-    res.status(406).json({ message: "PIN has expired" });
+    await endFailedProcess();
+    res.status(400).json({ message: "PIN has expired" });
     return;
   }
 

@@ -32,7 +32,7 @@ export default async function handler(req, res) {
       .json({ message: "Data fetched", results: editedResults, numberOfHits });
     return;
   } catch (err) {
-    res.status(422).json({ message: "No results found" });
+    res.status(408).json({ message: "No results found" });
     return;
   }
 }

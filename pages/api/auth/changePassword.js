@@ -27,23 +27,23 @@ export default async function handler(req, res) {
   // (should work though, since we're logged in @ this point)
   if (!userAccount) {
     client.close();
-    res.status(405).json({ message: "Something went wrong!" });
+    res.status(408).json({ message: "Something went wrong!" });
     return;
   }
   // If we find it, compare our oldPassword submission to the encryted db one
   const passwordsMatch = await compare(oldPassword, userAccount.password); // T/F
   if (!passwordsMatch) {
     client.close();
-    res.status(408).json({ message: "Incorrect account password" });
+    res.status(400).json({ message: "Incorrect account password" });
     return; // if password's wrong, end the route here
   }
-  
+
   // If passwords do match, encrypt the newPassword and replace the old one
   const hashedNewPassword = await hash(newPassword, 12);
   await db
     .collection("users")
     .updateOne({ email: userEmail }, { $set: { password: hashedNewPassword } });
   client.close();
-  res.status(200).json({ message: "Password updated!" });
+  res.status(201).json({ message: "Password updated!" });
   return;
 }

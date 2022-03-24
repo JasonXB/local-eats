@@ -6,10 +6,9 @@ export default async function handler(req, res) {
   const { submittedPIN } = req.body;
 
   // Capture the email we're currently logged in with
-  const { newEmail, submittedPassword } = req.body;
   const session = await getSession({ req });
   if (!session) {
-    res.status(422).json({ message: "User offline" }); //@ code error actions for this
+    res.status(401).json({ message: "User offline" }); // code error actions for this
     return; // Ensure the user is online
   }
   const userEmail = session.user.email;
@@ -32,7 +31,7 @@ export default async function handler(req, res) {
       .collection("users")
       .updateOne({ email: userEmail }, { $unset: { emailSwap: "" } });
     client.close();
-    res.status(422).json({ message: "Wrong PIN" });
+    res.status(400).json({ message: "Wrong PIN" });
     return; // needed to stop rest of API route from executing
   }
 
@@ -45,7 +44,7 @@ export default async function handler(req, res) {
       .collection("users")
       .updateOne({ email: userEmail }, { $unset: { emailSwap: "" } });
     client.close();
-    res.status(422).json({ message: "PIN expired" });
+    res.status(412).json({ message: "PIN expired" });
     return; // needed to stop rest of API route from executing
   }
 

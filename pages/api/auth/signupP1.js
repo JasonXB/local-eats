@@ -18,7 +18,7 @@ export default async function handler(req, res) {
 
   // Check to see if the 2 submitted passwords match
   if (password !== verifyPassword) {
-    res.status(422).json({ message: "This password does not match the first" });
+    res.status(400).json({ message: "This password does not match the first" });
     return;
   }
 
@@ -30,7 +30,7 @@ export default async function handler(req, res) {
   const validity = validator.validate(email); // returns Boolean
   if (!validity) {
     client.close(); // don't forget to close mongo session
-    res.status(422).json({ message: "Invalid email" });
+    res.status(400).json({ message: "Invalid email" });
     return;
   }
 
@@ -38,7 +38,7 @@ export default async function handler(req, res) {
   const existingUser = await db.collection("users").findOne({ email });
   if (existingUser && existingUser.accountStatus === "verified") {
     client.close(); // don't forget to close mongo session
-    res.status(422).json({ message: "This email is tied to a verified account" }); // prettier-ignore
+    res.status(400).json({ message: "This email is tied to a verified account" }); // prettier-ignore
     return;
   }
 
@@ -46,7 +46,7 @@ export default async function handler(req, res) {
   let acceptablePW = pwStrengthCheck(password); // Boolean
   if (!acceptablePW) {
     client.close(); // don't forget to close mongo session
-    res.status(422).json({ message: "Password does not meet requirements" });
+    res.status(400).json({ message: "Password does not meet requirements" });
     return; // If password's insufficent, throw an error nd end the route
   } // PAST THIS POINT, THE EMAIL IS UNIQUE/LIKELY REAL + THE PASSWORD IS STRONG ENOUGH
 
@@ -66,7 +66,7 @@ export default async function handler(req, res) {
   // Send an email containing the unhashed generated PIN for verification purpsoes
   sgMail.send(msg).catch((error) => {
     client.close();
-    res.status(422).json({ message: "Error" });
+    res.status(408).json({ message: "Error" });
     return; // needed to stop rest of API route from executing
   });
 
@@ -85,7 +85,7 @@ export default async function handler(req, res) {
       accountStatus: "pending",
     });
     client.close();
-    res.status(200).json({ message: "Pending account created" });
+    res.status(202).json({ message: "Pending account created" });
   }
 
   // IF THE EMAIL'S CONNECTED TO A PENDING ACCOUNT
@@ -106,8 +106,6 @@ export default async function handler(req, res) {
       }
     );
     client.close();
-    res.status(200).json({ message: "Pending account created" });
+    res.status(202).json({ message: "Pending account created" });
   }
 }
-
-export const checkPasswordStrength = function (pw) {};

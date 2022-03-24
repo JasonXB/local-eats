@@ -1,7 +1,0 @@
-TYPOGRAPHY
-Use char widths to fix up typography in pages aside from the auth forms (we use recycle components there)
-
-Look up error codes and what they mean
-Swap out even API route error 40-whatever to one that's more appropriate
-
-

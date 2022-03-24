@@ -1,5 +1,4 @@
-import { getProvinceCode, getStateCode } from "../helperFunctions/stateProvCodes" // prettier-ignore
-import { removeWhiteSpace, lengthNoSpaces } from "../../../src/utility-functions/general/lengthNoSpaces"; // prettier-ignore
+import { removeWhiteSpace } from "../../../src/utility-functions/general/lengthNoSpaces"; // prettier-ignore
 import { removeEmptyKVPs } from "../../../src/utility-functions/general/removeEmptyKVPs";
 
 const axios = require("axios");
@@ -13,13 +12,13 @@ export default async function handler(req, res) {
 
   // Return errors if certain mandatory fields are submitted empty
   if (!province) {
-    return res.status(401).json({ message: "Province empty" });
+    return res.status(400).json({ message: "Province empty" });
   }
   if (specifier === "city" && !city) {
-    return res.status(401).json({ message: "City empty" });
+    return res.status(400).json({ message: "City empty" });
   }
   if (specifier === "postal_code" && !postalCode) {
-    return res.status(401).json({ message: "Postal code empty" });
+    return res.status(400).json({ message: "Postal code empty" });
   }
   // Remove whitespace from inputs and replace them with + signs
   const editedProvince = removeWhiteSpace(province, "+");
@@ -41,9 +40,9 @@ export default async function handler(req, res) {
 
     // If the user's submission is not enough for Mapquest API to pinpoint a city, return an error
     if (!bestMatch.adminArea5 && specifier === "postal_code") {
-      return res.status(401).json({ message: "Invalid postal code" });
+      return res.status(400).json({ message: "Invalid postal code" });
     } else if (!bestMatch.adminArea5 && specifier === "city") {
-      return res.status(401).json({ message: "Invalid city" });
+      return res.status(400).json({ message: "Invalid city" });
     }
 
     // Organize the data that's required for the project locationObject
@@ -59,9 +58,9 @@ export default async function handler(req, res) {
 
     // Return the locationObject so we can save it to LocalStorage
     return res
-      .status(201)
+      .status(200)
       .json({ message: "Location data secured", locationObj });
   } catch (error) {
-    return res.status(402).json({ message: "Error encountered" });
+    return res.status(408).json({ message: "Error encountered" });
   }
 }

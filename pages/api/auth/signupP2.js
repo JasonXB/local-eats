@@ -18,7 +18,7 @@ export default async function handler(req, res) {
   if (currentUnixTime > pinExpiryDate) {
     await db.collection("users").deleteOne({ email: pendingEmail }); // delete the pending account
     client.close();
-    res.status(422).json({ message: "PIN has expired" });
+    res.status(412).json({ message: "PIN has expired" });
     return; // if the PIN's expired, end the API route
   }
 
@@ -27,7 +27,7 @@ export default async function handler(req, res) {
   if (!pinsMatch) {
     await db.collection("users").deleteOne({ email: pendingEmail }); // delete the pending account
     client.close();
-    res.status(422).json({ message: "Invalid PIN" });
+    res.status(400).json({ message: "Invalid PIN" });
     return; // if pins don't match, end the API route
   }
 

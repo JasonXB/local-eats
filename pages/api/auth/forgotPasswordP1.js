@@ -21,7 +21,7 @@ export default async function handler(req, res) {
   const validity = validator.validate(email); // returns Boolean
   if (!validity) {
     client.close(); // don't forget to close mongo session
-    res.status(422).json({ message: "Invalid email" });
+    res.status(400).json({ message: "Invalid email" });
     return;
   }
 
@@ -29,7 +29,7 @@ export default async function handler(req, res) {
   const existingUser = await db.collection("users").findOne({ email });
   if (!existingUser || existingUser.accountStatus === "pending") {
     client.close(); // don't forget to close mongo session
-    res.status(422).json({ message: "Email not tied to a verified account" }); // prettier-ignore
+    res.status(400).json({ message: "Email not tied to a verified account" }); // prettier-ignore
     return;
     // Do not tell the user if this error gets triggered
     // Malicious attackers shouldn't know if an email is being used or not
@@ -61,10 +61,10 @@ export default async function handler(req, res) {
 
   // Send an email containing the unhashed generated PIN for verification purpsoes
   sgMail.send(msg).catch((error) => {
-    res.status(404).json({ message: "Email not sent" });
+    res.status(408).json({ message: "Email not sent" });
     return; // needed to stop rest of API route from executing
   });
   res
-    .status(200)
+    .status(202)
     .json({ message: "Forgotten password email sent successfully" });
 }

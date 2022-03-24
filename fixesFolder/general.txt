@@ -2,10 +2,6 @@ DECIDE WHICH API ROUTES NEED PROTECTION BY ENSURING THE USER'S ONLINE
 
 CHECK EVERY USEROUTER INSTANCE TO MAKE SURE WE DIRECT TO THE RIGHT PLACE
 
-FIX ALL API ROUTE ERROR AND SUCCESS CODES
-Look up what numbers best fit the failed situation you use them in
-
-
 ——————————————————————— AFTER COMPLETED  ———————————————————————————————
 
 NON FATAL BUGS
@@ -18,3 +14,6 @@ TEST SITE IN OTHER COUNTRIES
 If results are bad, disable the ability to use your true location as a locationObj if you're in another country
 
 Make the Tab Title "Local Eats"
+
+TYPOGRAPHY
+Use char widths to fix up typography in pages aside from the auth forms (we use recycle components there)
