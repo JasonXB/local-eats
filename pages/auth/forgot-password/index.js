@@ -46,7 +46,7 @@ export default function ForgotPassword() {
     const typedEmail = emailRef.current.value;
     const thinnedEmailLength = lengthNoSpaces(typedEmail);
     if (thinnedEmailLength === 0) {
-      setLoading(false)
+      setLoading(false);
       return dispatch({
         type: "INVALID_EMAIL",
         payload: "This field is required",
@@ -58,7 +58,7 @@ export default function ForgotPassword() {
       await axios.post("/api/auth/forgotPasswordP1", {
         email: typedEmail,
       });
-      setLoading(false)
+      setLoading(false);
       router.push(`/auth/forgot-password/${typedEmail}`);
     } catch (error) {
       if (!error.response || !error.response.data) return revealErrorModal();
@@ -76,7 +76,7 @@ export default function ForgotPassword() {
           revealErrorModal();
           break;
       }
-      setLoading(false)
+      setLoading(false);
     }
     return;
   };
@@ -97,7 +97,7 @@ export default function ForgotPassword() {
           align="left"
           variant="label"
           color={formState.emailError ? "secondary" : ""}
-          sx={{mb:0.5}}
+          sx={{ mb: 0.5 }}
         >
           Account Email:
         </Typography>

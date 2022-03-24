@@ -5,8 +5,6 @@ CHECK EVERY USEROUTER INSTANCE TO MAKE SURE WE DIRECT TO THE RIGHT PLACE
 FIX ALL API ROUTE ERROR AND SUCCESS CODES
 Look up what numbers best fit the failed situation you use them in
 
-INTERNATIONAL TESTING
-Need to implement some guards if people use Geolocation and detect an area that isn't in the USA or Canada
 
 ——————————————————————— AFTER COMPLETED  ———————————————————————————————
 
@@ -18,8 +16,5 @@ Refactor all your MUI styling so most of it isn't inline
 
 TEST SITE IN OTHER COUNTRIES
 If results are bad, disable the ability to use your true location as a locationObj if you're in another country
-
-CTRL F your dev notes for local-eats and local eats
-We reference our project when we explain things, and you can link to exact github page URL's
 
 Make the Tab Title "Local Eats"

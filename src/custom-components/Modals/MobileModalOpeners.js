@@ -55,7 +55,7 @@ const mobileStyles = {
   locationBtn: {
     ...mix.flexRow,
     m: 0,
-    ml:2,
+    ml: 2,
     p: 0,
     py: 1,
     px: 2,
