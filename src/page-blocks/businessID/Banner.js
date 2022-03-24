@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Typography, Box, Stack, Button, Rating } from "@mui/material";
 import { mix } from "../../../styles/styleMixins";
 import { getRatingColor } from "../../utility-functions/search/getRatingColor";
@@ -38,38 +38,38 @@ export default function Banner(props) {
   const ratingColor = getRatingColor(rating);
 
   // Create links to the Yelp images and fallback photos in case they have none
-  const photo0 = photos[0] || "/images/noIMG.png";
-  const photo1 = photos[1] || "/images/noIMG.png";
-  const photo2 = photos[2] || "/images/noIMG.png";
-  let remHeight = "15rem";
+  const photo0 = useCallback(photos[0] || "/images/noIMG.png", []);
+  const photo1 = useCallback(photos[1] || "/images/noIMG.png", []);
+  const photo2 = useCallback(photos[2] || "/images/noIMG.png", []);
+
   return (
     <LayoutContainer>
       {/* Panel of restaurant images */}
       <Stack id="preview_images" sx={styles.imageContainer}>
-        <ZoomImage
-          imgURL={photo0}
-          gridRow={"1/2"}
-          gridColumn={"1/2"}
-          remHeight={remHeight}
-          getOnClick={getOnClick}
-          zIndex={1}
-        />
-        <ZoomImage
-          imgURL={photo1}
-          gridRow={"1/2"}
-          gridColumn={"2/3"}
-          remHeight={remHeight}
-          getOnClick={getOnClick}
-          zIndex={0}
-        />
-        <ZoomImage
-          imgURL={photo2}
-          gridRow={"1/2"}
-          gridColumn={"1/2"}
-          remHeight={remHeight}
-          getOnClick={getOnClick}
-          zIndex={0}
-        />
+        <Box
+          sx={styles.zoomParent("1/2", "1/2", 1)}
+          component="a"
+          href={photo0}
+          onClick={getOnClick(photo0)}
+        >
+          <Box component="img" src={photo0} sx={styles.zoomImage} />
+        </Box>
+        <Box
+          sx={styles.zoomParent("1/2", "2/3", 0)}
+          component="a"
+          href={photo1}
+          onClick={getOnClick(photo1)}
+        >
+          <Box component="img" src={photo1} sx={styles.zoomImage} />
+        </Box>
+        <Box
+          sx={styles.zoomParent("1/2", "1/2", 0)}
+          component="a"
+          href={photo2}
+          onClick={getOnClick(photo2)}
+        >
+          <Box component="img" src={photo2} sx={styles.zoomImage} />
+        </Box>
         <ImageViewer />
       </Stack>
 
@@ -134,6 +134,18 @@ const styles = {
       gridTemplateRows: "1fr",
     },
   },
+  zoomImage: {
+    width: "100%",
+    height: "15rem",
+    objectFit: "cover",
+  },
+  zoomParent: (gridRow, gridCol, zInd) => ({
+    width: "100%",
+    gridRow: gridRow,
+    gridColumn: gridCol,
+    height: "15rem",
+    zIndex: zInd,
+  }),
   dataContainer: {
     mt: 2,
     ["@media (min-width: 550px)"]: {

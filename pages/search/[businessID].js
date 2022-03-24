@@ -28,8 +28,7 @@ export async function getServerSideProps(context) {
 }
 
 export default function Business(props) {
-  console.log(props.companyData);
-  console.log(props.related);
+  
   // Save the restaurants stored in the DB to the Global state
   const initializeBookmarks = useBookmarks(); // set bookmarks on startup
   React.useEffect(() => {
@@ -51,6 +50,7 @@ export default function Business(props) {
     },
     [companyData]
   );
+  
   const infoTableData = useCallback(
     {
       address: info.address.address,

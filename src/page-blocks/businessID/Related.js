@@ -5,7 +5,7 @@ import { Typography, Box } from "@mui/material";
 import { mix } from "../../../styles/styleMixins";
 
 function Related({ relatedList, scrollPosition }) {
-  console.log(relatedList);
+
   // Make a Yelp API call and fetch some related locations
   let msg = "Similar Places";
   if (!relatedList || relatedList.length === 0) {
