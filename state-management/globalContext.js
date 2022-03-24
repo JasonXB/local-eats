@@ -61,9 +61,6 @@ export default function GlobalContextAPIProvider(props) {
   };
   return <AAA.Provider value={distribution}>{props.children}</AAA.Provider>;
 }
-// HOW OUR BOOKMARK FEATURE WORKS
-// [...nextAuth].js
-// Set the existing bookmarks during the log in process
 
 // SearchResults page and businessID page
 // If the user is still online from a previous session, detect when the bookmark state equals a falsy

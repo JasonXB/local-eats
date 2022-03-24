@@ -49,7 +49,6 @@ export default function BookmarkButton({
   const clickHandler = useCallback(
     debounce(
       async function (dataObj) {
-        console.log("hit");
         // As soon as the btn is pressed, change the icon color before the api call (to give the illusion of speed)
         if (state.num === 0) dispatch({ type: "PRE_SWAP_COLOR" }); // turns state.num into 1 to prevent an infinite loop
         try {

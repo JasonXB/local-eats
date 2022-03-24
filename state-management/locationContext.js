@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import { homepageModalActions } from "../state-management/store/homepage/ModalVisibility";
 // Import utility functions we'll be destributing throughout our project
 import { detectLocation } from "../src/utility-functions/location/detectLocation";
@@ -28,7 +27,6 @@ function reducer(state, action) {
   }
 }
 export default function LocationContextProvider(props) {
-  const router = useRouter();
   const [state, reducerDispatch] = useReducer(reducer, {
     savedLocation: null, // will contain saved location data from LocalStorage
     searchbarMenuOpen: false, // Bool that dictates whether have the searchbar menu in desktop open/closed

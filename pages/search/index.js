@@ -65,8 +65,3 @@ export default function Restaurants() {
     </PaddedBlock>
   );
 }
-
-//! TEST NAVIGATING TO THIS PAGE WITHOUT THESE LATER
-// To not get redirected off this component, the user must have...
-// A) Location Object stored in the Project state
-// B) A search term or price level used to perform a request on Yelp's API

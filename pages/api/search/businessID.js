@@ -41,7 +41,6 @@ export async function getBusinessData(id) {
       // open_now: response.hours ? response.hours[0].is_open_now : null,
       hours: response.hours ? makeHoursObject(response.hours[0].open) : null,
     };
-    console.log(relevantInfo.hours)
     return { status: "success", info: relevantInfo };
   } catch (error) {
     return { status: "error", message: "Business not found" };

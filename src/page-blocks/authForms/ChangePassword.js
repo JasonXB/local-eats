@@ -90,7 +90,6 @@ export default function ChangePassword() {
       // IMPORTANT: sign out and prompt users to relogin to reinitialize NextAuth with up to date user data
       // Our SSR page guard will take care of the redirect for us to /auth/siginPostPasswordChange
     } catch (error) {
-      // console.log(error);
       // If the API route ends due to an unforseen error, open up the error modal
       if (!error.response || !error.response.data) return revealErrorModal();
       // We've coded actions for all possible users errors

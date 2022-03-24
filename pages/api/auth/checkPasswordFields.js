@@ -23,7 +23,6 @@ export default async function handler(req, res) {
   newPassword1 = removeWhiteSpace(newPassword1);
   newPassword2 = removeWhiteSpace(newPassword2);
   oldPassword = removeWhiteSpace(oldPassword);
-  console.log(newPassword1, newPassword2, oldPassword);
 
   // Check to see if newPassword1 and oldPassword are different
   if (newPassword1 == oldPassword) {
