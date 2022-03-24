@@ -38,10 +38,17 @@ export default function Banner(props) {
   const ratingColor = getRatingColor(rating);
 
   // Create links to the Yelp images and fallback photos in case they have none
-  const photo0 = useCallback(photos[0] || "/images/noIMG.png", []);
-  const photo1 = useCallback(photos[1] || "/images/noIMG.png", []);
-  const photo2 = useCallback(photos[2] || "/images/noIMG.png", []);
+  const photo0 = useCallback(photos[0] || "/images/noIMG.png", [photos]);
+  const photo1 = useCallback(photos[1] || "/images/noIMG.png", [photos]);
+  const photo2 = useCallback(photos[2] || "/images/noIMG.png", [photos]);
 
+  // Dim the brightness when you hover over an image
+  const onHover = (e) => {
+    e.target.classList.add("darken");
+  };
+  const onLeave = (e) => {
+    e.target.classList.remove("darken");
+  };
   return (
     <LayoutContainer>
       {/* Panel of restaurant images */}
@@ -52,7 +59,13 @@ export default function Banner(props) {
           href={photo0}
           onClick={getOnClick(photo0)}
         >
-          <Box component="img" src={photo0} sx={styles.zoomImage} />
+          <Box
+            component="img"
+            src={photo0}
+            sx={styles.zoomImage}
+            onMouseEnter={onHover}
+            onMouseLeave={onLeave}
+          />
         </Box>
         <Box
           sx={styles.zoomParent("1/2", "2/3", 0)}
@@ -60,7 +73,13 @@ export default function Banner(props) {
           href={photo1}
           onClick={getOnClick(photo1)}
         >
-          <Box component="img" src={photo1} sx={styles.zoomImage} />
+          <Box
+            component="img"
+            src={photo1}
+            sx={styles.zoomImage}
+            onMouseEnter={onHover}
+            onMouseLeave={onLeave}
+          />
         </Box>
         <Box
           sx={styles.zoomParent("1/2", "1/2", 0)}
@@ -68,7 +87,13 @@ export default function Banner(props) {
           href={photo2}
           onClick={getOnClick(photo2)}
         >
-          <Box component="img" src={photo2} sx={styles.zoomImage} />
+          <Box
+            component="img"
+            src={photo2}
+            sx={styles.zoomImage}
+            onMouseEnter={onHover}
+            onMouseLeave={onLeave}
+          />
         </Box>
         <ImageViewer />
       </Stack>
@@ -141,7 +166,6 @@ const styles = {
     height: "8rem",
     objectFit: "cover",
     ["@media (min-width: 550px)"]: {
-      
       height: "15rem",
     },
   },
