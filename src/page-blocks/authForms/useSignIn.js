@@ -32,25 +32,18 @@ export default function useSignIn(title, descrip, needNewAccount) {
   const revealErrorModal = () => setModalVisible(true);
 
   const loginHandler = async function () {
+    // Capture values of input fields and render the load spinner
     setLoading(true);
-    // Capture values of input fields
     const typedEmail = emailRef.current.value;
     const typedPassword = passwordRef.current.value;
 
-    //!!! See if you need to bundle this in the ...next function callback
     // If one of the input fields is empty, render some error text without looking in the DB
     const thinnedEmailLength = lengthNoSpaces(typedEmail);
     const thinnedPasswordLength = lengthNoSpaces(typedPassword);
     if (thinnedEmailLength === 0)
-      return dispatch({
-        type: "INVALID_EMAIL",
-        payload: "This field is required",
-      });
+      return dispatch({ type: "INVALID_EMAIL", payload: "This field is required" }); // prettier-ignore
     if (thinnedPasswordLength === 0)
-      return dispatch({
-        type: "INVALID_PASSWORD",
-        payload: "This field is required",
-      });
+      return dispatch({ type: "INVALID_PASSWORD", payload: "This field is required" }); // prettier-ignore
 
     // Perform an email/password check on our DB by calling the FN defined in [...nextAuth].js
     const loginRequest = await credentialSignIn(typedEmail, typedPassword); // request object returned
@@ -58,7 +51,7 @@ export default function useSignIn(title, descrip, needNewAccount) {
     // request object on success: {error: null, ...rest doesn't matter }
 
     // If the login attempt is not successful...
-    if (loginRequest.error) {
+    if (loginRequest?.error) {
       const errorMSG = loginRequest.error;
       // Render error messages on the form depending on the error type
       switch (errorMSG) {

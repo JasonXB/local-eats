@@ -63,6 +63,7 @@ export default function ChangeEmail(props) {
     const typedPassword = passwordRef.current.value;
     dispatch({ type: "RESET" }); // reset form state
     setLoading(true);
+    
     // If one of the input fields is empty, render some error text without looking in the DB
     const typedNewEmail_length = lengthNoSpaces(typedNewEmail);
     const typedPassword_length = lengthNoSpaces(typedPassword);
@@ -74,14 +75,12 @@ export default function ChangeEmail(props) {
         newEmail: typedNewEmail,
         submittedPassword: typedPassword,
       });
-      localStorage.setItem("emailChangePending", true); //!!! switch to search params
+      localStorage.setItem("emailChangePending", true);
       setLoading(false);
-      router.push("/auth/manage-account/verify-email-change");
+      router.push(`/auth/manage-account/verify-email-change`);
     } catch (error) {
       // Render error messages onscreen depending on the response object recieved
-      if (!error.response || !error.response.data) return revealErrorModal();
-      const errorMSG = error.response.data.message;
-      switch (errorMSG) {
+      switch (error?.response?.data?.message) {
         case "User offline":
           router.push("/auth/signin");
           break;

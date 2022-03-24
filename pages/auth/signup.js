@@ -66,13 +66,12 @@ export default function signup() {
     const typedPassword2 = verifyPasswordRef.current.value;
 
     // Make sure each field is filled in
-    //!!! bUNDLE IN WITH THE api ROUTE
     const emailLength = lengthNoSpaces(typedEmail);
     const passwordLength = lengthNoSpaces(typedPassword);
     const verifyPasswordLength = lengthNoSpaces(typedPassword2);
-    if(!emailLength) return dispatch({type: "INVALID_EMAIL", payload: "This field is required"}); // prettier-ignore
-    if(!passwordLength) return dispatch({type: "INVALID_PASSWORD", payload: "This field is required"}); // prettier-ignore
-    if(!verifyPasswordLength) return dispatch({type: "INVALID_PASSWORD_2", payload: "This field is required"}); // prettier-ignore
+    if(!emailLength) return dispatch({ type: "INVALID_EMAIL", payload: "This field is required"}); // prettier-ignore
+    if(!passwordLength) return dispatch({ type: "INVALID_PASSWORD", payload: "This field is required"}); // prettier-ignore
+    if(!verifyPasswordLength) return dispatch({ type: "INVALID_PASSWORD_2", payload: "This field is required"}); // prettier-ignore
 
     // Make a request to an API route to verify or discredit the form submissions
     try {
@@ -82,15 +81,12 @@ export default function signup() {
         verifyPassword: typedPassword2,
       });
       // Save the signup email and password to localStorage
-      //!!!! use query params instead
-      localStorage.setItem("pendingAccountEmail", typedEmail); //!!!!
-      localStorage.setItem("signupPassword", typedPassword); //!!!!
+      localStorage.setItem("pendingAccountEmail", typedEmail); 
+      localStorage.setItem("signupPassword", typedPassword);
       setLoading(false);
       router.push("/auth/verify-email"); // redirect
     } catch (error) {
-      if (!error.response || !error.response.data) return revealErrorModal();
-      const errorMSG = error.response.data.message;
-      switch (errorMSG) {
+      switch (error?.response?.data?.message) {
         case "This password does not match the first":
           dispatch({type: "INVALID_PASSWORD_2", payload: errorMSG}); // prettier-ignore
           break;

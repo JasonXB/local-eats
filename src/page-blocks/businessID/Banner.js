@@ -9,7 +9,6 @@ import { styled } from "@mui/material/styles";
 import LayoutContainer from "../../custom-components/LayoutContainer";
 import BookmarkButton from "../../custom-components/SearchResults/BookmarkButton";
 import { useImageViewer } from "react-image-viewer-hook";
-import ZoomImage from "../../custom-components/idSearch/ZoomImage";
 
 const StyledRating = styled(Rating)({
   width: 120,
