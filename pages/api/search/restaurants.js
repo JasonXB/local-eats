@@ -2,8 +2,8 @@ import axios from "axios";
 
 export default async function handler(req, res) {
   // Grab data from .env.local and the request body
-  const { apiString } = req.body;
-  const sortByRating = apiString.includes("sort_by=rating"); // Bool
+  const { endpoint } = req.body;
+  const sortByRating = endpoint.includes("sort_by=rating"); // Bool
   const authKey = process.env.YELP_API_KEY;
   // Make a GET request to Yelp Fusion and return the data
   try {
@@ -11,7 +11,7 @@ export default async function handler(req, res) {
       "Content-Type": "application/json",
       Authorization: `bearer ${authKey}`,
     };
-    const response = await axios.get(apiString, { headers });
+    const response = await axios.get(endpoint, { headers });
     const rawResults = response.data.businesses; // array full of restaurant objects
     const numberOfHits = response.data.total; // number of matches for the search
     // If we get zero hits, end the route early but successfully

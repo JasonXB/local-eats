@@ -16,90 +16,109 @@ import PaginationRow from "../../src/page-blocks/search/sub/PaginationRow";
 import Footer from "../../src/custom-components/Footer";
 import { makeSearchHeader } from "../../src/utility-functions/search/makeSearchHeader";
 import { createYelpEndpoint } from "../api/helperFunctions/createYelpEndpoint";
-import { fetchYelpData } from "../api/helperFunctions/fetchYelpData";
+import { useSelector, useDispatch } from "react-redux";
+import { Typography, Box, Stack } from "@mui/material";
+import { mix } from "../../styles/styleMixins";
+import { useYelpFetch } from "../api/helperFunctions/useYelpFetch";
+import Wave from "../../src/custom-components/LoadingVisuals/Partial/Wave";
 
 export async function getServerSideProps(context) {
   const queryParams = context.query;
   // Make a Header title using the query params
   const partialHeaderTitle = makeSearchHeader(queryParams);
-  // Create an API string and fetch Yelp data with it
-  const endpoint = createYelpEndpoint(queryParams);
-  const requestData = await fetchYelpData(endpoint);
-  // If the process fails, return props that say so
-  if (!requestData) return { props: { fetchFailed: true } };
-  const { numberOfHits, results } = requestData;
-  return { props: { fetchFailed: false, numberOfHits, results, partialHeaderTitle, queryParams } }; // prettier-ignore
+  const endpoint = createYelpEndpoint(queryParams); // create an API string
+  return { props: { queryParams, endpoint, partialHeaderTitle } }; // prettier-ignore
 }
 
-export default function Restaurants(props) {
-  console.log(9);
-  console.log(props);
-  // Get query parameters from URL + current location object to make a YelpAPI string
-  // const { query } = useRouter();
-  // const { locationObject } = useLocationContext();
+function Restaurants(props) {
+  const fetchYelpData = useYelpFetch();
+  const initializeBookmarks = useBookmarks();
+  const wait = (timeToDelay) => new Promise((resolve) => setTimeout(resolve, timeToDelay)); //  prettier-ignore
+  // Extract prop values from getServerSideProps
+  const [loading, setLoading] = useState(false);
+  const [searchHeader, setSearchHeader] = useState(undefined); // "Ex. Ramen near Toronto"
+  const { queryParams, endpoint, partialHeaderTitle, scrollPosition } = props; // prettier-ignore
+  const { locationObject } = useLocationContext();
 
-  // // Generate strings for the Yelp API and the search header
-  // const [apiString, setApiString] = useState(undefined);
-  // const [searchHeader, setSearchHeader] = useState(undefined);
+  // On startup, fetch Yelp data and create the header text
+  const [onMount, setOnMount] = useState(true);
+  useEffect(async () => {
+    if (!locationObject) return;
+    setLoading(true);
+    setSearchHeader(`${partialHeaderTitle} ${locationObject.locationString}`); // prettier-ignore
+    fetchYelpData(endpoint);
+    if (onMount) {
+      initializeBookmarks(); // Set the bookmarks on startup
+      setOnMount(false);
+      await wait(3000); // wait 3s to let the loading visual play out
+      setLoading(false);
+    }
+    await wait(3000); // wait 3s to let the loading visual play out
+    setLoading(false);
+  }, [locationObject, queryParams]);
 
-  // useEffect(() => {
-  //   // These both equal undefined during first few render cycles
-  //   if (!query || !locationObject) return;
-  //   // Generate a Yelp API string to request restaurant data
-  //   // Generate a search header to show before our search results
-  //   setSearchHeader(
-  //     `${makeSearchHeader(query)} ${locationObject.locationString}`
-  //   );
-  // }, [query, locationObject]);
+  // POSSIBLE OUTCOMES
+  // 1) Render nothing if the values from locationObj or query object are not ready yet ( = undefined at first)
+  // apiString and searchHeader are dependent on the query obj from the component above this one
+  // 2) Render a msg saying no results were found if someone searches for something & gets 0 hits
+  // 3) Render a list of restaurant matches for the user's successful search
+  const restaurantList = useSelector((rs) => rs.searchResults.restaurantList); // prettier-ignore
+  const showError = useSelector((rs) => rs.searchResults.showError); // bool
+  const numberOfHits = useSelector((rs) => rs.searchResults.numberOfHits);
 
-  // // Save the restaurants stored in the DB to the Global state
-  // const initializeBookmarks = useBookmarks(); // f() sets bookmarks on startup
-  // useEffect(() => {
-  //   initializeBookmarks();
-  // }, []);
-
-  // If we have no locationObject and arrive on this page, render this
-  return <div>k</div>;
-  if (!locationObject) {
+  // There are 3 instances where the Yelp API call does not return any restaurant data
+  if (!locationObject || showError || !numberOfHits) {
+    let errorMsg;
+    if (!locationObject) errorMsg = "No location specified!";
+    else if (showError) errorMsg= "Something's gone wrong! Reload the page or search for something else" // prettier-ignore
+    else if (!numberOfHits) errorMsg= "No results found! Try searching something else"
     return (
       <LayoutContainer>
         <HeaderSection parent={"searchPage"} breakpoint={725} />
-        <NoResults msg="No location specified!" />
+        <NoResults msg={errorMsg} />
         {/* Still need our modals on standby */}
         <SearchbarModals />
         <FiltersModal />
       </LayoutContainer>
     );
   }
-
   // If we have search results and a location object, render the following
   return (
     <PaddedBlock>
       <HeaderSection parent={"searchPage"} breakpoint={725} />
       <RestaurantFilters />
-      <LayoutContainer>
-        <Typography variant="h3" component="h2" sx={{ mb: 4, mt: 5 }}>
-          {searchHeader}
-        </Typography>
-        <Box sx={mix.cards_container_search}>
-          {restaurantList &&
-            restaurantList.map((r_data) => (
-              <RestaurantCard
-                key={r_data.storeID}
-                dataObj={r_data}
-                // pass scrollPosition to each resto_card (for performance's sake)
-                scrollPosition={scrollPosition}
-              />
-            ))}
-        </Box>
-        <Box sx={{ ...mix.flexColumn }}>
-          <PaginationRow numberOfHits={numberOfHits} />
-        </Box>
-        <Footer />
-      </LayoutContainer>
+      <Typography variant="h3" component="h2" sx={{ mb: 4, mt: 5, mx: 2 }}>
+        {searchHeader}
+      </Typography>
+      {loading ? (
+        <Wave />
+      ) : (
+        <LayoutContainer>
+          <Box sx={mix.cards_container_search}>
+            {restaurantList &&
+              restaurantList.map((r_data) => (
+                <RestaurantCard
+                  key={r_data.storeID}
+                  dataObj={r_data}
+                  // pass scrollPosition to each resto_card (for performance's sake)
+                  scrollPosition={scrollPosition}
+                />
+              ))}
+          </Box>
+          {numberOfHits && (
+            <>
+              <Box sx={{ ...mix.flexColumn }}>
+                <PaginationRow numberOfHits={numberOfHits} />
+              </Box>
+              <Footer />
+            </>
+          )}
+        </LayoutContainer>
+      )}
       {/* These fixed position Modals are on standby and will pop up depending on (Redux) state values */}
       <FiltersModal />
       <SearchbarModals />
     </PaddedBlock>
   );
 }
+export default trackWindowScroll(Restaurants);
