@@ -5,9 +5,7 @@ import { pwStrengthCheck } from "../helperFunctions/pwStrengthCheck";
 
 // Use to check for bltantly fake emails
 var validator = require("email-validator"); // https://yarnpkg.com/package/email-validator
-// Use to assess password strength
-var taiPasswordStrength = require("tai-password-strength");
-var strengthTester = new taiPasswordStrength.PasswordStrength();
+
 // Use to send emails
 const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);

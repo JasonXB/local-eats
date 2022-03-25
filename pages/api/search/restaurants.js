@@ -22,8 +22,8 @@ export default async function handler(req, res) {
       return;
     }
     // If we do have matches...query the each restauarant object for data needed on Restauarant Cards
-    const editedResults = organizeData(rawResults) 
-    
+    const editedResults = organizeData(rawResults);
+
     // Sort results by rating if the API string tells us to
     if (sortByRating) editedResults.sort((a, b) => b.rating - a.rating);
 
@@ -37,7 +37,7 @@ export default async function handler(req, res) {
   }
 }
 
-export const organizeData = function(rawResults){
+export const organizeData = function (rawResults) {
   return rawResults.map((value, index) => {
     // Concatenate strings to form a list of categories
     const listOfCategories = value.categories.map((obj) => obj.title); // array
@@ -56,5 +56,5 @@ export const organizeData = function(rawResults){
       address: value.location.address1,
     };
     return relevantData;
-  }); 
-} // we've added fallbacks for bits of data that aren't guaranteed to be returned
+  });
+}; // we've added fallbacks for bits of data that aren't guaranteed to be returned

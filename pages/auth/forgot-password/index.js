@@ -61,13 +61,11 @@ export default function ForgotPassword() {
       setLoading(false);
       router.push(`/auth/forgot-password/${typedEmail}`);
     } catch (error) {
-      if (!error.response || !error.response.data) return revealErrorModal();
-      const errorMSG = error.response.data.message;
-      switch (errorMSG) {
+      switch (error?.response?.data?.message) {
         case "Invalid email":
           dispatch({ type: "INVALID_EMAIL", payload: "Invalid email" });
           break;
-        // Don't tell potentially ill intentioned users if they're testing an email with no verified account
+        // Don't tell potentially ill-intentioned users if they're testing an email with no verified account
         case "Email not tied to a verified account":
           router.push(`/auth/forgot-password/${typedEmail}`); // proceed as if successful
           break;

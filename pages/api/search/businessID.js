@@ -47,24 +47,7 @@ export async function getBusinessData(id) {
   }
 }
 
-export async function getBusinessReviews(id) {
-  const endpoint = `https://api.yelp.com/v3/businesses/${id}/reviews`;
-  const authKey = process.env.YELP_API_KEY;
-  const headers = {
-    "Content-Type": "application/json",
-    Authorization: `bearer ${authKey}`,
-  };
-
-  try {
-    const response = await axios.get(endpoint, { headers });
-    return response;
-  } catch (error) {
-    return { status: "Error", message: "Reviews not available at this time" };
-  }
-}
-
 // UTILITY FUNCTIONS FOR SORTING OUR RESPONSE DATA
-
 function makeHoursObject(origArray) {
   const hours = {
     Monday: "",

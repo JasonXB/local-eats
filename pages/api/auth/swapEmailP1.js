@@ -23,7 +23,7 @@ export default async function handler(req, res) {
   const { newEmail, submittedPassword } = req.body;
   const session = await getSession({ req });
   if (!session) {
-    res.status(401).json({ message: "User offline" }); //@ code error actions for this
+    res.status(401).json({ message: "User offline" }); 
     return; // Ensure the user is online
   }
   const oldEmail = session.user.email;
@@ -37,7 +37,7 @@ export default async function handler(req, res) {
   // Check to see if the email looks blatantly fake
   const newEmailValidity = validator.validate(newEmail); // returns Boolean
   if (!newEmailValidity) {
-    res.status(400).json({ message: "Invalid email entry" }); //@ code error actions for this
+    res.status(400).json({ message: "Invalid email entry" });
     return;
   }
 
@@ -52,7 +52,7 @@ export default async function handler(req, res) {
     // If the new email is being used by a verified account, end the route now
     client.close();
     res.status(400).json({ message: "This email is connected to an existing Local Eats account" }); // prettier-ignore
-    return; //@ code error actions for this
+    return; 
   }
 
   // Check if the password provided matches the account found
@@ -66,7 +66,7 @@ export default async function handler(req, res) {
   if (!passwordsMatch) {
     client.close();
     res.status(400).json({ message: "Account password incorrect" });
-    return; //@ code error actions for this
+    return; 
   }
   // PAST THIS POINT...
   // THE USER SUBMITTED A CORRECT ACCOUNT PASSWORD AND PICKED AN AVAILABLE NEW EMAIL
@@ -86,7 +86,7 @@ export default async function handler(req, res) {
   // Send an email containing a PIN for verification purpsoes
   sgMail.send(msg).catch((error) => {
     client.close();
-    res.status(408).json({ message: "SendGrid API failure" }); //@ CODE ERROR ACTIONS
+    res.status(408).json({ message: "SendGrid API failure" }); 
     return; // needed to stop rest of API route from executing
   });
   // Save an email swap object to the acccount on the DB
