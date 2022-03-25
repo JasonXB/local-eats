@@ -23,17 +23,14 @@ export default async function handler(req, res) {
     }
     // If we do have matches...query the each restauarant object for data needed on Restauarant Cards
     const editedResults = organizeData(rawResults);
-
     // Sort results by rating if the API string tells us to
     if (sortByRating) editedResults.sort((a, b) => b.rating - a.rating);
 
-    res
+    return res
       .status(201)
       .json({ message: "Data fetched", results: editedResults, numberOfHits });
-    return;
   } catch (err) {
-    res.status(408).json({ message: "No results found" });
-    return;
+    return res.status(408).json({ message: "No results found" });
   }
 }
 

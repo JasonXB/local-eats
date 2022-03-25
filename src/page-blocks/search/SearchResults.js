@@ -21,7 +21,7 @@ function SearchResults(props) {
   const dispatch = useDispatch();
   const fetchYelpData = async function (inp) {
     // Don't run this if these values are undefined or falsy
-    if (!apiString || !searchHeader || !locationObject) return;
+    if (!apiString || !locationObject) return;
     // Make a request to the API route that fetches data from Yelp's API
     try {
       const request = await axios.post("/api/search/restaurants", {
@@ -41,6 +41,7 @@ function SearchResults(props) {
         })
       );
     } catch (error) {
+      console.log(error.response)
       dispatch(searchResultActions.showError());
     }
   };
@@ -61,11 +62,12 @@ function SearchResults(props) {
   const showNoResults = useSelector((rs) => rs.searchResults.numberOfHits) == 0; // bool
   const showError = useSelector((rs) => rs.searchResults.showError); // bool
   const numberOfHits = useSelector((rs) => rs.searchResults.numberOfHits);
+
+  // return <div>Hi</div>
   if (
     !apiString ||
     !searchHeader ||
-    !locationObject ||
-    numberOfHits === undefined
+    !locationObject
   )
     return null;
   else if (showError) {
