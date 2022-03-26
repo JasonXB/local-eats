@@ -58,11 +58,7 @@ function Restaurants(props) {
     setLoading(false);
   }, [locationObject, queryParams, endpoint]);
 
-  // POSSIBLE OUTCOMES
-  // 1) Render nothing if the values from locationObj or query object are not ready yet ( = undefined at first)
-  // apiString and searchHeader are dependent on the query obj from the component above this one
-  // 2) Render a msg saying no results were found if someone searches for something & gets 0 hits
-  // 3) Render a list of restaurant matches for the user's successful search
+  // Redux state values that directly determine what JSX/messages get rendered
   const restaurantList = useSelector((rs) => rs.searchResults.restaurantList); // prettier-ignore
   const showError = useSelector((rs) => rs.searchResults.showError); // bool
   const numberOfHits = useSelector((rs) => rs.searchResults.numberOfHits);

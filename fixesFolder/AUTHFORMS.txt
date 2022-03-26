@@ -1,10 +1,4 @@
-GO THROUGH AND TEST EACH FEATURE
-1) Test every opportunity for user error and communicate well
-2) Test success and see if you communicate a success properly
-#d32f2f
-
 Each time we send a pin, revise the email we send to our users
-A) Change the email we send from to something more professional (test on Sendgrid)
 B) Provide a link to the website where we can submit our PINs. 
 If the user X's out by accident, they need a way to find the page again
 
