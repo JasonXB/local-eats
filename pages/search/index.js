@@ -25,7 +25,8 @@ import Wave from "../../src/custom-components/LoadingVisuals/Partial/Wave";
 export async function getServerSideProps(context) {
   const queryParams = context.query;
   // Make a Header title using the query params
-  const partialHeaderTitle = makeSearchHeader(queryParams);
+  let partialHeaderTitle = makeSearchHeader(queryParams);
+  if (!partialHeaderTitle) partialHeaderTitle = null;
   const endpoint = createYelpEndpoint(queryParams); // create an API string
   return { props: { queryParams, endpoint, partialHeaderTitle } }; // prettier-ignore
 }
@@ -50,12 +51,12 @@ function Restaurants(props) {
     if (onMount) {
       initializeBookmarks(); // Set the bookmarks on startup
       setOnMount(false);
-      await wait(3000); // wait 3s to let the loading visual play out
+      await wait(2000); // wait 3s to let the loading visual play out
       setLoading(false);
     }
-    await wait(3000); // wait 3s to let the loading visual play out
+    await wait(2000); // wait 3s to let the loading visual play out
     setLoading(false);
-  }, [locationObject, queryParams]);
+  }, [locationObject, queryParams, endpoint]);
 
   // POSSIBLE OUTCOMES
   // 1) Render nothing if the values from locationObj or query object are not ready yet ( = undefined at first)
@@ -70,16 +71,16 @@ function Restaurants(props) {
   if (!locationObject || showError || !numberOfHits) {
     let errorMsg;
     if (!locationObject) errorMsg = "No location specified!";
-    else if (showError) errorMsg= "Something's gone wrong! Reload the page or search for something else" // prettier-ignore
     else if (!numberOfHits) errorMsg= "No results found! Try searching something else"
+    else if (showError) errorMsg= "Something's gone wrong! Reload the page or search for something else" // prettier-ignore
     return (
-      <LayoutContainer>
+      <PaddedBlock>
         <HeaderSection parent={"searchPage"} breakpoint={725} />
         <NoResults msg={errorMsg} />
         {/* Still need our modals on standby */}
         <SearchbarModals />
         <FiltersModal />
-      </LayoutContainer>
+      </PaddedBlock>
     );
   }
   // If we have search results and a location object, render the following

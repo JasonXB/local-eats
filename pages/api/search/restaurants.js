@@ -30,7 +30,7 @@ export default async function handler(req, res) {
       .status(201)
       .json({ message: "Data fetched", results: editedResults, numberOfHits });
   } catch (err) {
-    return res.status(408).json({ message: "No results found" });
+    return res.status(408).json({ message: "No results found",  results: null, numberOfHits: 0 });
   }
 }
 
