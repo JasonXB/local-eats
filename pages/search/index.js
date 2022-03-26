@@ -20,6 +20,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Typography, Box, Stack } from "@mui/material";
 import { mix } from "../../styles/styleMixins";
 import { useYelpFetch } from "../api/helperFunctions/useYelpFetch";
+import { wait } from "../../src/utility-functions/general/wait";
 import Wave from "../../src/custom-components/LoadingVisuals/Partial/Wave";
 
 export async function getServerSideProps(context) {
@@ -34,7 +35,6 @@ export async function getServerSideProps(context) {
 function Restaurants(props) {
   const fetchYelpData = useYelpFetch();
   const initializeBookmarks = useBookmarks();
-  const wait = (timeToDelay) => new Promise((resolve) => setTimeout(resolve, timeToDelay)); //  prettier-ignore
   // Extract prop values from getServerSideProps
   const [loading, setLoading] = useState(false);
   const [searchHeader, setSearchHeader] = useState(undefined); // "Ex. Ramen near Toronto"
@@ -51,10 +51,10 @@ function Restaurants(props) {
     if (onMount) {
       initializeBookmarks(); // Set the bookmarks on startup
       setOnMount(false);
-      await wait(2000); // wait 3s to let the loading visual play out
+      await wait(2); // wait 3s to let the loading visual play out
       setLoading(false);
     }
-    await wait(2000); // wait 3s to let the loading visual play out
+    await wait(2); // wait 3s to let the loading visual play out
     setLoading(false);
   }, [locationObject, queryParams, endpoint]);
 

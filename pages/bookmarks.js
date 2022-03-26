@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { getSession } from "next-auth/react";
 import { trackWindowScroll } from "react-lazy-load-image-component";
 import { Typography, Box, Stack } from "@mui/material";
 import PaddedBlock from "../src/custom-components/PaddedBlock";
@@ -8,16 +9,47 @@ import Footer from "../src/custom-components/Footer";
 import RestaurantCard from "../src/custom-components/SearchResults/RestaurantCard";
 import { useGlobalContext } from "../state-management/globalContext";
 import useBookmarks from "../pages/api/helperFunctions/useBookmarks";
+import Wave from "../src/custom-components/LoadingVisuals/Partial/Wave";
 import { mix } from "../styles/styleMixins";
+import { wait } from "../src/utility-functions/general/wait";
+
+// Redirect users to homepage if they come here offline
+export async function getServerSideProps(context) {
+  const session = await getSession({ req: context.req }); // falsy if not logged in. session obj if we are
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/auth/signin", // redirect to this path
+        permanent: false, // don't always want to redirect (only if user's logged in)
+      },
+    };
+  }
+  return { props: { session } };
+}
 
 function Bookmarks({ scrollPosition }) {
+  const [loading, setLoading] = React.useState(true);
+
   // Save the restaurants stored in the DB to the Global state
   const initializeBookmarks = useBookmarks(); // f() sets bookmarks on startup
-  useEffect(() => {
+  useEffect(async () => {
     initializeBookmarks();
+    await wait(2);
+    setLoading(false);
   }, []);
 
   const { bookmarks } = useGlobalContext();
+  if (loading) {
+    return (
+      <PaddedBlock>
+        <HeaderSection parent={"bookmarks"} breakpoint={800} />
+        <Typography sx={styles.title} component="h1">
+          Bookmarks
+        </Typography>
+        <Wave />
+      </PaddedBlock>
+    );
+  }
   return (
     <PaddedBlock>
       <HeaderSection parent={"bookmarks"} breakpoint={800} />
