@@ -1,6 +1,4 @@
-import React, { useReducer, useEffect, useState } from "react";
-import axios from "axios";
-import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 import { useLocationContext } from "../../state-management/locationContext";
 import LayoutContainer from "../../src/custom-components/LayoutContainer";
 import HeaderSection from "../../src/page-blocks/search/HeaderSection";
