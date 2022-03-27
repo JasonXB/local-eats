@@ -3,7 +3,7 @@
 
 /* Makes it so scrollbar is always visible*/
 html {
-  overflow: -moz-scrollbars-vertical; 
+  overflow: -moz-scrollbars-vertical;
   overflow-y: scroll;
 }
 body {
@@ -24,7 +24,7 @@ body {
   content: "";
   height: 16px;
   position: absolute;
-  top: 50%;
+  top: 55%;
   left: 50%;
   -webkit-transform: translate(-50%, -40px);
   transform: translate(-50%, -40px);

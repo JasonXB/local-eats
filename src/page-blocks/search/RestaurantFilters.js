@@ -4,7 +4,7 @@ import EqualizerIcon from "@mui/icons-material/Equalizer";
 import SocialDistanceIcon from "@mui/icons-material/SocialDistance";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
-import SortIcon from '@mui/icons-material/Sort';
+import SortIcon from "@mui/icons-material/Sort";
 import { useSelector, useDispatch } from "react-redux";
 import { filterActions } from "../../../state-management/store/search/filters";
 import { mix } from "../../../styles/styleMixins";
@@ -30,9 +30,7 @@ export default function RestauarantFilters() {
       if (!term) return "any";
       else return term;
     },
-    sort_by: () => {
-      return useSelector((r) => r.searchFilters.sort_by);
-    },
+    sort_by: () => useSelector((r) => r.searchFilters.sort_by),
   };
 
   // Function that opens/closes the filter modal which affects your search results
@@ -91,5 +89,4 @@ const styles = {
       gridTemplateColumns: "repeat(5, 1fr)",
     },
   },
-
 };
