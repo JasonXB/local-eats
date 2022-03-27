@@ -16,12 +16,10 @@ import PaginationRow from "../../src/page-blocks/search/sub/PaginationRow";
 import Footer from "../../src/custom-components/Footer";
 import { makeSearchHeader } from "../../src/utility-functions/search/makeSearchHeader";
 import { createYelpEndpoint } from "../api/helperFunctions/createYelpEndpoint";
-import { useSelector, useDispatch } from "react-redux";
-import { Typography, Box, Stack } from "@mui/material";
+import { useSelector } from "react-redux";
+import { Typography, Box } from "@mui/material";
 import { mix } from "../../styles/styleMixins";
 import { useYelpFetch } from "../api/helperFunctions/useYelpFetch";
-import { wait } from "../../src/utility-functions/general/wait";
-import Wave from "../../src/custom-components/LoadingVisuals/Partial/Wave";
 
 export async function getServerSideProps(context) {
   const queryParams = context.query;
@@ -36,7 +34,6 @@ function Restaurants(props) {
   const fetchYelpData = useYelpFetch();
   const initializeBookmarks = useBookmarks();
   // Extract prop values from getServerSideProps
-  const [loading, setLoading] = useState(false);
   const [searchHeader, setSearchHeader] = useState(undefined); // "Ex. Ramen near Toronto"
   const { queryParams, endpoint, partialHeaderTitle, scrollPosition } = props; // prettier-ignore
   const { locationObject } = useLocationContext();
@@ -45,17 +42,12 @@ function Restaurants(props) {
   const [onMount, setOnMount] = useState(true);
   useEffect(async () => {
     if (!locationObject) return;
-    setLoading(true);
     setSearchHeader(`${partialHeaderTitle} ${locationObject.locationString}`); // prettier-ignore
     fetchYelpData(endpoint);
     if (onMount) {
       initializeBookmarks(); // Set the bookmarks on startup
       setOnMount(false);
-      await wait(2); // wait 3s to let the loading visual play out
-      setLoading(false);
     }
-    await wait(2); // wait 3s to let the loading visual play out
-    setLoading(false);
   }, [locationObject, queryParams, endpoint]);
 
   // Redux state values that directly determine what JSX/messages get rendered
@@ -87,31 +79,28 @@ function Restaurants(props) {
       <Typography variant="h3" component="h2" sx={{ mb: 4, mt: 5, mx: 2 }}>
         {searchHeader}
       </Typography>
-      {loading ? (
-        <Wave />
-      ) : (
-        <LayoutContainer>
-          <Box sx={mix.cards_container_search}>
-            {restaurantList &&
-              restaurantList.map((r_data) => (
-                <RestaurantCard
-                  key={r_data.storeID}
-                  dataObj={r_data}
-                  // pass scrollPosition to each resto_card (for performance's sake)
-                  scrollPosition={scrollPosition}
-                />
-              ))}
-          </Box>
-          {numberOfHits && (
-            <>
-              <Box sx={{ ...mix.flexColumn }}>
-                <PaginationRow numberOfHits={numberOfHits} />
-              </Box>
-              <Footer />
-            </>
-          )}
-        </LayoutContainer>
-      )}
+      <LayoutContainer>
+        <Box sx={mix.cards_container_search}>
+          {restaurantList &&
+            restaurantList.map((r_data) => (
+              <RestaurantCard
+                key={r_data.storeID}
+                dataObj={r_data}
+                // pass scrollPosition to each resto_card (for performance's sake)
+                scrollPosition={scrollPosition}
+              />
+            ))}
+        </Box>
+        {numberOfHits && (
+          <>
+            <Box sx={{ ...mix.flexColumn }}>
+              <PaginationRow numberOfHits={numberOfHits} />
+            </Box>
+            <Footer />
+          </>
+        )}
+      </LayoutContainer>
+
       {/* These fixed position Modals are on standby and will pop up depending on (Redux) state values */}
       <FiltersModal />
       <SearchbarModals />

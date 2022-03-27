@@ -1,9 +1,9 @@
 import React from "react";
-import { Box } from '@mui/material';
+import { Box } from "@mui/material";
 
-export default function FullscreenSpinner() {
+export default function SpreadSpinner() {
   return (
-    <Box   
+    <Box
       sx={{
         display: "flex",
         height: "100%",
