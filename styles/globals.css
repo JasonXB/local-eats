@@ -38,7 +38,7 @@ body {
   content: "";
   height: 16px;
   position: absolute;
-  top: 65%;  /* further down page */
+  top: 65%; /* further down page */
   left: 50%;
   -webkit-transform: translate(-65%, -40px); /* further down page */
   transform: translate(-65%, -40px); /* further down page */
@@ -52,7 +52,7 @@ body {
   content: "";
   height: 16px;
   position: absolute;
-  top: 75%;  /* further down page */
+  top: 75%; /* further down page */
   left: 50%;
   -webkit-transform: translate(-75%, -40px); /* further down page */
   transform: translate(-75%, -40px); /* further down page */
