@@ -38,10 +38,10 @@ body {
   content: "";
   height: 16px;
   position: absolute;
-  top: 65%; /* further down page */
+  top: 60%; /* further down page */
   left: 50%;
-  -webkit-transform: translate(-65%, -40px); /* further down page */
-  transform: translate(-65%, -40px); /* further down page */
+  -webkit-transform: translate(-60%, -40px); /* further down page */
+  transform: translate(-60%, -40px); /* further down page */
   width: 16px;
 }
 /* WAVE SPINNER (ULTRA-LOW POSITIONING) */

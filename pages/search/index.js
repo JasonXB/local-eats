@@ -15,9 +15,11 @@ import Footer from "../../src/custom-components/Footer";
 import { makeSearchHeader } from "../../src/utility-functions/search/makeSearchHeader";
 import { createYelpEndpoint } from "../api/helperFunctions/createYelpEndpoint";
 import { useSelector } from "react-redux";
-import { Typography, Box } from "@mui/material";
+import { Typography, Box, Stack } from "@mui/material";
 import { mix } from "../../styles/styleMixins";
 import { useYelpFetch } from "../api/helperFunctions/useYelpFetch";
+import Wave from "../../src/custom-components/LoadingVisuals/Partial/Wave";
+import { wait } from "../../src/utility-functions/general/wait";
 
 export async function getServerSideProps(context) {
   const queryParams = context.query;
@@ -36,16 +38,23 @@ function Restaurants(props) {
   const { queryParams, endpoint, partialHeaderTitle, scrollPosition } = props; // prettier-ignore
   const { locationObject } = useLocationContext();
 
+  const [loading, setLoading] = React.useState(true);
+
   // On startup, fetch Yelp data and create the header text
   const [onMount, setOnMount] = useState(true);
   useEffect(async () => {
     if (!locationObject) return;
+    setLoading(true);
+    // Create the header text and fetch the restaurant data
     setSearchHeader(`${partialHeaderTitle} ${locationObject.locationString}`); // prettier-ignore
     fetchYelpData(endpoint);
+
     if (onMount) {
       initializeBookmarks(); // Set the bookmarks on startup
       setOnMount(false);
     }
+    await wait(2);
+    setLoading(false); // end loading animation
   }, [locationObject, queryParams, endpoint]);
 
   // Redux state values that directly determine what JSX/messages get rendered
@@ -53,8 +62,18 @@ function Restaurants(props) {
   const showError = useSelector((rs) => rs.searchResults.showError); // bool
   const numberOfHits = useSelector((rs) => rs.searchResults.numberOfHits);
 
-  // There are 3 instances where the Yelp API call does not return any restaurant data
-  if (!locationObject || showError || !numberOfHits) {
+  if (loading) {
+    return (
+      <PaddedBlock>
+        <HeaderSection parent={"searchPage"} breakpoint={725} />
+        <Wave variant="low" />
+        {/* Still need our modals on standby */}
+        <SearchbarModals />
+        <FiltersModal />
+      </PaddedBlock>
+    );
+  } else if (!locationObject || showError || !numberOfHits) {
+    // There are 3 instances where the Yelp API call does not return any restaurant data
     let errorMsg;
     if (!locationObject) errorMsg = "No location specified!";
     else if (!numberOfHits) errorMsg= "No results found! Try searching something else"
@@ -65,7 +84,22 @@ function Restaurants(props) {
         <Typography variant="h3" component="h2" sx={{ mb: 4, mt: 5, mx: 2 }}>
           {searchHeader}
         </Typography>
-        <NoResults msg={errorMsg} />
+
+        {/* Using the NoResults component here causes a double scollbar bug. Replace with a regular typography tag */}
+        <Typography
+          variant="h5"
+          sx={(theme) => ({
+            fontSize: "2rem", // 30px
+            fontWeight: 400,
+            textAlign: "center",
+            px: 2,
+            pt: 5, // small vertical offset on mobile, larger one on desktop
+            [theme.breakpoints.up("sm")]: { pt: 15 },
+          })}
+        >
+          {errorMsg}
+        </Typography>
+
         {/* Still need our modals on standby */}
         <SearchbarModals />
         <FiltersModal />
