@@ -1,7 +1,7 @@
 import React from "react";
 import { Box } from "@mui/material";
 
-export default function SpreadSpinner() {
+export default function SpreadSpinner({ variant = "normal" }) {
   return (
     <Box
       sx={{
@@ -12,7 +12,7 @@ export default function SpreadSpinner() {
         alignItems: "center",
       }}
     >
-      <div className="dots-flow"></div>
+      <div className={variant === "low" ? "dots-flow2" : "dots-flow"}></div>
     </Box>
   );
 }

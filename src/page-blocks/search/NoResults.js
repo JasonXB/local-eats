@@ -16,7 +16,7 @@ export default function NoResults(props) {
     };
   }, []);
 
-  if (loading) return <Wave />;
+  if (loading) return <Wave variant="low" />;
   return (
     <Stack
       sx={(theme) => ({
