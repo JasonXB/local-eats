@@ -62,6 +62,9 @@ function Restaurants(props) {
     return (
       <PaddedBlock>
         <HeaderSection parent={"searchPage"} breakpoint={725} />
+        <Typography variant="h3" component="h2" sx={{ mb: 4, mt: 5, mx: 2 }}>
+          {searchHeader}
+        </Typography>
         <NoResults msg={errorMsg} />
         {/* Still need our modals on standby */}
         <SearchbarModals />

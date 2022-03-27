@@ -24,10 +24,10 @@ body {
   content: "";
   height: 16px;
   position: absolute;
-  top: 55%;
+  top: 65%;
   left: 50%;
   -webkit-transform: translate(-50%, -40px);
-  transform: translate(-55%, -40px);
+  transform: translate(-65%, -40px);
   width: 16px;
 }
 
