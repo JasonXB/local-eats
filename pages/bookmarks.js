@@ -46,7 +46,7 @@ function Bookmarks({ scrollPosition }) {
         <Typography sx={styles.title} component="h1">
           Bookmarks
         </Typography>
-        <Wave variant="low" />
+        <Wave variant="normal" />
       </PaddedBlock>
     );
   }
