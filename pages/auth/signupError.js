@@ -21,7 +21,7 @@ export default function UseFormControl() {
   const inputRef = useRef(); // access field value with inputRef.current.value
   return (
     <>
-      <Box sx={{ ...mix.flexRow, justifyContent: "center" }}>
+      <Box sx={styles.containerParent}>
         <Stack sx={styles.container}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -61,6 +61,10 @@ const styles = {
     maxWidth: "40rem",
     height: "60vh",
     ...mix.flexColumn,
+    justifyContent: "center",
+  },
+  containerParent: {
+    ...mix.flexRow,
     justifyContent: "center",
   },
   header: {

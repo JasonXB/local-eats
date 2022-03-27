@@ -207,7 +207,7 @@ export default function signup() {
         variant="contained"
         disableElevation
         onClick={submitHandler}
-        sx={{ width: "80%", maxWidth: "20.625rem" }}
+        sx={styles.button}
       >
         Sign up to Local Eats
       </Button>
@@ -215,7 +215,7 @@ export default function signup() {
         disableElevation
         variant="outlined"
         href="/auth/signin"
-        sx={{ width: "80%", maxWidth: "20.625rem", mt: 2 }}
+        sx={styles.button}
       >
         Have an account? Sign in!
       </Button>
@@ -299,5 +299,10 @@ const styles = {
   conditionalRed: (inp) => {
     if(inp) return { color: "#d32f2f" } // prettier-ignore
     if(!inp) return { color: "rgba(0, 0, 0, 0.87)" } // prettier-ignore
+  },
+  button: {
+    width: "80%",
+    maxWidth: "20.625rem",
+    mt: 2,
   },
 };

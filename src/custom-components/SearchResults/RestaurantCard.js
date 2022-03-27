@@ -99,7 +99,6 @@ const styles = {
       gridTemplateRows: "repeat(4, auto)",
       p: 2,
       width: "20.75rem",
-
       "&:hover": {
         borderColor: "rgb(232, 232, 232)",
         boxShadow: "rgb(28 28 28 / 12%) 0px 0.4rem 1.8rem",
@@ -107,7 +106,6 @@ const styles = {
       },
     },
   },
-
   imageParent: {
     position: "relative",
     height: "14rem",

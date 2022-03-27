@@ -22,9 +22,7 @@ export default function ModalComponent(props) {
             {props.headerText}
           </Typography>
           {props.children}
-          <Box
-            sx={{ ...mix.flexRow, justifyContent: "end", mt: 3.5, ml: "auto" }}
-          >
+          <Box sx={stylesLocal.buttonRow}>
             <Button size="medium" onClick={() => props.cancelModal()}>
               Cancel
             </Button>
@@ -37,3 +35,7 @@ export default function ModalComponent(props) {
     </Box>
   );
 }
+
+const stylesLocal = {
+  buttonRow: { ...mix.flexRow, justifyContent: "end", mt: 3.5, ml: "auto" },
+};

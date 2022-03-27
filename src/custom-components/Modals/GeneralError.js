@@ -10,23 +10,18 @@ export default function GeneralErrorModal({ hideModal, modalVisible }) {
   return (
     <Modal
       component="section"
-      sx={style.backdrop}
+      sx={stylesLocal.backdrop}
       open={modalVisible}
       // would allow us to exit the modal if enabled.
       // For now we just have an option to reload the page instead of closing it
       // onClose={hideModal}
     >
-      <Stack sx={style.stack}>
+      <Stack sx={stylesLocal.stack}>
         <Typography
           id="modal-modal-title"
           variant="h2"
           component="p"
-          sx={(theme) => {
-            return {
-              fontWeight: 600,
-              color: theme.palette.secondary.dark,
-            };
-          }}
+          sx={stylesLocal.title}
         >
           Local Eats Error
         </Typography>
@@ -56,7 +51,7 @@ export default function GeneralErrorModal({ hideModal, modalVisible }) {
   );
 }
 
-const style = {
+const stylesLocal = {
   backdrop: {
     position: "fixed",
     zIndex: 1,
@@ -78,5 +73,20 @@ const style = {
     p: 4,
     textAlign: "center",
     ...mix.flexColumn,
+  },
+  title: (theme) => ({
+    fontWeight: 600,
+    color: theme.palette.secondary.dark,
+  }),
+  buttonContainer: {
+    width: "100%",
+    ...mix.flexRow,
+    justifyContent: "flex-end",
+  },
+  btn: {
+    fontSize: "1rem",
+    mr: 2,
+    mt: 2,
+    "&:hover": { background: "white" },
   },
 };

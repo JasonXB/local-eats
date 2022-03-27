@@ -5,15 +5,13 @@ import { styled, alpha } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import GpsFixedIcon from "@mui/icons-material/GpsFixed";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import { homepageModalActions } from "../../../state-management/store/homepage/ModalVisibility";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { lengthNoSpaces } from "../../utility-functions/general/lengthNoSpaces";
 import useGetFilters from "../../utility-functions/search/useGetFilters";
 import useVisitSearchPage from "../../utility-functions/search/useVisitSearchPage";
-import ListAltIcon from '@mui/icons-material/ListAlt';
-import TravelExploreIcon from '@mui/icons-material/TravelExplore';
+import LocationOptions from "../../custom-components/Searchbar/LocationOptions";
 
 export default function SearchbarDesktop({ applyShadow }) {
   const dispatch = useDispatch();
@@ -111,24 +109,18 @@ export default function SearchbarDesktop({ applyShadow }) {
         onClose={closeMenu}
         sx={styles.menu}
       >
-        <MenuItem sx={{ display: "flex", px: 1.5 }} onClick={detectLocation}>
-          <GpsFixedIcon color="secondary" sx={{ mt: "-4px" }} />
-          <Button color="secondary" align="left">
-            Detect current location
-          </Button>
-        </MenuItem>
-        <MenuItem sx={{ display: "flex", px: 1.5 }} onClick={specifyLocation}>
-          <TravelExploreIcon color="secondary" sx={{ mt: "-4px" }} />
-          <Button color="secondary" align="left">
-            Specify a location
-          </Button>
-        </MenuItem>
-        <MenuItem sx={{ display: "flex", px: 1.5 }} onClick={pickPredetermined}>
-          <ListAltIcon color="secondary" sx={{ mt: "-4px" }} />
-          <Button color="secondary" align="left">
-            Pick predetermined location
-          </Button>
-        </MenuItem>
+        <LocationOptions
+          onClickFN={detectLocation}
+          txt={"Detect current location"}
+        />
+        <LocationOptions
+          onClickFN={specifyLocation}
+          txt={"Specify a location"}
+        />
+        <LocationOptions
+          onClickFN={pickPredetermined}
+          txt={"Pick predetermined location"}
+        />
       </Menu>
 
       <Divider orientation="vertical" flexItem sx={{ mx: 1 }} />

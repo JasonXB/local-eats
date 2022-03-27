@@ -1,15 +1,11 @@
 import React from "react";
-import Box from '@mui/material/Box';
+import Box from "@mui/material/Box";
 
 export const breakBefore = function (pxBreakpoint) {
   return (
     <Box
       component="br"
-      sx={{
-        [`@media (min-width: ${pxBreakpoint}px)`]: {
-          display: "none",
-        },
-      }}
+      sx={{ [`@media (min-width: ${pxBreakpoint}px)`]: { display: "none" } }}
     />
   );
 };
@@ -20,9 +16,7 @@ export const breakAfter = (pxBreakpoint) => {
       component="br"
       sx={{
         display: "none",
-        [`@media (min-width: ${pxBreakpoint}px)`]: {
-          display: "block",
-        },
+        [`@media (min-width: ${pxBreakpoint}px)`]: { display: "block" },
       }}
     />
   );

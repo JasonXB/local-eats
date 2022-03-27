@@ -41,8 +41,7 @@ export default function AmericanInputs() {
         disablePortal
         id="combo-box-demo"
         options={yelpStates}
-        // prettier-ignore
-        sx={{ width: "100%", mx: "auto", mt: 2, mb: 1, ...mix.autoCompleteHeight }}
+        sx={stylesLocal.autoComplete}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -58,8 +57,7 @@ export default function AmericanInputs() {
         id="combo-box-demo"
         options={cityList ? cityList : yelpCitiesUS["Arizona"]}
         disabled={menu2Disabled}
-        // prettier-ignore
-        sx={{ width: "100%", mx: "auto", mt: 2, mb: 1, ...mix.autoCompleteHeight }}
+        sx={stylesLocal.autoComplete}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -72,4 +70,8 @@ export default function AmericanInputs() {
       />
     </>
   );
+}
+
+const stylesLocal = {
+  autoComplete: { width: "100%", mx: "auto", mt: 2, mb: 1, ...mix.autoCompleteHeight }
 }

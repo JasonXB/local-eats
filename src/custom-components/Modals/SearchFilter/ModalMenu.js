@@ -86,7 +86,7 @@ export default function ModalMenu() {
     };
     const filtersUnchanged = isEqual(defaultParams, clone); // if true, the objects are the same
     if (filtersUnchanged) return dispatch(filterActions.closeModal());
-    
+
     // If the user is resetting to defaults when the filters have been changed...do the following
     const fieldInput = termRef.current.value;
     let term = fieldInput;
@@ -139,7 +139,7 @@ export default function ModalMenu() {
         value={localFilters.hours}
         exclusive
         onChange={handleHoursChange}
-        sx={{ ...styles.btnGroup }}
+        sx={styles.btnGroup}
       >
         <ToggleButton value={false}>Any</ToggleButton>
         <ToggleButton value={true}>Open now</ToggleButton>
@@ -172,29 +172,11 @@ export default function ModalMenu() {
         />
       </FormControl>
       <div></div>
-      <Box sx={{ width: "100%", ...mix.flexRow, justifyContent: "flex-end" }}>
-        <Button
-          onClick={resetHandler}
-          size="large"
-          sx={{
-            fontSize: "1rem",
-            mr: 2,
-            mt: 2,
-            "&:hover": { background: "white" },
-          }}
-        >
+      <Box sx={styles.buttonContainer}>
+        <Button onClick={resetHandler} size="large" sx={styles.btn}>
           Reset to defaults
         </Button>
-        <Button
-          onClick={applyHandler}
-          size="large"
-          sx={{
-            fontSize: "1rem",
-            mr: 2,
-            mt: 2,
-            "&:hover": { background: "white" },
-          }}
-        >
+        <Button onClick={applyHandler} size="large" sx={styles.btn}>
           Apply
         </Button>
       </Box>
@@ -215,17 +197,19 @@ const styles = {
     "div.MuiBox-root": { margin: 0 },
     "span.MuiSlider-colorPrimary": { margin: 0 },
     "div.MuiToggleButtonGroup-root": { margin: 0 },
-    ["@media (min-width: 700px)"]: {
-      display: "grid",
-    },
+    ["@media (min-width: 700px)"]: { display: "grid" },
   },
-  tab: {
-    py: 2,
-    px: 2,
-    mt: 0,
-    color: "#7E7E7E",
+  tab: { py: 2, px: 2, mt: 0, color: "#7E7E7E" },
+  buttonContainer: {
+    width: "100%",
+    ...mix.flexRow,
+    justifyContent: "flex-end",
   },
-  btnGroup: {
-    ["@media (min-width: 400px)"]: { px: 2 },
+  btnGroup: { ["@media (min-width: 400px)"]: { px: 2 } },
+  btn: {
+    fontSize: "1rem",
+    mr: 2,
+    mt: 2,
+    "&:hover": { background: "white" },
   },
 };

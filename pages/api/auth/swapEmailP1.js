@@ -23,14 +23,14 @@ export default async function handler(req, res) {
   const { newEmail, submittedPassword } = req.body;
   const session = await getSession({ req });
   if (!session) {
-    res.status(401).json({ message: "User offline" }); 
+    res.status(401).json({ message: "User offline" });
     return; // Ensure the user is online
   }
   const oldEmail = session.user.email;
   if (newEmail === oldEmail) {
-    res
-      .status(400)
-      .json({ message: "This email's already tied to your Local Eats account" });
+    res.status(400).json({
+      message: "This email's already tied to your Local Eats account",
+    });
     return;
   }
 
@@ -52,7 +52,7 @@ export default async function handler(req, res) {
     // If the new email is being used by a verified account, end the route now
     client.close();
     res.status(400).json({ message: "This email is connected to an existing Local Eats account" }); // prettier-ignore
-    return; 
+    return;
   }
 
   // Check if the password provided matches the account found
@@ -66,7 +66,7 @@ export default async function handler(req, res) {
   if (!passwordsMatch) {
     client.close();
     res.status(400).json({ message: "Account password incorrect" });
-    return; 
+    return;
   }
   // PAST THIS POINT...
   // THE USER SUBMITTED A CORRECT ACCOUNT PASSWORD AND PICKED AN AVAILABLE NEW EMAIL
@@ -78,7 +78,7 @@ export default async function handler(req, res) {
   // Send the normal PIN to the request body email
   const msg = {
     to: newEmail, // recipient
-    from: "local.eats.team@gmail.com", // Change to your verified sender
+    from: "local.eats.team@gmail.com ", // Change to your verified sender
     subject: "Verify Local Eats email change",
     text: "Please do not reply to sender",
     html: `Submit the following PIN code to complete an account email change on Local Eats: <strong>${normalPIN}</strong>. If you did not attempt to swap account emails on our platform, ignore this email.`,
@@ -86,7 +86,7 @@ export default async function handler(req, res) {
   // Send an email containing a PIN for verification purpsoes
   sgMail.send(msg).catch((error) => {
     client.close();
-    res.status(408).json({ message: "SendGrid API failure" }); 
+    res.status(408).json({ message: "SendGrid API failure" });
     return; // needed to stop rest of API route from executing
   });
   // Save an email swap object to the acccount on the DB

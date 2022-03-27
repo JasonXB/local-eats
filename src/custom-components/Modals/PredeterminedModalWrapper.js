@@ -15,7 +15,7 @@ import { styles, StyledModal } from "../../../styles/modal_styles";
 export default function PredeterminedModalWrapper(props) {
   const { predeterminedHandler } = useLocationContext();
   const closeModal = () => dispatch(homepageModalActions.closeAllModals()); // reusable f()
-  
+
   // Inspect the state values inside the Redux store
   const chosenCityCA = useSelector((state) => state.locationDenialCA.chosenCity); // prettier-ignore
   const chosenCityUSA = useSelector((state) => state.locationDenialUSA.chosenCity); // prettier-ignore
@@ -80,7 +80,7 @@ export default function PredeterminedModalWrapper(props) {
     resetUS();
     closeModal(); // Make it so modal is not longer rendered
   };
-  
+
   return (
     <>
       <Box sx={styles.backdrop}>
@@ -89,17 +89,12 @@ export default function PredeterminedModalWrapper(props) {
             <Typography
               color="secondary"
               variant="h3"
-              sx={{
-                fontWeight: 600,
-                ...mix.flexRow,
-                justifyContent: "center",
-                mb: 2,
-              }}
+              sx={stylesLocal.headerText}
             >
               {props.headerText}
             </Typography>
             {props.children}
-            <Box sx={{ ...mix.flexRow, justifyContent: "end", mt: 3.5 }}>
+            <Box sx={stylesLocal.buttonRow}>
               <Button size="medium" onClick={cancelHandler}>
                 Cancel
               </Button>
@@ -114,4 +109,12 @@ export default function PredeterminedModalWrapper(props) {
   );
 }
 
-
+const stylesLocal = {
+  headerText: {
+    fontWeight: 600,
+    ...mix.flexRow,
+    justifyContent: "center",
+    mb: 2,
+  },
+  buttonRow: { ...mix.flexRow, justifyContent: "end", mt: 3.5 },
+};

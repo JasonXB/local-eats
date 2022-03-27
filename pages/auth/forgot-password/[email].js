@@ -160,12 +160,10 @@ export default function ForgetPasswordVerify() {
         />
         <FormHelperText
           sx={(theme) => ({
-            mx: 0,
-            mb: 1,
+            ...stylesLocal.helperText,
             color: formState.pinError
               ? theme.palette.secondary.main
               : theme.palette.text.primary,
-            height: "1.25rem",
           })}
         >
           {formState.pinText}
@@ -176,11 +174,11 @@ export default function ForgetPasswordVerify() {
           align="left"
           variant="label"
           sx={(theme) => ({
-            mb: 0.5,
+            ...stylesLocal.helperText,
+            mb: 0.5, // override
             color: formState.passwordError
               ? theme.palette.secondary.main
               : theme.palette.text.primary,
-            height: "1.25rem",
           })}
         >
           New Password:
@@ -194,12 +192,10 @@ export default function ForgetPasswordVerify() {
         />
         <FormHelperText
           sx={(theme) => ({
-            mx: 0,
-            mb: 1,
+            ...stylesLocal.helperText,
             color: formState.passwordError
               ? theme.palette.secondary.main
               : theme.palette.text.primary,
-            height: "1.25rem",
           })}
         >
           {formState.passwordText}
@@ -207,7 +203,7 @@ export default function ForgetPasswordVerify() {
         <Button variant="contained" disableElevation onClick={verifyHandler}>
           VERIFY
         </Button>
-        <Button variant="outlined" href="/auth/forgot-password" sx={{mt:2}}>
+        <Button variant="outlined" href="/auth/forgot-password" sx={{ mt: 2 }}>
           RESTART PROCESS
         </Button>
       </FormControl>
@@ -221,3 +217,11 @@ export default function ForgetPasswordVerify() {
     </Stack>
   );
 }
+
+const stylesLocal = {
+  helperText: {
+    mx: 0,
+    mb: 1,
+    height: "1.25rem",
+  },
+};

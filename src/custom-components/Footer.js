@@ -15,27 +15,11 @@ export default function Footer() {
       {/* Only appears on screen sizes below sm (700px) */}
       <FooterMobile />
       {/* Only appears on screen sizes above sm (700px) */}
-      <Box
-        sx={(theme) => {
-          return {
-            pt: 6,
-            [theme.breakpoints.down("sm")]: {
-              display: "none",
-            },
-          };
-        }}
-      >
-        <Typography
-          variant="h2"
-          sx={{
-            mb: "2.5rem",
-            fontWeight: 600,
-            textAlign: "center",
-          }}
-        >
+      <Box sx={stylesLocal.container}>
+        <Typography variant="h2" sx={stylesLocal.title}>
           Search for all kinds of places
         </Typography>
-        <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr" }}>
+        <Box sx={stylesLocal.gridContainer}>
           {Object.keys(footerAnchors).map((headerText, index) => {
             return (
               <Stack key={index} sx={{ mb: 3 }}>
@@ -68,7 +52,7 @@ export default function Footer() {
           })}
         </Box>
         <Divider sx={{ mt: 4, mb: 4 }} />
-        <Typography sx={{ pb: 4, textAlign: "center" }}>
+        <Typography sx={stylesLocal.copywright}>
           Data provided by the Yelp Fusion™ API.
         </Typography>
       </Box>
@@ -129,4 +113,20 @@ export const footerAnchors = {
     "Pet stores": "petstore",
     Casinos: "casinos",
   },
+};
+
+const stylesLocal = {
+  container: (theme) => ({
+    pt: 6,
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
+    },
+  }),
+  title: {
+    mb: "2.5rem",
+    fontWeight: 600,
+    textAlign: "center",
+  },
+  gridContainer: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr" },
+  copywright: { pb: 4, textAlign: "center" },
 };

@@ -50,10 +50,7 @@ export default function HeaderSection({ parent, breakpoint }) {
       {/*Before the breakpoint, render the following */}
       <Stack
         sx={{
-          ...mix.responsiveLayout,
-          my: 2,
-          px: 0,
-          display: "block",
+          ...stylesLocal.mobileContainer,
           [`@media (min-width: ${breakpoint}px)`]: { display: "none" },
         }}
       >
@@ -78,31 +75,17 @@ export default function HeaderSection({ parent, breakpoint }) {
       {/*Past the breakpoint*/}
       <Stack
         sx={{
-          ...mix.responsiveLayout,
-          display: "none",
-          mb: 4,
+          ...stylesLocal.desktopContainer,
           [`@media (min-width: ${breakpoint}px)`]: { display: "block" },
         }}
       >
-        <Box
-          sx={{
-            ...mix.flexRow,
-            justifyContent: "space-between",
-          }}
-        >
-          <Typography variant="h3" component="h1" sx={{ ...mix.titleFont }}>
+        <Box sx={stylesLocal.titleContainer}>
+          <Typography variant="h3" component="h1" sx={mix.titleFont}>
             Local Eats
           </Typography>
           <NavbarRow />
         </Box>
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: "1fr auto",
-            gap: 3,
-            alignItems: "center",
-          }}
-        >
+        <Box sx={stylesLocal.breadcrumbContainer}>
           <SearchbarDesktop applyShadow={true} />
           {breadcrumbs}
         </Box>
@@ -110,3 +93,24 @@ export default function HeaderSection({ parent, breakpoint }) {
     </>
   );
 }
+
+const stylesLocal = {
+  mobileContainer: {
+    ...mix.responsiveLayout,
+    display: "block",
+    my: 2,
+    px: 0,
+  },
+  desktopContainer: {
+    ...mix.responsiveLayout,
+    display: "none",
+    mb: 4,
+  },
+  breadcrumbContainer: {
+    display: "grid",
+    gridTemplateColumns: "1fr auto",
+    gap: 3,
+    alignItems: "center",
+  },
+  titleContainer: { ...mix.flexRow, justifyContent: "space-between" },
+};

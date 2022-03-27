@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Button ,Box, CardMedia , Container, Card} from '@mui/material'; //  prettier-ignore
+import { Typography, Button ,Box, CardMedia , Container, Card } from '@mui/material'; //  prettier-ignore
 import { mix } from "../../../styles/styleMixins";
 import useVisitSearchPage from "../../utility-functions/search/useVisitSearchPage";
 import useGetFilters from "../../utility-functions/search/useGetFilters";
@@ -10,38 +10,15 @@ export default function RestaurantTypes() {
   return (
     <>
       <Typography variant="h2">Food Moods:</Typography>
-      <Container
-        sx={{
-          ...mix.responsiveLayout,
-          px: 0,
-          borderRadius: 0,
-          "& .MuiPaper-root": {
-            borderRadius: 0,
-          },
-          ["@media (min-width: 1000px)"]: {
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: "1rem",
-          },
-          ["@media (min-width: 1300px)"]: {
-            gridTemplateColumns: "1fr 1fr 1fr",
-          },
-        }}
-      >
+      <Container sx={stylesLocal.container}>
         {Object.keys(types).map((category, ind) => {
           return (
-            <Card
-              key={ind}
-              sx={{
-                [`@media (max-width: 570px)`]: { borderRadius: 0 },
-              }}
-            >
+            <Card key={ind} sx={stylesLocal.card}>
               <CardMedia
                 component="img"
                 height="160"
                 image={pickImage(category)}
               />
-              {/* -------------------------------------------------- */}
               <Typography sx={{ p: 2, pb: 0 }} variant="h4">
                 {category}
               </Typography>
@@ -57,14 +34,13 @@ export default function RestaurantTypes() {
                           sort_by: filters.sort_by,
                         })
                       }
-                      sx={{ fontSize: "1rem", borderRadius: 0, mr: 1, mb: 1 }}
+                      sx={stylesLocal.btn}
                     >
                       {shopType}
                     </Button>
                   );
                 })}
               </Box>
-              {/* -------------------------------------------------- */}
             </Card>
           );
         })}
@@ -140,12 +116,24 @@ function pickImage(key) {
   };
   return imgs[key]; // return the src url
 }
-/* 
-API APPROACH 
-Make an API call regularly, get back the results
-Check the number of results total. If it's over 50, introduce pagination
-Pagination should re-render a page block
 
-See if you can save the old results to context API or something (may tank performance)
-Try not to automate calling an API twice
-*/
+const stylesLocal = {
+  container: {
+    ...mix.responsiveLayout,
+    px: 0,
+    borderRadius: 0,
+    "& .MuiPaper-root": {
+      borderRadius: 0,
+    },
+    ["@media (min-width: 1000px)"]: {
+      display: "grid",
+      gridTemplateColumns: "1fr 1fr",
+      gap: "1rem",
+    },
+    ["@media (min-width: 1300px)"]: {
+      gridTemplateColumns: "1fr 1fr 1fr",
+    },
+  },
+  card: { [`@media (max-width: 570px)`]: { borderRadius: 0 } },
+  btn: { fontSize: "1rem", borderRadius: 0, mr: 1, mb: 1 },
+};

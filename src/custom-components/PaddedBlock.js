@@ -1,6 +1,5 @@
 import React from "react";
-import { Container, Box } from "@mui/material";
-import { mix } from "../../styles/styleMixins";
+import { Box } from "@mui/material";
 
 function PaddedBlock(props) {
   const { px, py, mt, mb } = props;

@@ -106,12 +106,7 @@ export default function Hours({ hours, infoTableData, coords }) {
             <Link
               href={mapsURL}
               underline="hover"
-              sx={(theme) => ({
-                gridArea: "e",
-                justifySelf: "start",
-                mt: 1,
-                color: theme.palette.info.main,
-              })}
+              sx={styles.directionLink}
               variant="p"
             >
               Get directions
@@ -138,6 +133,12 @@ const styles = {
     ...mix.responsiveLayout,
     mt: 4,
   },
+  directionLink: (theme) => ({
+    gridArea: "e",
+    justifySelf: "start",
+    mt: 1,
+    color: theme.palette.info.main,
+  }),
   // Grid containing hours, map, and other details
   layoutGrid: {
     display: "grid",

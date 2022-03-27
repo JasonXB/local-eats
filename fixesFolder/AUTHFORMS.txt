@@ -1,6 +1,0 @@
-Each time we send a pin, revise the email we send to our users
-B) Provide a link to the website where we can submit our PINs. 
-If the user X's out by accident, they need a way to find the page again
-
-
-

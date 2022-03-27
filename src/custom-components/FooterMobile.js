@@ -9,23 +9,8 @@ import { footerAnchors } from "./Footer";
 
 export default function FooterMobile() {
   return (
-    <Box
-      sx={(theme) => {
-        return {
-          [theme.breakpoints.up("sm")]: {
-            display: "none",
-          },
-        };
-      }}
-    >
-      <Typography
-        variant="h3"
-        sx={{
-          py: "2.5rem",
-          fontWeight: 600,
-          textAlign: "center",
-        }}
-      >
+    <Box sx={stylesLocal.container}>
+      <Typography variant="h3" sx={stylesLocal.title}>
         Search other types of businesses
       </Typography>
       {Object.keys(footerAnchors).map((headerText, i) => {
@@ -38,9 +23,7 @@ export default function FooterMobile() {
             >
               <Typography variant="h6">{headerText}</Typography>
             </AccordionSummary>{" "}
-            <AccordionDetails
-              sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)" }}
-            >
+            <AccordionDetails sx={stylesLocal.accordionGrid}>
               {Object.keys(footerAnchors[headerText]).map((anchorText, i) => {
                 return (
                   <Box
@@ -48,11 +31,7 @@ export default function FooterMobile() {
                     key={i}
                     href={footerAnchors[headerText][anchorText]}
                     // onClick={relocate}
-                    sx={{
-                      mb: 0.8,
-                      mr: 3,
-                      ...mix.anchorStyling,
-                    }}
+                    sx={stylesLocal.anchor}
                   >
                     {anchorText}
                   </Box>
@@ -63,29 +42,17 @@ export default function FooterMobile() {
         );
       })}
       <Divider sx={{ mt: 4, mb: 4 }} />
-      <Typography sx={{ pb: 4, textAlign: "center" }}>
-      Search data provided by the Yelp Fusion™ API.
+      <Typography sx={stylesLocal.copywright}>
+        Search data provided by the Yelp Fusion™ API.
       </Typography>
     </Box>
   );
 }
 
-/*
-
-<Accordion disableGutters>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-        <Typography>Accordion 1</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget.
-          </Typography>
-        </AccordionDetails>
-      </Accordion>
-
-*/
+const stylesLocal = {
+  container: (theme) => ({ [theme.breakpoints.up("sm")]: { display: "none" } }),
+  title: { my: "2.5rem", fontWeight: 600, textAlign: "center" },
+  accordionGrid: { display: "grid", gridTemplateColumns: "repeat(2, 1fr)" },
+  anchor: { mb: 0.8, mr: 3, ...mix.anchorStyling },
+  copywright: { pb: 4, textAlign: "center" },
+};

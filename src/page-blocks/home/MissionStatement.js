@@ -1,13 +1,9 @@
 import SearchbarMobile from "../../custom-components/Searchbar/SearchbarMobile";
-//  prettier-ignore
-import { Typography, Box, Stack, Button, InputBase, Menu, MenuItem,} from "@mui/material";
+import { Typography, Box, Stack } from "@mui/material";
 import { mix } from "../../../styles/styleMixins";
 import SearchbarDesktop from "../../custom-components/Searchbar/SearchbarDesktop";
-import { useLocationContext } from "../../../state-management/locationContext";
 
 export default function Home() {
-  const { locationObject, detectLocation } = useLocationContext();
-
   return (
     <>
       {/* THE FOLLOWING IS ONLY VISIBLE ON SCREENS BEFORE THE sm BREAKPOINT */}

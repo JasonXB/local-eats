@@ -1,6 +1,5 @@
 import React from "react";
-import { Typography, Stack, Box } from "@mui/material";
-import { styles } from "../../styles/auth/verifyPIN";
+import { Typography, Stack } from "@mui/material";
 import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import GuestBtn from "../../src/custom-components/GuestBtn";
@@ -19,22 +18,11 @@ export default function AccountDeleted() {
   if (status === "authenticated") signOut();
 
   return (
-    <Stack
-      sx={{
-        width: "80%",
-        maxWidth: "40rem",
-        height:"100vh",
-        marginInline: "auto",
-        ...mix.flexColumn,
-        justifyContent: "center"
-      }}
-    >
-      <Typography variant="h2" sx={(theme)=>{
-        return { textAlign: "center", fontWeight: 600, color: theme.palette.secondary.main }
-      }}>
+    <Stack sx={stylesLocal.container}>
+      <Typography variant="h2" sx={stylesLocal.title}>
         Local Eats Account deleted!
       </Typography>
-      
+
       <Typography
         variant="h6"
         component="p"
@@ -44,7 +32,26 @@ export default function AccountDeleted() {
         our site! Most features will still be available to you!
       </Typography>
       <GuestBtn />
-      <img src="/images/wave.png" style={{width: "500px", marginTop:"4rem"}}/>
+      <img src="/images/wave.png" style={stylesLocal.img} />
     </Stack>
   );
 }
+
+const stylesLocal = {
+  container: {
+    width: "80%",
+    maxWidth: "40rem",
+    height: "100vh",
+    marginInline: "auto",
+    ...mix.flexColumn,
+    justifyContent: "center",
+  },
+  img: { width: "500px", marginTop: "4rem" },
+  title: (theme) => {
+    return {
+      textAlign: "center",
+      fontWeight: 600,
+      color: theme.palette.secondary.main,
+    };
+  },
+};

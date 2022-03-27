@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
-import { Typography, Box, Stack, Button, FormControl, OutlinedInput } from "@mui/material"; // prettier-ignore
+import { Typography, Stack, Button, FormControl, OutlinedInput } from "@mui/material"; // prettier-ignore
 import { useRouter } from "next/router";
 import { signOut } from "next-auth/react";
 import { getSession } from "next-auth/react";

@@ -42,9 +42,7 @@ export default function BasicModal() {
             id="modal-modal-title"
             variant="h3"
             component="h2"
-            sx={(theme) => {
-              return { p: 2.5, color: theme.palette.secondary.main };
-            }}
+            sx={(theme) => ({ p: 2.5, color: theme.palette.secondary.main })}
           >
             Filters
           </Typography>

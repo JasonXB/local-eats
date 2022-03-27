@@ -90,7 +90,6 @@ const mobileStyles = {
       gridTemplateColumns: "1fr 1fr",
     },
   },
-
   searchbar: {
     display: "flex",
     bgcolor: "white",

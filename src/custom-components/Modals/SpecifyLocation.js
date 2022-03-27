@@ -137,7 +137,7 @@ export default function SpecifyLocation() {
           disablePortal
           onChange={selectProvince}
           options={stateList}
-          sx={{ ...styles.inputField }}
+          sx={styles.inputField}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -153,7 +153,7 @@ export default function SpecifyLocation() {
           disablePortal
           onChange={selectProvince}
           options={provinceList}
-          sx={{ ...styles.inputField }}
+          sx={styles.inputField}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -199,7 +199,7 @@ export default function SpecifyLocation() {
       {chosen.specifier === "postal_code" && (
         <TextField
           label={`Enter ${codeType} (required)`}
-          sx={{ ...styles.inputField }}
+          sx={styles.inputField}
           inputRef={postalRef}
           onChange={() => refreshTextfield("postal_code")}
           error={chosen.postalCodeError}

@@ -55,7 +55,7 @@ export default async function handler(req, res) {
   const expiryDate = new Date().getTime() + 1800000; // Unix 30 mins in future
   const msg = {
     to: email, // recipient
-    from: "local.eats.team@gmail.com", // Change to your verified sender
+    from: "local.eats.team@gmail.com ", // Change to your verified sender
     subject: "Verify Local Eats email",
     text: "Please do not reply to sender",
     html: `Submit the following PIN code to verify your email on Local Eats: <strong>${normalPIN}</strong>. If you did not try to create an account, ignore this email.`,

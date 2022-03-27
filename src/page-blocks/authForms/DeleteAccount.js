@@ -7,7 +7,6 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import FormHelperText from "@mui/material/FormHelperText";
 import { getSession } from "next-auth/react";
 import AuthHeader from "./HeaderHelper";
-import { signOut } from "next-auth/react";
 import { styles } from "../../../styles/auth/manageAccount";
 import GeneralErrorModal from "../../custom-components/Modals/GeneralError";
 import ReturnHomeBtn from "../../custom-components/ReturnHomeBtn";
@@ -42,7 +41,7 @@ function reducer(state, action) {
 export default function DeleteAccount(props) {
   const router = useRouter();
   const passwordRef = useRef();
-  
+
   const [loading, setLoading] = useState(false);
   const [formState, dispatch] = useReducer(reducer, {
     passwordText: " ",
@@ -61,7 +60,7 @@ export default function DeleteAccount(props) {
       await axios.post("/api/auth/deleteAccount", {
         submittedPassword: typedPassword,
       }); // past this point, account deletion has succeeded
-      router.replace("/auth/account-deleted");      
+      router.replace("/auth/account-deleted");
       setLoading(false); // end loading animation
       //## redirect to this page that instantly logs you out and tells users the account deletion succeeded
       //## We could log users out here, but the SSR page guards on [panel].js would reroute us to a sign in page

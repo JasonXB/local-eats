@@ -1,18 +1,8 @@
-import React, { useEffect, useRef, useState, useReducer } from "react"; //  prettier-ignore
-import { styled, Box } from "@mui/system";
-import { useLocationContext } from "../../../../state-management/locationContext"; //  prettier-ignore
-
-import {
-  Typography,
-  Divider,
-  TextField,
-  Autocomplete,
-  Button,
-} from "@mui/material";
-import { mix } from "../../../../styles/styleMixins";
-import { breakBefore, breakAfter } from "../../ConditionalBreak";
+import React from "react"; //  prettier-ignore
+import { Typography, Divider } from "@mui/material";
+import { breakBefore } from "../../ConditionalBreak";
 // Redux imports
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import InputField from "./InputField";
 import PredeterminedModalWrapper from "../PredeterminedModalWrapper";
 

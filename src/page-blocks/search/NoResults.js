@@ -19,15 +19,13 @@ export default function NoResults(props) {
   if (loading) return <Wave />;
   return (
     <Stack
-      sx={(theme) => {
-        return {
-          ...mix.flexRow,
-          pt: 5,
-          textAlign: "center",
-          px: 2,
-          [theme.breakpoints.up("sm")]: { pt: 15 },
-        };
-      }}
+      sx={(theme) => ({
+        ...mix.flexRow,
+        textAlign: "center",
+        pt: 5,
+        px: 2,
+        [theme.breakpoints.up("sm")]: { pt: 15 },
+      })}
     >
       <Typography variant="h3">{props.msg}</Typography>
     </Stack>

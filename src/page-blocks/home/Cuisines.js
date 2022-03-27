@@ -33,48 +33,27 @@ export default function Cuisines() {
         <Typography variant="h2">Popular Local Cuisines:</Typography>
       </Box>
       {/* LIST OF CUISINE CARDS */}
-      <Box
-        sx={{
-          ...mix.responsiveLayout,
-          ["@media (min-width: 500px)"]: {
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: "1rem",
-            px: 2,
-          },
-          ["@media (min-width: 900px)"]: {
-            gridTemplateColumns: "1fr 1fr 1fr",
-          },
-        }}
-      >
+      <Box sx={stylesLocal.cuisinesGrid}>
         {Object.keys(cuisineList).map((key, index) => {
           // Use props to properly size the flag SVG's
-          const nationSVG = cuisineList[key]({ width: "3rem", height: "2rem" });
+          const nationSVG = cuisineList[key]({ width: 48, height: 32 });
           return (
             <ButtonBase
               key={index}
+              sx={stylesLocal.btn}
               onClick={() =>
                 navToSearchPage({
                   term: key.toLowerCase(),
                   sort_by: filters.sort_by,
                 })
               }
-              sx={{
-                display: "grid",
-                gridTemplateColumns: "auto 1fr auto",
-                width: "100%",
-                border: "1px solid rgb(232,232,232)",
-                padding: "1.25rem 1.25rem",
-                ...mix.hoverShadow,
-              }}
             >
               {nationSVG}
               <Typography
                 variant="h5"
                 align="left"
                 component="p"
-                sx={{ ml: 2, mb: 0.4
-                 }}
+                sx={{ mb: 0.4, ml: 2 }}
               >
                 {key}
               </Typography>
@@ -86,13 +65,26 @@ export default function Cuisines() {
     </>
   );
 }
-// FIND PLACES OPEN AND NEARBY:
-/*
-Get a quick bite
-View the most affordable options around
-https://api.yelp.com/v3/businesses/search?limit=50&radius=10000&latitude=43.853043&longitude=-79.432933&price=1,2
 
-Dine lavishly
-Explore your local higher-end restaurants
-https://api.yelp.com/v3/businesses/search?limit=50&latitude=43.853043&longitude=-79.432933&radius=10000&price=3,4
-*/
+const stylesLocal = {
+  cuisinesGrid: {
+    ...mix.responsiveLayout,
+    ["@media (min-width: 500px)"]: {
+      display: "grid",
+      gridTemplateColumns: "1fr 1fr",
+      gap: "1rem",
+      px: 2,
+    },
+    ["@media (min-width: 900px)"]: {
+      gridTemplateColumns: "1fr 1fr 1fr",
+    },
+  },
+  btn: {
+    display: "grid",
+    gridTemplateColumns: "auto 1fr auto",
+    width: "100%",
+    border: "1px solid rgb(232,232,232)",
+    padding: "1.25rem 1.25rem",
+    ...mix.hoverShadow,
+  },
+};

@@ -12,18 +12,10 @@ import { useImageViewer } from "react-image-viewer-hook";
 
 const StyledRating = styled(Rating)({
   width: 120,
-  "& .MuiRating-iconFilled": {
-    color: "#ff6d75",
-  },
-  "& .MuiRating-iconHover": {
-    color: "#ff3d47",
-  },
-  "& .MuiRating-icon": {
-    fontSize: "1.6rem",
-  },
-  ["@media (min-width: 550px)"]: {
-    display: "none", // only show on small screens
-  },
+  "& .MuiRating-iconFilled": { color: "#ff6d75" },
+  "& .MuiRating-iconHover": { color: "#ff3d47" },
+  "& .MuiRating-icon": { fontSize: "1.6rem" },
+  ["@media (min-width: 550px)"]: { display: "none" },
 });
 
 export default function Banner(props) {
@@ -42,12 +34,9 @@ export default function Banner(props) {
   const photo2 = useCallback(photos[2] || "/images/noIMG.png", [photos]);
 
   // Dim the brightness when you hover over an image
-  const onHover = (e) => {
-    e.target.classList.add("darken");
-  };
-  const onLeave = (e) => {
-    e.target.classList.remove("darken");
-  };
+  const onHover = useCallback((e) => e.target.classList.add("darken"), []);
+  const onLeave = useCallback((e) => e.target.classList.remove("darken"), []);
+
   return (
     <LayoutContainer>
       {/* Panel of restaurant images */}
@@ -102,14 +91,7 @@ export default function Banner(props) {
         <Typography variant="h3" component="h1" sx={styles.name}>
           {name}
         </Typography>
-        <Box
-          sx={{
-            ...mix.flexRow,
-            width: "100%",
-            justifyContent: "space-between",
-            ["@media (min-width: 550px)"]: { display: "none" },
-          }}
-        >
+        <Box sx={styles.dataRow}>
           <StyledRating
             name="customized-color"
             defaultValue={rating}
@@ -224,5 +206,11 @@ const styles = {
     ["@media (max-width: 549px)"]: {
       display: "block",
     },
+  },
+  dataRow: {
+    ...mix.flexRow,
+    width: "100%",
+    justifyContent: "space-between",
+    ["@media (min-width: 550px)"]: { display: "none" },
   },
 };
