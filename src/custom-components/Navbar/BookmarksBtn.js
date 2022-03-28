@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@mui/material";
+import { mix } from "../../../styles/styleMixins";
 
 export default function BookmarksBtn(props) {
   // There's no reason to render this button if we're already on the bookmarks page
@@ -20,7 +21,7 @@ export default function BookmarksBtn(props) {
   }
   // If we're past the sm breakpoint, render the following
   return (
-    <Button href="/bookmarks" sx={{ ml: 1, mx: 2 }}>
+    <Button href="/bookmarks" sx={{ ml: 1, mx: 2, ...mix.whiteHoverBG }}>
       Bookmarks
     </Button>
   );

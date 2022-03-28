@@ -10,7 +10,7 @@ export default function PredeterminedModal(props) {
   if (!showModal) return ""; // if falsy, don't render this component
 
   return (
-    <PredeterminedModalWrapper headerText="Pick from Predetermined Locations">
+    <PredeterminedModalWrapper headerText="Pick a Predetermined Location">
       <Typography variant="h6">
         Search for restaurants across Canada and the United States
         <br />

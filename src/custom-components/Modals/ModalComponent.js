@@ -23,10 +23,18 @@ export default function ModalComponent(props) {
           </Typography>
           {props.children}
           <Box sx={stylesLocal.buttonRow}>
-            <Button size="medium" onClick={() => props.cancelModal()}>
+            <Button
+              size="medium"
+              onClick={() => props.cancelModal()}
+              sx={mix.whiteHoverBG}
+            >
               Cancel
             </Button>
-            <Button onClick={() => props.submit()} size="medium" sx={{ ml: 2 }}>
+            <Button
+              size="medium"
+              onClick={() => props.submit()}
+              sx={{ ml: 2, ...mix.whiteHoverBG }}
+            >
               Submit
             </Button>
           </Box>

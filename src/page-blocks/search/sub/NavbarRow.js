@@ -31,5 +31,5 @@ export default function NavbarRow() {
 }
 
 const styles = {
-  container: { my: 1.5 }
-}
+  container: { my: 1.5 },
+};

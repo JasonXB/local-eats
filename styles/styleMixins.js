@@ -124,4 +124,7 @@ export const mix = {
       mx: -2,
     },
   },
+  whiteHoverBG: {
+    "&:hover": { background: "white" },
+  },
 };

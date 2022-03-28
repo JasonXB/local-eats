@@ -38,12 +38,16 @@ export default function GeneralErrorModal({ hideModal, modalVisible }) {
         </Typography>
         <Button
           onClick={() => window.location.reload()}
-          sx={{ mt: 4 }}
+          sx={{ mt: 4, ...mix.whiteHoverBG }}
           color="info"
         >
           try again
         </Button>
-        <Button onClick={() => (window.location.href = "/")} color="info">
+        <Button
+          onClick={() => (window.location.href = "/")}
+          sx={mix.whiteHoverBG}
+          color="info"
+        >
           Return to homepage
         </Button>
       </Stack>
