@@ -39,6 +39,7 @@ function Bookmarks({ scrollPosition }) {
   }, []);
 
   const { bookmarks } = useGlobalContext();
+  const noBookmarks = !bookmarks || bookmarks.length === 0;
   if (loading) {
     return (
       <PaddedBlock>
@@ -57,7 +58,7 @@ function Bookmarks({ scrollPosition }) {
         Bookmarks
       </Typography>
 
-      {!bookmarks && (
+      {noBookmarks && (
         <Typography variant="h3" sx={{ textAlign: "center", my: 10 }}>
           No businesses saved... yet!
         </Typography>

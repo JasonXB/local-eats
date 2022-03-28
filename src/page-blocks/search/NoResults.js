@@ -10,7 +10,7 @@ export default function NoResults(props) {
   React.useEffect(() => {
     const tempSpinner = setTimeout(() => {
       setLoading(false);
-    }, 2000);
+    }, props.delay || 2000);
     return () => {
       clearTimeout(tempSpinner);
     };
@@ -27,7 +27,12 @@ export default function NoResults(props) {
         [theme.breakpoints.up("sm")]: { pt: 15 },
       })}
     >
-      <Typography variant="h3">{props.msg}</Typography>
+      <Typography
+        variant="h5"
+        sx={{ fontSize: "2rem", fontWeight: 400, textAlign: "center" }}
+      >
+        {props.msg}
+      </Typography>
     </Stack>
   );
 }

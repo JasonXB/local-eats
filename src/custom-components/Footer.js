@@ -17,7 +17,7 @@ export default function Footer() {
       {/* Only appears on screen sizes above sm (700px) */}
       <Box sx={stylesLocal.container}>
         <Typography variant="h2" sx={stylesLocal.title}>
-          Search for all kinds of places
+          Seek out all kinds of places
         </Typography>
         <Box sx={stylesLocal.gridContainer}>
           {Object.keys(footerAnchors).map((headerText, index) => {

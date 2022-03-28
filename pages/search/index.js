@@ -31,16 +31,17 @@ export async function getServerSideProps(context) {
 }
 
 function Restaurants(props) {
+  // Declare the functions that fetch Yelp data and eestablish previously saved bookmarks
   const fetchYelpData = useYelpFetch();
   const initializeBookmarks = useBookmarks();
+  const [loading, setLoading] = React.useState(true);
+
   // Extract prop values from getServerSideProps
   const [searchHeader, setSearchHeader] = useState(undefined); // "Ex. Ramen near Toronto"
   const { queryParams, endpoint, partialHeaderTitle, scrollPosition } = props; // prettier-ignore
   const { locationObject } = useLocationContext();
 
-  const [loading, setLoading] = React.useState(true);
-
-  // On startup, fetch Yelp data and create the header text
+  // On startup, fetch Yelp data and create the header text (Ex. "Pizza in New York")
   const [onMount, setOnMount] = useState(true);
   useEffect(async () => {
     if (!locationObject) return;
@@ -48,7 +49,6 @@ function Restaurants(props) {
     // Create the header text and fetch the restaurant data
     setSearchHeader(`${partialHeaderTitle} ${locationObject.locationString}`); // prettier-ignore
     fetchYelpData(endpoint);
-
     if (onMount) {
       initializeBookmarks(); // Set the bookmarks on startup
       setOnMount(false);
@@ -84,22 +84,7 @@ function Restaurants(props) {
         <Typography variant="h3" component="h2" sx={{ mb: 4, mt: 5, mx: 2 }}>
           {searchHeader}
         </Typography>
-
-        {/* Using the NoResults component here causes a double scollbar bug. Replace with a regular typography tag */}
-        <Typography
-          variant="h5"
-          sx={(theme) => ({
-            fontSize: "2rem", // 30px
-            fontWeight: 400,
-            textAlign: "center",
-            px: 2,
-            pt: 5, // small vertical offset on mobile, larger one on desktop
-            [theme.breakpoints.up("sm")]: { pt: 15 },
-          })}
-        >
-          {errorMsg}
-        </Typography>
-
+        <NoResults msg={errorMsg} delay={0} />
         {/* Still need our modals on standby */}
         <SearchbarModals />
         <FiltersModal />
