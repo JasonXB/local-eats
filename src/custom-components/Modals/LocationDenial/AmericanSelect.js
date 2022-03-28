@@ -1,4 +1,4 @@
-import React, { useState, useRef, useReducer, useEffect } from "react";
+import React, { useCallback } from "react";
 import { TextField, Autocomplete } from "@mui/material";
 import { mix } from "../../../../styles/styleMixins";
 //  prettier-ignore
@@ -7,19 +7,19 @@ import { useSelector, useDispatch } from "react-redux";
 import { usaDenialActions } from "../../../../state-management/store/homepage/locationDenialUSA";
 
 export default function AmericanInputs() {
-  //@ Grab redux store values
+  // Grab redux store values
   const menu2Disabled = useSelector((state) => state.locationDenialUSA.menu2Disabled); // prettier-ignore
   const cityList = useSelector((state) => state.locationDenialUSA.cityList);
   const errorBooleanM1 = useSelector((state) => state.locationDenialUSA.errorStylingM1); // prettier-ignore
   const errorMessageM1 = useSelector((state) => state.locationDenialUSA.errorMessageM1); // prettier-ignore
   const errorBooleanM2 = useSelector((state) => state.locationDenialUSA.errorStylingM2); // prettier-ignore
   const errorMessageM2= useSelector((state) => state.locationDenialUSA.errorMessageM2); // prettier-ignore
-  //@ Set up reusable dispatch functions
+  // Set up reusable dispatch functions
   const dispatch = useDispatch();
-  const chooseState = (inp) => dispatch(usaDenialActions.selectState(inp)); //  prettier-ignore
-  const chooseCity = (inp) => dispatch(usaDenialActions.selectCity(inp));
-  const removeErrorM1 = () => dispatch(usaDenialActions.noErrorM1());
-  const removeErrorM2 = () => dispatch(usaDenialActions.noErrorM2());
+  const chooseState = useCallback((inp) => dispatch(usaDenialActions.selectState(inp)), []); // prettier-ignore
+  const chooseCity = useCallback((inp) => dispatch(usaDenialActions.selectCity(inp)), []); // prettier-ignore
+  const removeErrorM1 = useCallback(() => dispatch(usaDenialActions.noErrorM1()), []); // prettier-ignore
+  const removeErrorM2 = useCallback(() => dispatch(usaDenialActions.noErrorM2()), []); // prettier-ignore
 
   const changeStateHandler = function (event, inputValue) {
     // Enable menu 2 and update its city selection list items
@@ -73,5 +73,11 @@ export default function AmericanInputs() {
 }
 
 const stylesLocal = {
-  autoComplete: { width: "100%", mx: "auto", mt: 2, mb: 1, ...mix.autoCompleteHeight }
-}
+  autoComplete: {
+    width: "100%",
+    mx: "auto",
+    mt: 2,
+    mb: 1,
+    ...mix.autoCompleteHeight,
+  },
+};

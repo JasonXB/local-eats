@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { canadaDenialActions } from "../../../../state-management/store/homepage/locationDenialCA";
 import { TextField, Autocomplete } from "@mui/material";
@@ -11,8 +11,8 @@ export default function CanadianInputs() {
   const errorMessage = useSelector((state) => state.locationDenialCA.errorMessage); //  prettier-ignore
   // Whenever we select a city, save that choice to the Redux store
   const dispatch = useDispatch();
-  const chooseCity = (inp) => dispatch(canadaDenialActions.selectCity(inp));
-  const removeErrorCA = () => dispatch(canadaDenialActions.noError()); //  prettier-ignore
+  const chooseCity = useCallback((inp) => dispatch(canadaDenialActions.selectCity(inp)), []); // prettier-ignore
+  const removeErrorCA = useCallback(() => dispatch(canadaDenialActions.noError()), []); //  prettier-ignore
 
   const changeCityHandler = function (event, inputValue) {
     removeErrorCA(); // if the input field had error styles enabled, remove them

@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  selectedCountry: null,
+  selectedCountry: "Canada",
   showLocationDenial: false,
   showGeoUnsupported: false,
   showPredetermined: false,
@@ -43,7 +43,7 @@ const homeModalSlice = createSlice({
       state.showGeoUnsupported = false;
     },
     closeAllModals: (state, action) => {
-      state.selectedCountry = null;
+      state.selectedCountry = "Canada";
       state.showLocationDenial = false;
       state.showGeoUnsupported = false;
       state.showPredetermined = false;

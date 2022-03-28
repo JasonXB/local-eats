@@ -1,9 +1,9 @@
 import React from "react";
-import { Box } from '@mui/material';
+import { Box } from "@mui/material";
 
 export default function FullscreenSpinner() {
   return (
-    <Box   
+    <Box
       sx={{
         display: "flex",
         height: "100vh",
@@ -12,7 +12,7 @@ export default function FullscreenSpinner() {
         alignItems: "center",
       }}
     >
-      <div className="dots-flow"></div>
+      <div className="dots-flow-normal"></div>
     </Box>
   );
 }

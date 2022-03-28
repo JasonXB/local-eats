@@ -1,5 +1,4 @@
-import React from "react";
-import { styled } from "@mui/system";
+import React, { useCallback } from "react";
 import { Typography, Box, Button } from "@mui/material";
 import { mix } from "../../../styles/styleMixins";
 // Redux imports
@@ -24,22 +23,22 @@ export default function PredeterminedModalWrapper(props) {
 
   // Render/remove error visuals using dispatch functions
   const dispatch = useDispatch();
-  const renderErrorCA = (errorMSG) => dispatch(canadaDenialActions.yesError(errorMSG)); //  prettier-ignore
-  const removeErrorCA = () => dispatch(canadaDenialActions.noError()); //  prettier-ignore
-  const renderErrorUS_M1 = (errorMSG) => dispatch(usaDenialActions.yesErrorM1(errorMSG)); //  prettier-ignore
-  const removeErrorUS_M1 = () => dispatch(usaDenialActions.noErrorM1()); // removes error visuals
-  const renderErrorUS_M2 = (errorMSG) => dispatch(usaDenialActions.yesErrorM2(errorMSG)); //  prettier-ignore
-  const removeErrorUS_M2 = () => dispatch(usaDenialActions.noErrorM2()); // removes error visuals
-  const resetUS = () => dispatch(usaDenialActions.resetState()); // removes error visuals
-  const resetCA = () => dispatch(canadaDenialActions.resetState()); // removes error visuals
+  const renderErrorCA = useCallback((errorMSG) => dispatch(canadaDenialActions.yesError(errorMSG)), []); // prettier-ignore
+  const removeErrorCA = useCallback(() => dispatch(canadaDenialActions.noError()), []); // prettier-ignore
+  const renderErrorUS_M1 = useCallback((errorMSG) => dispatch(usaDenialActions.yesErrorM1(errorMSG)), []); // prettier-ignore
+  const removeErrorUS_M1 = useCallback(() => dispatch(usaDenialActions.noErrorM1()), []); // prettier-ignore
+  const renderErrorUS_M2 = useCallback((errorMSG) => dispatch(usaDenialActions.yesErrorM2(errorMSG)), []); // prettier-ignore
+  const removeErrorUS_M2 = useCallback(() => dispatch(usaDenialActions.noErrorM2()), []); // prettier-ignore
+  const resetUS = useCallback(() => dispatch(usaDenialActions.resetState()), []); // prettier-ignore
+  const resetCA = useCallback(() => dispatch(canadaDenialActions.resetState()), []); // prettier-ignore
 
   const submitHandler = async function () {
     // Check the Redux store for the currently selected city in <CanadianSelect/> and <AmericanSelect/>
     if (chosenCountry === "Canada") {
       // Make sure the field is filled in
-      if (!chosenCityCA) return renderErrorCA("City is a required field");
+      if (!chosenCityCA) return renderErrorCA("city is required");
       // If the selected Canadian city isn't part of the list, render an error
-      if (!yelpCitiesCA.includes(chosenCityCA)) return renderErrorCA("Invalid city choice"); //  prettier-ignore
+      if (!yelpCitiesCA.includes(chosenCityCA)) return renderErrorCA("invalid city choice"); //  prettier-ignore
       if (yelpCitiesCA.includes(chosenCityCA)) {
         removeErrorCA();
         // save to localStorage and ContextAPI, then reset the state
@@ -53,10 +52,10 @@ export default function PredeterminedModalWrapper(props) {
 
     if (chosenCountry === "United States") {
       // Make sure the fields are filled in
-      if (!chosenStateUSA) return renderErrorUS_M1("State is required");
-      if (!chosenCityUSA) return renderErrorUS_M2("City is required");
+      if (!chosenStateUSA) return renderErrorUS_M1("state is required");
+      if (!chosenCityUSA) return renderErrorUS_M2("city is required");
       // Check if Menu1's value is part of the Yelp List of states
-      if (!yelpStates.includes(chosenStateUSA)) return renderErrorUS_M1("Invalid state name"); // prettier-ignore
+      if (!yelpStates.includes(chosenStateUSA)) return renderErrorUS_M1("invalid state name"); // prettier-ignore
       // Check if the selected city is inside the list of cities inside the selected state
       //  prettier-ignore
       const validCityStateCombo = yelpCitiesUS[chosenStateUSA].includes(chosenCityUSA); // true/false
@@ -82,30 +81,32 @@ export default function PredeterminedModalWrapper(props) {
   };
 
   return (
-    <>
-      <Box sx={styles.backdrop}>
-        <StyledModal>
-          <Box sx={styles.modalCard}>
-            <Typography
-              color="secondary"
-              variant="h3"
-              sx={stylesLocal.headerText}
+    <Box sx={styles.backdrop}>
+      <StyledModal>
+        <Box sx={styles.modalCard}>
+          <Typography
+            color="secondary"
+            variant="h3"
+            sx={stylesLocal.headerText}
+          >
+            {props.headerText}
+          </Typography>
+          {props.children}
+          <Box sx={stylesLocal.buttonRow}>
+            <Button size="medium" sx={mix.whiteHoverBG} onClick={cancelHandler}>
+              Cancel
+            </Button>
+            <Button
+              size="medium"
+              onClick={submitHandler}
+              sx={{ ml: 2, ...mix.whiteHoverBG }}
             >
-              {props.headerText}
-            </Typography>
-            {props.children}
-            <Box sx={stylesLocal.buttonRow}>
-              <Button size="medium" onClick={cancelHandler}>
-                Cancel
-              </Button>
-              <Button onClick={submitHandler} size="medium" sx={{ ml: 2 }}>
-                Submit
-              </Button>
-            </Box>
+              Submit
+            </Button>
           </Box>
-        </StyledModal>
-      </Box>
-    </>
+        </Box>
+      </StyledModal>
+    </Box>
   );
 }
 
