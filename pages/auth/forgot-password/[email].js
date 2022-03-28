@@ -92,7 +92,8 @@ export default function ForgetPasswordVerify() {
       });
       router.push(`/auth/credChangeSignin`);
     } catch (error) {
-      switch (error?.response?.data?.message) {
+      const errorMSG = error?.response?.data?.message
+      switch (errorMSG) {
         // Leave error feedback but do not redirect for these first few errors
         case "Invalid PIN":
           dispatch({ type: "INVALID_PIN", payload: "Invalid entry" });

@@ -66,8 +66,7 @@ export default function DeleteAccount(props) {
       //## We could log users out here, but the SSR page guards on [panel].js would reroute us to a sign in page
       //## That makes no sense if the user just deleted their account
     } catch (error) {
-      if (!error.response || !error.response.data) return revealErrorModal();
-      const errorMSG = error.response.data.message;
+      const errorMSG = error?.response?.data?.message;
       switch (errorMSG) {
         case "Incorrect password":
           dispatch({ type: "INVALID_PASSWORD" });

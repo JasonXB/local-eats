@@ -46,8 +46,7 @@ export default function useSignIn(title, descrip, needNewAccount) {
         type: "INVALID_EMAIL",
         payload: "This field is required",
       });
-    }
-    else if (thinnedPasswordLength === 0) {
+    } else if (thinnedPasswordLength === 0) {
       setLoading(false);
       return dispatch({
         type: "INVALID_PASSWORD",
@@ -61,7 +60,7 @@ export default function useSignIn(title, descrip, needNewAccount) {
     // request object on success: {error: null, ...rest doesn't matter }
 
     // If the login attempt is not successful...
-    if (loginRequest?.error) {
+    if (loginRequest.error) {
       const errorMSG = loginRequest.error;
       // Render error messages on the form depending on the error type
       switch (errorMSG) {

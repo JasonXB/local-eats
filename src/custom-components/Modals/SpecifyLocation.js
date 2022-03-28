@@ -87,6 +87,7 @@ export default function SpecifyLocation() {
           break;
         default:
           cancelModal(); // close modal while resetting state
+          break;
       }
     }
   };

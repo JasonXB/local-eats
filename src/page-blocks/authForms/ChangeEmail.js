@@ -63,7 +63,7 @@ export default function ChangeEmail(props) {
     const typedPassword = passwordRef.current.value;
     dispatch({ type: "RESET" }); // reset form state
     setLoading(true);
-    
+
     // If one of the input fields is empty, render some error text without looking in the DB
     const typedNewEmail_length = lengthNoSpaces(typedNewEmail);
     const typedPassword_length = lengthNoSpaces(typedPassword);
@@ -80,28 +80,20 @@ export default function ChangeEmail(props) {
       router.push(`/auth/manage-account/verify-email-change`);
     } catch (error) {
       // Render error messages onscreen depending on the response object recieved
-      switch (error?.response?.data?.message) {
+      const errorMSG = error?.response?.data?.message;
+      switch (errorMSG) {
         case "User offline":
           router.push("/auth/signin");
           break;
         case "This email's already tied to your Local Eats account":
         case "Invalid email entry":
-          dispatch({
-            type: "INVALID_NEW_EMAIL",
-            payload: errorMSG,
-          });
+          dispatch({ type: "INVALID_NEW_EMAIL", payload: errorMSG });
           break;
         case "This email is connected to an existing Local Eats account":
-          dispatch({
-            type: "INVALID_NEW_EMAIL",
-            payload: errorMSG,
-          });
+          dispatch({ type: "INVALID_NEW_EMAIL", payload: errorMSG });
           break;
         case "Account password incorrect":
-          dispatch({
-            type: "INVALID_PASSWORD",
-            payload: errorMSG,
-          });
+          dispatch({ type: "INVALID_PASSWORD", payload: errorMSG });
           break;
         default:
           revealErrorModal();

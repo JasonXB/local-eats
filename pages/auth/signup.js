@@ -106,18 +106,19 @@ export default function signup() {
       setLoading(false);
       router.push("/auth/verify-email"); // redirect
     } catch (error) {
-      switch (error?.response?.data?.message) {
+      const errorMSG = error?.response?.data?.message
+      switch (errorMSG) {
         case "This password does not match the first":
-          dispatch({type: "INVALID_PASSWORD_2", payload: errorMSG}); // prettier-ignore
+          dispatch({ type: "INVALID_PASSWORD_2", payload: errorMSG }); // prettier-ignore
           break;
         case "Invalid email":
-          dispatch({type: "INVALID_EMAIL", payload: errorMSG}); // prettier-ignore
+          dispatch({ type: "INVALID_EMAIL", payload: errorMSG}); // prettier-ignore
           break;
         case "This email is tied to a verified account":
-          dispatch({ type: "INVALID_EMAIL", payload: errorMSG });
+          dispatch({ type: "INVALID_EMAIL", payload: errorMSG }); // prettier-ignore
           break;
         case "Password does not meet requirements":
-          dispatch({ type: "INVALID_PASSWORD", payload: errorMSG });
+          dispatch({ type: "INVALID_PASSWORD", payload: errorMSG }); // prettier-ignore
           break;
         default:
           revealErrorModal();
