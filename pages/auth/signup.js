@@ -11,7 +11,7 @@ import AuthHeader from "../../src/page-blocks/authForms/HeaderHelper";
 import GeneralErrorModal from "../../src/custom-components/Modals/GeneralError";
 import GuestBtn from "../../src/custom-components/GuestBtn";
 import { lengthNoSpaces } from "../../src/utility-functions/general/lengthNoSpaces";
-import Wave from "../../src/custom-components/LoadingVisuals/FullScreen/Wave";
+import FullSpin from "../../src/custom-components/LoadingVisuals/FullSpin";
 import Tooltip from "@mui/material/Tooltip";
 import HelpIcon from "@mui/icons-material/Help";
 
@@ -131,7 +131,7 @@ export default function signup() {
     }
   };
 
-  if (loading) return <Wave />;
+  if (loading) return <FullSpin />;
   return (
     <Stack sx={styles.parentContainer}>
       <AuthHeader

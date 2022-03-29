@@ -10,7 +10,7 @@ import AuthHeader from "./HeaderHelper";
 import { styles } from "../../../styles/auth/manageAccount";
 import GeneralErrorModal from "../../custom-components/Modals/GeneralError";
 import ReturnHomeBtn from "../../custom-components/ReturnHomeBtn";
-import Wave from "../../custom-components/LoadingVisuals/Partial/Wave";
+import Fullspin from "../../custom-components/LoadingVisuals/Fullspin";
 
 // Redirect users to homepage if they come here offline
 export async function getServerSideProps(context) {
@@ -79,7 +79,7 @@ export default function DeleteAccount(props) {
     }
   };
 
-  if (loading) return <Wave />;
+  if (loading) return <Fullspin />;
   return (
     <Stack sx={styles.parentContainer}>
       <AuthHeader

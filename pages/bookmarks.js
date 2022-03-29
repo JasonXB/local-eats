@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { getSession } from "next-auth/react";
 import { trackWindowScroll } from "react-lazy-load-image-component";
 import { Typography, Box, Stack } from "@mui/material";
@@ -9,7 +9,7 @@ import Footer from "../src/custom-components/Footer";
 import RestaurantCard from "../src/custom-components/SearchResults/RestaurantCard";
 import { useGlobalContext } from "../state-management/globalContext";
 import useBookmarks from "../pages/api/helperFunctions/useBookmarks";
-import Wave from "../src/custom-components/LoadingVisuals/Partial/Wave";
+import FullSpin from "../src/custom-components/LoadingVisuals/FullSpin";
 import { mix } from "../styles/styleMixins";
 import { wait } from "../src/utility-functions/general/wait";
 
@@ -47,7 +47,7 @@ function Bookmarks({ scrollPosition }) {
         <Typography sx={styles.title} component="h1">
           Bookmarks
         </Typography>
-        <Wave variant="ultralow" />
+        <FullSpin />
       </PaddedBlock>
     );
   }

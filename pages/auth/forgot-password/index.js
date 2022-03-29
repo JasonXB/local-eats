@@ -10,7 +10,7 @@ import { styles } from "../../../styles/auth/form";
 import AuthHeader from "../../../src/page-blocks/authForms/HeaderHelper";
 import GeneralErrorModal from "../../../src/custom-components/Modals/GeneralError";
 import { lengthNoSpaces } from "../../../src/utility-functions/general/lengthNoSpaces";
-import Wave from "../../../src/custom-components/LoadingVisuals/FullScreen/Wave"; // prettier-ignore
+import Fullspin from "../../../src/custom-components/LoadingVisuals/FullSpin"; // prettier-ignore
 
 // Redirect users to homepage if they come here online
 export async function getServerSideProps(context) {
@@ -80,7 +80,7 @@ export default function ForgotPassword() {
   };
 
   // The state values in useReducer influence the JSX based on their values
-  if (loading) return <Wave />;
+  if (loading) return <Fullspin />;
   return (
     <Stack sx={styles.parentContainer}>
       <AuthHeader
