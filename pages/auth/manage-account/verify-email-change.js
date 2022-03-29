@@ -6,7 +6,7 @@ import { signOut } from "next-auth/react";
 import { getSession } from "next-auth/react";
 import AuthHeader from "../../../src/page-blocks/authForms/HeaderHelper";
 import { styles } from "../../../styles/auth/verifyPIN";
-import Fullspin from "../../../src/custom-components/LoadingVisuals/Fullspin";
+import FullSpin from "../../../src/custom-components/LoadingVisuals/FullSpin";
 
 // Redirect users to homepage if they come here offline
 export async function getServerSideProps(context) {
@@ -55,7 +55,7 @@ export default function verifyEmail() {
     }
   };
 
-  if (loading) return <Fullspin />;
+  if (loading) return <FullSpin />;
   return (
     <Stack sx={styles.parentContainer}>
       <AuthHeader titleText={"Verify Email Change"} descriptionText={""} />

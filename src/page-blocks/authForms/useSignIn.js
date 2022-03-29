@@ -10,7 +10,7 @@ import AuthHeader from "../../../src/page-blocks/authForms/HeaderHelper";
 import GeneralErrorModal from "../../../src/custom-components/Modals/GeneralError";
 import GuestBtn from "../../custom-components/GuestBtn";
 import { lengthNoSpaces } from "../../utility-functions/general/lengthNoSpaces";
-import Fullspin from "../../custom-components/LoadingVisuals/Fullspin";
+import FullSpin from "../../custom-components/LoadingVisuals/FullSpin";
 
 export default function useSignIn(title, descrip, needNewAccount) {
   const router = useRouter();
@@ -86,7 +86,7 @@ export default function useSignIn(title, descrip, needNewAccount) {
   };
 
   // The state values in useReducer influence the JSX based on their values
-  if (loading) return <Fullspin />;
+  if (loading) return <FullSpin />;
   return (
     <Stack sx={styles.parentContainer}>
       <AuthHeader

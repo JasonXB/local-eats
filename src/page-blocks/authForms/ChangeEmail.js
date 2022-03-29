@@ -11,7 +11,7 @@ import GeneralErrorModal from "../../custom-components/Modals/GeneralError";
 import { styles } from "../../../styles/auth/manageAccount";
 import ReturnHomeBtn from "../../custom-components/ReturnHomeBtn";
 import { lengthNoSpaces } from "../../utility-functions/general/lengthNoSpaces";
-import Fullspin from "../../custom-components/LoadingVisuals/Fullspin";
+import FullSpin from "../../custom-components/LoadingVisuals/FullSpin";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -110,8 +110,7 @@ export default function ChangeEmail(props) {
     setCurrentEmail(session.user.email);
   }, []);
 
-  return <Fullspin />;
-  if (loading) return <Fullspin />;
+  if (loading) return <FullSpin/>;
   return (
     <Stack sx={styles.parentContainer}>
       <AuthHeader titleText={"Change Email"} descriptionText={""} />

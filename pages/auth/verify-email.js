@@ -7,7 +7,7 @@ import { signIn } from "next-auth/react";
 import { getSession } from "next-auth/react";
 import AuthHeader from "../../src/page-blocks/authForms/HeaderHelper";
 import { styles } from "../../styles/auth/verifyPIN";
-import Fullspin from "../../src/custom-components/LoadingVisuals/FullSpin";
+import FullSpin from "../../src/custom-components/LoadingVisuals/FullSpin";
 
 // Redirect users to homepage if they come here online
 export async function getServerSideProps(context) {
@@ -55,18 +55,18 @@ export default function verifyEmail() {
     let redirectLocation;
     // If login attempt fails, delete LocalStorage data and redirect
     if (resultString == "failure") {
-      localStorage.removeItem("pendingAccountEmail"); 
-      localStorage.removeItem("signupPassword"); 
+      localStorage.removeItem("pendingAccountEmail");
+      localStorage.removeItem("signupPassword");
       redirectLocation = "/auth/signup";
     }
     // If signup succeeds, immediately log in then redirect to home
     if (resultString == "success") {
       // Save localStorage data temporarily inside variables
-      const signupEmail = localStorage.getItem("pendingAccountEmail"); 
-      const signupPassword = localStorage.getItem("signupPassword"); 
+      const signupEmail = localStorage.getItem("pendingAccountEmail");
+      const signupPassword = localStorage.getItem("signupPassword");
       // Delete localStorage data
-      localStorage.removeItem("pendingAccountEmail"); 
-      localStorage.removeItem("signupPassword"); 
+      localStorage.removeItem("pendingAccountEmail");
+      localStorage.removeItem("signupPassword");
       redirectLocation = "/";
       // Log in using the email/password used during sign up
       loginProcedure(signupEmail, signupPassword);
@@ -91,7 +91,7 @@ export default function verifyEmail() {
     }
   };
 
-  if (loading) return <Fullspin />;
+  if (loading) return <FullSpin />;
   return (
     <Stack sx={styles.parentContainer}>
       <AuthHeader titleText={"Verify Email"} descriptionText={""} />

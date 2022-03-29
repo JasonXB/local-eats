@@ -1,7 +1,7 @@
 import React from "react";
 import { Typography, Box, Stack } from "@mui/material";
 import { mix } from "../../../styles/styleMixins";
-import Fullspin from "../../custom-components/LoadingVisuals/Fullspin";
+import FullSpin from "../../custom-components/LoadingVisuals/FullSpin";
 
 export default function NoResults(props) {
   // At first, render a loading animation for a max of 10 seconds
@@ -16,7 +16,7 @@ export default function NoResults(props) {
     };
   }, []);
 
-  if (loading) return <Fullspin />;
+  if (loading) return <FullSpin />;
   return (
     <Stack
       sx={(theme) => ({

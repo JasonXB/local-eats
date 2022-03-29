@@ -106,7 +106,7 @@ export default function signup() {
       setLoading(false);
       router.push("/auth/verify-email"); // redirect
     } catch (error) {
-      const errorMSG = error?.response?.data?.message
+      const errorMSG = error?.response?.data?.message;
       switch (errorMSG) {
         case "This password does not match the first":
           dispatch({ type: "INVALID_PASSWORD_2", payload: errorMSG }); // prettier-ignore

@@ -10,7 +10,7 @@ import FormHelperText from "@mui/material/FormHelperText";
 import GeneralErrorModal from "../../custom-components/Modals/GeneralError";
 import { styles } from "../../../styles/auth/manageAccount";
 import ReturnHomeBtn from "../../custom-components/ReturnHomeBtn";
-import FullSpin from "../../custom-components/LoadingVisuals/FullSpin";
+import FullSpin from "../../custom-components/LoadingVisuals/FullSpin"
 
 // Since this component is nested within /auth/[panel].js
 // We'll let that component take care of redirects if we're on this page while offline
