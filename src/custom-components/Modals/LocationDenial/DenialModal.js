@@ -14,24 +14,21 @@ export default function LocationDenialModal(props) {
   return (
     <PredeterminedModalWrapper headerText="Location Permissions Denied">
       <Typography variant="h6" component="p">
-        This site requires a location to operate
+        This site requires a location to operate, but we understand you may wish
+        to keep yours a secret
       </Typography>
       <Divider sx={{ my: 2 }} />
       <Typography variant="h5" component="p" sx={{ fontWeight: "600" }}>
-        OPTION 1:
+        ALT OPTION 1:
       </Typography>
       <Typography variant="h6" component="p">
         Search for restaurants in{breakBefore(490)} predetermined locations
-        <br />
-        (keeps your real location a secret)
       </Typography>
-      <InputField />
-      <Typography variant="h5" component="p" sx={{ fontWeight: "600", mt: 1 }}>
-        OPTION 2:
+      <Typography variant="h5" component="p" sx={{ fontWeight: "600", mt: 2 }}>
+        ALT OPTION 2:
       </Typography>
       <Typography variant="h6" component="p">
-        Allow site to access your location.
-        <br /> Reload the page, then hit the "detect location" button
+        Specify any location in Canada or the US
       </Typography>
     </PredeterminedModalWrapper>
   );

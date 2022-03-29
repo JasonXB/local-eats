@@ -25,16 +25,19 @@ export default function PredeterminedModalWrapper(props) {
   const dispatch = useDispatch();
   const renderErrorCA = useCallback((errorMSG) => dispatch(canadaDenialActions.yesError(errorMSG)), []); // prettier-ignore
   const removeErrorCA = useCallback(() => dispatch(canadaDenialActions.noError()), []); // prettier-ignore
+
   const renderErrorUS_M1 = useCallback((errorMSG) => dispatch(usaDenialActions.yesErrorM1(errorMSG)), []); // prettier-ignore
   const removeErrorUS_M1 = useCallback(() => dispatch(usaDenialActions.noErrorM1()), []); // prettier-ignore
   const renderErrorUS_M2 = useCallback((errorMSG) => dispatch(usaDenialActions.yesErrorM2(errorMSG)), []); // prettier-ignore
   const removeErrorUS_M2 = useCallback(() => dispatch(usaDenialActions.noErrorM2()), []); // prettier-ignore
+
   const resetUS = useCallback(() => dispatch(usaDenialActions.resetState()), []); // prettier-ignore
   const resetCA = useCallback(() => dispatch(canadaDenialActions.resetState()), []); // prettier-ignore
 
   const submitHandler = async function () {
     // Check the Redux store for the currently selected city in <CanadianSelect/> and <AmericanSelect/>
     if (chosenCountry === "Canada") {
+      resetCA(); // Reset the modal form state
       // Make sure the field is filled in
       if (!chosenCityCA) return renderErrorCA("city is required");
       // If the selected Canadian city isn't part of the list, render an error
@@ -51,6 +54,7 @@ export default function PredeterminedModalWrapper(props) {
     } //
 
     if (chosenCountry === "United States") {
+      resetUS(); // Reset the modal form state
       // Make sure the fields are filled in
       if (!chosenStateUSA) return renderErrorUS_M1("state is required");
       if (!chosenCityUSA) return renderErrorUS_M2("city is required");
@@ -68,6 +72,7 @@ export default function PredeterminedModalWrapper(props) {
       // Save to localStorage and ContextAPI, then reset the state
       const areaName = `${chosenCityUSA}, ${chosenStateUSA}, United States`;
       const response = await predeterminedHandler(areaName);
+
       // if it fails, it should return a falsy
       closeModal();
       return;

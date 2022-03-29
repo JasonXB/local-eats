@@ -1,7 +1,7 @@
 import React, { useRef, useReducer } from "react";
 import axios from "axios";
 import ModalComponent from "./ModalComponent";
-import { Typography, FormControl, FormControlLabel, RadioGroup } from '@mui/material'; // prettier-ignore
+import { Typography, FormControl, FormControlLabel, RadioGroup, FormHelperText } from '@mui/material'; // prettier-ignore
 import { styles } from "../../../styles/modal_styles";
 import { useDispatch, useSelector } from "react-redux";
 import { homepageModalActions } from "../../../state-management/store/homepage/ModalVisibility";
@@ -85,8 +85,8 @@ export default function SpecifyLocation() {
         case "Invalid postal code":
           dispatchFN({ type: "ERROR", payload: "postal_code" });
           break;
-        default:
-          cancelModal(); // close modal while resetting state
+        default: // close modal while resetting state
+          cancelModal();
           break;
       }
     }
@@ -189,22 +189,32 @@ export default function SpecifyLocation() {
       </RadioGroup>
       {/* City and address fields */}
       {chosen.specifier === "city" && (
-        <TextField
-          label="Enter city (required)"
-          sx={{ ...styles.inputField }}
-          inputRef={cityRef}
-          onChange={() => refreshTextfield("city")}
-          error={chosen.cityError}
-        />
+        <>
+          <TextField
+            label="Enter city (required)"
+            sx={{ ...styles.inputField, mb: 1 }}
+            inputRef={cityRef}
+            onChange={() => refreshTextfield("city")}
+            error={chosen.cityError}
+          />
+          <FormHelperText error={true} sx={{ ...styles.inputField, mt: 0 }}>
+            {chosen.cityError ? "Invalid entry" : " "}
+          </FormHelperText>
+        </>
       )}
       {chosen.specifier === "postal_code" && (
-        <TextField
-          label={`Enter ${codeType} (required)`}
-          sx={styles.inputField}
-          inputRef={postalRef}
-          onChange={() => refreshTextfield("postal_code")}
-          error={chosen.postalCodeError}
-        />
+        <>
+          <TextField
+            label={`Enter ${codeType} (required)`}
+            sx={{ ...styles.inputField, mb: 1 }}
+            inputRef={postalRef}
+            onChange={() => refreshTextfield("postal_code")}
+            error={chosen.postalCodeError}
+          />
+          <FormHelperText error={true} sx={{ ...styles.inputField, mt: 0 }}>
+            {chosen.postalCodeError ? "Invalid entry" : " "}
+          </FormHelperText>
+        </>
       )}
     </ModalComponent>
   );

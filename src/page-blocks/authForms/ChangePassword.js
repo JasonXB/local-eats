@@ -1,6 +1,6 @@
 import React, { useRef, useState, useReducer } from "react";
 import axios from "axios";
-import { Typography, Stack, Button } from "@mui/material"; // prettier-ignore
+import { Typography, Stack, Button, Box } from "@mui/material"; // prettier-ignore
 import { useRouter } from "next/router";
 import { signOut } from "next-auth/react";
 import FormControl from "@mui/material/FormControl";
@@ -9,8 +9,11 @@ import AuthHeader from "./HeaderHelper";
 import FormHelperText from "@mui/material/FormHelperText";
 import GeneralErrorModal from "../../custom-components/Modals/GeneralError";
 import { styles } from "../../../styles/auth/manageAccount";
+import { mix } from "../../../styles/styleMixins";
+import Tooltip from "@mui/material/Tooltip";
+import HelpIcon from "@mui/icons-material/Help";
 import ReturnHomeBtn from "../../custom-components/ReturnHomeBtn";
-import FullSpin from "../../custom-components/LoadingVisuals/FullSpin"
+import FullSpin from "../../custom-components/LoadingVisuals/FullSpin";
 
 // Since this component is nested within /auth/[panel].js
 // We'll let that component take care of redirects if we're on this page while offline
@@ -71,7 +74,7 @@ export default function ChangePassword() {
   const verifyPasswordRef = useRef();
 
   const changePasswordHandler = async function () {
-    dispatch({ type: "RESET" });
+    // dispatch({ type: "RESET" });
     setLoading(true);
     // Capture values of input fields
     const typedOldPassword = oldPasswordRef.current.value;
@@ -123,11 +126,6 @@ export default function ChangePassword() {
   return (
     <Stack sx={styles.parentContainer}>
       <AuthHeader titleText={"Change Password"} descriptionText={""} />
-      <Typography variant="p">NEW PASSWORD REQUIREMENTS</Typography>
-      <Typography variant="p" sx={{ mb: 3.75 }}>
-        Must be 8 characters or longer. Requires an uppercase, lowercase, plus
-        at least 1 symbol. No punctuation allowed
-      </Typography>
       <FormControl sx={styles.formControl}>
         <Typography
           align="left"
@@ -147,13 +145,22 @@ export default function ChangePassword() {
         </FormHelperText>
       </FormControl>
       <FormControl sx={styles.formControl}>
-        <Typography
-          align="left"
-          variant="label"
-          color={formState.newPasswordError ? "secondary" : ""}
-        >
-          New Password:
-        </Typography>
+        <Box sx={{ ...mix.flexRow }}>
+          <Typography
+            align="left"
+            variant="label"
+            color={formState.newPasswordError ? "secondary" : ""}
+          >
+            New Password:
+          </Typography>
+          <Tooltip
+            title="8 characters or longer. Requires an uppercase, lowercase, plus
+          at least 1 symbol. No punctuation"
+            placement="top"
+          >
+            <HelpIcon fontSize="small" sx={{ ml: 1, fontSize: "16px" }} />
+          </Tooltip>
+        </Box>
         <OutlinedInput
           inputRef={newPasswordRef}
           placeholder="Enter new password"

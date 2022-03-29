@@ -25,6 +25,7 @@ export default function MobileModalOpeners(props) {
       txt2 = "from our premade list";
       break;
     default:
+      break;
     // code block
   }
   return (

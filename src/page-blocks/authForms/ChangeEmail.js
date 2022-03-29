@@ -67,8 +67,20 @@ export default function ChangeEmail(props) {
     // If one of the input fields is empty, render some error text without looking in the DB
     const typedNewEmail_length = lengthNoSpaces(typedNewEmail);
     const typedPassword_length = lengthNoSpaces(typedPassword);
-    if (typedNewEmail_length === 0) return dispatch({ type: "INVALID_NEW_EMAIL", payload: "This field is required" }); // prettier-ignore
-    if (typedPassword_length === 0) return dispatch({ type: "INVALID_PASSWORD", payload: "This field is required" }); // prettier-ignore
+    if (typedNewEmail_length === 0) {
+      setLoading(false);
+      return dispatch({
+        type: "INVALID_NEW_EMAIL",
+        payload: "This field is required",
+      });
+    }
+    if (typedPassword_length === 0) {
+      setLoading(false);
+      return dispatch({
+        type: "INVALID_PASSWORD",
+        payload: "This field is required",
+      });
+    }
 
     try {
       await axios.post("/api/auth/swapEmailP1", {
@@ -110,7 +122,6 @@ export default function ChangeEmail(props) {
     setCurrentEmail(session.user.email);
   }, []);
 
-  
   if (loading) return <FullSpin mt="40vh" />;
   return (
     <Stack sx={styles.parentContainer}>

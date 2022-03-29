@@ -4,7 +4,7 @@ import { breakpointValues } from "../../../styles/MUI_themes";
 export const checkForSaved = function (
   savedLocation,
   openSearchbarMenu,
-  openSnackbar,
+  openSnackbar
 ) {
   // See if we have a saved location in the project state / localStorage
   const mobileViewport = window.innerWidth < breakpointValues.sm;
@@ -17,9 +17,9 @@ export const checkForSaved = function (
       behavior: "smooth",
     });
     // Open the searchbar menu after a delay (restricts scroll movement otherwise)
-    setTimeout(() => {
-      openSearchbarMenu();
-    }, 800); // will snap you back to orig position after submitting a location
+    // setTimeout(() => {
+    //   openSearchbarMenu();
+    // }, 800); // will snap you back to orig position after submitting a location
     openSnackbar();
     return;
   }
@@ -32,7 +32,7 @@ export const checkForSaved = function (
     openSnackbar();
     return;
   }
-  // If we do have a saved location, return true 
+  // If we do have a saved location, return true
   // A f() in locationContext will then nav us to a new page
-  return true
+  return true;
 };
