@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { getSession } from "next-auth/react";
 import { trackWindowScroll } from "react-lazy-load-image-component";
-import { Typography, Box, Stack } from "@mui/material";
+import { Typography, Box } from "@mui/material";
 import PaddedBlock from "../src/custom-components/PaddedBlock";
 import HeaderSection from "../src/page-blocks/search/HeaderSection";
 import SearchbarModals from "../src/custom-components/Searchbar/SearchbarModals";
@@ -9,7 +9,7 @@ import Footer from "../src/custom-components/Footer";
 import RestaurantCard from "../src/custom-components/SearchResults/RestaurantCard";
 import { useGlobalContext } from "../state-management/globalContext";
 import useBookmarks from "../pages/api/helperFunctions/useBookmarks";
-import FullSpin from "../src/custom-components/LoadingVisuals/FullSpin";
+import PartialSpin from "../src/custom-components/LoadingVisuals/PartialSpin";
 import { mix } from "../styles/styleMixins";
 import { wait } from "../src/utility-functions/general/wait";
 
@@ -47,7 +47,7 @@ function Bookmarks({ scrollPosition }) {
         <Typography sx={styles.title} component="h1">
           Bookmarks
         </Typography>
-        <FullSpin />
+        <PartialSpin />
       </PaddedBlock>
     );
   }

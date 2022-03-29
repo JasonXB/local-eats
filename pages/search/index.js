@@ -18,7 +18,7 @@ import { useSelector } from "react-redux";
 import { Typography, Box, Stack } from "@mui/material";
 import { mix } from "../../styles/styleMixins";
 import { useYelpFetch } from "../api/helperFunctions/useYelpFetch";
-import FullSpin from "../../src/custom-components/LoadingVisuals/FullSpin";
+import PartialSpin from "../../src/custom-components/LoadingVisuals/PartialSpin";
 import { wait } from "../../src/utility-functions/general/wait";
 
 export async function getServerSideProps(context) {
@@ -66,7 +66,7 @@ function Restaurants(props) {
     return (
       <PaddedBlock>
         <HeaderSection parent={"searchPage"} breakpoint={725} />
-        <FullSpin />
+        <PartialSpin />
         {/* Still need our modals on standby */}
         <SearchbarModals />
         <FiltersModal />

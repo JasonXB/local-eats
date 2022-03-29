@@ -110,6 +110,7 @@ export default function ChangeEmail(props) {
     setCurrentEmail(session.user.email);
   }, []);
 
+  return <Fullspin />;
   if (loading) return <Fullspin />;
   return (
     <Stack sx={styles.parentContainer}>
