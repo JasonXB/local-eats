@@ -119,7 +119,7 @@ export default function ChangePassword() {
     }
   };
 
-  if (loading) return <FullSpin />;
+  if (loading) return <FullSpin mt="40vh" />;
   return (
     <Stack sx={styles.parentContainer}>
       <AuthHeader titleText={"Change Password"} descriptionText={""} />

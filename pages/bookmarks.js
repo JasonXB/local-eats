@@ -47,7 +47,7 @@ function Bookmarks({ scrollPosition }) {
         <Typography sx={styles.title} component="h1">
           Bookmarks
         </Typography>
-        <PartialSpin />
+        <PartialSpin mt={15} />
       </PaddedBlock>
     );
   }

@@ -79,7 +79,7 @@ export default function DeleteAccount(props) {
     }
   };
 
-  if (loading) return <FullSpin/>;
+  if (loading) return <FullSpin mt="40vh" />;
   return (
     <Stack sx={styles.parentContainer}>
       <AuthHeader

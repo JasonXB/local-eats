@@ -15,10 +15,10 @@ import Footer from "../../src/custom-components/Footer";
 import { makeSearchHeader } from "../../src/utility-functions/search/makeSearchHeader";
 import { createYelpEndpoint } from "../api/helperFunctions/createYelpEndpoint";
 import { useSelector } from "react-redux";
-import { Typography, Box, Stack } from "@mui/material";
+import { Typography, Box } from "@mui/material";
 import { mix } from "../../styles/styleMixins";
 import { useYelpFetch } from "../api/helperFunctions/useYelpFetch";
-import PartialSpin from "../../src/custom-components/LoadingVisuals/PartialSpin";
+import FullSpin from "../../src/custom-components/LoadingVisuals/FullSpin";
 import { wait } from "../../src/utility-functions/general/wait";
 
 export async function getServerSideProps(context) {
@@ -66,7 +66,7 @@ function Restaurants(props) {
     return (
       <PaddedBlock>
         <HeaderSection parent={"searchPage"} breakpoint={725} />
-        <PartialSpin />
+        <FullSpin />
         {/* Still need our modals on standby */}
         <SearchbarModals />
         <FiltersModal />
