@@ -45,5 +45,4 @@ const searchResultSlice = createSlice({
   },
 });
 export const searchResultActions = searchResultSlice.actions;
-
 export default searchResultSlice.reducer; // the only line not part of the cutout

@@ -26,7 +26,6 @@ export default function MobileModalOpeners(props) {
       break;
     default:
       break;
-    // code block
   }
   return (
     <Button sx={mobileStyles.locationBtn} onClick={onClickFN}>

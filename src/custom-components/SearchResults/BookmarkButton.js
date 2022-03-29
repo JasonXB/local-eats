@@ -15,6 +15,7 @@ function reducer(state, action) {
     case "PRE_SWAP_COLOR":
       if (state.color === "selected") return { color: "unselected", num: 1 };
       if (state.color === "unselected") return { color: "selected", num: 1 };
+      break;
     default:
       return state;
   }

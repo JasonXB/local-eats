@@ -94,6 +94,7 @@ export default function ChangePassword() {
       // Our SSR page guard will take care of the redirect for us to /auth/siginPostPasswordChange
     } catch (error) {
       const errorMSG = error?.response?.data?.message;
+      console.log(error.response);
       switch (errorMSG) {
         case "New password field empty":
           dispatch({ type: "INVALID_NEW_PASSWORD", payload: "This field is required" }); // prettier-ignore
@@ -112,8 +113,10 @@ export default function ChangePassword() {
           break;
         case "Password does not meet requirements":
           dispatch({ type: "INVALID_NEW_PASSWORD", payload: errorMSG }); // prettier-ignore
+          break;
         case "Old password incorrect":
-            dispatch({ type: "INVALID_OLD_PASSWORD", payload: "Incorrect account password" }); // prettier-ignore
+          dispatch({ type: "INVALID_OLD_PASSWORD", payload: "Incorrect account password" }); // prettier-ignore
+          break;
         default:
           revealErrorModal();
           break;
