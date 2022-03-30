@@ -132,6 +132,7 @@ const stylesLocal = {
     },
     ["@media (min-width: 1300px)"]: {
       gridTemplateColumns: "1fr 1fr 1fr",
+      mb: "4.5rem",
     },
   },
   card: { [`@media (max-width: 570px)`]: { borderRadius: 0 } },
