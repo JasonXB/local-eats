@@ -8,8 +8,6 @@ import StarsRoundedIcon from "@mui/icons-material/StarsRounded";
 import { styled } from "@mui/material/styles";
 import LayoutContainer from "../../custom-components/LayoutContainer";
 import BookmarkButton from "../../custom-components/SearchResults/BookmarkButton";
-import { PhotoProvider, PhotoView } from "react-photo-view";
-import "react-photo-view/dist/react-photo-view.css";
 
 const StyledRating = styled(Rating)({
   width: 120,
@@ -19,8 +17,7 @@ const StyledRating = styled(Rating)({
   ["@media (min-width: 550px)"]: { display: "none" },
 });
 
-// For the image zoom feature, we use this lib:
-// https://react-photo-view.vercel.app/en-US
+
 export default function Banner(props) {
   // Extract data from the props
   const { name, rating, categories, photos, address } = props.bannerData; // prettier-ignore
@@ -43,38 +40,32 @@ export default function Banner(props) {
     <LayoutContainer>
       {/* Panel of restaurant images */}
       <Stack id="preview_images" sx={styles.imageContainer}>
-        <PhotoProvider>
-          <PhotoView src={photo0} sx={{ visibility: "hidden" }}>
-            <Box
-              component="img"
-              src={photo0}
-              sx={{ ...styles.zoomImage, gridRow: "1/3", gridColumn: "1/2" }}
-              alt=""
-              onMouseEnter={onHover}
-              onMouseLeave={onLeave}
-            />
-          </PhotoView>
-          <PhotoView src={photo1}>
-            <Box
-              component="img"
-              src={photo1}
-              sx={{ ...styles.zoomImage, gridRow: "1/2", gridColumn: "2/3" }}
-              alt=""
-              onMouseEnter={onHover}
-              onMouseLeave={onLeave}
-            />
-          </PhotoView>
-          <PhotoView src={photo2}>
-            <Box
-              component="img"
-              src={photo2}
-              sx={{ ...styles.zoomImage }}
-              alt=""
-              onMouseEnter={onHover}
-              onMouseLeave={onLeave}
-            />
-          </PhotoView>
-        </PhotoProvider>
+        <Box
+          component="img"
+          src={photo0}
+          sx={{ ...styles.zoomImage, gridRow: "1/3", gridColumn: "1/2" }}
+          alt=""
+          onMouseEnter={onHover}
+          onMouseLeave={onLeave}
+        />
+
+        <Box
+          component="img"
+          src={photo1}
+          sx={{ ...styles.zoomImage, gridRow: "1/2", gridColumn: "2/3" }}
+          alt=""
+          onMouseEnter={onHover}
+          onMouseLeave={onLeave}
+        />
+
+        <Box
+          component="img"
+          src={photo2}
+          sx={{ ...styles.zoomImage }}
+          alt=""
+          onMouseEnter={onHover}
+          onMouseLeave={onLeave}
+        />
       </Stack>
 
       <Box sx={styles.dataContainer}>
