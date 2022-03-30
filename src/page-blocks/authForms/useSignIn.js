@@ -14,7 +14,7 @@ import FullSpin from "../../custom-components/LoadingVisuals/FullSpin";
 
 export default function useSignIn(title, descrip, needNewAccount) {
   const router = useRouter();
-  // State values that reveal/hide loading visuals + preserve user inputs 
+  // State values that reveal/hide loading visuals + preserve user inputs
   const [loading, setLoading] = useState({
     inProgress: false,
     // Prevents the inputs from being cleared after a re-render

@@ -1,6 +1,7 @@
 import { getSession } from "next-auth/react";
 import { compare, hash } from "bcryptjs";
 import { connectToDB } from "../helperFunctions/connectToDB";
+import { lengthNoSpaces } from "../../../src/utility-functions/general/lengthNoSpaces";
 
 // Helps identify blatantly fake emails
 var validator = require("email-validator"); // https://yarnpkg.com/package/email-validator
@@ -19,8 +20,20 @@ function makeId(length) {
 }
 
 export default async function handler(req, res) {
-  // Capture the new proposed email and the one currently in use
+  // Return an error if either input field is submitted blank
   const { newEmail, submittedPassword } = req.body;
+  if (lengthNoSpaces(newEmail) === 0) {
+    return res.status(400).json({
+      message: "New email field is required",
+    });
+  }
+  if (lengthNoSpaces(submittedPassword) === 0) {
+    return res.status(400).json({
+      message: "Password field is required",
+    });
+  }
+
+  // Capture the email currently in use
   const session = await getSession({ req });
   if (!session) {
     res.status(401).json({ message: "User offline" });

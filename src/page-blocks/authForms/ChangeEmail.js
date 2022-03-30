@@ -41,7 +41,23 @@ function reducer(state, action) {
 
 export default function ChangeEmail(props) {
   const router = useRouter();
-  const [loading, setLoading] = useState(false); // loading animation state
+  const [modalVisible, setModalVisible] = useState(false); // visibility of general error modal
+  // State values that reveal/hide loading visuals + preserve user inputs
+  const [loading, setLoading] = useState({
+    inProgress: false,
+    // Prevents the inputs from being cleared after a re-render
+    emailInput: "",
+    passwordInput: "",
+  });
+  // This f() sets the loading state to true so we can trigger a loading visual + preserves user inputs
+  const loadingInProgress = (emailInput, passwordInput) => {
+    setLoading({ inProgress: true, emailInput, passwordInput });
+  };
+  // This f() sets the loading state value to false which ends the loading animation
+  const loadingConcluded = () => {
+    setLoading((prevState) => ({ ...prevState, inProgress: false }));
+  };
+
   // These states and dispatch functions control the error text and colors of each input field
   const [formState, dispatch] = useReducer(reducer, {
     emailText: " ", // allots space for the message before we even want one to be visible
@@ -49,10 +65,6 @@ export default function ChangeEmail(props) {
     passwordText: " ",
     passwordError: false,
   });
-
-  // Control the general error modal which opens if one of our API route 3rd party services fail
-  const [modalVisible, setModalVisible] = useState(false);
-  const revealErrorModal = () => setModalVisible(true);
 
   // Collect values of what's typed in each of the input fields
   const newEmailRef = useRef();
@@ -62,38 +74,25 @@ export default function ChangeEmail(props) {
     const typedNewEmail = newEmailRef.current.value;
     const typedPassword = passwordRef.current.value;
     dispatch({ type: "RESET" }); // reset form state
-    setLoading(true);
-
-    // If one of the input fields is empty, render some error text without looking in the DB
-    const typedNewEmail_length = lengthNoSpaces(typedNewEmail);
-    const typedPassword_length = lengthNoSpaces(typedPassword);
-    if (typedNewEmail_length === 0) {
-      setLoading(false);
-      return dispatch({
-        type: "INVALID_NEW_EMAIL",
-        payload: "This field is required",
-      });
-    }
-    if (typedPassword_length === 0) {
-      setLoading(false);
-      return dispatch({
-        type: "INVALID_PASSWORD",
-        payload: "This field is required",
-      });
-    }
-
+    loadingInProgress(typedNewEmail, typedPassword);
     try {
       await axios.post("/api/auth/swapEmailP1", {
         newEmail: typedNewEmail,
         submittedPassword: typedPassword,
       });
       localStorage.setItem("emailChangePending", true);
-      setLoading(false);
       router.push(`/auth/manage-account/verify-email-change`);
+      loadingConcluded();
     } catch (error) {
       // Render error messages onscreen depending on the response object recieved
       const errorMSG = error?.response?.data?.message;
       switch (errorMSG) {
+        case "New email field is required":
+          dispatch({ type: "INVALID_NEW_EMAIL", payload: "This field is required" }); // prettier-ignore
+          break;
+        case "Password field is required":
+          dispatch({ type: "INVALID_PASSWORD", payload: "This field is required" }); // prettier-ignore
+          break;
         case "User offline":
           router.push("/auth/signin");
           break;
@@ -107,11 +106,11 @@ export default function ChangeEmail(props) {
         case "Account password incorrect":
           dispatch({ type: "INVALID_PASSWORD", payload: errorMSG });
           break;
-        default:
-          revealErrorModal();
+        default: // reveal error modal
+          setModalVisible(true);
           break;
       }
-      setLoading(false);
+      loadingConcluded();
     }
   };
 
@@ -122,7 +121,7 @@ export default function ChangeEmail(props) {
     setCurrentEmail(session.user.email);
   }, []);
 
-  if (loading) return <FullSpin mt="40vh" />;
+  if (loading.inProgress) return <FullSpin mt="40vh" />;
   return (
     <Stack sx={styles.parentContainer}>
       <AuthHeader titleText={"Change Email"} descriptionText={""} />
@@ -146,6 +145,7 @@ export default function ChangeEmail(props) {
           placeholder="Enter new email"
           error={formState.emailError}
           onChange={() => dispatch({ type: "TYPING_NEW_EMAIL" })}
+          defaultValue={loading.emailInput}
         />
         <FormHelperText sx={styles.formHelperText}>
           {formState.emailText}
@@ -166,6 +166,7 @@ export default function ChangeEmail(props) {
           type="password"
           error={formState.passwordError}
           onChange={() => dispatch({ type: "TYPING_PASSWORD" })}
+          defaultValue={loading.passwordInput}
         />
         <FormHelperText sx={styles.formHelperText}>
           {formState.passwordText}
