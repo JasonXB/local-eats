@@ -31,6 +31,7 @@
     "react-lazy-load-image-component": "^1.5.1",
     "react-leaflet": "^3.2.5",
     "react-redux": "^7.2.6",
+    "react-simple-image-viewer": "^1.2.1",
     "redux": "^4.1.2",
     "tai-password-strength": "^1.1.3"
   },

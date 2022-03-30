@@ -15,6 +15,10 @@ body {
 .darken {
   filter: brightness(85%);
 }
+#preview_images div.react-simple-image-viewer__slide img {
+  position: relative;
+  z-index: 900;
+}
 
 /* LOADING ANIMATION (takes up a limited amount of space) */
 div.loader {
@@ -54,4 +58,3 @@ div.loader:before {
     transform: scale(1);
   }
 }
-

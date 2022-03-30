@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { Typography, Box, Stack, Button, Rating } from "@mui/material";
 import { mix } from "../../../styles/styleMixins";
 import { getRatingColor } from "../../utility-functions/search/getRatingColor";
@@ -8,6 +8,7 @@ import StarsRoundedIcon from "@mui/icons-material/StarsRounded";
 import { styled } from "@mui/material/styles";
 import LayoutContainer from "../../custom-components/LayoutContainer";
 import BookmarkButton from "../../custom-components/SearchResults/BookmarkButton";
+import ImageViewer from "react-simple-image-viewer";
 
 const StyledRating = styled(Rating)({
   width: 120,
@@ -16,7 +17,6 @@ const StyledRating = styled(Rating)({
   "& .MuiRating-icon": { fontSize: "1.6rem" },
   ["@media (min-width: 550px)"]: { display: "none" },
 });
-
 
 export default function Banner(props) {
   // Extract data from the props
@@ -27,10 +27,23 @@ export default function Banner(props) {
   // Get the bgColor for the star rating component
   const ratingColor = getRatingColor(rating);
 
-  // Create links to the Yelp images and fallback photos in case they have none
-  const photo0 = photos[0] || "/images/noIMG.png";
-  const photo1 = photos[1] || "/images/noIMG.png";
-  const photo2 = photos[2] || "/images/noIMG.png";
+  const [currentImage, setCurrentImage] = useState(0);
+  const [isViewerOpen, setIsViewerOpen] = useState(false);
+  const images = [
+    photos[0] || "/images/noIMG.png",
+    photos[1] || "/images/noIMG.png",
+    photos[2] || "/images/noIMG.png",
+  ];
+
+  const openImageViewer = useCallback((index) => {
+    setCurrentImage(index);
+    setIsViewerOpen(true);
+  }, []);
+
+  const closeImageViewer = () => {
+    setCurrentImage(0);
+    setIsViewerOpen(false);
+  };
 
   // Dim the brightness when you hover over an image
   const onHover = useCallback((e) => e.target.classList.add("darken"), []);
@@ -39,8 +52,44 @@ export default function Banner(props) {
   return (
     <LayoutContainer>
       {/* Panel of restaurant images */}
+
       <Stack id="preview_images" sx={styles.imageContainer}>
-        <Box
+        {images.map((src, index) => {
+          let gridRow, gridColumn;
+          if (index === 1) {
+            (gridRow = "1/3"), (gridColumn = "1/2");
+          } else if (index === 2) {
+            (gridRow = "1/2"), (gridColumn = "2/3");
+          }
+
+          return (
+            <Box
+              component="img"
+              src={src}
+              // prettier-ignore
+              sx={{ ...styles.zoomImage, gridRow, gridColumn }}
+              onClick={() => openImageViewer(index)}
+              alt=""
+              onMouseEnter={onHover}
+              onMouseLeave={onLeave}
+            />
+          );
+        })}
+
+        {isViewerOpen && (
+          <ImageViewer
+            src={images}
+            currentIndex={currentImage}
+            onClose={closeImageViewer}
+            disableScroll={true}
+            backgroundStyle={{
+              backgroundColor: "rgba(0,0,0,0.9)",
+            }}
+            closeOnClickOutside={true}
+          />
+        )}
+      </Stack>
+      {/* <Box
           component="img"
           src={photo0}
           sx={{ ...styles.zoomImage, gridRow: "1/3", gridColumn: "1/2" }}
@@ -65,9 +114,7 @@ export default function Banner(props) {
           alt=""
           onMouseEnter={onHover}
           onMouseLeave={onLeave}
-        />
-      </Stack>
-
+        /> */}
       <Box sx={styles.dataContainer}>
         {/* Name, restaurant category, address */}
         <Typography variant="h3" component="h1" sx={styles.name}>
