@@ -16,7 +16,7 @@ function Related({ relatedList, scrollPosition }) {
         {msg}
       </Typography>
       {relatedList && (
-        <Box sx={mix.cards_container_search}>
+        <Box sx={mix.cards_container_bookmarks}>
           {relatedList.map((r_data) => (
             <RestaurantCard
               key={r_data.storeID}
@@ -37,6 +37,7 @@ const styles = {
     mb: 4,
     mt: 4,
     fontWeight: 600,
+    mx:2,
     ["@media (min-width: 680px)"]: { mb: 2 },
   },
   desktopParent: {
