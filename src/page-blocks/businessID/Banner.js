@@ -65,6 +65,7 @@ export default function Banner(props) {
           return (
             <Box
               component="img"
+              key={index}
               src={src}
               // prettier-ignore
               sx={{ ...styles.zoomImage, gridRow, gridColumn }}
@@ -89,32 +90,6 @@ export default function Banner(props) {
           />
         )}
       </Stack>
-      {/* <Box
-          component="img"
-          src={photo0}
-          sx={{ ...styles.zoomImage, gridRow: "1/3", gridColumn: "1/2" }}
-          alt=""
-          onMouseEnter={onHover}
-          onMouseLeave={onLeave}
-        />
-
-        <Box
-          component="img"
-          src={photo1}
-          sx={{ ...styles.zoomImage, gridRow: "1/2", gridColumn: "2/3" }}
-          alt=""
-          onMouseEnter={onHover}
-          onMouseLeave={onLeave}
-        />
-
-        <Box
-          component="img"
-          src={photo2}
-          sx={{ ...styles.zoomImage }}
-          alt=""
-          onMouseEnter={onHover}
-          onMouseLeave={onLeave}
-        /> */}
       <Box sx={styles.dataContainer}>
         {/* Name, restaurant category, address */}
         <Typography variant="h3" component="h1" sx={styles.name}>

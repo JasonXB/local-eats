@@ -45,6 +45,7 @@ export default function GlobalContextAPIProvider(props) {
       return prevState.filter((idNum) => idNum !== id);
     });
   };
+
   // DISTRIBUTION
   const distribution = {
     bookmarks, // list of data objects for each saved restaurant
@@ -58,6 +59,7 @@ export default function GlobalContextAPIProvider(props) {
 
     bookmarksEnabled, // state value telling if we're allowed to use bookmarks or not
     setBookmarksEnabled, // adjust state value described above
+
   };
   return <AAA.Provider value={distribution}>{props.children}</AAA.Provider>;
 }

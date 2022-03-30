@@ -34,6 +34,7 @@ export default function StaticMap({ coords }) {
     justifySelf: "center",
   };
 
+
   return (
     <MapContainer
       center={position}
