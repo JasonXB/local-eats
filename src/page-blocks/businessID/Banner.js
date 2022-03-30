@@ -8,7 +8,8 @@ import StarsRoundedIcon from "@mui/icons-material/StarsRounded";
 import { styled } from "@mui/material/styles";
 import LayoutContainer from "../../custom-components/LayoutContainer";
 import BookmarkButton from "../../custom-components/SearchResults/BookmarkButton";
-import { useImageViewer } from "react-image-viewer-hook";
+import { PhotoProvider, PhotoView } from "react-photo-view";
+import "react-photo-view/dist/react-photo-view.css";
 
 const StyledRating = styled(Rating)({
   width: 120,
@@ -18,8 +19,9 @@ const StyledRating = styled(Rating)({
   ["@media (min-width: 550px)"]: { display: "none" },
 });
 
+// For the image zoom feature, we use this lib:
+// https://react-photo-view.vercel.app/en-US
 export default function Banner(props) {
-  const { getOnClick, ImageViewer } = useImageViewer();
   // Extract data from the props
   const { name, rating, categories, photos, address } = props.bannerData; // prettier-ignore
   const { bookmarkData } = props;
@@ -29,9 +31,9 @@ export default function Banner(props) {
   const ratingColor = getRatingColor(rating);
 
   // Create links to the Yelp images and fallback photos in case they have none
-  const photo0 = useCallback(photos[0] || "/images/noIMG.png", [photos]);
-  const photo1 = useCallback(photos[1] || "/images/noIMG.png", [photos]);
-  const photo2 = useCallback(photos[2] || "/images/noIMG.png", [photos]);
+  const photo0 = photos[0] || "/images/noIMG.png";
+  const photo1 = photos[1] || "/images/noIMG.png";
+  const photo2 = photos[2] || "/images/noIMG.png";
 
   // Dim the brightness when you hover over an image
   const onHover = useCallback((e) => e.target.classList.add("darken"), []);
@@ -41,49 +43,38 @@ export default function Banner(props) {
     <LayoutContainer>
       {/* Panel of restaurant images */}
       <Stack id="preview_images" sx={styles.imageContainer}>
-        <Box
-          sx={styles.zoomParent("1/2", "1/2", 1)}
-          component="a"
-          href={photo0}
-          onClick={getOnClick(photo0)}
-        >
-          <Box
-            component="img"
-            src={photo0}
-            sx={styles.zoomImage}
-            onMouseEnter={onHover}
-            onMouseLeave={onLeave}
-          />
-        </Box>
-        <Box
-          sx={styles.zoomParent("1/2", "2/3", 0)}
-          component="a"
-          href={photo1}
-          onClick={getOnClick(photo1)}
-        >
-          <Box
-            component="img"
-            src={photo1}
-            sx={styles.zoomImage}
-            onMouseEnter={onHover}
-            onMouseLeave={onLeave}
-          />
-        </Box>
-        <Box
-          sx={styles.zoomParent("1/2", "1/2", 0)}
-          component="a"
-          href={photo2}
-          onClick={getOnClick(photo2)}
-        >
-          <Box
-            component="img"
-            src={photo2}
-            sx={styles.zoomImage}
-            onMouseEnter={onHover}
-            onMouseLeave={onLeave}
-          />
-        </Box>
-        {/* <ImageViewer /> */}
+        <PhotoProvider>
+          <PhotoView src={photo0} sx={{ visibility: "hidden" }}>
+            <Box
+              component="img"
+              src={photo0}
+              sx={{ ...styles.zoomImage, gridRow: "1/3", gridColumn: "1/2" }}
+              alt=""
+              onMouseEnter={onHover}
+              onMouseLeave={onLeave}
+            />
+          </PhotoView>
+          <PhotoView src={photo1}>
+            <Box
+              component="img"
+              src={photo1}
+              sx={{ ...styles.zoomImage, gridRow: "1/2", gridColumn: "2/3" }}
+              alt=""
+              onMouseEnter={onHover}
+              onMouseLeave={onLeave}
+            />
+          </PhotoView>
+          <PhotoView src={photo2}>
+            <Box
+              component="img"
+              src={photo2}
+              sx={{ ...styles.zoomImage }}
+              alt=""
+              onMouseEnter={onHover}
+              onMouseLeave={onLeave}
+            />
+          </PhotoView>
+        </PhotoProvider>
       </Stack>
 
       <Box sx={styles.dataContainer}>
@@ -132,33 +123,21 @@ export default function Banner(props) {
 const styles = {
   imageContainer: {
     width: "100%",
+    height: "20rem",
     gap: 0.5,
     ["@media (min-width: 550px)"]: {
       height: "15rem",
       display: "grid",
       gap: 2,
       gridTemplateColumns: "repeat(2,1fr)",
-      gridTemplateRows: "1fr",
     },
   },
   zoomImage: {
     borderRadius: 2,
     width: "100%",
-    height: "8rem",
+    height: "100%",
     objectFit: "cover",
-    ["@media (min-width: 550px)"]: {
-      height: "15rem",
-    },
   },
-  zoomParent: (gridRow, gridCol, zInd) => ({
-    width: "100%",
-    gridRow: gridRow,
-    gridColumn: gridCol,
-    zIndex: zInd,
-    ["@media (min-width: 550px)"]: {
-      height: "15rem",
-    },
-  }),
   dataContainer: {
     mt: 2,
     ["@media (min-width: 550px)"]: {

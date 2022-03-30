@@ -3081,6 +3081,11 @@ react-leaflet@^3.2.5:
   dependencies:
     "@react-leaflet/core" "^1.1.1"
 
+react-photo-view@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-photo-view/-/react-photo-view-1.0.0.tgz#bfbe01c15ea66bfb7d578f9725df5aba5de4fe0f"
+  integrity sha512-OSy2PRYqGT4ho6vC4Tq/hDrt6Y+FPcbY2M2LXd7waxSBVXjFuuCDK20NVlgs0y+oYT38NsMIRKKyrwTBoIMIcg==
+
 react-redux@^7.2.6:
   version "7.2.6"
   resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-7.2.6.tgz#49633a24fe552b5f9caf58feb8a138936ddfe9aa"
