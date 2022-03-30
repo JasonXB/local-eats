@@ -47,7 +47,12 @@ function Restaurants(props) {
     if (!locationObject) return;
     setLoading(true);
     // Create the header text and fetch the restaurant data
-    setSearchHeader(`${partialHeaderTitle} ${locationObject.locationString}`); // prettier-ignore
+    if (!partialHeaderTitle) {
+      setSearchHeader(""); // make it so we have no search header
+    } else {
+      setSearchHeader(`${partialHeaderTitle} ${locationObject.locationString}`);
+    }
+
     fetchYelpData(endpoint);
     if (onMount) {
       initializeBookmarks(); // Set the bookmarks on startup

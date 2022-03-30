@@ -1,10 +1,11 @@
 import { lengthNoSpaces } from "../../utility-functions/general/lengthNoSpaces";
-// Create the search header text abovr all our Restaurant cards
+// Create the search header text above all our Restaurant cards
 // End result is dependent on the query parameters of the URL
 
 export function makeSearchHeader(queryObj) {
   // The query obj is empty on initial render cycles- end the function early when that's the case
   if (Object.keys(queryObj).length === 0) return;
+  console.log(queryObj);
   // Convert certain strings into Boolean values.  Ex. turn "false" string into Boolean
   const i = {};
   for (let key in queryObj) {

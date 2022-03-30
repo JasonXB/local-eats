@@ -25,7 +25,6 @@ export function useYelpFetch() {
       );
     } catch (error) {
       // If the process fails
-      console.log(error.response)
       dispatch(searchResultActions.showError());
     }
   };
