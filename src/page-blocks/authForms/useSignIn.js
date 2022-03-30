@@ -14,7 +14,22 @@ import FullSpin from "../../custom-components/LoadingVisuals/FullSpin";
 
 export default function useSignIn(title, descrip, needNewAccount) {
   const router = useRouter();
-  const [loading, setLoading] = useState(false); // set up state for loading animation
+  // State values that reveal/hide loading visuals + preserve user inputs 
+  const [loading, setLoading] = useState({
+    inProgress: false,
+    // Prevents the inputs from being cleared after a re-render
+    emailInput: "",
+    passwordInput: "",
+  });
+  // This f() sets the loading state to true so we can trigger a loading visual + preserves user inputs
+  const loadingInProgress = (emailInput, passwordInput) => {
+    setLoading({ inProgress: true, emailInput, passwordInput });
+  };
+  // This f() sets the loading state value to false which ends the loading animation
+  const loadingConcluded = () => {
+    setLoading((prevState) => ({ ...prevState, inProgress: false }));
+  };
+
   // Collect values of what's typed in each of the input fields
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -33,21 +48,20 @@ export default function useSignIn(title, descrip, needNewAccount) {
 
   const loginHandler = async function () {
     // Capture values of input fields and render the load spinner
-    setLoading(true);
     const typedEmail = emailRef.current.value;
     const typedPassword = passwordRef.current.value;
-
+    loadingInProgress(typedEmail, typedPassword);
     // If one of the input fields is empty, render some error text without looking in the DB
     const thinnedEmailLength = lengthNoSpaces(typedEmail);
     const thinnedPasswordLength = lengthNoSpaces(typedPassword);
     if (thinnedEmailLength === 0) {
-      setLoading(false);
+      loadingConcluded();
       return dispatch({
         type: "INVALID_EMAIL",
         payload: "This field is required",
       });
     } else if (thinnedPasswordLength === 0) {
-      setLoading(false);
+      loadingConcluded();
       return dispatch({
         type: "INVALID_PASSWORD",
         payload: "This field is required",
@@ -77,16 +91,17 @@ export default function useSignIn(title, descrip, needNewAccount) {
           // should only happen when one of our 3rd party services fail (SendGrid, MongoDB...etc)
           break;
       }
-      setLoading(false);
+      loadingConcluded();
       return;
     }
-    setLoading(false);
+
     // If the login attempt is successful, redirect to homepage
     if (!loginRequest.error) return router.push("/");
+    loadingConcluded();
   };
 
   // The state values in useReducer influence the JSX based on their values
-  if (loading) return <FullSpin />;
+  if (loading.inProgress) return <FullSpin />;
   return (
     <Stack sx={styles.parentContainer}>
       <AuthHeader
@@ -107,6 +122,7 @@ export default function useSignIn(title, descrip, needNewAccount) {
           placeholder="name@email.com"
           error={formState.emailError}
           onChange={() => dispatch({ type: "RESET_EMAIL" })}
+          defaultValue={loading.emailInput}
         />
         <FormHelperText sx={styles.formHelperText}>
           {formState.emailText}
@@ -126,6 +142,7 @@ export default function useSignIn(title, descrip, needNewAccount) {
           placeholder="Enter password"
           error={formState.passwordError}
           onChange={() => dispatch({ type: "RESET_PASSWORD" })}
+          defaultValue={loading.passwordInput}
         />
         <FormHelperText sx={styles.formHelperText}>
           {formState.passwordText}

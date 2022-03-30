@@ -1,7 +1,8 @@
-import { hash, compare } from "bcryptjs";
+import { hash } from "bcryptjs";
 import { connectToDB } from "../helperFunctions/connectToDB";
 import { makeID } from "../helperFunctions/makeID";
 import { pwStrengthCheck } from "../helperFunctions/pwStrengthCheck";
+import { lengthNoSpaces } from "../../../src/utility-functions/general/lengthNoSpaces";
 
 // Use to check for bltantly fake emails
 var validator = require("email-validator"); // https://yarnpkg.com/package/email-validator
@@ -13,6 +14,20 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 export default async function handler(req, res) {
   // Capture payload values
   const { email, password, verifyPassword } = req.body;
+
+  // Return an error if any of the 3 fields are submitted empty
+  const emailLength = lengthNoSpaces(email);
+  const passwordLength = lengthNoSpaces(password);
+  const verifyPasswordLength = lengthNoSpaces(verifyPassword);
+  if (!emailLength) {
+    return res.status(400).json({ message: "Email field is required" });
+  }
+  if (!passwordLength) {
+    return res.status(400).json({ message: "Password field is required" });
+  }
+  if (!verifyPasswordLength) {
+    return res.status(400).json({ message: "Verify field is required" }); // prettier-ignore
+  }
 
   // Check to see if the 2 submitted passwords match
   if (password !== verifyPassword) {

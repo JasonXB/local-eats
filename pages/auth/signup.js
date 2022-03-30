@@ -31,8 +31,24 @@ export async function getServerSideProps(context) {
 
 export default function signup() {
   const router = useRouter();
-  const [loading, setLoading] = useState(false); // loading animation state
-  // Control the form using state values
+  // State values that reveal/hide loading visuals + preserve user inputs
+  const [loading, setLoading] = useState({
+    inProgress: false,
+    // Prevents the inputs from being cleared after a re-render
+    emailInput: "",
+    passwordInput: "",
+    verifyInput: "",
+  });
+  // This f() sets the loading state to true so we can trigger a loading visual + preserves user inputs
+  const loadingInProgress = (emailInput, passwordInput, verifyInput) => {
+    setLoading({ inProgress: true, emailInput, passwordInput, verifyInput });
+  };
+  // This f() sets the loading state value to false which ends the loading animation
+  const loadingConcluded = () => {
+    setLoading((prevState) => ({ ...prevState, inProgress: false }));
+  };
+
+  // Control the form JSX using state values
   const [formState, dispatch] = useReducer(reducer, {
     emailText: " ", // allots space for the message before we even want one to be visible
     emailError: false,
@@ -60,38 +76,12 @@ export default function signup() {
 
   const submitHandler = async function () {
     // Reset the form state to remove any error visuals that were required earlier
-    setLoading(true);
     dispatch({ type: "RESET" });
     // Capture what's typed in each input field
     const typedEmail = emailRef.current.value;
     const typedPassword = passwordRef.current.value;
     const typedPassword2 = verifyPasswordRef.current.value;
-
-    // Make sure each field is filled in
-    const emailLength = lengthNoSpaces(typedEmail);
-    const passwordLength = lengthNoSpaces(typedPassword);
-    const verifyPasswordLength = lengthNoSpaces(typedPassword2);
-    if (!emailLength) {
-      setLoading(false);
-      return dispatch({
-        type: "INVALID_EMAIL",
-        payload: "This field is required",
-      });
-    }
-    if (!passwordLength) {
-      setLoading(false);
-      return dispatch({
-        type: "INVALID_PASSWORD",
-        payload: "This field is required",
-      });
-    }
-    if (!verifyPasswordLength) {
-      setLoading(false);
-      return dispatch({
-        type: "INVALID_PASSWORD_2",
-        payload: "This field is required",
-      });
-    }
+    loadingInProgress(typedEmail, typedPassword, typedPassword2);
 
     // Make a request to an API route to verify or discredit the form submissions
     try {
@@ -103,21 +93,24 @@ export default function signup() {
       // Save the signup email and password to localStorage
       localStorage.setItem("pendingAccountEmail", typedEmail);
       localStorage.setItem("signupPassword", typedPassword);
-      setLoading(false);
       router.push("/auth/verify-email"); // redirect
+      loadingConcluded();
     } catch (error) {
       const errorMSG = error?.response?.data?.message;
       switch (errorMSG) {
         case "This password does not match the first":
+        case "Verify field is required":
           dispatch({ type: "INVALID_PASSWORD_2", payload: errorMSG }); // prettier-ignore
           break;
         case "Invalid email":
+        case "Email field is required":
           dispatch({ type: "INVALID_EMAIL", payload: errorMSG}); // prettier-ignore
           break;
         case "This email is tied to a verified account":
           dispatch({ type: "INVALID_EMAIL", payload: errorMSG }); // prettier-ignore
           break;
         case "Password does not meet requirements":
+        case "Password field is required":
           dispatch({ type: "INVALID_PASSWORD", payload: errorMSG }); // prettier-ignore
           break;
         default:
@@ -126,12 +119,12 @@ export default function signup() {
           // should only happen when one of our 3rd party services fail (SendGrid, MongoDB...etc)
           break;
       }
-      setLoading(false);
+      loadingConcluded();
       return;
     }
   };
 
-  if (loading) return <FullSpin />;
+  if (loading.inProgress) return <FullSpin />;
   return (
     <Stack sx={styles.parentContainer}>
       <AuthHeader
@@ -151,6 +144,7 @@ export default function signup() {
           placeholder="name@email.com"
           error={formState.emailError}
           onChange={typingEmailHandler}
+          defaultValue={loading.emailInput}
         />
         <FormHelperText sx={styles.formHelperText}>
           {formState.emailText}
@@ -179,6 +173,7 @@ export default function signup() {
           type="password"
           error={formState.passwordError}
           onChange={typingPasswordHandler}
+          defaultValue={loading.passwordInput}
         />
         <FormHelperText sx={styles.formHelperText}>
           {formState.passwordText}
@@ -198,6 +193,7 @@ export default function signup() {
           type="password"
           error={formState.verifyPasswordError}
           onChange={typingVerifyHandler}
+          defaultValue={loading.verifyInput}
         />
         <FormHelperText sx={styles.formHelperText}>
           {formState.verifyPasswordText}
