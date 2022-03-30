@@ -26,7 +26,7 @@ export default function Hours({ hours, infoTableData, coords }) {
       () => import("../../../src/page-blocks/businessID/StaticMap"), // replace '@components/map' with your component's location
       { ssr: false } // prevents server-side render
     ),
-    []
+    [coords] // the coords dependency prevents a bug where the marker icon sometimes is missing
   );
 
   return (
