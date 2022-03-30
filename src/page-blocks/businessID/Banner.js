@@ -83,7 +83,7 @@ export default function Banner(props) {
             onMouseLeave={onLeave}
           />
         </Box>
-        <ImageViewer />
+        {/* <ImageViewer /> */}
       </Stack>
 
       <Box sx={styles.dataContainer}>

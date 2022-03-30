@@ -12,9 +12,9 @@ body {
 }
 
 /* DIM IMAGE BRIGHTNESS FOR HOVERED IMAGES */
-.darken {
+/* .darken {
   filter: brightness(85%);
-}
+} */
 
 /* LOADING ANIMATION (takes up a limited amount of space) */
 div.loader {
