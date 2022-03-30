@@ -27,6 +27,9 @@ export default function Banner(props) {
   // Get the bgColor for the star rating component
   const ratingColor = getRatingColor(rating);
 
+  // Use the image zoom library: /*https://www.npmjs.com/package/react-simple-image-viewer*/
+  // Make sure to set the following in global CSS so the elevation of zoomed images beaata the Leaflet Map's
+  // #ReactSimpleImageViewer { z-index: 1200; }
   const [currentImage, setCurrentImage] = useState(0);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
   const images = [
@@ -56,9 +59,9 @@ export default function Banner(props) {
       <Stack id="preview_images" sx={styles.imageContainer}>
         {images.map((src, index) => {
           let gridRow, gridColumn;
-          if (index === 1) {
+          if (index === 0) {
             (gridRow = "1/3"), (gridColumn = "1/2");
-          } else if (index === 2) {
+          } else if (index === 1) {
             (gridRow = "1/2"), (gridColumn = "2/3");
           }
 

@@ -16,8 +16,10 @@ body {
   filter: brightness(85%);
 }
 
+/* We need to set the React image zoom lib container to a higher elevation than the Leaflet Map*/
+/*https://www.npmjs.com/package/react-simple-image-viewer*/
 #ReactSimpleImageViewer {
-  z-index: 500;
+  z-index: 1200;
 }
 
 /* LOADING ANIMATION (takes up a limited amount of space) */

@@ -7,7 +7,7 @@ See how the color contrast ranks using some software
 Test site on different browsers after you deploy
 
 Optimize the site, improve performance where possible, ARIA...etc
-Get the site professionally reviewed by a friend for $$$
+Get the site professionally reviewed by a friend 
 
 Write custom documentation for the app
 Explain how each feature works using plain english, and reference files that do what you're explaining

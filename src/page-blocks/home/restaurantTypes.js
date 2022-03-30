@@ -64,7 +64,7 @@ const types = {
   Breakfast: {
     Bistros: "bistro",
     Diners: "diner",
-    Cafés: "café",
+    Bakeries: "bakery",
     Coffee: "coffee",
   },
 
