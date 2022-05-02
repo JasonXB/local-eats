@@ -81,6 +81,7 @@ function Bookmarks({ scrollPosition }) {
   );
 }
 export default trackWindowScroll(Bookmarks);
+
 const styles = {
   title: {
     fontSize: "1.875rem",
