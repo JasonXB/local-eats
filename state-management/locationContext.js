@@ -45,6 +45,7 @@ export default function LocationContextProvider(props) {
   //@ Render modals conditionally based on Redux state values
   const dispatch = useDispatch();
   const renderLocationDenialModal = () => dispatch(homepageModalActions.permissionsDenied()); //  prettier-ignore
+  const renderRegionLockModal = () => dispatch(homepageModalActions.regionLocked()); //  prettier-ignore
   const renderGeoUnsupportedModal = () => dispatch(homepageModalActions.geolocationUnsupported()); //  prettier-ignore
 
   const setLocationObject = (requestData) =>
@@ -55,7 +56,7 @@ export default function LocationContextProvider(props) {
 
   //@ This function gets called after pressing the "Get Current Location" Button
   const detectLocationHandler = async function () {
-    detectLocation(renderGeoUnsupportedModal, setLocationObject, renderLocationDenialModal); // prettier-ignore
+    detectLocation(renderGeoUnsupportedModal, setLocationObject, renderLocationDenialModal, renderRegionLockModal); // prettier-ignore
   };
 
   //@ Called after submitting a predetermined location

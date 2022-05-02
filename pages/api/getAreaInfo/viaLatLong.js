@@ -46,7 +46,7 @@ async function fetchLocationData(latitude, longitude, requestURL) {
         longitude,
       };
     }
-    return undefined; // if a different country is detected
+    return undefined; // return undefined if a different country is detected
   } catch (error) {
     // Axios will auto-throw an error if the request gets rejected or returns an error code
     return null;
