@@ -101,13 +101,15 @@ export default function PredeterminedModalWrapper(props) {
             <Button size="medium" sx={mix.whiteHoverBG} onClick={cancelHandler}>
               Cancel
             </Button>
-            <Button
-              size="medium"
-              onClick={submitHandler}
-              sx={{ ml: 2, ...mix.whiteHoverBG }}
-            >
-              Submit
-            </Button>
+            {!props.omitSubmit && (
+              <Button
+                size="medium"
+                onClick={submitHandler}
+                sx={{ ml: 2, ...mix.whiteHoverBG }}
+              >
+                Submit
+              </Button>
+            )}
           </Box>
         </Box>
       </StyledModal>

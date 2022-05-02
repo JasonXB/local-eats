@@ -12,7 +12,10 @@ export default function LocationDenialModal(props) {
   if (!permissionsDenied) return ""; // if falsy, don't render this component
 
   return (
-    <PredeterminedModalWrapper headerText="Location Permissions Denied">
+    <PredeterminedModalWrapper
+      headerText="Location Permissions Denied"
+      omitSubmit="true"
+    >
       <Typography variant="h6" component="p">
         This site requires a location to operate, but we understand you may wish
         to keep yours a secret
