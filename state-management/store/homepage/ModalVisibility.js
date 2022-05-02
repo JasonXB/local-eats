@@ -6,6 +6,7 @@ const initialState = {
   showGeoUnsupported: false,
   showPredetermined: false,
   showSpecifyLocation: false,
+  //!!! consider making a geo-lock modal
 };
 
 const homeModalSlice = createSlice({

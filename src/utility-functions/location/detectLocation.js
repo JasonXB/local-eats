@@ -5,6 +5,7 @@ export const detectLocation = async function (
   renderGeoModal,
   setLocationObject,
   renderLocationDenialModal
+  //!!! a geo lock modal would require an extra parameter (ctrl F when this f() is used)
 ) {
   // Check the visitor's browser supports Geolocation
   if (!navigator.geolocation) {
@@ -28,13 +29,25 @@ export const detectLocation = async function (
         longitude: locationInfo.coords.longitude,
       });
       // Extract data from the successful API call (axios auto-throws an error if it goes wrong)
-      const requestData = apiRouteCall.data.requestData;
+      const request = apiRouteCall;
+      if (!request) throw { code: 29, message: "Country not supported" };
+      const requestData = request.data.requestData;
       // Save details to localStorage and project state
-      localStorage.setItem("savedLocation", JSON.stringify(requestData)); 
+      localStorage.setItem("savedLocation", JSON.stringify(requestData));
       setLocationObject(requestData);
     } catch (err) {
-      //% render a modal giving the user the choice to use predetermined locations
-      renderLocationDenialModal();
+      // render a modal giving the user the choice to use predetermined locations
+      console.log(err);
+      switch (err.message) {
+        //!!! Render a modal informing the users our app only works in USA/CA
+        case "Country not supported":
+          console.log("Thank ALLAH! Love Fridays <3");
+          break;
+        case "User denied geolocation prompt":
+        default:
+          renderLocationDenialModal();
+          break;
+      }
     }
   };
   actionsAfterCoordinates(); // invoke above f() immediately

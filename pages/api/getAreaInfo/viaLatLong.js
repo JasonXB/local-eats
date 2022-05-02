@@ -24,7 +24,7 @@ async function fetchLocationData(latitude, longitude, requestURL) {
     const countryCode = response.data.results[0].locations[0].adminArea1;
     const stateProvinceCode = response.data.results[0].locations[0].adminArea3; // prettier-ignore
     const city = response.data.results[0].locations[0].adminArea5;
-    if (countryCode == "US") {
+    if (countryCode == "US" || countryCode == "USA") {
       return {
         country: "United States",
         stateProvinceCode,
@@ -46,7 +46,7 @@ async function fetchLocationData(latitude, longitude, requestURL) {
         longitude,
       };
     }
-    return undefined;
+    return undefined; // if a different country is detected
   } catch (error) {
     // Axios will auto-throw an error if the request gets rejected or returns an error code
     return null;
