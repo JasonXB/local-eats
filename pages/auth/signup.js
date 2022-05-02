@@ -9,8 +9,8 @@ import { mix } from "../../styles/styleMixins";
 import { getSession } from "next-auth/react";
 import AuthHeader from "../../src/page-blocks/authForms/HeaderHelper";
 import GeneralErrorModal from "../../src/custom-components/Modals/GeneralError";
+import TabTitle from "../../src/custom-components/TabTitle";
 import GuestBtn from "../../src/custom-components/GuestBtn";
-import { lengthNoSpaces } from "../../src/utility-functions/general/lengthNoSpaces";
 import FullSpin from "../../src/custom-components/LoadingVisuals/FullSpin";
 import Tooltip from "@mui/material/Tooltip";
 import HelpIcon from "@mui/icons-material/Help";
@@ -124,9 +124,16 @@ export default function signup() {
     }
   };
 
-  if (loading.inProgress) return <FullSpin />;
+  if (loading.inProgress)
+    return (
+      <>
+        <TabTitle title="Sign up | Local Eats" />
+        <FullSpin />
+      </>
+    );
   return (
     <Stack sx={styles.parentContainer}>
+      <TabTitle title="Sign up | Local Eats" />
       <AuthHeader
         titleText={"Sign Up"}
         descriptionText={"Sign up and gain access to bookmarks plus any new features upon release!"} // prettier-ignore

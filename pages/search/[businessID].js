@@ -7,6 +7,7 @@ import Banner from "../../src/page-blocks/businessID/Banner";
 import Hours from "../../src/page-blocks/businessID/Hours";
 import Footer from "../../src/custom-components/Footer";
 import SearchbarModals from "../../src/custom-components/Searchbar/SearchbarModals";
+import TabTitle from "../../src/custom-components/TabTitle";
 import PaddedBlock from "../../src/custom-components/PaddedBlock";
 import Related from "../../src/page-blocks/businessID/Related";
 import { getRelatedBusinesses } from "../api/search/related";
@@ -77,12 +78,14 @@ export default function Business(props) {
   if (!companyData)
     return (
       <LayoutContainer>
+        <TabTitle title="Business Info | Local Eats" />
         <HeaderSection parent={"businessPage"} breakpoint={820} />
         <NoResults msg="No info available for this business. Please search for others using the searchbar" />
       </LayoutContainer>
     );
   return (
     <PaddedBlock px={2}>
+      <TabTitle title="Business Info | Local Eats" />
       <HeaderSection parent={"businessPage"} breakpoint={820} />
       <Banner bannerData={bannerData} bookmarkData={bookmarkData} />
       <Hours

@@ -8,7 +8,7 @@ import RestaurantTypes from "../src/page-blocks/home/RestaurantTypes";
 import Footer from "../src/custom-components/Footer";
 import SearchbarModals from "../src/custom-components/Searchbar/SearchbarModals";
 import Navbar from "../src/custom-components/Navbar/Navbar";
-import Head from "next/head";
+import TabTitle from "../src/custom-components/TabTitle";
 
 // Use Static Generation to render the HTML during build (speeds up page load times)
 export async function getStaticProps() {
@@ -20,11 +20,7 @@ export async function getStaticProps() {
 export default function HomePage() {
   return (
     <>
-      <Head>
-        <title>Local Eats</title>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      </Head>
+      <TabTitle title="Home | Local Eats" />
       <Navbar burgerBP={700} />
       <MissionStatement />
       <SearchOptionsRow1 />

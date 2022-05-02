@@ -7,6 +7,7 @@ import { getSession } from "next-auth/react";
 import AuthHeader from "../../../src/page-blocks/authForms/HeaderHelper";
 import { styles } from "../../../styles/auth/verifyPIN";
 import FullSpin from "../../../src/custom-components/LoadingVisuals/FullSpin";
+import TabTitle from "../../../src/custom-components/TabTitle";
 
 // Redirect users to homepage if they come here offline
 export async function getServerSideProps(context) {
@@ -58,6 +59,7 @@ export default function verifyEmail() {
   if (loading) return <FullSpin />;
   return (
     <Stack sx={styles.parentContainer}>
+      <TabTitle title="Email Change | Local Eats" />
       <AuthHeader titleText={"Verify Email Change"} descriptionText={""} />
       <FormControl sx={styles.formControl}>
         <Typography align="left" variant="label" sx={{ mb: 0.5 }}>

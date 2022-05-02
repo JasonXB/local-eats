@@ -19,7 +19,7 @@ export async function getBusinessData(id) {
       price: response.price || "???",
       rating: response.rating || "?",
       mainImg: response.image_url || "/images/noIMG.png",
-      phoneNumber: response.display_phone || "phone # not available",
+      phoneNumber: response.display_phone || "# unavailable",
       // reviewQty: response.review_count,
       photos: response.photos,
       categories: response.categories

@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
@@ -9,6 +9,7 @@ import ChangeEmail from "../../../src/page-blocks/authForms/ChangeEmail";
 import ChangePassword from "../../../src/page-blocks/authForms/ChangePassword";
 import DeleteAccount from "../../../src/page-blocks/authForms/DeleteAccount";
 import LayoutContainer from "../../../src/custom-components/LayoutContainer";
+import TabTitle from "../../../src/custom-components/TabTitle";
 import { getSession } from "next-auth/react";
 
 // Redirect users to homepage if they come here offline
@@ -85,6 +86,7 @@ export default function ManageAccount(props) {
 
   return (
     <LayoutContainer>
+      <TabTitle title="Manage Account | Local Eats" />
       <Tabs
         value={value}
         onChange={handleChange}

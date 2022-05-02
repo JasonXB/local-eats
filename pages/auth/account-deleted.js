@@ -3,6 +3,7 @@ import { Typography, Stack } from "@mui/material";
 import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import GuestBtn from "../../src/custom-components/GuestBtn";
+import TabTitle from "../../src/custom-components/TabTitle";
 import { mix } from "../../styles/styleMixins";
 
 // Speed up page load times using Static Generation
@@ -19,6 +20,7 @@ export default function AccountDeleted() {
 
   return (
     <Stack sx={stylesLocal.container}>
+      <TabTitle title="Account Deleted | Local Eats" />
       <Typography variant="h2" sx={stylesLocal.title}>
         Local Eats Account deleted!
       </Typography>

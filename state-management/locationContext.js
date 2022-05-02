@@ -6,7 +6,6 @@ import { checkForSaved } from "../src/utility-functions/location/checkForSavedLo
 import { useDispatch } from "react-redux";
 import { createContext, useContext, useEffect, useReducer } from "react"; // prettier-ignore
 
-
 const AAA = createContext();
 export const useLocationContext = () => useContext(AAA); // export custom hook
 

@@ -1,14 +1,5 @@
-Test out the loading spinners at every junction
-May need to replace some fullscreen ones with partials
-——————————————————————— AFTER COMPLETED  ———————————————————————————————
-
-NON FATAL BUGS
-Check console logs on Firefox browser
-
 REFACTOR STYLING:
 Refactor all your MUI styling so most of it isn't inline
 
 TEST SITE IN OTHER COUNTRIES
 If results are bad, disable the ability to use your true location as a locationObj if you're in another country
-
-Make the Tab Title "Local Eats"

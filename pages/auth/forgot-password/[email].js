@@ -1,16 +1,14 @@
 import axios from "axios";
-import React, { useEffect, useRef, useState, useReducer } from "react";
-import { Typography, Box, Stack, Button, FormControl } from "@mui/material";
-import { mix } from "../../../styles/styleMixins";
+import React, { useRef, useReducer } from "react";
+import { Typography, Stack, Button, FormControl } from "@mui/material";
 import { useRouter } from "next/router";
-import { signIn } from "next-auth/react";
 import { getSession } from "next-auth/react";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import FormHelperText from "@mui/material/FormHelperText";
 import AuthHeader from "../../../src/page-blocks/authForms/HeaderHelper";
 import { styles } from "../../../styles/auth/verifyPIN";
 import GeneralErrorModal from "../../../src/custom-components/Modals/GeneralError";
-
+import TabTitle from "../../../src/custom-components/TabTitle";
 // Redirect users to homepage if they come here online
 export async function getServerSideProps(context) {
   const session = await getSession({ req: context.req }); // falsy if not logged in. session obj if we are
@@ -92,7 +90,7 @@ export default function ForgetPasswordVerify() {
       });
       router.push(`/auth/credChangeSignin`);
     } catch (error) {
-      const errorMSG = error?.response?.data?.message
+      const errorMSG = error?.response?.data?.message;
       switch (errorMSG) {
         // Leave error feedback but do not redirect for these first few errors
         case "Invalid PIN":
@@ -129,6 +127,7 @@ export default function ForgetPasswordVerify() {
 
   return (
     <Stack sx={{ ...styles.parentContainer, mt: 8 }}>
+      <TabTitle title="Password Recovery | Local Eats" />
       <AuthHeader
         titleText={`Submit the PIN we sent and create a new password`}
         descriptionText={""}

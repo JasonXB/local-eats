@@ -1,13 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
-import { Typography, Box, Stack, Button, FormControl, OutlinedInput } from "@mui/material"; // prettier-ignore
-import { mix } from "../../styles/styleMixins";
+import { Typography, Stack, Button, FormControl, OutlinedInput } from "@mui/material"; // prettier-ignore
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
 import { getSession } from "next-auth/react";
 import AuthHeader from "../../src/page-blocks/authForms/HeaderHelper";
 import { styles } from "../../styles/auth/verifyPIN";
 import FullSpin from "../../src/custom-components/LoadingVisuals/FullSpin";
+import TabTitle from "../../src/custom-components/TabTitle";
 
 // Redirect users to homepage if they come here online
 export async function getServerSideProps(context) {
@@ -91,9 +91,16 @@ export default function verifyEmail() {
     }
   };
 
-  if (loading) return <FullSpin />;
+  if (loading)
+    return (
+      <>
+        <TabTitle title="Verify Email | Local Eats" />
+        <FullSpin />
+      </>
+    );
   return (
     <Stack sx={styles.parentContainer}>
+      <TabTitle title="Verify Email | Local Eats" />
       <AuthHeader titleText={"Verify Email"} descriptionText={""} />
       <FormControl sx={styles.formControl}>
         <Typography align="left" variant="label" sx={{ mb: 0.5 }}>

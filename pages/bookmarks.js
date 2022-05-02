@@ -9,6 +9,7 @@ import Footer from "../src/custom-components/Footer";
 import RestaurantCard from "../src/custom-components/SearchResults/RestaurantCard";
 import { useGlobalContext } from "../state-management/globalContext";
 import useBookmarks from "../pages/api/helperFunctions/useBookmarks";
+import TabTitle from "../src/custom-components/TabTitle";
 import PartialSpin from "../src/custom-components/LoadingVisuals/PartialSpin";
 import { mix } from "../styles/styleMixins";
 import { wait } from "../src/utility-functions/general/wait";
@@ -43,6 +44,7 @@ function Bookmarks({ scrollPosition }) {
   if (loading) {
     return (
       <PaddedBlock>
+        <TabTitle title="Bookmarks | Local Eats" />
         <HeaderSection parent={"bookmarks"} breakpoint={800} />
         <Typography sx={styles.title} component="h1">
           Bookmarks
@@ -53,6 +55,7 @@ function Bookmarks({ scrollPosition }) {
   }
   return (
     <PaddedBlock>
+      <TabTitle title="Bookmarks | Local Eats" />
       <HeaderSection parent={"bookmarks"} breakpoint={800} />
       <Typography sx={styles.title} component="h1">
         Bookmarks

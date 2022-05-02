@@ -11,6 +11,7 @@ import AuthHeader from "../../../src/page-blocks/authForms/HeaderHelper";
 import GeneralErrorModal from "../../../src/custom-components/Modals/GeneralError";
 import { lengthNoSpaces } from "../../../src/utility-functions/general/lengthNoSpaces";
 import FullSpin from "../../../src/custom-components/LoadingVisuals/FullSpin"; // prettier-ignore
+import TabTitle from "../../../src/custom-components/TabTitle"
 
 // Redirect users to homepage if they come here online
 export async function getServerSideProps(context) {
@@ -83,6 +84,7 @@ export default function ForgotPassword() {
   if (loading) return <FullSpin />;
   return (
     <Stack sx={styles.parentContainer}>
+      <TabTitle title="Password Recovery | Local Eats" />
       <AuthHeader
         titleText={"Forgot your password?"}
         descriptionText={

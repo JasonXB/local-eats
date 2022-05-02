@@ -7,6 +7,7 @@ import RestaurantCard from "../../src/custom-components/SearchResults/Restaurant
 import RestaurantFilters from "../../src/page-blocks/search/RestaurantFilters";
 import FiltersModal from "../../src/custom-components/Modals/SearchFilter/FiltersModal";
 import NoResults from "../../src/page-blocks/search/NoResults";
+import TabTitle from "../../src/custom-components/TabTitle";
 import PaddedBlock from "../../src/custom-components/PaddedBlock";
 import useBookmarks from "../api/helperFunctions/useBookmarks";
 import { trackWindowScroll } from "react-lazy-load-image-component";
@@ -70,6 +71,7 @@ function Restaurants(props) {
   if (loading) {
     return (
       <PaddedBlock>
+        <TabTitle title="Search | Local Eats" />
         <HeaderSection parent={"searchPage"} breakpoint={725} />
         <FullSpin />
         {/* Still need our modals on standby */}
@@ -85,6 +87,7 @@ function Restaurants(props) {
     else if (showError) errorMsg= "Something's gone wrong! Reload the page or search for something else" // prettier-ignore
     return (
       <PaddedBlock>
+        <TabTitle title="Search | Local Eats" />
         <HeaderSection parent={"searchPage"} breakpoint={725} />
         <Typography variant="h3" component="h2" sx={{ mb: 4, mt: 5, mx: 2 }}>
           {searchHeader}
@@ -99,6 +102,7 @@ function Restaurants(props) {
   // If we have search results and a location object, render the following
   return (
     <PaddedBlock>
+      <TabTitle title="Search | Local Eats" />
       <HeaderSection parent={"searchPage"} breakpoint={725} />
       <RestaurantFilters />
       <Typography variant="h3" component="h2" sx={{ mb: 4, mt: 5, mx: 2 }}>

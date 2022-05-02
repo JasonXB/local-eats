@@ -82,7 +82,6 @@ export default function BookmarkButton({
     []
   );
 
-  // ----------------------------------------------
   if (!bookmarkIds) return null;
 
   // For business page on desktop screens

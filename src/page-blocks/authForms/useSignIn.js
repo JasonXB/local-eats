@@ -11,6 +11,7 @@ import GeneralErrorModal from "../../../src/custom-components/Modals/GeneralErro
 import GuestBtn from "../../custom-components/GuestBtn";
 import { lengthNoSpaces } from "../../utility-functions/general/lengthNoSpaces";
 import FullSpin from "../../custom-components/LoadingVisuals/FullSpin";
+import TabTitle from "../../custom-components/TabTitle";
 
 export default function useSignIn(title, descrip, needNewAccount) {
   const router = useRouter();
@@ -101,9 +102,16 @@ export default function useSignIn(title, descrip, needNewAccount) {
   };
 
   // The state values in useReducer influence the JSX based on their values
-  if (loading.inProgress) return <FullSpin />;
+  if (loading.inProgress)
+    return (
+      <>
+        <TabTitle title="Sign in | Local Eats" />
+        <FullSpin />
+      </>
+    );
   return (
     <Stack sx={styles.parentContainer}>
+      <TabTitle title="Sign in | Local Eats" />
       <AuthHeader
         titleText={title}
         descriptionText={descrip} // prettier-ignore
