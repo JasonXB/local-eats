@@ -1,9 +1,7 @@
-import React from "react"; //  prettier-ignore
+import React from "react"; 
 import { Typography, Divider } from "@mui/material";
 import { breakBefore } from "../../ConditionalBreak";
-// Redux imports
 import { useSelector } from "react-redux";
-import InputField from "./InputField";
 import PredeterminedModalWrapper from "../PredeterminedModalWrapper";
 
 export default function LocationDenialModal(props) {

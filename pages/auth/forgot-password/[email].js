@@ -9,6 +9,7 @@ import AuthHeader from "../../../src/page-blocks/authForms/HeaderHelper";
 import { styles } from "../../../styles/auth/verifyPIN";
 import GeneralErrorModal from "../../../src/custom-components/Modals/GeneralError";
 import TabTitle from "../../../src/custom-components/TabTitle";
+
 // Redirect users to homepage if they come here online
 export async function getServerSideProps(context) {
   const session = await getSession({ req: context.req }); // falsy if not logged in. session obj if we are

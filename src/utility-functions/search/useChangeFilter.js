@@ -1,4 +1,4 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { filterActions } from "../../../state-management/store/search/filters";
 
 // Use to edit individual restaurant search filters inside the dedicated slice on the Redux store

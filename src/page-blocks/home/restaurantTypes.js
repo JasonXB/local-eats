@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Button ,Box, CardMedia , Container, Card } from '@mui/material'; //  prettier-ignore
+import { Typography, Button ,Box, CardMedia , Container, Card } from '@mui/material'; // prettier-ignore
 import { mix } from "../../../styles/styleMixins";
 import useVisitSearchPage from "../../utility-functions/search/useVisitSearchPage";
 import useGetFilters from "../../utility-functions/search/useGetFilters";

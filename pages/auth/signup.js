@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useRouter } from "next/router";
 import React, { useRef, useState, useReducer } from "react";
-import { Typography, Stack, Button, Box } from "@mui/material"; // prettier-ignore
+import { Typography, Stack, Button, Box } from "@mui/material"; 
 import FormControl from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import FormHelperText from "@mui/material/FormHelperText";
