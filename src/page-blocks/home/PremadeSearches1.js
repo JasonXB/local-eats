@@ -23,6 +23,7 @@ export default function SearchOptions1() {
             component="img"
             height="140"
             image="/images/fast_food.jpg"
+            alt="burger and fries"
           />
           <CardContent>
             <Typography gutterBottom variant="h5" component="p">
@@ -45,6 +46,7 @@ export default function SearchOptions1() {
             component="img"
             height="140"
             image="/images/fineDining.jpg"
+            alt="medium rare pork cutlet with vegetables"
           />
           <CardContent>
             <Typography gutterBottom variant="h5" component="p">
