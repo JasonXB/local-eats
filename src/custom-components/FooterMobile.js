@@ -18,8 +18,8 @@ export default function FooterMobile() {
           <Accordion disableGutters key={i}>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
+              aria-controls={headerText}
+              // id={"panel1a-header"}
             >
               <Typography variant="h6">{headerText}</Typography>
             </AccordionSummary>{" "}
