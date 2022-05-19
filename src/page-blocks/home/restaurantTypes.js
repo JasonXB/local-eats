@@ -17,7 +17,8 @@ export default function RestaurantTypes() {
               <CardMedia
                 component="img"
                 height="160"
-                image={pickImage(category)}
+                image={pickImage(category)[0]}
+                alt={pickImage(category)[1]}
               />
               <Typography sx={{ p: 2, pb: 0 }} variant="h4">
                 {category}
@@ -95,26 +96,17 @@ const types = {
     Tea: "tea",
     "Beverage shops": "beverages",
   },
-
-  // Sweets: {
-  //   Bakeries: "bakery",
-  //   Dessert: "dessert",
-  //   Donuts: "donut",
-  //   Candy: "candy",
-  //   "Ice cream": "ice cream",
-  // },
 };
 function pickImage(key) {
   const imgs = {
-    Casual: "/images/casual.jpg",
-    Breakfast: "/images/breakfast.jpg",
-    Alcohol: "/images/alcohol.jpg",
-    "Meat-oriented": "/images/meat.jpg",
-    "Plant-based": "/images/plant-based.jpg",
-    "Drink-centric": "/images/drink-centric.jpg",
-    Sweets: "/images/sweets.jpg",
+    Casual: ["/images/casual.jpg", "burger, fries, chicken nuggets"],
+    Breakfast: ["/images/breakfast.jpg", "waffles with maple syrup on top"],
+    Alcohol: ["/images/alcohol.jpg", "shelf holding assorted liquor bottles"],
+    "Meat-oriented": ["/images/meat.jpg", "chicken wings"],
+    "Plant-based": ["/images/plant-based.jpg", "vegan nachos and cheese"],
+    "Drink-centric": ["/images/drink-centric.jpg", "fruit smoothies"],
   };
-  return imgs[key]; // return the src url
+  return [imgs[key][0], imgs[key][1]]; // return the src url
 }
 
 const stylesLocal = {
