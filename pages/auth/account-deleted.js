@@ -30,7 +30,7 @@ export default function AccountDeleted() {
         component="p"
         sx={{ textAlign: "center", mb: 2 }}
       >
-        We're sorry to see you go, but we hope you continue to get use out of
+        We&apos;re sorry to see you go, but we hope you continue to get use out of
         our site! Most features will still be available to you!
       </Typography>
       <GuestBtn />
