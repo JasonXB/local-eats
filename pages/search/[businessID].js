@@ -37,38 +37,38 @@ export default function Business(props) {
 
   // Organize props data into separate objects that get passed down to diff components
   const { companyData, related } = props;
-  const info = companyData.info;
+  const info = companyData?.info;
   const bannerData = useCallback(
     {
-      name: info.name,
-      rating: info.rating,
-      numberOfReviews: info.reviewQty,
-      mainIMG: info.mainImg,
-      photos: info.photos,
-      categories: info.categories ? info.categories.join(", ") : "",
-      address: `${info.address.address}, ${info.address.city}, ${info.address.state}`,
+      name: info?.name,
+      rating: info?.rating,
+      numberOfReviews: info?.reviewQty,
+      mainIMG: info?.mainImg,
+      photos: info?.photos,
+      categories: info?.categories ? info?.categories.join(", ") : "",
+      address: `${info?.address?.address}, ${info?.address?.city}, ${info?.address?.state}`,
     },
     [companyData]
   );
 
   const infoTableData = useCallback(
     {
-      address: info.address.address,
-      phoneNumber: info.phoneNumber,
-      yelpURL: info.yelpURL,
-      destination: info.address.mapsDestination,
+      address: info?.address?.address,
+      phoneNumber: info?.phoneNumber,
+      yelpURL: info?.yelpURL,
+      destination: info?.address?.mapsDestination,
     },
     [companyData]
   );
   const bookmarkData = useCallback(
     {
-      address: `${info.address.address}, ${info.address.city}, ${info.address.state}`,
-      category: info.categories ? info.categories.join(", ") : "",
-      image: info.mainImg,
-      price: info.price,
-      rating: info.rating,
-      storeID: info.storeID,
-      storeName: info.name,
+      address: `${info?.address.address}, ${info?.address.city}, ${info?.address?.state}`,
+      category: info?.categories ? info?.categories?.join(", ") : "",
+      image: info?.mainImg,
+      price: info?.price,
+      rating: info?.rating,
+      storeID: info?.storeID,
+      storeName: info?.name,
     },
     [companyData]
   );
