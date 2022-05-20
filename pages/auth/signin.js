@@ -15,7 +15,7 @@ export async function getServerSideProps(context) {
   return { props: { session } };
 }
 
-export default function signin() {
+export default function Signin() {
   const title = "Sign In";
   const descrip =
     "Sign in and gain access to bookmarks plus any new features upon release!";

@@ -14,7 +14,7 @@ export async function getServerSideProps(context) {
   }
   return { props: { session } };
 }
-export default function credChangeSignin() {
+export default function CredChangeSignin() {
   const title = "Credentials Changed Successfully";
   const descrip = "Log back into your account using your new info";
   return useSignIn(title, descrip, false);

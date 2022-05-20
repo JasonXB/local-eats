@@ -29,7 +29,7 @@ export async function getServerSideProps(context) {
   return { props: { session } };
 }
 
-export default function signup() {
+export default function Signup() {
   const router = useRouter();
   // State values that reveal/hide loading visuals + preserve user inputs
   const [loading, setLoading] = useState({

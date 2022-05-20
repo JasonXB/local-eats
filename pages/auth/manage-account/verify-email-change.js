@@ -23,7 +23,7 @@ export async function getServerSideProps(context) {
   return { props: { session } };
 }
 
-export default function verifyEmail() {
+export default function VerifyEmail() {
   // Redirect visitors who arrived without going through /auth/signup first
   const router = useRouter();
   const pinRef = useRef(); // the value of the verification PIN field

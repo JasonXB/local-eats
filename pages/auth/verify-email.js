@@ -23,7 +23,7 @@ export async function getServerSideProps(context) {
   return { props: { session } };
 }
 
-export default function verifyEmail() {
+export default function VerifyEmail() {
   // Render a loading spinner during some of this page's async operations
   const [loading, setLoading] = useState(false);
 
