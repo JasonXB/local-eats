@@ -81,8 +81,8 @@ export default function VerifyEmail() {
       </FormControl>
       <Stack sx={{ height: "5rem" }}>
         <Typography variant="p" sx={{ mb: 1 }}>
-          We just sent a 6 digit verification code to the email you submitted
-          (be sure to check your spam folder if you cannot find it). The code
+          We just sent a 6 digit verification code to the email you submitted-
+          be sure to check your spam folder if you cannot find it. The code
           expires in 30 minutes and you only get 1 try before you must start the
           process over
         </Typography>

@@ -123,7 +123,7 @@ export default function ForgetPasswordVerify() {
     }
   };
 
-  const msg = `We just sent a 6 digit verification code to ${query.email} (be sure to check your spam folder if you cannot find it). The code
+  const msg = `We just sent a 6 digit verification code to ${query.email}- be sure to check your spam folder if you cannot find it. The code
   expires in 30 minutes and you only get 1 try before you must restart on our "forgot-password" page`;
 
   return (
