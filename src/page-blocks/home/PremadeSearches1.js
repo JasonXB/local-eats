@@ -22,7 +22,7 @@ export default function SearchOptions1() {
           <CardMedia
             component="img"
             height="140"
-            image="/images/fast_food.jpg"
+            image="/images/fast_food.webp"
             alt="burger and fries"
           />
           <CardContent>
@@ -45,7 +45,7 @@ export default function SearchOptions1() {
           <CardMedia
             component="img"
             height="140"
-            image="/images/fineDining.jpg"
+            image="/images/fineDining.webp"
             alt="medium rare pork cutlet with vegetables"
           />
           <CardContent>

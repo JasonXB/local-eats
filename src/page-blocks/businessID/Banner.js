@@ -33,9 +33,9 @@ export default function Banner(props) {
   const [currentImage, setCurrentImage] = useState(0);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
   const images = [
-    photos[0] || "/images/noIMG.png",
-    photos[1] || "/images/noIMG.png",
-    photos[2] || "/images/noIMG.png",
+    photos[0] || "/images/noIMG.webp",
+    photos[1] || "/images/noIMG.webp",
+    photos[2] || "/images/noIMG.webp",
   ];
 
   const openImageViewer = useCallback((index) => {

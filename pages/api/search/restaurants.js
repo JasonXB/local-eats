@@ -42,7 +42,7 @@ export const organizeData = function (rawResults) {
     const relevantData = {
       searchIndex: index,
       storeID: value.id,
-      image: value.image_url || "/images/noIMG.png",
+      image: value.image_url || "/images/noIMG.webp",
       storeName: value.name,
       category: categoryString || "(No description)",
       distance: value.distance

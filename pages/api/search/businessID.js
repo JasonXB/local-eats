@@ -18,7 +18,7 @@ export async function getBusinessData(id) {
       name: response.name,
       price: response.price || "???",
       rating: response.rating || "?",
-      mainImg: response.image_url || "/images/noIMG.png",
+      mainImg: response.image_url || "/images/noIMG.webp",
       phoneNumber: response.display_phone || "# unavailable",
       // reviewQty: response.review_count,
       photos: response.photos,

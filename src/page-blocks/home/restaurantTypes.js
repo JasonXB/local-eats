@@ -99,12 +99,12 @@ const types = {
 };
 function pickImage(key) {
   const imgs = {
-    Casual: ["/images/casual.jpg", "burger, fries, chicken nuggets"],
-    Breakfast: ["/images/breakfast.jpg", "waffles with maple syrup on top"],
-    Alcohol: ["/images/alcohol.jpg", "shelf holding assorted liquor bottles"],
-    "Meat-oriented": ["/images/meat.jpg", "chicken wings"],
-    "Plant-based": ["/images/plant-based.jpg", "vegan nachos and cheese"],
-    "Drink-centric": ["/images/drink-centric.jpg", "fruit smoothies"],
+    Casual: ["/images/casual.webp", "burger, fries, chicken nuggets"],
+    Breakfast: ["/images/breakfast.webp", "waffles with maple syrup on top"],
+    Alcohol: ["/images/alcohol.webp", "shelf holding assorted liquor bottles"],
+    "Meat-oriented": ["/images/meat.webp", "chicken wings"],
+    "Plant-based": ["/images/plant-based.webp", "vegan nachos and cheese"],
+    "Drink-centric": ["/images/drink-centric.webp", "fruit smoothies"],
   };
   return [imgs[key][0], imgs[key][1]]; // return the src url
 }

@@ -34,7 +34,7 @@ export default function AccountDeleted() {
         our site! Most features will still be available to you!
       </Typography>
       <GuestBtn />
-      <img src="/images/wave.png" style={stylesLocal.img} alt="loading..." />
+      <img src="/images/wave.webp" style={stylesLocal.img} alt="loading..." />
     </Stack>
   );
 }

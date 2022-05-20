@@ -8,7 +8,7 @@ export default function LazyImage({src, scrollPosition, id}) {
   const redirect = () => router.push(`/search/${id}`);
   return (
     <LazyLoadImage
-      alt="/images/noIMG.png"
+      alt="/images/noIMG.webp"
       effect="blur"
       // fills out the parent container the Lazy Image is placed inside
       height={"100%"} 
