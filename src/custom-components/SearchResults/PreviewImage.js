@@ -1,6 +1,8 @@
 import React from "react";
 import { Box } from "@mui/material";
+import { ImageViewer } from "react-image-viewer-dv";
 
+// A reusable component for the zoomable preview images on the [businessID].js page
 export default function PreviewImage({ index, src }) {
   // Dim the brightness when you hover over an image
   const onHover = React.useCallback((e) => e.target.classList.add("darken"), []); // prettier-ignore
@@ -14,29 +16,23 @@ export default function PreviewImage({ index, src }) {
     (gridRow = "1/2"), (gridColumn = "2/3");
   }
   return (
-    <Box
-      component="img"
-      key={index}
-      src={src}
-      // prettier-ignore
-      sx={{ gridRow, gridColumn, ...styles.image(index) }}
-      alt=""
-      onMouseEnter={onHover}
-      onMouseLeave={onLeave}
-    />
+    <Box sx={{ gridRow, gridColumn, height: "9rem" }}>
+      <ImageViewer>
+        <Box
+          component="img"
+          key={index}
+          src={src}
+          sx={{ ...styles.image(index) }}
+          alt=""
+          onMouseEnter={onHover}
+          onMouseLeave={onLeave}
+        />
+      </ImageViewer>
+    </Box>
   );
 }
 
 const styles = {
-  imageContainer: {
-    width: "100%",
-    gap: 0.5,
-    ["@media (min-width: 550px)"]: {
-      display: "grid",
-      gap: 2,
-      gridTemplateColumns: "repeat(2,1fr)",
-    },
-  },
   image: (num) => {
     if (num === 0)
       return {

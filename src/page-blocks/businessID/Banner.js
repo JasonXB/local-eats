@@ -41,6 +41,7 @@ export default function Banner(props) {
           return <PreviewImage src={src} index={index} />;
         })}
       </Stack>
+
       {/* Name, restaurant category, address */}
       <Box sx={styles.dataContainer}>
         <Typography variant="h3" component="h1" sx={styles.name}>
