@@ -4,7 +4,7 @@ import MissionStatement from "../src/page-blocks/home/MissionStatement";
 import SearchOptionsRow1 from "../src/page-blocks/home/PremadeSearches1";
 import LayoutContainer from "../src/custom-components/LayoutContainer";
 import Cuisines from "../src/page-blocks/home/Cuisines";
-import RestaurantTypes from "../src/page-blocks/home/RestaurantTypes";
+import RestaurantTypes from "../src/page-blocks/home/restaurantTypes";
 import Footer from "../src/custom-components/Footer";
 import SearchbarModals from "../src/custom-components/Searchbar/SearchbarModals";
 import Navbar from "../src/custom-components/Navbar/Navbar";

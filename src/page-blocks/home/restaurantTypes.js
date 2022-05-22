@@ -7,6 +7,7 @@ import useGetFilters from "../../utility-functions/search/useGetFilters";
 export default function RestaurantTypes() {
   const filters = useGetFilters();
   const navToSearchPage = useVisitSearchPage();
+
   return (
     <>
       <Typography variant="h2">Food Moods:</Typography>
@@ -59,7 +60,7 @@ const types = {
     Sandwiches: "sandwich", // sandwich or however you spell it
     // Sushi: "sushi",
     Ramen: "ramen",
-    Pizza: "pizza", // change to pizza
+    Pizza: "pizza", 
   },
 
   Breakfast: {
@@ -86,8 +87,8 @@ const types = {
   "Meat-oriented": {
     Grill: "grill",
     BBQ: "BBQ",
-    Burgers: "burgers", // change to burger joint as display
-    Steak: "steak", // change to steak possibly
+    Burgers: "burgers", 
+    Steak: "steak", 
     Wings: "chicken wings",
   },
 
