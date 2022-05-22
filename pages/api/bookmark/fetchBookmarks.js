@@ -17,8 +17,8 @@ export default async function handler(req, res) {
   const userAccount = await db
     .collection("users")
     .findOne({ email: userEmail });
-  const savedIds = userAccount.bookmarks.idsOnly; // an array
-  const savedRestaurants = userAccount.bookmarks.saved; // an array
+  const savedIds = userAccount?.bookmarks?.idsOnly; // an array
+  const savedRestaurants = userAccount?.bookmarks?.saved; // an array
 
   client.close();
   return res

@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Box } from "@mui/material";
+import { Button } from "@mui/material";
 
 export default function SignInBtn(props) {
   // Clicking the button redirects us to the sign in page

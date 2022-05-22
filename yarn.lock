@@ -2980,11 +2980,6 @@ react-refresh@0.8.3:
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.8.3.tgz#721d4657672d400c5e3c75d063c4a85fb2d5d68f"
   integrity sha512-X8jZHc7nCMjaCqoU+V2I0cOhNW+QMBwSUkeXnTi8IPe6zaRWfn60ZzvFDZqWPfmSJfjub7dDW1SP0jaHWLu/hg==
 
-react-simple-image-viewer@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/react-simple-image-viewer/-/react-simple-image-viewer-1.2.1.tgz#9e95595d0a608bc4e95637a97bedf14611ee7153"
-  integrity sha512-HMFWV94K0fY9XCECvu/1ilomJQkFxiFv3DcZNHspgZFp+aUPFR/UEtYb4oDkGVidOZtErQZHr87dTvC6Mmo79g==
-
 react-transition-group@^4.4.2:
   version "4.4.2"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-4.4.2.tgz#8b59a56f09ced7b55cbd53c36768b922890d5470"

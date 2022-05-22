@@ -1,5 +1,5 @@
-import React, { useCallback, useState } from "react";
-import { Typography, Box, Stack, Button, Rating } from "@mui/material";
+import React from "react";
+import { Typography, Box, Stack, Rating } from "@mui/material";
 import { mix } from "../../../styles/styleMixins";
 import { getRatingColor } from "../../utility-functions/search/getRatingColor";
 import { useSession } from "next-auth/react";
@@ -8,7 +8,7 @@ import StarsRoundedIcon from "@mui/icons-material/StarsRounded";
 import { styled } from "@mui/material/styles";
 import LayoutContainer from "../../custom-components/LayoutContainer";
 import BookmarkButton from "../../custom-components/SearchResults/BookmarkButton";
-import ImageViewer from "react-simple-image-viewer";
+import PreviewImage from "../../custom-components/SearchResults/PreviewImage";
 
 const StyledRating = styled(Rating)({
   width: 120,
@@ -27,74 +27,22 @@ export default function Banner(props) {
   // Get the bgColor for the star rating component
   const ratingColor = getRatingColor(rating);
 
-  // Use the image zoom library: /*https://www.npmjs.com/package/react-simple-image-viewer*/
-  // Make sure to set the following in global CSS so the elevation of zoomed images beaata the Leaflet Map's
-  // #ReactSimpleImageViewer { z-index: 1200; }
-  const [currentImage, setCurrentImage] = useState(0);
-  const [isViewerOpen, setIsViewerOpen] = useState(false);
   const images = [
     photos[0] || "/images/noIMG.webp",
     photos[1] || "/images/noIMG.webp",
     photos[2] || "/images/noIMG.webp",
   ];
 
-  const openImageViewer = useCallback((index) => {
-    setCurrentImage(index);
-    setIsViewerOpen(true);
-  }, []);
-
-  const closeImageViewer = () => {
-    setCurrentImage(0);
-    setIsViewerOpen(false);
-  };
-
-  // Dim the brightness when you hover over an image
-  const onHover = useCallback((e) => e.target.classList.add("darken"), []);
-  const onLeave = useCallback((e) => e.target.classList.remove("darken"), []);
-
   return (
     <LayoutContainer>
       {/* Panel of restaurant images */}
-
       <Stack id="preview_images" sx={styles.imageContainer}>
         {images.map((src, index) => {
-          let gridRow, gridColumn;
-          if (index === 0) {
-            (gridRow = "1/3"), (gridColumn = "1/2");
-          } else if (index === 1) {
-            (gridRow = "1/2"), (gridColumn = "2/3");
-          }
-
-          return (
-            <Box
-              component="img"
-              key={index}
-              src={src}
-              // prettier-ignore
-              sx={{ ...styles.zoomImage, gridRow, gridColumn }}
-              onClick={() => openImageViewer(index)}
-              alt=""
-              onMouseEnter={onHover}
-              onMouseLeave={onLeave}
-            />
-          );
+          return <PreviewImage src={src} index={index} />;
         })}
-
-        {isViewerOpen && (
-          <ImageViewer
-            src={images}
-            currentIndex={currentImage}
-            onClose={closeImageViewer}
-            disableScroll={true}
-            backgroundStyle={{
-              backgroundColor: "rgba(0,0,0,0.9)",
-            }}
-            closeOnClickOutside={true}
-          />
-        )}
       </Stack>
+      {/* Name, restaurant category, address */}
       <Box sx={styles.dataContainer}>
-        {/* Name, restaurant category, address */}
         <Typography variant="h3" component="h1" sx={styles.name}>
           {name}
         </Typography>
@@ -139,20 +87,12 @@ export default function Banner(props) {
 const styles = {
   imageContainer: {
     width: "100%",
-    height: "20rem",
-    gap: 0.5,
+    gap: 1,
     ["@media (min-width: 550px)"]: {
-      height: "15rem",
       display: "grid",
       gap: 2,
       gridTemplateColumns: "repeat(2,1fr)",
     },
-  },
-  zoomImage: {
-    borderRadius: 2,
-    width: "100%",
-    height: "100%",
-    objectFit: "cover",
   },
   dataContainer: {
     mt: 2,
