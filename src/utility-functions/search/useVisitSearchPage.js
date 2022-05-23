@@ -48,7 +48,6 @@ export default function useVisitSearchPage() {
       .map((key) => `${key}=${queryParams[key]}`)
       .join("&"); // convert object to a query string
     const newURL = `/search?limit=50&${qs}`;
-    
     router.push(newURL);
   }
   return navToSearchPage;

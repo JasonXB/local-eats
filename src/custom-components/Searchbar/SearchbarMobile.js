@@ -27,6 +27,7 @@ export default function SearchbarMobile() {
 
   const submitHandler = function (e) {
     e.preventDefault();
+    e.target.blur(); // close the keyboard on mobile
     const typedInput = searchbarRef.current.value;
     const inputLength = lengthNoSpaces(typedInput);
     if (inputLength === 0) return;

@@ -52,7 +52,7 @@ export default function SpecifyLocation() {
     dispatchFN({ type: "RESET" });
   };
   // Send a request to the Mapquest API to grab location data based on the user inputs
-  const submitHandler = async function () {
+  const submitHandler = async function (e) {
     // One of these field inputs will be undefined
     const typedCity = cityRef?.current?.value;
     const typedPostalCode = postalRef?.current?.value;

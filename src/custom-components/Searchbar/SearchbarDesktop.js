@@ -68,10 +68,10 @@ export default function SearchbarDesktop({ applyShadow }) {
 
   const searchHandler = function (e) {
     e.preventDefault();
+    e.target.blur(); // close the keyboard on mobile
     const typedInput = searchbarRef.current.value;
     const inputLength = lengthNoSpaces(typedInput);
     if (inputLength === 0) return;
-    e.target.blur(); // close the keyboard
     navToSearchPage({
       term: typedInput.toLowerCase(),
       sort_by: filters.sort_by,
