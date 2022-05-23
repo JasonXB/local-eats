@@ -15,7 +15,9 @@ body {
 .darken {
   filter: brightness(85%);
 }
-
+.leaflet-control-attribution {
+  display: none;
+}
 /* LOADING ANIMATION (takes up a limited amount of space) */
 div.loader {
   display: flex;
