@@ -159,18 +159,20 @@ export default function ModalMenu() {
         <ToggleButton value={"distance"}>Distance</ToggleButton>
         <ToggleButton value={"rating"}>Rating</ToggleButton>
       </ToggleButtonGroup>
-
-      <Typography variant="h4" sx={styles.tab}>
-        Search Term
-      </Typography>
-      <FormControl>
-        <OutlinedInput
-          sx={{ mx: 2 }}
-          placeholder="Restaurant, cuisine, dish..."
-          defaultValue={trueFilters.term}
-          inputRef={termRef}
-        />
-      </FormControl>
+      {/* Redundant option scrapped to improve mobile UX */}
+      <Box sx={{ display: "none" }}>
+        <Typography variant="h4" sx={styles.tab}>
+          Search Term
+        </Typography>
+        <FormControl>
+          <OutlinedInput
+            sx={{ mx: 2 }}
+            placeholder="Restaurant, cuisine, dish..."
+            defaultValue={trueFilters.term}
+            inputRef={termRef}
+          />
+        </FormControl>
+      </Box>
       <div></div>
       <Box sx={styles.buttonContainer}>
         <Button onClick={resetHandler} size="large" sx={styles.btn}>
