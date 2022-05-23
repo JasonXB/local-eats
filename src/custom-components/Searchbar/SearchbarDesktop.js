@@ -71,6 +71,7 @@ export default function SearchbarDesktop({ applyShadow }) {
     const typedInput = searchbarRef.current.value;
     const inputLength = lengthNoSpaces(typedInput);
     if (inputLength === 0) return;
+    e.target.blur(); // close the keyboard
     navToSearchPage({
       term: typedInput.toLowerCase(),
       sort_by: filters.sort_by,

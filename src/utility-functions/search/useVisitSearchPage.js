@@ -28,7 +28,7 @@ export default function useVisitSearchPage() {
     if (distance && distance != activeFilters.distance) setFilter("distance", distance); // prettier-ignore
     if (hours && hours != activeFilters.hours) setFilter("hours", hours);
 
-    // If no offset is specified, reset the pagiantion components so we revert back to page 1
+    // If no offset is specified, reset the pagination components so we revert back to page 1
     if (!offset) dispatch(searchResultActions.reset());
 
     // Step 3. Create an object of URL parameters using filter values
@@ -48,6 +48,7 @@ export default function useVisitSearchPage() {
       .map((key) => `${key}=${queryParams[key]}`)
       .join("&"); // convert object to a query string
     const newURL = `/search?limit=50&${qs}`;
+    
     router.push(newURL);
   }
   return navToSearchPage;
