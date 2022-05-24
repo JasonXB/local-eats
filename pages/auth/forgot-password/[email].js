@@ -156,10 +156,9 @@ export default function ForgetPasswordVerify() {
           inputRef={pinRef}
           placeholder="6-digit code"
           type="text"
-          inputProps={{ maxLength: 6 }}
+          inputProps={{ maxLength: 6, ...blurInputField }}
           error={formState.pinError}
           onChange={typingPinHandler}
-          inputProps={blurInputField}
         />
         <FormHelperText
           sx={(theme) => ({
