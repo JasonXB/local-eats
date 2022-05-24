@@ -1,5 +1,7 @@
 import React from "react";
-import { Typography, Box, Divider, Stack } from "@mui/material";
+import { Typography, Box, Divider } from "@mui/material";
+import useVisitSearchPage from "../utility-functions/search/useVisitSearchPage";
+import useGetFilters from "../utility-functions/search/useGetFilters";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -8,6 +10,10 @@ import { mix } from "../../styles/styleMixins";
 import { footerAnchors } from "./Footer";
 
 export default function FooterMobile() {
+  //{ term, price, hours, distance, offset, sort_by }
+  const filters = useGetFilters();
+  const navToSearchPage = useVisitSearchPage();
+
   return (
     <Box sx={stylesLocal.container}>
       <Typography variant="h3" sx={stylesLocal.title}>
@@ -29,8 +35,12 @@ export default function FooterMobile() {
                   <Box
                     component="a"
                     key={i}
-                    href={footerAnchors[headerText][anchorText]}
-                    // onClick={relocate}
+                    onClick={() =>
+                      navToSearchPage({
+                        term: footerAnchors[headerText][anchorText],
+                        sort_by: filters.sort_by,
+                      })
+                    }
                     sx={stylesLocal.anchor}
                   >
                     {anchorText}

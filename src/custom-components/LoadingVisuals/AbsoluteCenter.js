@@ -12,7 +12,7 @@ export default function Loader({ mt }) {
         alignItems: "center",
       }}
     >
-      <LinearProgress color="secondary" sx={{ margin: "auto", width: "40%" }} />
+      <LinearProgress color="secondary" sx={{ margin: "auto", width: "50%" }} />
     </Box>
   );
 }

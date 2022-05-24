@@ -12,7 +12,7 @@ export default function Loader({ mt }) {
         mt: 10,
       }}
     >
-      <LinearProgress color="secondary" sx={{ margin: "auto", width: "40%" }} />
+      <LinearProgress color="secondary" sx={{ margin: "auto", width: "50%" }} />
     </Box>
   );
 }

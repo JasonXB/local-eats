@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { homepageModalActions } from "../../../state-management/store/homepage/ModalVisibility";
 import Radio from "@mui/material/Radio";
 import { TextField, Autocomplete } from "@mui/material";
+import { blurInputField } from "../../utility-functions/general/blurInputField";
 import { breakBefore } from "../ConditionalBreak"; // prettier-ignore
 import { stateList, provinceList } from "../../../pages/api/helperFunctions/stateProvCodes"; // prettier-ignore
 import { useLocationContext } from "../../../state-management/locationContext";
@@ -196,6 +197,7 @@ export default function SpecifyLocation() {
             inputRef={cityRef}
             onChange={() => refreshTextfield("city")}
             error={chosen.cityError}
+            inputProps={blurInputField}
           />
           <FormHelperText error={true} sx={{ ...styles.inputField, mt: 0 }}>
             {chosen.cityError ? "Invalid entry" : " "}
@@ -210,6 +212,7 @@ export default function SpecifyLocation() {
             inputRef={postalRef}
             onChange={() => refreshTextfield("postal_code")}
             error={chosen.postalCodeError}
+            inputProps={blurInputField}
           />
           <FormHelperText error={true} sx={{ ...styles.inputField, mt: 0 }}>
             {chosen.postalCodeError ? "Invalid entry" : " "}
