@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useLocationContext } from "../../../state-management/locationContext";
-import { Typography, Button, Divider, InputBase, Menu, MenuItem, Box, IconButton } from "@mui/material"; // prettier-ignore
+import { Typography, Button, Divider, InputBase, Menu, Box, IconButton } from "@mui/material"; // prettier-ignore
+import { blurInputField } from "../../utility-functions/general/blurInputField";
 import { styled, alpha } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
@@ -138,6 +139,7 @@ export default function SearchbarDesktop({ applyShadow }) {
           sx={{ ml: 1, flex: 1 }}
           placeholder="Restaurant, cuisine, or dish"
           inputRef={searchbarRef}
+          inputProps={blurInputField}
         />
       </Box>
     </Search>

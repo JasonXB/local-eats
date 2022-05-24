@@ -4,6 +4,7 @@ import { Typography, Stack, Button, Box } from "@mui/material"; // prettier-igno
 import { signOut } from "next-auth/react";
 import FormControl from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
+import { blurInputField } from "../../utility-functions/general/blurInputField";
 import AuthHeader from "./HeaderHelper";
 import FormHelperText from "@mui/material/FormHelperText";
 import GeneralErrorModal from "../../custom-components/Modals/GeneralError";
@@ -123,6 +124,7 @@ export default function ChangePassword() {
           error={formState.oldPasswordError}
           onChange={oldPasswordHandler}
           defaultValue={loading.oldPasswordInput}
+          inputProps={blurInputField}
         />
         <FormHelperText sx={styles.formHelperText}>
           {formState.oldPasswordText}
@@ -151,6 +153,7 @@ export default function ChangePassword() {
           error={formState.newPasswordError}
           onChange={newPasswordHandler}
           defaultValue={loading.newPasswordInput}
+          inputProps={blurInputField}
         />
         <FormHelperText sx={styles.formHelperText}>
           {formState.newPasswordText}
@@ -171,6 +174,7 @@ export default function ChangePassword() {
           onChange={verifyPasswordHandler}
           type="password"
           defaultValue={loading.verifyPasswordInput}
+          inputProps={blurInputField}
         />
         <FormHelperText sx={styles.formHelperText}>
           {formState.verifyPasswordText}

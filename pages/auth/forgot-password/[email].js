@@ -4,6 +4,7 @@ import { Typography, Stack, Button, FormControl } from "@mui/material";
 import { useRouter } from "next/router";
 import { getSession } from "next-auth/react";
 import OutlinedInput from "@mui/material/OutlinedInput";
+import { blurInputField } from "../../../src/utility-functions/general/blurInputField";
 import FormHelperText from "@mui/material/FormHelperText";
 import AuthHeader from "../../../src/page-blocks/authForms/HeaderHelper";
 import { styles } from "../../../styles/auth/verifyPIN";
@@ -158,6 +159,7 @@ export default function ForgetPasswordVerify() {
           inputProps={{ maxLength: 6 }}
           error={formState.pinError}
           onChange={typingPinHandler}
+          inputProps={blurInputField}
         />
         <FormHelperText
           sx={(theme) => ({
@@ -190,6 +192,7 @@ export default function ForgetPasswordVerify() {
           type="text"
           error={formState.passwordError}
           onChange={typingPasswordHandler}
+          inputProps={blurInputField}
         />
         <FormHelperText
           sx={(theme) => ({

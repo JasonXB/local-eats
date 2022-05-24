@@ -1,7 +1,8 @@
 import React from "react";
 import Pagination from "@mui/material/Pagination";
-import { Typography, Box, Button } from "@mui/material";
+import { Typography, Box } from "@mui/material";
 import OutlinedInput from "@mui/material/OutlinedInput";
+import { blurInputField } from "../../../utility-functions/general/blurInputField";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import IconButton from "@mui/material/IconButton";
 import { mix } from "../../../../styles/styleMixins";
@@ -71,6 +72,7 @@ export default function PaginationRow({ numberOfHits }) {
             sx={{ width: 80, mt: 2, height: 42 }}
             inputRef={inputRef}
             error={error}
+            inputProps={blurInputField}
           />
           <IconButton
             aria-label="jump to page"

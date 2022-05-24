@@ -2,16 +2,16 @@ import React from "react";
 import { Typography, Box, Stack, Button } from "@mui/material"; // prettier-ignore
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import FormControl, { useFormControl } from "@mui/material/FormControl";
+import FormControl from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
-import FormHelperText from "@mui/material/FormHelperText";
+import { blurInputField } from "../../../utility-functions/general/blurInputField";
 import isEqual from "lodash.isequal";
 // Custom Hooks
 import useGetFilters from "../../../../src/utility-functions/search/useGetFilters";
 import useChangeAllFilters from "../../../../src/utility-functions/search/useChangeAllFilters";
 import { mix } from "../../../../styles/styleMixins";
 import { filterActions } from "../../../../state-management/store/search/filters";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { lengthNoSpaces } from "../../../utility-functions/general/lengthNoSpaces";
 import useVisitSearchPage from "../../../utility-functions/search/useVisitSearchPage";
 
@@ -170,6 +170,7 @@ export default function ModalMenu() {
             placeholder="Restaurant, cuisine, dish..."
             defaultValue={trueFilters.term}
             inputRef={termRef}
+            inputProps={blurInputField}
           />
         </FormControl>
       </Box>

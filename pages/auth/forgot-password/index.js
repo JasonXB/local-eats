@@ -5,6 +5,7 @@ import { getSession } from "next-auth/react";
 import { Typography, Stack, Button, FormControl } from "@mui/material"; // prettier-ignore
 import { useRouter } from "next/router";
 import OutlinedInput from "@mui/material/OutlinedInput";
+import { blurInputField } from "../../../src/utility-functions/general/blurInputField";
 import FormHelperText from "@mui/material/FormHelperText";
 import { styles } from "../../../styles/auth/form";
 import AuthHeader from "../../../src/page-blocks/authForms/HeaderHelper";
@@ -106,6 +107,7 @@ export default function ForgotPassword() {
           placeholder="name@email.com"
           error={formState.emailError}
           onChange={() => dispatch({ type: "RESET_EMAIL" })}
+          inputProps={blurInputField}
         />
         <FormHelperText sx={styles.formHelperText}>
           {formState.emailText}

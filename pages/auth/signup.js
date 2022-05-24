@@ -1,9 +1,10 @@
 import axios from "axios";
 import { useRouter } from "next/router";
 import React, { useRef, useState, useReducer } from "react";
-import { Typography, Stack, Button, Box } from "@mui/material"; 
+import { Typography, Stack, Button, Box } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
+import { blurInputField } from "../../src/utility-functions/general/blurInputField";
 import FormHelperText from "@mui/material/FormHelperText";
 import { mix } from "../../styles/styleMixins";
 import { getSession } from "next-auth/react";
@@ -152,6 +153,7 @@ export default function Signup() {
           error={formState.emailError}
           onChange={typingEmailHandler}
           defaultValue={loading.emailInput}
+          inputProps={blurInputField}
         />
         <FormHelperText sx={styles.formHelperText}>
           {formState.emailText}
@@ -181,6 +183,7 @@ export default function Signup() {
           error={formState.passwordError}
           onChange={typingPasswordHandler}
           defaultValue={loading.passwordInput}
+          inputProps={blurInputField}
         />
         <FormHelperText sx={styles.formHelperText}>
           {formState.passwordText}
@@ -201,6 +204,7 @@ export default function Signup() {
           error={formState.verifyPasswordError}
           onChange={typingVerifyHandler}
           defaultValue={loading.verifyInput}
+          inputProps={blurInputField}
         />
         <FormHelperText sx={styles.formHelperText}>
           {formState.verifyPasswordText}

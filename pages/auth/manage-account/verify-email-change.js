@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { Typography, Stack, Button, FormControl, OutlinedInput } from "@mui/material"; // prettier-ignore
+import { blurInputField } from "../../../src/utility-functions/general/blurInputField";
 import { useRouter } from "next/router";
 import { signOut } from "next-auth/react";
 import { getSession } from "next-auth/react";
@@ -70,7 +71,7 @@ export default function VerifyEmail() {
           inputRef={pinRef}
           placeholder="6-digit code"
           type="text"
-          inputProps={{ maxLength: 6 }}
+          inputProps={{ maxLength: 6, ...blurInputField }}
           // disabled={bottomMessage && true}
           // error={formState.passwordError}
           // onChange={typingPasswordHandler}

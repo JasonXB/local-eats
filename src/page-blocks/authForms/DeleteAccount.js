@@ -4,6 +4,7 @@ import React, { useRef, useState, useReducer } from "react";
 import { Typography, Stack, Button, Box } from "@mui/material"; // prettier-ignore
 import FormControl from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
+import { blurInputField } from "../../utility-functions/general/blurInputField";
 import FormHelperText from "@mui/material/FormHelperText";
 import { getSession } from "next-auth/react";
 import AuthHeader from "./HeaderHelper";
@@ -100,6 +101,7 @@ export default function DeleteAccount(props) {
           placeholder="Enter password"
           error={formState.passwordError}
           onChange={() => dispatch({ type: "RESET" })}
+          inputProps={blurInputField}
         />
         <FormHelperText sx={styles.formHelperText}>
           {formState.passwordText}

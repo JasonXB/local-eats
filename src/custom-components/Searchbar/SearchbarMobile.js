@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import { useLocationContext } from "../../../state-management/locationContext";
 import { Typography, Box, InputBase, IconButton } from "@mui/material"; // prettier-ignore
+import { blurInputField } from "../../utility-functions/general/blurInputField";
 import SearchIcon from "@mui/icons-material/Search";
 import MobileModalOpeners from "../Modals/MobileModalOpeners";
 import { mix } from "../../../styles/styleMixins";
@@ -59,6 +60,7 @@ export default function SearchbarMobile() {
           sx={{ ml: 1, flex: 1, p: 0.5 }}
           placeholder="Restaurant, cuisine, or dish"
           inputRef={searchbarRef}
+          inputProps={blurInputField}
         />
       </Box>{" "}
       <Box sx={{ ...mobileStyles.boxParent }}>

@@ -4,13 +4,13 @@ import React, { useRef, useReducer, useState, useEffect } from "react";
 import { Typography, Stack, Button } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
+import { blurInputField } from "../../utility-functions/general/blurInputField";
 import FormHelperText from "@mui/material/FormHelperText";
 import AuthHeader from "./HeaderHelper";
 import { getSession } from "next-auth/react";
 import GeneralErrorModal from "../../custom-components/Modals/GeneralError";
 import { styles } from "../../../styles/auth/manageAccount";
 import ReturnHomeBtn from "../../custom-components/ReturnHomeBtn";
-import { lengthNoSpaces } from "../../utility-functions/general/lengthNoSpaces";
 import FullSpin from "../../custom-components/LoadingVisuals/FullSpin";
 
 function reducer(state, action) {
@@ -146,6 +146,7 @@ export default function ChangeEmail(props) {
           error={formState.emailError}
           onChange={() => dispatch({ type: "TYPING_NEW_EMAIL" })}
           defaultValue={loading.emailInput}
+          inputProps={blurInputField}
         />
         <FormHelperText sx={styles.formHelperText}>
           {formState.emailText}
@@ -167,6 +168,7 @@ export default function ChangeEmail(props) {
           error={formState.passwordError}
           onChange={() => dispatch({ type: "TYPING_PASSWORD" })}
           defaultValue={loading.passwordInput}
+          inputProps={blurInputField}
         />
         <FormHelperText sx={styles.formHelperText}>
           {formState.passwordText}

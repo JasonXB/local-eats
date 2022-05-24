@@ -3,6 +3,7 @@ import { Typography, Stack, Button } from "@mui/material"; // prettier-ignore
 import { useRouter } from "next/router";
 import FormControl from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
+import { blurInputField } from "../../utility-functions/general/blurInputField";
 import FormHelperText from "@mui/material/FormHelperText";
 import { styles } from "../../../styles/auth/form";
 import { credentialSignIn } from "../../../pages/api/helperFunctions/credentialSignIn";
@@ -131,6 +132,7 @@ export default function useSignIn(title, descrip, needNewAccount) {
           error={formState.emailError}
           onChange={() => dispatch({ type: "RESET_EMAIL" })}
           defaultValue={loading.emailInput}
+          inputProps={blurInputField}
         />
         <FormHelperText sx={styles.formHelperText}>
           {formState.emailText}
@@ -151,6 +153,7 @@ export default function useSignIn(title, descrip, needNewAccount) {
           error={formState.passwordError}
           onChange={() => dispatch({ type: "RESET_PASSWORD" })}
           defaultValue={loading.passwordInput}
+          inputProps={blurInputField}
         />
         <FormHelperText sx={styles.formHelperText}>
           {formState.passwordText}
