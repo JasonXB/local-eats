@@ -13,7 +13,7 @@ import { mix } from "../../../styles/styleMixins";
 import Tooltip from "@mui/material/Tooltip";
 import HelpIcon from "@mui/icons-material/Help";
 import ReturnHomeBtn from "../../custom-components/ReturnHomeBtn";
-import FullSpin from "../../custom-components/LoadingVisuals/FullSpin";
+import AbsoluteCenter from "../../custom-components/LoadingVisuals/AbsoluteCenter";
 
 // Since this component is nested within /auth/[panel].js
 // We'll let that component take care of redirects if we're on this page while offline
@@ -106,7 +106,7 @@ export default function ChangePassword() {
     }
   };
 
-  if (loading.inProgress) return <FullSpin mt="40vh" />;
+  if (loading.inProgress) return <AbsoluteCenter />;
   return (
     <Stack sx={styles.parentContainer}>
       <AuthHeader titleText={"Change Password"} descriptionText={""} />

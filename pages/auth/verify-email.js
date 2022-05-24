@@ -7,7 +7,7 @@ import { signIn } from "next-auth/react";
 import { getSession } from "next-auth/react";
 import AuthHeader from "../../src/page-blocks/authForms/HeaderHelper";
 import { styles } from "../../styles/auth/verifyPIN";
-import FullSpin from "../../src/custom-components/LoadingVisuals/FullSpin";
+import AbsoluteCenter from "../../src/custom-components/LoadingVisuals/AbsoluteCenter";
 import TabTitle from "../../src/custom-components/TabTitle";
 
 // Redirect users to homepage if they come here online
@@ -96,7 +96,7 @@ export default function VerifyEmail() {
     return (
       <>
         <TabTitle title="Verify Email | Local Eats" />
-        <FullSpin />
+        <AbsoluteCenter />
       </>
     );
   return (

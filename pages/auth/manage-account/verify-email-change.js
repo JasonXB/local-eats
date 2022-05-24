@@ -7,7 +7,7 @@ import { signOut } from "next-auth/react";
 import { getSession } from "next-auth/react";
 import AuthHeader from "../../../src/page-blocks/authForms/HeaderHelper";
 import { styles } from "../../../styles/auth/verifyPIN";
-import FullSpin from "../../../src/custom-components/LoadingVisuals/FullSpin";
+import AbsoluteCenter from "../../../src/custom-components/LoadingVisuals/AbsoluteCenter";
 import TabTitle from "../../../src/custom-components/TabTitle";
 
 // Redirect users to homepage if they come here offline
@@ -57,7 +57,7 @@ export default function VerifyEmail() {
     }
   };
 
-  if (loading) return <FullSpin />;
+  if (loading) return <AbsoluteCenter />;
   return (
     <Stack sx={styles.parentContainer}>
       <TabTitle title="Email Change | Local Eats" />

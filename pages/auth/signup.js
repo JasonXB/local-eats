@@ -12,7 +12,7 @@ import AuthHeader from "../../src/page-blocks/authForms/HeaderHelper";
 import GeneralErrorModal from "../../src/custom-components/Modals/GeneralError";
 import TabTitle from "../../src/custom-components/TabTitle";
 import GuestBtn from "../../src/custom-components/GuestBtn";
-import FullSpin from "../../src/custom-components/LoadingVisuals/FullSpin";
+import AbsoluteCenter from "../../src/custom-components/LoadingVisuals/AbsoluteCenter";
 import Tooltip from "@mui/material/Tooltip";
 import HelpIcon from "@mui/icons-material/Help";
 
@@ -129,7 +129,7 @@ export default function Signup() {
     return (
       <>
         <TabTitle title="Sign up | Local Eats" />
-        <FullSpin />
+        <AbsoluteCenter />
       </>
     );
   return (

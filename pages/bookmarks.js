@@ -10,7 +10,7 @@ import RestaurantCard from "../src/custom-components/SearchResults/RestaurantCar
 import { useGlobalContext } from "../state-management/globalContext";
 import useBookmarks from "../pages/api/helperFunctions/useBookmarks";
 import TabTitle from "../src/custom-components/TabTitle";
-import PartialSpin from "../src/custom-components/LoadingVisuals/PartialSpin";
+import OffsetFromTop from "../src/custom-components/LoadingVisuals/OffsetFromTop"
 import { mix } from "../styles/styleMixins";
 import { wait } from "../src/utility-functions/general/wait";
 
@@ -49,7 +49,7 @@ function Bookmarks({ scrollPosition }) {
         <Typography sx={styles.title} component="h1">
           Bookmarks
         </Typography>
-        <PartialSpin mt={15} />
+        <OffsetFromTop />
       </PaddedBlock>
     );
   }

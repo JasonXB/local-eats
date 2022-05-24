@@ -19,7 +19,7 @@ import { useSelector } from "react-redux";
 import { Typography, Box } from "@mui/material";
 import { mix } from "../../styles/styleMixins";
 import { useYelpFetch } from "../api/helperFunctions/useYelpFetch";
-import FullSpin from "../../src/custom-components/LoadingVisuals/FullSpin";
+import OffsetFromTop from "../../src/custom-components/LoadingVisuals/OffsetFromTop";
 import { wait } from "../../src/utility-functions/general/wait";
 
 export async function getServerSideProps(context) {
@@ -73,7 +73,7 @@ function Restaurants(props) {
       <PaddedBlock>
         <TabTitle title="Search | Local Eats" />
         <HeaderSection parent={"searchPage"} breakpoint={725} />
-        <FullSpin />
+        <OffsetFromTop />
         {/* Still need our modals on standby */}
         <SearchbarModals />
         <FiltersModal />

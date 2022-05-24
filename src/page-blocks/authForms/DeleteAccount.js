@@ -11,7 +11,7 @@ import AuthHeader from "./HeaderHelper";
 import { styles } from "../../../styles/auth/manageAccount";
 import GeneralErrorModal from "../../custom-components/Modals/GeneralError";
 import ReturnHomeBtn from "../../custom-components/ReturnHomeBtn";
-import FullSpin from "../../custom-components/LoadingVisuals/FullSpin"
+import AbsoluteCenter from "../../custom-components/LoadingVisuals/AbsoluteCenter"
 
 // Redirect users to homepage if they come here offline
 export async function getServerSideProps(context) {
@@ -80,7 +80,7 @@ export default function DeleteAccount(props) {
     }
   };
 
-  if (loading) return <FullSpin mt="40vh" />;
+  if (loading) return <AbsoluteCenter />;
   return (
     <Stack sx={styles.parentContainer}>
       <AuthHeader

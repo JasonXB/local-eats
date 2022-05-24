@@ -11,7 +11,7 @@ import AuthHeader from "../../../src/page-blocks/authForms/HeaderHelper";
 import GeneralErrorModal from "../../../src/custom-components/Modals/GeneralError";
 import GuestBtn from "../../custom-components/GuestBtn";
 import { lengthNoSpaces } from "../../utility-functions/general/lengthNoSpaces";
-import FullSpin from "../../custom-components/LoadingVisuals/FullSpin";
+import AbsoluteCenter from "../../../src/custom-components/LoadingVisuals/AbsoluteCenter";
 import TabTitle from "../../custom-components/TabTitle";
 
 export default function useSignIn(title, descrip, needNewAccount) {
@@ -107,7 +107,7 @@ export default function useSignIn(title, descrip, needNewAccount) {
     return (
       <>
         <TabTitle title="Sign in | Local Eats" />
-        <FullSpin />
+        <AbsoluteCenter />
       </>
     );
   return (

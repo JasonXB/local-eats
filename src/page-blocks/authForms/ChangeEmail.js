@@ -11,7 +11,7 @@ import { getSession } from "next-auth/react";
 import GeneralErrorModal from "../../custom-components/Modals/GeneralError";
 import { styles } from "../../../styles/auth/manageAccount";
 import ReturnHomeBtn from "../../custom-components/ReturnHomeBtn";
-import FullSpin from "../../custom-components/LoadingVisuals/FullSpin";
+import AbsoluteCenter from "../../custom-components/LoadingVisuals/AbsoluteCenter";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -121,7 +121,7 @@ export default function ChangeEmail(props) {
     setCurrentEmail(session.user.email);
   }, []);
 
-  if (loading.inProgress) return <FullSpin mt="40vh" />;
+  if (loading.inProgress) return <AbsoluteCenter />;
   return (
     <Stack sx={styles.parentContainer}>
       <AuthHeader titleText={"Change Email"} descriptionText={""} />

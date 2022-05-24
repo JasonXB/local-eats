@@ -1,7 +1,7 @@
 import React from "react";
-import { Typography, Box, Stack } from "@mui/material";
+import { Typography, Stack } from "@mui/material";
 import { mix } from "../../../styles/styleMixins";
-import FullSpin from "../../custom-components/LoadingVisuals/FullSpin";
+import AbsoluteCenter from "../../custom-components/LoadingVisuals/AbsoluteCenter";
 
 export default function NoResults(props) {
   // At first, render a loading animation for a max of 10 seconds
@@ -16,7 +16,7 @@ export default function NoResults(props) {
     };
   }, []);
 
-  if (loading) return <FullSpin />;
+  if (loading) return <AbsoluteCenter />;
   return (
     <Stack
       sx={(theme) => ({
