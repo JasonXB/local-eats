@@ -172,6 +172,8 @@ export default function Signup() {
             title="8 characters or longer. Requires an uppercase, lowercase, plus
           at least 1 symbol. No punctuation"
             placement="top"
+            enterTouchDelay={0}
+            leaveTouchDelay={3500}
           >
             <HelpIcon fontSize="small" sx={{ ml: 1, fontSize: "16px" }} />
           </Tooltip>
