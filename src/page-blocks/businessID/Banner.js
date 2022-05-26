@@ -23,7 +23,6 @@ export default function Banner(props) {
   const { name, rating, categories, photos, address } = props.bannerData; // prettier-ignore
   const { bookmarkData } = props;
   const { status } = useSession(); //hide bookmarks for non logged in users
-
   // Get the bgColor for the star rating component
   const ratingColor = getRatingColor(rating);
 
@@ -38,7 +37,7 @@ export default function Banner(props) {
       {/* Panel of restaurant images */}
       <Stack id="preview_images" sx={styles.imageContainer}>
         {images.map((src, index) => {
-          return <PreviewImage src={src} index={index} />;
+          return <PreviewImage src={src} index={index} key={index} />;
         })}
       </Stack>
 
@@ -50,7 +49,7 @@ export default function Banner(props) {
         <Box sx={styles.dataRow}>
           <StyledRating
             name="customized-color"
-            defaultValue={rating}
+            value={rating}
             readOnly
             precision={0.5}
             icon={<StarsRoundedIcon fontSize="inherit" />}
