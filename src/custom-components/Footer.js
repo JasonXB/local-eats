@@ -11,7 +11,7 @@ export default function Footer() {
   const navToSearchPage = useVisitSearchPage();
 
   return (
-    <LayoutContainer>
+    <LayoutContainer marginAbove={"7rem"}>
       {/* Only appears on screen sizes below sm (700px) */}
       <FooterMobile />
       {/* Only appears on screen sizes above sm (700px) */}

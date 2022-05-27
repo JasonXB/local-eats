@@ -29,7 +29,7 @@ export default function Cuisines() {
   const navToSearchPage = useVisitSearchPage();
   return (
     <>
-      <Box sx={{ ...mix.responsiveLayout, mt: "4.5rem" }}>
+      <Box sx={stylesLocal.header}>
         <Typography variant="h2">Popular Cuisines</Typography>
       </Box>
       {/* LIST OF CUISINE CARDS */}
@@ -67,6 +67,13 @@ export default function Cuisines() {
 }
 
 const stylesLocal = {
+  header: {
+    ...mix.responsiveLayout,
+    ...mix.mt_mobile,
+    ["@media (min-width: 1081px)"]: {
+      mt: "4.5rem",
+    },
+  },
   cuisinesGrid: {
     ...mix.responsiveLayout,
     ["@media (min-width: 500px)"]: {

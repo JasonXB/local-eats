@@ -16,7 +16,7 @@ export default function FooterMobile() {
 
   return (
     <Box sx={stylesLocal.container}>
-      <Typography variant="h3" sx={stylesLocal.title}>
+      <Typography variant="h3" sx={stylesLocal.header}>
         Search other types of businesses
       </Typography>
       {Object.keys(footerAnchors).map((headerText, i) => {
@@ -61,7 +61,12 @@ export default function FooterMobile() {
 
 const stylesLocal = {
   container: (theme) => ({ [theme.breakpoints.up("sm")]: { display: "none" } }),
-  title: { my: "2.5rem", fontWeight: 600, textAlign: "center" },
+  header: {
+    my: "2.5rem",
+    fontWeight: 600,
+    textAlign: "center",
+    ...mix.mt_mobile,
+  },
   accordionGrid: { display: "grid", gridTemplateColumns: "repeat(2, 1fr)" },
   anchor: { mb: 0.8, mr: 3, ...mix.anchorStyling },
   copywright: { pb: 4, textAlign: "center" },

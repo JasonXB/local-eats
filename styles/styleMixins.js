@@ -127,6 +127,6 @@ export const mix = {
   whiteHoverBG: {
     "&:hover": { background: "white" },
   },
-  mt_mobile: { mt: "8rem" },
+  mt_mobile: { mt: "7rem" }, // applied manually in Footer.js
   br_desktop: { borderRadius: 5 },
 };

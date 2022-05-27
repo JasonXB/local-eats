@@ -10,7 +10,9 @@ export default function RestaurantTypes() {
 
   return (
     <>
-      <Typography variant="h2">Food Moods</Typography>
+      <Typography variant="h2" sx={stylesLocal.header}>
+        Food Moods
+      </Typography>
       <Container sx={stylesLocal.container}>
         {Object.keys(types).map((category, ind) => {
           return (
@@ -57,7 +59,7 @@ const types = {
     "Fast food": "fast food",
     "Food courts": "food court",
     "Food trucks": "food truck",
-    Sandwiches: "sandwich", 
+    Sandwiches: "sandwich",
     Ramen: "ramen",
     Pizza: "pizza",
   },
@@ -132,5 +134,11 @@ const stylesLocal = {
     mr: 1,
     mb: 1,
     ...mix.br_desktop,
+  },
+  header: {
+    ...mix.mt_mobile,
+    ["@media (min-width: 1081px)"]: {
+      mt: "4.5rem",
+    },
   },
 };

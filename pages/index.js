@@ -25,7 +25,7 @@ export default function HomePage() {
       <MissionStatement />
       <SearchOptionsRow1 />
       <Cuisines />
-      <LayoutContainer marginAbove="4.5rem">
+      <LayoutContainer>
         <RestaurantTypes />
       </LayoutContainer>
       <Footer />
