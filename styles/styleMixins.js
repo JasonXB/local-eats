@@ -121,11 +121,12 @@ export const mix = {
     },
     ["@media (min-width: 1300px)"]: {
       columnGap: 4,
-      mx: -2, 
+      mx: -2,
     },
   },
-
   whiteHoverBG: {
     "&:hover": { background: "white" },
   },
+  mt_mobile: { mt: "8rem" },
+  br_desktop: { borderRadius: 5 },
 };

@@ -30,7 +30,7 @@ export default function Cuisines() {
   return (
     <>
       <Box sx={{ ...mix.responsiveLayout, mt: "4.5rem" }}>
-        <Typography variant="h2">Popular Local Cuisines</Typography>
+        <Typography variant="h2">Popular Cuisines</Typography>
       </Box>
       {/* LIST OF CUISINE CARDS */}
       <Box sx={stylesLocal.cuisinesGrid}>
@@ -86,5 +86,6 @@ const stylesLocal = {
     border: "1px solid rgb(232,232,232)",
     padding: "1.25rem 1.25rem",
     ...mix.hoverShadow,
+    ["@media (min-width: 500px)"]: { ...mix.br_desktop },
   },
 };

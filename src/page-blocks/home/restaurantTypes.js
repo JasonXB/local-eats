@@ -14,7 +14,7 @@ export default function RestaurantTypes() {
       <Container sx={stylesLocal.container}>
         {Object.keys(types).map((category, ind) => {
           return (
-            <Card key={ind} sx={stylesLocal.card}>
+            <Card key={ind}>
               <CardMedia
                 component="img"
                 height="160"
@@ -57,10 +57,9 @@ const types = {
     "Fast food": "fast food",
     "Food courts": "food court",
     "Food trucks": "food truck",
-    Sandwiches: "sandwich", // sandwich or however you spell it
-    // Sushi: "sushi",
+    Sandwiches: "sandwich", 
     Ramen: "ramen",
-    Pizza: "pizza", 
+    Pizza: "pizza",
   },
 
   Breakfast: {
@@ -87,8 +86,8 @@ const types = {
   "Meat-oriented": {
     Grill: "grill",
     BBQ: "BBQ",
-    Burgers: "burgers", 
-    Steak: "steak", 
+    Burgers: "burgers",
+    Steak: "steak",
     Wings: "chicken wings",
   },
 
@@ -128,6 +127,10 @@ const stylesLocal = {
       mb: "4.5rem",
     },
   },
-  card: { [`@media (max-width: 570px)`]: { borderRadius: 0 } },
-  btn: { fontSize: "1rem", borderRadius: 0, mr: 1, mb: 1 },
+  btn: {
+    fontSize: "1rem",
+    mr: 1,
+    mb: 1,
+    ...mix.br_desktop,
+  },
 };
