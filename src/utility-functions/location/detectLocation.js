@@ -36,6 +36,7 @@ export const detectLocation = async function (
       // Save details to localStorage and project state
       localStorage.setItem("savedLocation", JSON.stringify(requestData));
       setLocationObject(requestData);
+      //! Update query params
     } catch (err) {
       switch (err.message) {
         // Render a modal informing the users our app only works in USA/CA

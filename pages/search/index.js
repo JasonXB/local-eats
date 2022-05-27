@@ -21,6 +21,7 @@ import { mix } from "../../styles/styleMixins";
 import { useYelpFetch } from "../api/helperFunctions/useYelpFetch";
 import OffsetFromTop from "../../src/custom-components/LoadingVisuals/OffsetFromTop";
 import { wait } from "../../src/utility-functions/general/wait";
+import useLocationSwap from "../../src/utility-functions/search/useLocationSwap";
 
 export async function getServerSideProps(context) {
   const queryParams = context.query;
@@ -34,6 +35,7 @@ export async function getServerSideProps(context) {
 function Restaurants(props) {
   // Declare the functions that fetch Yelp data and eestablish previously saved bookmarks
   const fetchYelpData = useYelpFetch();
+  const locationSwap = useLocationSwap();
   const initializeBookmarks = useBookmarks();
   const [loading, setLoading] = React.useState(true);
 
@@ -61,13 +63,17 @@ function Restaurants(props) {
     }
     await wait(2);
     setLoading(false); // end loading animation
-  }, [locationObject, queryParams, endpoint]);
+  }, [queryParams, endpoint]);
+
+  // If the location changes, jump to another page
+  useEffect(async () => {
+    locationSwap();
+  }, [locationObject]);
 
   // Redux state values that directly determine what JSX/messages get rendered
   const restaurantList = useSelector((rs) => rs.searchResults.restaurantList); // prettier-ignore
   const showError = useSelector((rs) => rs.searchResults.showError); // bool
   const numberOfHits = useSelector((rs) => rs.searchResults.numberOfHits);
-
   if (loading) {
     return (
       <PaddedBlock>
