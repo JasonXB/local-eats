@@ -163,7 +163,7 @@ export const yelpCitiesCA = [
   "Calgary",
   "Edmonton",
   "Halifax",
-  "Montréal",
+  "Montreal",
   "Ottawa",
   "Toronto",
   "Vancouver",
