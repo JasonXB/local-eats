@@ -30,7 +30,7 @@ export default function Cuisines() {
   return (
     <>
       <Box sx={{ ...mix.responsiveLayout, mt: "4.5rem" }}>
-        <Typography variant="h2">Popular Local Cuisines:</Typography>
+        <Typography variant="h2">Popular Local Cuisines</Typography>
       </Box>
       {/* LIST OF CUISINE CARDS */}
       <Box sx={stylesLocal.cuisinesGrid}>

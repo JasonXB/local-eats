@@ -10,7 +10,7 @@ export default function RestaurantTypes() {
 
   return (
     <>
-      <Typography variant="h2">Food Moods:</Typography>
+      <Typography variant="h2">Food Moods</Typography>
       <Container sx={stylesLocal.container}>
         {Object.keys(types).map((category, ind) => {
           return (
