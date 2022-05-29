@@ -9,6 +9,8 @@ import Footer from "../src/custom-components/Footer";
 import SearchbarModals from "../src/custom-components/Searchbar/SearchbarModals";
 import Navbar from "../src/custom-components/Navbar/Navbar";
 import TabTitle from "../src/custom-components/TabTitle";
+import AbsoluteCenter from "../src/custom-components/LoadingVisuals/AbsoluteCenter";
+import { useGlobalContext } from "../state-management/globalContext";
 
 // Use Static Generation to render the HTML during build (speeds up page load times)
 export async function getStaticProps() {
@@ -18,6 +20,8 @@ export async function getStaticProps() {
 }
 
 export default function HomePage() {
+  const { loading, startLoading } = useGlobalContext();
+  if (loading) return <AbsoluteCenter />;
   return (
     <>
       <TabTitle title="Home | Local Eats" />

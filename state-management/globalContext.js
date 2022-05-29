@@ -46,6 +46,11 @@ export default function GlobalContextAPIProvider(props) {
     });
   };
 
+  // Loading state: renders a full screen load animation
+  const [loading, setLoading] = useState(false);
+  const startLoading = () => setLoading(true);
+  const stopLoading = () => setLoading(false);
+
   // DISTRIBUTION
   const distribution = {
     bookmarks, // list of data objects for each saved restaurant
@@ -60,6 +65,9 @@ export default function GlobalContextAPIProvider(props) {
     bookmarksEnabled, // state value telling if we're allowed to use bookmarks or not
     setBookmarksEnabled, // adjust state value described above
 
+    loading,
+    startLoading,
+    stopLoading,
   };
   return <AAA.Provider value={distribution}>{props.children}</AAA.Provider>;
 }
