@@ -23,7 +23,10 @@ export default function useVisitSearchPage() {
     await wait(1);
     // Step 2. Check if the user has a saved location and render feedback if they don't
     const locationSaved = checkForSavedLocation(); // bool
-    if (!locationSaved || !locationObject) return; // end function here if we don't have one
+    if (!locationSaved || !locationObject) {
+      stopLoading();
+      return;
+    } // end function here if we don't have one
 
     // Step 3. Update the filters based on what the user searched for
     // searchParams may be supplied to this function, and they have priority over the current filters

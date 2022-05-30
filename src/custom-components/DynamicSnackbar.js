@@ -27,7 +27,7 @@ export default function DynamicSnackbar(props) {
   return (
     <Snackbar
       open={snackbarOpen}
-      autoHideDuration={5000}
+      autoHideDuration={3000}
       onClose={handleClose}
       message={props.msg}
       action={action}

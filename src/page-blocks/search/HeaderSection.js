@@ -28,9 +28,6 @@ export default function HeaderSection({ parent, breakpoint }) {
         <Link underline="hover" color="inherit" href="/">
           Home
         </Link>
-        <Link underline="hover" color="inherit" href="/search">
-          Search
-        </Link>
         <Typography color="text.primary">Business info</Typography>
       </Breadcrumbs>
     );
