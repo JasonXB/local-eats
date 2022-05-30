@@ -61,7 +61,7 @@ function Restaurants(props) {
       initializeBookmarks(); // Set the bookmarks on startup
       setOnMount(false);
     }
-    await wait(2);
+    // await wait(2);
     setLoading(false); // end loading animation
   }, [queryParams, endpoint]);
 

@@ -20,7 +20,7 @@ export default function useVisitSearchPage() {
     // Play the loading animation for at least 1 second
     // Artificial delay added so people can't spam click new /search redirect buttons
     startLoading();
-    await wait(1);
+    await wait(2);
     // Step 2. Check if the user has a saved location and render feedback if they don't
     const locationSaved = checkForSavedLocation(); // bool
     if (!locationSaved || !locationObject) {
