@@ -20,7 +20,7 @@ export async function getStaticProps() {
 }
 
 export default function HomePage() {
-  const { loading, startLoading } = useGlobalContext();
+  const { loading } = useGlobalContext();
   if (loading) return <AbsoluteCenter />;
   return (
     <>

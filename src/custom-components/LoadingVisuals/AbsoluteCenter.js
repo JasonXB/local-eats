@@ -1,6 +1,6 @@
 import React from "react";
 import Box from "@mui/material/Box";
-import LinearProgress from "@mui/material/LinearProgress";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function Loader({ mt }) {
   return (
@@ -12,7 +12,10 @@ export default function Loader({ mt }) {
         alignItems: "center",
       }}
     >
-      <LinearProgress color="secondary" sx={{ margin: "auto", width: "50%" }} />
+      <CircularProgress
+        color="secondary"
+        sx={{ margin: "auto", width: "50%" }}
+      />
     </Box>
   );
 }
