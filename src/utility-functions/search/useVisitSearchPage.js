@@ -58,7 +58,10 @@ export default function useVisitSearchPage() {
       .join("&"); // convert object to a query string
     const newURL = `/search?limit=50&${qs}`;
     router.push(newURL);
-    stopLoading(); // end loading animation
+    // End the loading animation a bit after the redirect
+    // we get homepage -> spinner -> /search  (good)
+    // otherwise we get homepage -> spinner -> homepage -> pause -> /search   (bad)
+    setTimeout(() => stopLoading(), 5000);
   }
   return navToSearchPage;
 }
