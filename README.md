@@ -31,4 +31,4 @@ If one signs up for a Local Eats account using their email, a validation code ge
 
 Accounts can be deleted or have their associated email/password changed. In addition to this, all people subscribed to our platform receive email updates when new features get launched
 
-![alt text](https://i.postimg.cc/2jHvw6ZZ/account-management.png)
+![alt text](https://i.postimg.cc/X7h1Jb3R/manage-account.png)
