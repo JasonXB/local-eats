@@ -1,6 +1,6 @@
 # Local Eats Restaurant Finder
 
-## LANGUAGES AND FRAMEWORKS USED
+## LANGUAGES & FRAMEWORKS USED
 
 - Next.js, React, Material UI, JavaScript, Node
 - SendGrid, NextAuth, Yarn, Vercel Hosting
