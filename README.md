@@ -12,7 +12,7 @@
 
 This website allows you to search local restaurants and businesses around their area and anywhere within Canada or the United States. Business data is pulled from the Yelp API.
 
-![alt text](https://i.postimg.cc/m2Gs3PqL/main.png)
+![alt text](https://i.postimg.cc/6qhXVPQV/newMain.png)
 
 Users can filter their search results to narrow down the types of places they're interested in finding. Results can be shown ordered based on proximity, price, hours of operation, and Yelp rating.
 
@@ -27,7 +27,7 @@ By clicking on one of the restaurants returned from a search, users can pull up 
 
 If one signs up for a Local Eats account using their email, a validation code gets sent to it via the SendGrid service. Once verified, new users can bookmark the restaurants they'd like to save for later.
 
-![alt text](https://i.postimg.cc/yYgsk1CK/bookmarks.png)
+![alt text](https://i.postimg.cc/Fz1nnnFX/bookmarks2.png)
 
 Accounts can be deleted or have their associated email/password changed. In addition to this, all people subscribed to our platform receive email updates when new features get launched
 
