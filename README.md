@@ -4,7 +4,7 @@
 
 - Next.js, React, Material UI, JavaScript, Node
 - SendGrid, NextAuth, Yarn, Vercel Hosting
-- CSS modules, Flexbox, Grid, HTML
+- CSS Modules, Flexbox, Grid, HTML
 
 ## FEATURES
 
