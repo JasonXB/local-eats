@@ -24,12 +24,12 @@ export default function NavbarRow() {
   // If offline, render the following
   return (
     <Box sx={styles.container}>
-      <SignUpBtn />
-      <SignInBtn />
+      {/* <SignUpBtn />
+      <SignInBtn /> */}
     </Box>
   );
 }
 
 const styles = {
-  container: { my: 1.5 },
+  container: { my: "2rem" },
 };

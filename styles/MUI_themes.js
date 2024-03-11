@@ -27,8 +27,8 @@ export const customThemes = {
       secondary: { main: "#ab0011" }, // near crimson red
       info: { main: "#4285f4" }, // google blue
       grayBackground: { main: "#F5F5F5" },
-      unselected: {main: "#F5F5F5"}, // new
-      selected: {main: "rgb(255,215,0)"} // new
+      unselected: { main: "#F5F5F5" }, // new
+      selected: { main: "rgb(255,215,0)" }, // new
     },
     breakpoints: {
       values: breakpointValues,

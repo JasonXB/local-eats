@@ -1,7 +1,9 @@
+/* eslint-disable */
 import React from "react";
 import { Typography, Box, Button } from "@mui/material";
 import { breakBefore } from "../ConditionalBreak";
 import { mix } from "../../../styles/styleMixins";
+import { v4 as uuidv4 } from "uuid";
 import SignOutBtn from "./SignOutBtn";
 import SignUpBtn from "./SignUpBtn";
 import SignInBtn from "./SignInBtn";
@@ -14,9 +16,13 @@ import List from "@mui/material/List";
 export default function TemporaryDrawer(props) {
   let listItems;
   if (!props.currentlyOnline) {
-    listItems = [<SignUpBtn />, <SignInBtn />];
+    listItems = [<SignUpBtn key={uuidv4()} />, <SignInBtn key={uuidv4()} />];
   } else {
-    listItems = [<BookmarksBtn />, <ManageAccountBtn />, <SignOutBtn />];
+    listItems = [
+      <BookmarksBtn key={uuidv4()} />,
+      <ManageAccountBtn key={uuidv4()} />,
+      <SignOutBtn key={uuidv4()} />,
+    ];
   }
   const [state, setState] = React.useState({ right: false });
 
