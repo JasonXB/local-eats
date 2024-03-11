@@ -57,9 +57,10 @@ const mobileStyles = {
   title: {
     ...mix.titleFont,
     ...mix.regMargin("mt"),
-    ml: 2,
+    // ml: 2,
+    mx: "auto"
     // Move title to center past this bp
-    ["@media (min-width: 450px)"]: { mx: "auto" },
+    // ["@media (min-width: 450px)"]: { mx: "auto" },
   },
 };
 
