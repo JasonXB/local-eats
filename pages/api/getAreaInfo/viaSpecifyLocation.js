@@ -37,7 +37,6 @@ export default async function handler(req, res) {
   try {
     // Request location data from Mapquest
     const response = await axios.get(apiString);
-    console.log({apiString, response})
     const bestMatch = response.data.results[0].locations[0];
 
     // If the user's submission is not enough for Mapquest API to pinpoint a city, return an error
