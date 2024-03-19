@@ -31,11 +31,13 @@ export default async function handler(req, res) {
     key: process.env.MAPQUEST_API_KEY,
   }); // all undefined KVP's will be removed
   let apiString = `http://www.mapquestapi.com/geocoding/v1/address?country=${country}&state=${editedProvince}`;
+  
   for (let key in frags) apiString = apiString + `&${key}=${frags[key]}`;
 
   try {
     // Request location data from Mapquest
     const response = await axios.get(apiString);
+    console.log({apiString, response})
     const bestMatch = response.data.results[0].locations[0];
 
     // If the user's submission is not enough for Mapquest API to pinpoint a city, return an error
@@ -61,6 +63,6 @@ export default async function handler(req, res) {
       .status(200)
       .json({ message: "Location data secured", locationObj });
   } catch (error) {
-    return res.status(408).json({ message: "Error encountered" });
+    return res.status(408).json({ message: "Error encountered", error });
   }
 }
